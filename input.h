@@ -78,16 +78,6 @@ typedef enum
 	FUNCTION_KEY_MAX
 }FUNCTION_KEY;
 
-//ライトの色選択キー
-typedef enum
-{
-	LIGHT_KEY_RED = 0,	//赤キー
-	LIGHT_KEY_GREEN,	//緑キー
-	LIGHT_KEY_BLUE,		//青キー
-	LIGHT_KEY_YELLOW,	//黄キー
-	LIGHT_KEY_MAX
-}LIGHT_KEY;
-
 //----------------------------------------------------------------------------
 //プロトタイプ宣言
 //----------------------------------------------------------------------------

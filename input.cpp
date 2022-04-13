@@ -24,19 +24,18 @@
 //-----------------------------------------------------------------------------
 
 //キーボード
-LPDIRECTINPUT8 g_pInput = NULL;						//DirectInputオブジェクトへのポインタ
-LPDIRECTINPUTDEVICE8 g_pDevKeyboard = NULL;			//入力デバイス（キーボード（コントローラー用は別に作る））へのポインタ
-BYTE g_aKeyState[NUM_KEY_MAX];						//キーボードのプレス情報
-BYTE g_aKeyStateTrigger[NUM_KEY_MAX];				//キーボードのトリガー情報
+LPDIRECTINPUT8 g_pInput = NULL;				//DirectInputオブジェクトへのポインタ
+LPDIRECTINPUTDEVICE8 g_pDevKeyboard = NULL;	//入力デバイス（キーボード（コントローラー用は別に作る））へのポインタ
+BYTE g_aKeyState[NUM_KEY_MAX];				//キーボードのプレス情報
+BYTE g_aKeyStateTrigger[NUM_KEY_MAX];		//キーボードのトリガー情報
 
 //ジョイパッド
-XINPUT_STATE g_JoyKeyState[PLAYER_MAX];				//ジョイパットのプレス情報
-XINPUT_STATE g_JoyKeyStateTrigger[PLAYER_MAX];		//ジョイパットのトリガー情報
-D3DXVECTOR3 g_JoyStickPos[PLAYER_MAX];				//ジョイスティックの傾き
-JOYKEY g_OldJoyKeyStick[PLAYER_MAX][JOYKEY_RIGHT_LEFT_MAX];			//前回のスティックの位置
-FUNCTION_KEY g_OldFunctionKey;										//前回の機能キーの情報
-LIGHT_KEY g_OldLightKey = LIGHT_KEY_MAX;							//前回のライトのキーの情報
-MOVE_KEY g_OldMoveKey;
+XINPUT_STATE g_JoyKeyState[PLAYER_MAX];						//ジョイパットのプレス情報
+XINPUT_STATE g_JoyKeyStateTrigger[PLAYER_MAX];				//ジョイパットのトリガー情報
+D3DXVECTOR3 g_JoyStickPos[PLAYER_MAX];						//ジョイスティックの傾き
+JOYKEY g_OldJoyKeyStick[PLAYER_MAX][JOYKEY_RIGHT_LEFT_MAX];	//前回のスティックの位置
+FUNCTION_KEY g_OldFunctionKey;								//前回の機能キーの情報
+MOVE_KEY g_OldMoveKey;										//前回の移動キーの情報
 
 int g_nKeyCnt;
 
