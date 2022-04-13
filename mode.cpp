@@ -23,8 +23,8 @@
 //==================================================
 namespace
 {
-MODE	s_mode = MODE_NONE;		// 現在のモード
-MODE	s_modeNext = MODE_NONE;	// 次のモード
+EMode	s_mode = MODE_NONE;		// 現在のモード
+EMode	s_modeNext = MODE_NONE;	// 次のモード
 }// namesapceはここまで
 
 //--------------------------------------------------
@@ -208,7 +208,7 @@ void SetMode(void)
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-MODE GetMode(void)
+EMode GetMode(void)
 {
 	return s_mode;
 }
@@ -216,9 +216,9 @@ MODE GetMode(void)
 //--------------------------------------------------
 // 変更
 //--------------------------------------------------
-void ChangeMode(MODE modeNext)
+void ChangeMode(EMode inModeNext)
 {
-	assert(modeNext >= 0 && modeNext < MODE_MAX);
+	assert(inModeNext >= 0 && inModeNext < MODE_MAX);
 
-	s_modeNext = modeNext;
+	s_modeNext = inModeNext;
 }

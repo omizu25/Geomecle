@@ -69,14 +69,14 @@ void UninitTexture(void)
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-LPDIRECT3DTEXTURE9 GetTexture(TEXTURE texture)
+LPDIRECT3DTEXTURE9 GetTexture(TEXTURE inTexture)
 {
-	if (texture == TEXTURE_NONE)
+	if (inTexture == TEXTURE_NONE)
 	{// テクスチャを使用しない
 		return NULL;
 	}
 
-	assert(texture >= 0 && texture < TEXTURE_MAX);
+	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
 
-	return s_pTexture[texture];
+	return s_pTexture[inTexture];
 }

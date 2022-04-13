@@ -370,7 +370,7 @@ static void UpdateJoypad(void)
 //--------------------------------------------------
 // ジョイパッドのプレス処理(プレイヤー指定あり)
 //--------------------------------------------------
-bool GetJoypadIdxPress(JOYKEY Key, int nPlayer)
+bool GetJoypadIdxPress(EJoyKey Key, int nPlayer)
 {
 	return (s_JoyKeyState[nPlayer].Gamepad.wButtons & (0x01 << Key)) != 0;
 }
@@ -378,7 +378,7 @@ bool GetJoypadIdxPress(JOYKEY Key, int nPlayer)
 //--------------------------------------------------
 // ジョイパッドのトリガー処理(プレイヤー指定あり)
 //--------------------------------------------------
-bool GetJoypadIdxTrigger(JOYKEY Key, int nPlayer)
+bool GetJoypadIdxTrigger(EJoyKey Key, int nPlayer)
 {
 	return (s_JoyKeyStateTrigger[nPlayer].Gamepad.wButtons & (0x01 << Key)) != 0;
 }
@@ -386,7 +386,7 @@ bool GetJoypadIdxTrigger(JOYKEY Key, int nPlayer)
 //--------------------------------------------------
 // ジョイパッドのプレス処理(プレイヤー指定なし)
 //--------------------------------------------------
-bool GetJoypadPress(JOYKEY Key)
+bool GetJoypadPress(EJoyKey Key)
 {
 	for (int nPlayer = 0; nPlayer < PLAYER_MAX; nPlayer++)
 	{
@@ -401,11 +401,11 @@ bool GetJoypadPress(JOYKEY Key)
 //--------------------------------------------------
 // ジョイパッドのプレス処理(プレイヤー指定なし)
 //--------------------------------------------------
-bool GetJoypadTrigger(JOYKEY Key)
+bool GetJoypadTrigger(EJoyKey Key)
 {
 	for (int nPlayer = 0; nPlayer < PLAYER_MAX; nPlayer++)
 	{
-		if (GetJoypadIdxTrigger((JOYKEY)Key, nPlayer))
+		if (GetJoypadIdxTrigger((EJoyKey)Key, nPlayer))
 		{
 			return true;
 		}
@@ -422,7 +422,7 @@ bool GetJoypadAllPress(void)
 	{
 		for (int nCntKey = 0; nCntKey < NUM_KEY_MAX; nCntKey++)
 		{
-			if (GetJoypadIdxPress((JOYKEY)nCntKey, nPlayer))
+			if (GetJoypadIdxPress((EJoyKey)nCntKey, nPlayer))
 			{
 				return true;
 			}
@@ -440,7 +440,7 @@ bool GetJoypadAllTrigger(void)
 	{
 		for (int nCntKey = 0; nCntKey < NUM_KEY_MAX; nCntKey++)
 		{
-			if (GetJoypadIdxTrigger((JOYKEY)nCntKey, nPlayer))
+			if (GetJoypadIdxTrigger((EJoyKey)nCntKey, nPlayer))
 			{
 				return true;
 			}
@@ -453,7 +453,7 @@ bool GetJoypadAllTrigger(void)
 //--------------------------------------------------
 // ジョイパット（スティックプレス）処理
 //--------------------------------------------------
-D3DXVECTOR3 GetJoypadStick(JOYKEY Key, int nPlayer)
+D3DXVECTOR3 GetJoypadStick(EJoyKey Key, int nPlayer)
 {
 	switch (Key)
 	{
@@ -471,7 +471,7 @@ D3DXVECTOR3 GetJoypadStick(JOYKEY Key, int nPlayer)
 //--------------------------------------------------
 // ジョイパット（トリガーペダル）処理
 //--------------------------------------------------
-int GetJoypadTriggerPedal(JOYKEY Key, int nPlayer)
+int GetJoypadTriggerPedal(EJoyKey Key, int nPlayer)
 {
 	int nJoypadTriggerPedal = 0;
 
@@ -589,7 +589,7 @@ static void UpdateMouse(void)
 //--------------------------------------------------
 // マウスのプレス処理
 //--------------------------------------------------
-bool GetMousePress(MOUSE mouse)
+bool GetMousePress(EMouse mouse)
 {
 	return (s_aKeyStateMouse.rgbButtons[mouse] & 0x80) != 0;
 
@@ -598,7 +598,7 @@ bool GetMousePress(MOUSE mouse)
 //--------------------------------------------------
 // マウスのトリガー処理
 //--------------------------------------------------
-bool GetMouseTrigger(MOUSE mouse)
+bool GetMouseTrigger(EMouse mouse)
 {
 	return (s_aKeyStatetriggerMouse.rgbButtons[mouse] & 0x80) != 0;
 }

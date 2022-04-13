@@ -27,9 +27,9 @@ typedef struct
 {
 	LPDIRECT3DTEXTURE9		pTexture;	// テクスチャ
 	LPDIRECT3DVERTEXBUFFER9	pVtxBuff;	// 頂点バッファ
-	bool					bUse;		// 使用しているかどうか
-	bool					bDraw;		// 描画するかどうか
-	bool					bAdd;		// 加算合成するかどうか
+	bool					use;		// 使用しているかどうか
+	bool					draw;		// 描画するかどうか
+	bool					add;		// 加算合成するかどうか
 }MyRectangle;
 }// namespaceはここまで
 
@@ -38,7 +38,7 @@ typedef struct
 //==================================================
 namespace
 {
-MyRectangle	s_aRectangle[MAX_RECTANGLE];	// 矩形の情報
+MyRectangle	s_rectangle[MAX_RECTANGLE];	// 矩形の情報
 }// namespaceはここまで
 
 //--------------------------------------------------
@@ -47,7 +47,7 @@ MyRectangle	s_aRectangle[MAX_RECTANGLE];	// 矩形の情報
 void InitRectangle(void)
 {
 	// メモリのクリア
-	memset(s_aRectangle, 0, sizeof(s_aRectangle));
+	memset(s_rectangle, 0, sizeof(s_rectangle));
 }
 
 //--------------------------------------------------
@@ -57,7 +57,7 @@ void UninitRectangle(void)
 {
 	for (int i = 0; i < MAX_RECTANGLE; i++)
 	{
-		MyRectangle *pRectangle = &s_aRectangle[i];
+		MyRectangle *pRectangle = &s_rectangle[i];
 
 		if (pRectangle->pVtxBuff != NULL)
 		{// 頂点バッファの解放
@@ -77,16 +77,16 @@ void DrawRectangle(void)
 
 	for (int i = 0; i < MAX_RECTANGLE; i++)
 	{
-		MyRectangle *pRectangle = &s_aRectangle[i];
+		MyRectangle *pRectangle = &s_rectangle[i];
 
-		if (!pRectangle->bUse || !pRectangle->bDraw)
+		if (!pRectangle->use || !pRectangle->draw)
 		{// 使用していない、描画するしない
 			continue;
 		}
 
 		/*↓ 使用している、描画する ↓*/
 
-		if (pRectangle->bAdd)
+		if (pRectangle->add)
 		{// 加算合成する
 			// レンダーステートの設定
 			pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
@@ -112,7 +112,7 @@ void DrawRectangle(void)
 		// テクスチャの解除
 		pDevice->SetTexture(0, NULL);
 
-		if (pRectangle->bAdd)
+		if (pRectangle->add)
 		{// 加算合成する
 			// レンダーステートを元に戻す
 			pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
@@ -125,10 +125,10 @@ void DrawRectangle(void)
 //--------------------------------------------------
 // 設定
 //--------------------------------------------------
-int SetRectangle(TEXTURE texture)
+int SetRectangle(TEXTURE inTexture)
 {
 	// 設定 [ テクスチャあり ]
-	return SetRectangleWithTex(GetTexture(texture));
+	return SetRectangleWithTex(GetTexture(inTexture));
 }
 
 //--------------------------------------------------
@@ -138,9 +138,9 @@ int SetRectangleWithTex(LPDIRECT3DTEXTURE9 pTexture)
 {
 	for (int i = 0; i < MAX_RECTANGLE; i++)
 	{
-		MyRectangle *pRectangle = &s_aRectangle[i];
+		MyRectangle *pRectangle = &s_rectangle[i];
 
-		if (pRectangle->bUse)
+		if (pRectangle->use)
 		{// 使用している
 			continue;
 		}
@@ -148,9 +148,9 @@ int SetRectangleWithTex(LPDIRECT3DTEXTURE9 pTexture)
 		/*↓ 使用していない ↓*/
 
 		pRectangle->pTexture = pTexture;
-		pRectangle->bUse = true;
-		pRectangle->bDraw = true;
-		pRectangle->bAdd = false;
+		pRectangle->use = true;
+		pRectangle->draw = true;
+		pRectangle->add = false;
 
 		// 頂点バッファの生成
 		GetDevice()->CreateVertexBuffer(
@@ -200,13 +200,13 @@ int SetRectangleWithTex(LPDIRECT3DTEXTURE9 pTexture)
 //--------------------------------------------------
 // 使用をやめる
 //--------------------------------------------------
-void StopUseRectangle(int nIdx)
+void StopUseRectangle(int inIdx)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	pRectangle->bUse = false;
+	pRectangle->use = false;
 
 	if (pRectangle->pVtxBuff != NULL)
 	{// 頂点バッファの解放
@@ -218,13 +218,13 @@ void StopUseRectangle(int nIdx)
 //--------------------------------------------------
 // 位置の設定
 //--------------------------------------------------
-void SetPosRectangle(int nIdx, const D3DXVECTOR3 &pos, const D3DXVECTOR3 &size)
+void SetPosRectangle(int inIdx, const D3DXVECTOR3& inPos, const D3DXVECTOR3& inSize)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
@@ -233,19 +233,19 @@ void SetPosRectangle(int nIdx, const D3DXVECTOR3 &pos, const D3DXVECTOR3 &size)
 
 	VERTEX_2D *pVtx = NULL;		// 頂点情報へのポインタ
 
-	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(nIdx);
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(inIdx);
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float fWidth = size.x * 0.5f;
-	float fHeight = size.y * 0.5f;
+	float fWidth = inSize.x * 0.5f;
+	float fHeight = inSize.y * 0.5f;
 
 	// 頂点座標の設定
-	pVtx[0].pos = pos + D3DXVECTOR3(-fWidth, -fHeight, 0.0f);
-	pVtx[1].pos = pos + D3DXVECTOR3(+fWidth, -fHeight, 0.0f);
-	pVtx[2].pos = pos + D3DXVECTOR3(-fWidth, +fHeight, 0.0f);
-	pVtx[3].pos = pos + D3DXVECTOR3(+fWidth, +fHeight, 0.0f);
+	pVtx[0].pos = inPos + D3DXVECTOR3(-fWidth, -fHeight, 0.0f);
+	pVtx[1].pos = inPos + D3DXVECTOR3(+fWidth, -fHeight, 0.0f);
+	pVtx[2].pos = inPos + D3DXVECTOR3(-fWidth, +fHeight, 0.0f);
+	pVtx[3].pos = inPos + D3DXVECTOR3(+fWidth, +fHeight, 0.0f);
 
 	// 頂点バッファをアンロックする
 	pVtxBuff->Unlock();
@@ -254,13 +254,13 @@ void SetPosRectangle(int nIdx, const D3DXVECTOR3 &pos, const D3DXVECTOR3 &size)
 //--------------------------------------------------
 // 回転する位置の設定
 //--------------------------------------------------
-void SetRotationPosRectangle(int nIdx, const D3DXVECTOR3 &pos, float fRot, float fWidth, float fHeight)
+void SetRotationPosRectangle(int inIdx, const D3DXVECTOR3& inPos, float inRot, float inWidth, float inHeight)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
@@ -269,7 +269,7 @@ void SetRotationPosRectangle(int nIdx, const D3DXVECTOR3 &pos, float fRot, float
 
 	VERTEX_2D *pVtx = NULL;		// 頂点情報へのポインタ
 
-	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(nIdx);
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(inIdx);
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -277,16 +277,16 @@ void SetRotationPosRectangle(int nIdx, const D3DXVECTOR3 &pos, float fRot, float
 	D3DXMATRIX mtx, mtxTrans;
 
 	// 回転の反映
-	D3DXMatrixRotationZ(&mtx, -fRot);
+	D3DXMatrixRotationZ(&mtx, -inRot);
 
 	// 位置の反映
-	D3DXMatrixTranslation(&mtxTrans, pos.x, pos.y, 0.0f);
+	D3DXMatrixTranslation(&mtxTrans, inPos.x, inPos.y, 0.0f);
 	D3DXMatrixMultiply(&mtx, &mtx, &mtxTrans);
 
 	D3DXVECTOR3 pVtxpos[NUM_VERTEX];
 
-	float fHalfWidth = fWidth * 0.5f;
-	float fHalfHeight = fHeight * 0.5f;
+	float fHalfWidth = inWidth * 0.5f;
+	float fHalfHeight = inHeight * 0.5f;
 
 	pVtxpos[0] = D3DXVECTOR3(-fHalfWidth, -fHalfHeight, 0.0f);
 	pVtxpos[1] = D3DXVECTOR3(+fHalfWidth, -fHalfHeight, 0.0f);
@@ -305,13 +305,13 @@ void SetRotationPosRectangle(int nIdx, const D3DXVECTOR3 &pos, float fRot, float
 //--------------------------------------------------
 // 色の設定
 //--------------------------------------------------
-void SetColorRectangle(int nIdx, const D3DXCOLOR &color)
+void SetColorRectangle(int inIdx, const D3DXCOLOR& inColor)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
@@ -320,16 +320,16 @@ void SetColorRectangle(int nIdx, const D3DXCOLOR &color)
 
 	VERTEX_2D *pVtx = NULL;		// 頂点情報へのポインタ
 
-	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(nIdx);
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(inIdx);
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 頂点カラーの設定
-	pVtx[0].col = color;
-	pVtx[1].col = color;
-	pVtx[2].col = color;
-	pVtx[3].col = color;
+	pVtx[0].col = inColor;
+	pVtx[1].col = inColor;
+	pVtx[2].col = inColor;
+	pVtx[3].col = inColor;
 
 	// 頂点バッファをアンロックする
 	pVtxBuff->Unlock();
@@ -338,13 +338,13 @@ void SetColorRectangle(int nIdx, const D3DXCOLOR &color)
 //--------------------------------------------------
 // テクスチャ座標の設定
 //--------------------------------------------------
-void SetTexRectangle(int nIdx, const D3DXVECTOR2 &texU, const D3DXVECTOR2 &texV)
+void SetTexRectangle(int inIdx, const D3DXVECTOR2& inTexU, const D3DXVECTOR2& inTexV)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
@@ -353,15 +353,15 @@ void SetTexRectangle(int nIdx, const D3DXVECTOR2 &texU, const D3DXVECTOR2 &texV)
 
 	VERTEX_2D *pVtx = NULL;		// 頂点情報へのポインタ
 
-	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(nIdx);
+	LPDIRECT3DVERTEXBUFFER9 pVtxBuff = GetVtxBuffRectangle(inIdx);
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	pVtx[0].tex = D3DXVECTOR2(texU.x, texV.x);
-	pVtx[1].tex = D3DXVECTOR2(texU.y, texV.x);
-	pVtx[2].tex = D3DXVECTOR2(texU.x, texV.y);
-	pVtx[3].tex = D3DXVECTOR2(texU.y, texV.y);
+	pVtx[0].tex = D3DXVECTOR2(inTexU.x, inTexV.x);
+	pVtx[1].tex = D3DXVECTOR2(inTexU.y, inTexV.x);
+	pVtx[2].tex = D3DXVECTOR2(inTexU.x, inTexV.y);
+	pVtx[3].tex = D3DXVECTOR2(inTexU.y, inTexV.y);
 
 	// 頂点バッファをアンロックする
 	pVtxBuff->Unlock();
@@ -370,60 +370,60 @@ void SetTexRectangle(int nIdx, const D3DXVECTOR2 &texU, const D3DXVECTOR2 &texV)
 //--------------------------------------------------
 // 描画するかどうか
 //--------------------------------------------------
-void SetDrawRectangle(int nIdx, bool bDraw)
+void SetDrawRectangle(int inIdx, bool inDraw)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
 
 	/*↓ 使用している ↓*/
 
-	pRectangle->bDraw = bDraw;
+	pRectangle->draw = inDraw;
 }
 
 //--------------------------------------------------
 // 加算合成するかどうか
 //--------------------------------------------------
-void SetAddRectangle(int nIdx, bool bAdd)
+void SetAddRectangle(int inIdx, bool inAdd)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
 
 	/*↓ 使用している ↓*/
 
-	pRectangle->bAdd = bAdd;
+	pRectangle->add = inAdd;
 }
 
 //--------------------------------------------------
 // テクスチャの変更
 //--------------------------------------------------
-void ChangeTextureRectangle(int nIdx, TEXTURE texture)
+void ChangeTextureRectangle(int inIdx, TEXTURE inTexture)
 {
 	// テクスチャの変更 [ テクスチャあり ]
-	ChangeTextureRectangleWithTex(nIdx, GetTexture(texture));
+	ChangeTextureRectangleWithTex(inIdx, GetTexture(inTexture));
 }
 
 //--------------------------------------------------
 // テクスチャの変更 [ テクスチャあり ]
 //--------------------------------------------------
-void ChangeTextureRectangleWithTex(int nIdx, LPDIRECT3DTEXTURE9 pTexture)
+void ChangeTextureRectangleWithTex(int inIdx, LPDIRECT3DTEXTURE9 pTexture)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return;
 	}
@@ -436,18 +436,18 @@ void ChangeTextureRectangleWithTex(int nIdx, LPDIRECT3DTEXTURE9 pTexture)
 //--------------------------------------------------
 // 頂点バッファを取得
 //--------------------------------------------------
-LPDIRECT3DVERTEXBUFFER9 GetVtxBuffRectangle(int nIdx)
+LPDIRECT3DVERTEXBUFFER9 GetVtxBuffRectangle(int inIdx)
 {
-	assert(nIdx >= 0 && nIdx < MAX_RECTANGLE);
+	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE);
 
-	MyRectangle *pRectangle = &s_aRectangle[nIdx];
+	MyRectangle *pRectangle = &s_rectangle[inIdx];
 
-	if (!pRectangle->bUse)
+	if (!pRectangle->use)
 	{// 使用していない
 		return NULL;
 	}
 
 	/*↓ 使用している ↓*/
 
-	return s_aRectangle[nIdx].pVtxBuff;
+	return s_rectangle[inIdx].pVtxBuff;
 }

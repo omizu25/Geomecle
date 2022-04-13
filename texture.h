@@ -32,9 +32,9 @@ void UninitTexture(void);
 
 //--------------------------------------------------
 // 取得
-// 引数  : TEXTURE texture / 列挙型 種類
+// 引数  : TEXTURE inTexture / 列挙型 種類
 // 返値  : LPDIRECT3DTEXTURE9 / テクスチャ
 //--------------------------------------------------
-LPDIRECT3DTEXTURE9 GetTexture(TEXTURE texture);
+LPDIRECT3DTEXTURE9 GetTexture(TEXTURE inTexture);
 
 #endif // !_TEXTURE_H_

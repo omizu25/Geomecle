@@ -26,7 +26,7 @@
 
 /*↓ キー種類(ジョイパッド) ↓*/
 
-typedef enum
+enum EJoyKey
 {
 	JOYKEY_UP = 0,			// 十字ボタン上
 	JOYKEY_DOWN,			// 十字ボタン下
@@ -47,11 +47,11 @@ typedef enum
 	JOYKEY_LEFT_STICK,		// 左スティック
 	JOYKEY_RIGHT_STICK,		// 右スティック
 	JOYKEY_MAX,
-}JOYKEY;
+};
 
 /*↓ キー種類(マウス) ↓*/
 
-typedef enum
+enum EMouse
 {
 	MOUSE_INPUT_LEFT,	// マウス左ボタン
 	MOUSE_INPUT_RIGHT,	// マウス右ボタン
@@ -62,7 +62,7 @@ typedef enum
 	MOUSE_INPUT_7,		// マウスボタン7
 	MOUSE_INPUT_8,		// マウスボタン8
 	MOUSE_MAX
-}MOUSE;
+};
 
 //==================================================
 // プロトタイプ宣言
@@ -86,20 +86,20 @@ bool GetKeyboardRelease(int nKey);								// キーボードのリリース処理
 /*↓ プロトタイプ宣言(ジョイパッド) ↓*/
 
 bool GetJoypadAllPress(void);									// ジョイパッドプレス処理(キー指定なし)
-bool GetJoypadPress(JOYKEY Key);								// ジョイパッドプレス処理(プレイヤー指定なし)
-bool GetJoypadIdxPress(JOYKEY Key, int nPlayer);				// ジョイパッドのプレス処理(プレイヤー指定あり)
+bool GetJoypadPress(EJoyKey Key);								// ジョイパッドプレス処理(プレイヤー指定なし)
+bool GetJoypadIdxPress(EJoyKey Key, int nPlayer);				// ジョイパッドのプレス処理(プレイヤー指定あり)
 bool GetJoypadAllTrigger(void);									// ジョイパッドトリガー処理(キー指定なし)
-bool GetJoypadTrigger(JOYKEY Key);								// ジョイパッドトリガー処理(プレイヤー指定なし)
-bool GetJoypadIdxTrigger(JOYKEY Key, int nPlayer);				// ジョイパッドのトリガー処理(プレイヤー指定あり)
-D3DXVECTOR3 GetJoypadStick(JOYKEY Key, int nPlayer);			// ジョイパッドのスティック処理
-int GetJoypadTriggerPedal(JOYKEY Key, int nPlayer);				// ジョイパッドのトリガーペダル処理
+bool GetJoypadTrigger(EJoyKey Key);								// ジョイパッドトリガー処理(プレイヤー指定なし)
+bool GetJoypadIdxTrigger(EJoyKey Key, int nPlayer);				// ジョイパッドのトリガー処理(プレイヤー指定あり)
+D3DXVECTOR3 GetJoypadStick(EJoyKey Key, int nPlayer);			// ジョイパッドのスティック処理
+int GetJoypadTriggerPedal(EJoyKey Key, int nPlayer);			// ジョイパッドのトリガーペダル処理
 void JoypadVibration(int nTime, WORD nStrength, int nPlayer);	// ジョイパッドの振動制御
 bool IsJoyPadUse(int nPlayer);									// ジョイパッドの使用状況
 
 /*↓ プロトタイプ宣言(マウス) ↓*/
 
-bool GetMousePress(MOUSE mouse);								// マウスのプレス処理
-bool GetMouseTrigger(MOUSE mouse);								// マウスのトリガー処理
+bool GetMousePress(EMouse mouse);								// マウスのプレス処理
+bool GetMouseTrigger(EMouse mouse);								// マウスのトリガー処理
 D3DXVECTOR3 GetMouse(void);										// マウスの画面内の位置
 int GetMouseWheel(void);										// マウスのホイールの動き処理
 

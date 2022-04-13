@@ -27,59 +27,59 @@
 //==================================================
 //--------------------------------------------------
 // 角度の正規化
-// 引数  : pAngle / 角度
+// 引数  : float* pAngle / 角度
 //--------------------------------------------------
-void NormalizeAngle(float *pAngle);
+void NormalizeAngle(float* pAngle);
 
 //--------------------------------------------------
 // ホーミング
-// 引数1  : D3DXVECTOR3 *pPosOut / 位置
-// 引数2  : D3DXVECTOR3 &posNow / 現在の位置
-// 引数3  : D3DXVECTOR3 &posDest / 目的の位置
-// 引数4  : float fSpeed / 速さ
+// 引数1  : D3DXVECTOR3* pPosOut / 位置
+// 引数2  : D3DXVECTOR3& inPosNow / 現在の位置
+// 引数3  : D3DXVECTOR3& inPosDest / 目的の位置
+// 引数4  : float inSpeed / 速さ
 // 返値  : bool / 目的の位置に着いたかどうか
 //--------------------------------------------------
-bool Homing(D3DXVECTOR3 *pPosOut, const D3DXVECTOR3 &posNow, const D3DXVECTOR3 &posDest, float fSpeed);
+bool Homing(D3DXVECTOR3* pPosOut, const D3DXVECTOR3& inPosNow, const D3DXVECTOR3& inPosDest, float inSpeed);
 
 //--------------------------------------------------
 // 小数点のランダム
-// 引数1  : float fMax / 最大値
-// 引数2  : float fMin / 最小値
+// 引数1  : float inMax / 最大値
+// 引数2  : float inMin / 最小値
 // 返値  : float / ランダム値
 //--------------------------------------------------
-float FloatRandam(float fMax, float fMin);
+float FloatRandam(float inMax, float inMin);
 
 //--------------------------------------------------
 // 整数のランダム
-// 引数1  : int nMax / 最大値
-// 引数2  : int nMin / 最小値
+// 引数1  : int inMax / 最大値
+// 引数2  : int inMin / 最小値
 // 返値  : int / ランダム値
 //--------------------------------------------------
-int IntRandam(int nMax, int nMin);
+int IntRandam(int inMax, int inMin);
 
 //--------------------------------------------------
 // sinカーブの値が1.0f～0.0fで帰ってくる
-// 引数1  : int nTime / タイム
-// 引数2  : float fCycle / 周期
+// 引数1  : int inTime / タイム
+// 引数2  : float inCycle / 周期
 // 返値  : float / 1.0f～0.0fのsinカーブ
 //--------------------------------------------------
-float SinCurve(int nTime, float fCycle);
+float SinCurve(int inTime, float inCycle);
 
 //--------------------------------------------------
 // cosカーブの値が1.0f～0.0fで帰ってくる
-// 引数1  : int nTime / タイム
-// 引数2  : float fCycle / 周期
+// 引数1  : int inTime / タイム
+// 引数2  : float inCycle / 周期
 // 返値  : float / 1.0f～0.0fのcosカーブ
 //--------------------------------------------------
-float CosCurve(int nTime, float fCycle);
+float CosCurve(int inTime, float inCycle);
 
 //--------------------------------------------------
 // カーブの値が帰ってくる
-// 引数1  : float fCurve / カーブ
-// 引数2  : float fMax / 最大値
-// 引数3  : float fMin / 最小値
+// 引数1  : float inCurve / カーブ
+// 引数2  : float inMax / 最大値
+// 引数3  : float inMin / 最小値
 // 返値  : float / カーブ
 //--------------------------------------------------
-float Curve(float fCurve, float fMax, float fMin);
+float Curve(float inCurve, float inMax, float inMin);
 
 #endif // !_UTILITY_H_

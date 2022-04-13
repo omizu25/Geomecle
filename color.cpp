@@ -52,9 +52,9 @@ static_assert(sizeof(s_Colors) / sizeof(s_Colors[0]) == COLOR_MAX, "aho");
 //--------------------------------------------------
 // Žæ“¾
 //--------------------------------------------------
-D3DXCOLOR GetColor(COLOR color)
+D3DXCOLOR GetColor(EColor inColor)
 {
-	assert(color >= 0 && color < COLOR_MAX);
+	assert(inColor >= 0 && inColor < COLOR_MAX);
 
-	return *s_Colors[color];
+	return *s_Colors[inColor];
 }

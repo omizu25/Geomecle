@@ -29,7 +29,7 @@ const float	MAX_FAR = 2500.0f;	// ファーの最大値
 //==================================================
 namespace
 {
-Camera	s_camera;	// カメラの情報
+SCamera	s_camera;	// カメラの情報
 }
 
 //--------------------------------------------------
@@ -46,12 +46,12 @@ void InitCamera(void)
 	s_camera.rotDest = s_camera.rot;
 	s_camera.vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// 固定でいい
 
-	float fDisX, fDisZ;
+	float disX, disZ;
 
-	fDisX = s_camera.posV.x - s_camera.posR.x;
-	fDisZ = s_camera.posV.z - s_camera.posR.z;
+	disX = s_camera.posV.x - s_camera.posR.x;
+	disZ = s_camera.posV.z - s_camera.posR.z;
 
-	s_camera.fDistance = sqrtf((fDisX * fDisX) + (fDisZ * fDisZ));
+	s_camera.fDistance = sqrtf((disX * disX) + (disZ * disZ));
 }
 
 //--------------------------------------------------
@@ -95,10 +95,10 @@ void SetCamera(void)
 	D3DXMatrixIdentity(&s_camera.mtxProjection);
 
 	// プロジェクションマトリックスの作成
-	D3DXMatrixPerspectiveFovLH(
+	D3DXMatrixOrthoLH(
 		&s_camera.mtxProjection,
-		D3DXToRadian(45.0f),
-		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,
+		(float)SCREEN_WIDTH,
+		(float)SCREEN_HEIGHT,
 		MAX_NEAR,
 		MAX_FAR);
 
@@ -109,7 +109,7 @@ void SetCamera(void)
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-Camera *GetCamera(void)
+SCamera *GetCamera(void)
 {
 	return &s_camera;
 }

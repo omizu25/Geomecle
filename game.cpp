@@ -27,7 +27,7 @@
 //==================================================
 namespace
 {
-GAMESTATE	s_gameState = GAMESTATE_NONE;	// ゲームの状態
+EGameState	s_gameState = GAMESTATE_NONE;	// ゲームの状態
 int			s_counterState;					// 状態管理カウンター
 bool		s_pause = false;				// ポーズ中かどうか [してる  : true してない  : false]
 }// namesapceはここまで
@@ -87,18 +87,18 @@ void DrawGame(void)
 //--------------------------------------------------
 // 設定
 //--------------------------------------------------
-void SetGameState(GAMESTATE state)
+void SetGameState(EGameState inState)
 {
-	assert(state >= 0 && state < GAMESTATE_MAX);
+	assert(inState >= 0 && inState < GAMESTATE_MAX);
 
-	s_gameState = state;
+	s_gameState = inState;
 	s_counterState = 0;
 }
 
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-GAMESTATE GetGameState(void)
+EGameState GetGameState(void)
 {
 	return s_gameState;
 }
@@ -106,9 +106,9 @@ GAMESTATE GetGameState(void)
 //--------------------------------------------------
 // ポーズの有効無効設定
 //--------------------------------------------------
-void SetEnablePause(bool bPause)
+void SetEnablePause(bool inPause)
 {
-	s_pause = bPause;
+	s_pause = inPause;
 }
 
 //--------------------------------------------------

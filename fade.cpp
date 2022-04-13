@@ -10,6 +10,7 @@
 //==================================================
 #include "main.h"
 #include "fade.h"
+#include "rectangle.h"
 
 #include <assert.h>
 
@@ -27,7 +28,7 @@ const float	ALPHA_CHANGE = 0.07f;	// フェードのα値の変化量
 namespace
 {
 LPDIRECT3DVERTEXBUFFER9	s_pVtxBuff = NULL;	// 頂点バッファのポインタ
-FADE					s_fade;				// 今のフェード
+EFade					s_fade;				// 今のフェード
 float					s_alpha;			// ポリゴン(フェード)のα値
 }
 
@@ -56,16 +57,16 @@ void InitFade(void)
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	s_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float fWidth = SCREEN_WIDTH * 0.5f;
-	float fHeight = SCREEN_HEIGHT * 0.5f;
+	float width = SCREEN_WIDTH * 0.5f;
+	float height = SCREEN_HEIGHT * 0.5f;
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(fWidth, fHeight, 0.0f);
+	D3DXVECTOR3 pos = D3DXVECTOR3(width, height, 0.0f);
 
 	// 頂点座標の設定
-	pVtx[0].pos = pos + D3DXVECTOR3(-fWidth, -fHeight, 0.0f);
-	pVtx[1].pos = pos + D3DXVECTOR3(+fWidth, -fHeight, 0.0f);
-	pVtx[2].pos = pos + D3DXVECTOR3(-fWidth, +fHeight, 0.0f);
-	pVtx[3].pos = pos + D3DXVECTOR3(+fWidth, +fHeight, 0.0f);
+	pVtx[0].pos = pos + D3DXVECTOR3(-width, -height, 0.0f);
+	pVtx[1].pos = pos + D3DXVECTOR3(+width, -height, 0.0f);
+	pVtx[2].pos = pos + D3DXVECTOR3(-width, +height, 0.0f);
+	pVtx[3].pos = pos + D3DXVECTOR3(+width, +height, 0.0f);
 
 	// rhwの設定
 	pVtx[0].rhw = 1.0f;
@@ -184,13 +185,13 @@ void DrawFade(void)
 void StartFadeOut(void)
 {
 	s_fade = FADE_OUT;	// フェードアウト状態に
-	s_alpha = 0.0f;	// 黒いポリゴン(不透明)にしておく
+	s_alpha = 0.0f;		// 黒いポリゴン(不透明)にしておく
 }
 
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-FADE GetFade(void)
+EFade GetFade(void)
 {
 	return s_fade;
 }

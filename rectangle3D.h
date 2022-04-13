@@ -14,6 +14,21 @@
 #include "texture.h"
 
 //==================================================
+// 定義
+//==================================================
+#define FVF_VERTEX_3D	(D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1)	// 頂点フォーマット[3D] 位置・法線・カラー・テクスチャ
+
+/*↓ 頂点情報[3D] ↓*/
+
+struct VERTEX_3D
+{
+	D3DXVECTOR3	pos;	// 頂点座標
+	D3DXVECTOR3	nor;	// 法線ベクトル
+	D3DCOLOR	col;	// 頂点カラー
+	D3DXVECTOR2	tex;	// テクスチャ座標
+};
+
+//==================================================
 // プロトタイプ宣言
 //==================================================
 //--------------------------------------------------
@@ -33,9 +48,9 @@ void DrawRectangle3D(void);
 
 //--------------------------------------------------
 // 設定
-// 引数  : TEXTURE texture / 列挙型 種類
+// 引数  : TEXTURE inTexture / 列挙型 種類
 //--------------------------------------------------
-int SetRectangle3D(TEXTURE texture);
+int SetRectangle3D(TEXTURE inTexture);
 
 //--------------------------------------------------
 // 設定 [ テクスチャあり ]
@@ -45,79 +60,79 @@ int SetRectangle3DWithTex(LPDIRECT3DTEXTURE9 pTexture);
 
 //--------------------------------------------------
 // 使うのを止める
-// 引数  : int nIdx / インデックス
+// 引数  : int inIdx / インデックス
 //--------------------------------------------------
-void StopUseRectangle3D(int nIdx);
+void StopUseRectangle3D(int inIdx);
 
 //--------------------------------------------------
 // 位置の設定
-// 引数1  : int nIdx / インデックス
-// 引数2  : D3DXVECTOR3 &pos / 中心の位置
+// 引数1  : int inIdx / インデックス
+// 引数2  : D3DXVECTOR3& inPos / 中心の位置
 //--------------------------------------------------
-void SetPosRectangle3D(int nIdx, const D3DXVECTOR3 &pos);
+void SetPosRectangle3D(int inIdx, const D3DXVECTOR3& inPos);
 
 //--------------------------------------------------
 // 向きの設定
-// 引数1  : int nIdx / インデックス
-// 引数2  : D3DXVECTOR3 &rot / 向き
+// 引数1  : int inIdx / インデックス
+// 引数2  : D3DXVECTOR3& inRot / 向き
 //--------------------------------------------------
-void SetRotRectangle3D(int nIdx, const D3DXVECTOR3 &rot);
+void SetRotRectangle3D(int inIdx, const D3DXVECTOR3& inRot);
 
 //--------------------------------------------------
 // サイズの設定
-// 引数1  : int nIdx / インデックス
-// 引数2  : D3DXVECTOR3 &size / サイズ
+// 引数1  : int inIdx / インデックス
+// 引数2  : D3DXVECTOR3& inSize / サイズ
 //--------------------------------------------------
-void SetSizeRectangle3D(int nIdx, const D3DXVECTOR3 &size);
+void SetSizeRectangle3D(int inIdx, const D3DXVECTOR3& inSize);
 
 //--------------------------------------------------
 // 色の設定
-// 引数1  : int nIdx / インデックス
-// 引数2  : D3DXCOLOR &color / 色
+// 引数1  : int inIdx / インデックス
+// 引数2  : D3DXCOLOR& inColor / 色
 //--------------------------------------------------
-void SetColorRectangle3D(int nIdx, const D3DXCOLOR &color);
+void SetColorRectangle3D(int inIdx, const D3DXCOLOR& inColor);
 
 //--------------------------------------------------
 // テクスチャ座標の設定
-// 引数1  : int nIdx / インデックス
-// 引数2  : D3DXVECTOR2 &texU / x = 左端, y = 右端
-// 引数3  : D3DXVECTOR2 &texV / x = 上端, y = 下端
+// 引数1  : int inIdx / インデックス
+// 引数2  : D3DXVECTOR2& inTexU / x = 左端, y = 右端
+// 引数3  : D3DXVECTOR2& inTexV / x = 上端, y = 下端
 //--------------------------------------------------
-void SetTexRectangle3D(int nIdx, const D3DXVECTOR2 &texU, const D3DXVECTOR2 &texV);
+void SetTexRectangle3D(int inIdx, const D3DXVECTOR2& inTexU, const D3DXVECTOR2& inTexV);
 
 //--------------------------------------------------
 // 描画するかどうか
-// 引数1  : int nIdx / インデックス
-// 引数2  : bool bDraw / 描画するかどうか
+// 引数1  : int inIdx / インデックス
+// 引数2  : bool inDraw / 描画するかどうか
 //--------------------------------------------------
-void SetDrawRectangle3D(int nIdx, bool bDraw);
+void SetDrawRectangle3D(int inIdx, bool inDraw);
 
 //--------------------------------------------------
 // 加算合成するかどうか
-// 引数1  : int nIdx / インデックス
-// 引数2  : bool bDraw / 加算合成するかどうか
+// 引数1  : int inIdx / インデックス
+// 引数2  : bool inAdd / 加算合成するかどうか
 //--------------------------------------------------
-void SetAddRectangle3D(int nIdx, bool bAdd);
+void SetAddRectangle3D(int inIdx, bool inAdd);
 
 //--------------------------------------------------
 // テクスチャの変更
-// 引数1  : int nIdx / インデックス
-// 引数2  : TEXTURE texture / 列挙型 種類
+// 引数1  : int inIdx / インデックス
+// 引数2  : TEXTURE inTexture / 列挙型 種類
 //--------------------------------------------------
-void ChangeTextureRectangle3D(int nIdx, TEXTURE texture);
+void ChangeTextureRectangle3D(int inIdx, TEXTURE inTexture);
 
 //--------------------------------------------------
 // テクスチャの変更 [ テクスチャあり ]
-// 引数1  : int nIdx / インデックス
-// 引数2  : TEXTURE texture / 列挙型 種類
+// 引数1  : int inIdx / インデックス
+// 引数2  : TEXTURE pTexture / 列挙型 種類
 //--------------------------------------------------
-void ChangeTextureRectangle3DWithTex(int nIdx, LPDIRECT3DTEXTURE9 pTexture);
+void ChangeTextureRectangle3DWithTex(int inIdx, LPDIRECT3DTEXTURE9 pTexture);
 
 //--------------------------------------------------
 // 頂点バッファの取得
-// 引数  : int nIdx / インデックス
+// 引数  : int inIdx / インデックス
 // 返値  : LPDIRECT3DVERTEXBUFFER9 / 頂点バッファ
 //--------------------------------------------------
-LPDIRECT3DVERTEXBUFFER9 GetVtxBuffRectangle3D(int nIdx);
+LPDIRECT3DVERTEXBUFFER9 GetVtxBuffRectangle3D(int inIdx);
 
 #endif // !_RECTANGLE3D_H_
