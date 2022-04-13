@@ -156,6 +156,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mode.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="rectangle.cpp" />
     <ClCompile Include="rectangle3D.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mode.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="rectangle3D.h" />

@@ -352,7 +352,7 @@ static void Update(void)
 
  #ifdef  _DEBUG
 
-	if (GetKeyboardTrigger(DIK_F1) || GetJoypadTrigger(JOYKEY_BACK))
+	if (GetKeyboardTrigger(DIK_F1) || GetJoypadAllTrigger(JOYKEY_BACK))
 	{// F1ÉLÅ[Ç™âüÇ≥ÇÍÇΩ
 		s_debug = !s_debug;
 	}

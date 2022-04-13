@@ -17,7 +17,7 @@
 #include "color.h"
 #include "time.h"
 #include "utility.h"
-#include "polygon.h"
+#include "player.h"
 #include "camera.h"
 
 #include <assert.h>
@@ -37,8 +37,8 @@ bool		s_pause = false;				// ポーズ中かどうか [してる  : true してない  : false]
 //--------------------------------------------------
 void InitGame(void)
 {
-	// ポリゴンの初期化
-	InitPolygon();
+	// プレイヤーの初期化
+	InitPlayer();
 
 	// カメラの初期化
 	InitCamera();
@@ -58,8 +58,8 @@ void UninitGame(void)
 	// カメラの終了
 	UninitCamera();
 
-	// ポリゴンの終了
-	UninitPolygon();
+	// プレイヤーの終了
+	UninitPlayer();
 }
 
 //--------------------------------------------------
