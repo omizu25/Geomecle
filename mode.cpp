@@ -12,8 +12,8 @@
 #include "game.h"
 #include "mode.h"
 #include "rectangle.h"
-#include "rectangle3D.h"
 #include "texture.h"
+#include "utility.h"
 
 #include <assert.h>
 #include <time.h>
@@ -25,7 +25,18 @@ namespace
 {
 EMode	s_mode = MODE_NONE;		// 現在のモード
 EMode	s_modeNext = MODE_NONE;	// 次のモード
+void(*s_pUpdateFunc)(void);
+void(*s_pDrawFunc)(void);
 }// namesapceはここまで
+
+//==================================================
+// スタティック関数プロトタイプ宣言
+//==================================================
+namespace
+{
+void UpdateNone(void);
+void DrawNone(void);
+}// namespaceはここまで
 
 //--------------------------------------------------
 // 初期化
@@ -35,14 +46,11 @@ void InitMode(void)
 	// randの初期化
 	srand((unsigned int)time(NULL));
 
-	// テクスチャの読み込み
-	LoadTexture();
-
 	// 矩形の初期化
 	InitRectangle();
 
-	// 3D矩形の初期化
-	InitRectangle3D();
+	s_pUpdateFunc = UpdateNone;
+	s_pDrawFunc = DrawNone;
 }
 
 //--------------------------------------------------
@@ -56,11 +64,8 @@ void UninitMode(void)
 	// 矩形の終了
 	UninitRectangle();
 
-	// 3D矩形の終了
-	UninitRectangle3D();
-
-	// テクスチャの終了
-	UninitTexture();
+	// テクスチャの解放
+	UnloadTextureAll();
 }
 
 //--------------------------------------------------
@@ -68,29 +73,7 @@ void UninitMode(void)
 //--------------------------------------------------
 void UpdateMode(void)
 {
-	switch (s_mode)
-	{// どのモード？
-	case MODE_TITLE:	// タイトル
-		break;
-
-	case MODE_TUTORIAL:	// チュートリアル
-		break;
-
-	case MODE_GAME:		// ゲーム
-		UpdateGame();
-		break;
-
-	case MODE_RESULT:	// リザルト
-		break;
-
-	case MODE_NONE:
-		/* 処理なし */
-		break;
-
-	default:
-		assert(false);
-		break;
-	}
+	s_pUpdateFunc();
 }
 
 //--------------------------------------------------
@@ -98,29 +81,7 @@ void UpdateMode(void)
 //--------------------------------------------------
 void DrawMode(void)
 {
-	switch (s_mode)
-	{// どのモード？
-	case MODE_TITLE:	// タイトル
-		break;
-
-	case MODE_TUTORIAL:	// チュートリアル
-		break;
-
-	case MODE_GAME:		// ゲーム
-		DrawGame();
-		break;
-
-	case MODE_RESULT:	// リザルト
-		break;
-
-	case MODE_NONE:
-		/* 処理なし */
-		break;
-
-	default:
-		assert(false);
-		break;
-	}
+	s_pDrawFunc();
 }
 
 //--------------------------------------------------
@@ -148,14 +109,8 @@ void SetMode(void)
 	case MODE_TITLE:	// タイトル
 		break;
 
-	case MODE_TUTORIAL:	// チュートリアル
-		break;
-
 	case MODE_GAME:		// ゲーム
 		UninitGame();
-		break;
-
-	case MODE_RESULT:	// リザルト
 		break;
 
 	case MODE_NONE:
@@ -167,17 +122,14 @@ void SetMode(void)
 		break;
 	}
 
+	// テクスチャの解放
+	UnloadTextureAll();
+
 	// 矩形の終了
 	UninitRectangle();
 
-	// 3D矩形の終了
-	UninitRectangle3D();
-
 	// 矩形の初期化
 	InitRectangle();
-
-	// 3D矩形の初期化
-	InitRectangle3D();
 
 	s_mode = s_modeNext;	// 現在の画面(モード)を切り替える
 	
@@ -186,16 +138,12 @@ void SetMode(void)
 	case MODE_TITLE:	// タイトル
 		break;
 
-	case MODE_TUTORIAL:	// チュートリアル
-		break;
-
 	case MODE_GAME:		// ゲーム
+		s_pUpdateFunc = UpdateGame;
+		s_pDrawFunc = DrawGame;
 		InitGame();
 		break;
-
-	case MODE_RESULT:	// リザルト
-		break;
-
+	
 	case MODE_NONE:
 	default:
 		assert(false);
@@ -222,3 +170,20 @@ void ChangeMode(EMode inModeNext)
 
 	s_modeNext = inModeNext;
 }
+
+namespace
+{
+//--------------------------------------------------
+// 更新をしない
+//--------------------------------------------------
+void UpdateNone(void)
+{
+}
+
+//--------------------------------------------------
+// 描画をしない
+//--------------------------------------------------
+void DrawNone(void)
+{
+}
+}// namespaceはここまで

@@ -20,7 +20,10 @@ namespace
 {
 const char *s_FileName[] =
 {// テクスチャのパス	
-	"data/TEXTURE/Cursor_Right.png",	// カーソル
+	"data/TEXTURE/Number_000.png",		// 数字000
+	"data/TEXTURE/Roulette.png",		// タイトルロゴ
+	"data/TEXTURE/BG.jpg",				// 背景
+	"data/TEXTURE/GameStart_008.png",	// スタート
 };
 }// namespaceはここまで
 
@@ -35,9 +38,9 @@ LPDIRECT3DTEXTURE9 s_pTexture[TEXTURE_MAX];
 }// namespaceはここまで
 
 //--------------------------------------------------
-// 読み込み
+// 全ての読み込み
 //--------------------------------------------------
-void LoadTexture(void)
+void LoadTextureAll(void)
 {
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
@@ -52,9 +55,23 @@ void LoadTexture(void)
 }
 
 //--------------------------------------------------
-// 終了
+// 読み込み
 //--------------------------------------------------
-void UninitTexture(void)
+void LoadTexture(TEXTURE inTexture)
+{
+	// デバイスへのポインタの取得
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	// テクスチャの読み込み
+	D3DXCreateTextureFromFile(pDevice,
+		s_FileName[inTexture],
+		&s_pTexture[inTexture]);
+}
+
+//--------------------------------------------------
+// 全ての解放
+//--------------------------------------------------
+void UnloadTextureAll(void)
 {
 	for (int i = 0; i < TEXTURE_MAX; ++i)
 	{
@@ -63,6 +80,18 @@ void UninitTexture(void)
 			s_pTexture[i]->Release();
 			s_pTexture[i] = NULL;
 		}
+	}
+}
+
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void UnloadTexture(TEXTURE inTexture)
+{
+	if (s_pTexture[inTexture] != NULL)
+	{// テクスチャの解放
+		s_pTexture[inTexture]->Release();
+		s_pTexture[inTexture] = NULL;
 	}
 }
 
@@ -77,6 +106,12 @@ LPDIRECT3DTEXTURE9 GetTexture(TEXTURE inTexture)
 	}
 
 	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
+
+	if (s_pTexture[inTexture] == NULL)
+	{// テクスチャの読み込みがされていない
+		// 読み込み
+		LoadTexture(inTexture);
+	}
 
 	return s_pTexture[inTexture];
 }
