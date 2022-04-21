@@ -19,6 +19,7 @@
 #include "utility.h"
 #include "player.h"
 #include "camera.h"
+#include "bg.h"
 
 #include <assert.h>
 
@@ -37,6 +38,9 @@ bool		s_pause = false;				// ポーズ中かどうか [してる  : true してない  : false]
 //--------------------------------------------------
 void InitGame(void)
 {
+	// 背景の初期化
+	InitBG();
+
 	// プレイヤーの初期化
 	InitPlayer();
 
@@ -55,6 +59,9 @@ void InitGame(void)
 //--------------------------------------------------
 void UninitGame(void)
 {
+	// 背景の終了
+	UninitBG();
+
 	// カメラの終了
 	UninitCamera();
 
@@ -67,6 +74,8 @@ void UninitGame(void)
 //--------------------------------------------------
 void UpdateGame(void)
 {
+	// プレイヤーの更新
+	UpdatePlayer();
 }
 
 //--------------------------------------------------

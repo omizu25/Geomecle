@@ -31,6 +31,7 @@ struct Player
 	D3DXVECTOR3	rot;		// 向き
 	D3DXVECTOR3	rotDest;	// 目的の向き
 	D3DXVECTOR3	move;		// 移動量
+	int			idx;		// 3D矩形のインデックス
 };
 }// namespaceはここまで
 
@@ -39,8 +40,7 @@ struct Player
 //==================================================
 namespace
 {
-int		s_idx3DPlayer;	// 3D矩形のインデックス
-Player	s_player;		// プレイヤーの情報
+Player	s_player;	// プレイヤーの情報
 }// namespaceはここまで
 
 //==================================================
@@ -51,22 +51,21 @@ namespace
 void Rot(void);
 }// namespaceはここまで
 
-
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
 void InitPlayer(void)
 {
 	//メモリのクリア
-	ZeroMemory(&s_player, sizeof(s_player));
+	memset(&s_player, 0, sizeof(s_player));
 
 	// 3D矩形の設定
-	s_idx3DPlayer = SetRectangle3D(TEXTURE_NONE);
+	s_player.idx = SetRectangle3D(TEXTURE_NONE);
 
 	D3DXVECTOR3 size = D3DXVECTOR3(PLAYER_SIZE, PLAYER_SIZE, 0.0f);
 
 	// 3D矩形の位置の設定
-	SetSizeRectangle3D(s_idx3DPlayer, size);
+	SetSizeRectangle3D(s_player.idx, size);
 }
 
 //--------------------------------------------------
@@ -113,6 +112,9 @@ void UpdatePlayer(void)
 	// 慣性・移動量を更新 (減衰させる)
 	s_player.move.x += (0.0f - s_player.move.x) * 1.0f;
 	s_player.move.y += (0.0f - s_player.move.y) * 1.0f;
+
+	// 矩形の位置の設定
+	SetPosRectangle3D(s_player.idx, s_player.pos);
 }
 
 //--------------------------------------------------
