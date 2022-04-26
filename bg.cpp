@@ -81,8 +81,8 @@ void InitBG(void)
 		// 矩形の設定
 		s_idxTop = SetRectangle3D(TEXTURE_NONE);
 
-		D3DXVECTOR3 size = D3DXVECTOR3(BG_LENGTH, BG_SIZE, 0.0f);
-		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, BG_LENGTH * 0.5f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(BG_SIZE, BG_LENGTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(-BG_LENGTH * 0.5f, 0.0f, 0.0f);
 
 		// 矩形の位置の設定
 		SetPosRectangle3D(s_idxTop, pos);
@@ -95,8 +95,8 @@ void InitBG(void)
 		// 矩形の設定
 		s_idxTop = SetRectangle3D(TEXTURE_NONE);
 
-		D3DXVECTOR3 size = D3DXVECTOR3(BG_LENGTH, BG_SIZE, 0.0f);
-		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, BG_LENGTH * 0.5f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(BG_SIZE, BG_LENGTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(BG_LENGTH * 0.5f, 0.0f, 0.0f);
 
 		// 矩形の位置の設定
 		SetPosRectangle3D(s_idxTop, pos);
