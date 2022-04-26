@@ -14,6 +14,7 @@
 #include "color.h"
 #include "input.h"
 #include "utility.h"
+#include "bg.h"
 
 #include <assert.h>
 
@@ -48,7 +49,9 @@ Player	s_player;	// ÉvÉåÉCÉÑÅ[ÇÃèÓïÒ
 //==================================================
 namespace
 {
+void Move(void);
 void Rot(void);
+void MovingLimit(void);
 }// namespaceÇÕÇ±Ç±Ç‹Ç≈
 
 //--------------------------------------------------
@@ -60,7 +63,7 @@ void InitPlayer(void)
 	memset(&s_player, 0, sizeof(s_player));
 
 	// 3DãÈå`ÇÃê›íË
-	s_player.idx = SetRectangle3D(TEXTURE_NONE);
+	s_player.idx = SetRectangle3D(TEXTURE_Hackathon_Direction_Yellow);
 
 	D3DXVECTOR3 size = D3DXVECTOR3(PLAYER_SIZE, PLAYER_SIZE, 0.0f);
 
@@ -79,6 +82,36 @@ void UninitPlayer(void)
 // çXêV
 //--------------------------------------------------
 void UpdatePlayer(void)
+{
+	// à⁄ìÆ
+	Move();
+
+	// âÒì]
+	Rot();
+
+	// à⁄ìÆêßå¿
+	MovingLimit();
+
+	// ãÈå`ÇÃà íuÇÃê›íË
+	SetPosRectangle3D(s_player.idx, s_player.pos);
+
+	// ãÈå`ÇÃå¸Ç´ÇÃê›íË
+	SetRotRectangle3D(s_player.idx, s_player.rot);
+}
+
+//--------------------------------------------------
+// ï`âÊ
+//--------------------------------------------------
+void DrawPlayer(void)
+{
+}
+
+namespace
+{
+//--------------------------------------------------
+// à⁄ìÆ
+//--------------------------------------------------
+void Move(void)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -99,11 +132,16 @@ void UpdatePlayer(void)
 		vec.y -= 1.0f;
 	}
 
+	if ((vec.x == 0.0f) && (vec.y == 0.0f))
+	{// à⁄ìÆÇµÇƒÇ»Ç¢
+		return;
+	}
+
 	// ÉxÉNÉgÉãÇÃê≥ãKâª
 	D3DXVec3Normalize(&vec, &vec);
 
-	s_player.rotDest.y = atan2f(vec.x, vec.y) + D3DX_PI;
-	s_player.move += vec * 5.0f;
+	s_player.rotDest.z = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
+	s_player.move += vec * 7.0f;
 
 	// à⁄ìÆ
 	s_player.pos.x += s_player.move.x;
@@ -112,39 +150,55 @@ void UpdatePlayer(void)
 	// äµê´ÅEà⁄ìÆó ÇçXêV (å∏êäÇ≥ÇπÇÈ)
 	s_player.move.x += (0.0f - s_player.move.x) * 1.0f;
 	s_player.move.y += (0.0f - s_player.move.y) * 1.0f;
-
-	// ãÈå`ÇÃà íuÇÃê›íË
-	SetPosRectangle3D(s_player.idx, s_player.pos);
 }
 
-//--------------------------------------------------
-// ï`âÊ
-//--------------------------------------------------
-void DrawPlayer(void)
-{
-}
-
-namespace
-{
 //--------------------------------------------------
 // âÒì]
 //--------------------------------------------------
 void Rot(void)
 {
-	D3DXVECTOR3 angle = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	if (s_player.rot.z == s_player.rotDest.z)
+	{// âÒì]ÇµÇƒÇ»Ç¢
+		return;
+	}
 
 	// äpìxÇÃê≥ãKâª
 	NormalizeAngle(&s_player.rotDest.z);
 
-	angle.z = s_player.rotDest.z - s_player.rot.z;
-
-	// äpìxÇÃê≥ãKâª
-	NormalizeAngle(&angle.z);
-
 	//äµê´ÅEå¸Ç´ÇçXêV (å∏êäÇ≥ÇπÇÈ)
-	s_player.rot.z += angle.z * 1.0f;
+	s_player.rot.z += s_player.rotDest.z - s_player.rot.z;
 
 	// äpìxÇÃê≥ãKâª
 	NormalizeAngle(&s_player.rot.z);
+}
+
+//--------------------------------------------------
+// à⁄ìÆêßå¿
+//--------------------------------------------------
+void MovingLimit(void)
+{
+	// îwåiÇÃÉTÉCÉYÇÃéÊìæ
+	float sizeBG = GetSizeBG();
+
+	float plus = sizeBG - PLAYER_SIZE;
+	float minus = (sizeBG * -1.0f) + PLAYER_SIZE;
+
+	if (s_player.pos.y >= plus)
+	{// è„
+		s_player.pos.y = plus;
+	}
+	else if (s_player.pos.y <= minus)
+	{// â∫
+		s_player.pos.y = minus;
+	}
+
+	if (s_player.pos.x >= plus)
+	{// âE
+		s_player.pos.x = plus;
+	}
+	else if (s_player.pos.x <= minus)
+	{// ç∂
+		s_player.pos.x = minus;
+	}
 }
 }// namespaceÇÕÇ±Ç±Ç‹Ç≈

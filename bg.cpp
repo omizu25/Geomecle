@@ -22,7 +22,7 @@
 //==================================================
 namespace
 {
-const float	BG_SIZE = 30.0f;		// îwåiÇÃÉTÉCÉY
+const float	BG_SIZE = 10.0f;		// îwåiÇÃÉTÉCÉY
 const float	BG_LENGTH = 1200.0f;	// îwåiÇÃí∑Ç≥
 }// namespaceÇÕÇ±Ç±Ç‹Ç≈
 
@@ -125,4 +125,13 @@ void UpdateBG(void)
 //--------------------------------------------------
 void DrawBG(void)
 {
+}
+
+//--------------------------------------------------
+// éÊìæ
+// float  : îwåiÇÃÉTÉCÉY
+//--------------------------------------------------
+float GetSizeBG(void)
+{
+	return BG_LENGTH * 0.5f;
 }

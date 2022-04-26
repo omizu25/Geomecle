@@ -12,10 +12,7 @@
 //==================================================
 typedef enum
 {
-	TEXTURE_Number_000 = 0,	// 数字000
-	TEXTURE_Roulette,		// タイトルロゴ
-	TEXTURE_BG,				// 背景
-	TEXTURE_GameStart_008,	// スタート
+	TEXTURE_Hackathon_Direction_Yellow = 0,	// 仮画像
 	TEXTURE_MAX,
 	TEXTURE_NONE,	// 使用しない
 }TEXTURE;

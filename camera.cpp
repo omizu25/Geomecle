@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "game.h"
 #include "input.h"
+#include "bg.h"
 
 #include <assert.h>
 
@@ -31,6 +32,15 @@ namespace
 {
 SCamera	s_camera;	// カメラの情報
 }
+
+//==================================================
+// スタティック関数プロトタイプ宣言
+//==================================================
+namespace
+{
+void Move(void);
+void MovingLimit(void);
+}// namespaceはここまで
 
 //--------------------------------------------------
 // 初期化
@@ -67,7 +77,11 @@ void UninitCamera(void)
 //--------------------------------------------------
 void UpdateCamera(void)
 {
+	// 移動
+	Move();
 
+	// 移動制限
+	MovingLimit();
 }
 
 //--------------------------------------------------
@@ -113,3 +127,71 @@ SCamera *GetCamera(void)
 {
 	return &s_camera;
 }
+
+namespace
+{
+//--------------------------------------------------
+// 移動
+//--------------------------------------------------
+void Move(void)
+{
+	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	if (GetMoveKeyPress(MOVE_KEY_LEFT))
+	{// 左キーが押された
+		vec.x -= 1.0f;
+	}
+	if (GetMoveKeyPress(MOVE_KEY_RIGHT))
+	{// 右キーが押された
+		vec.x += 1.0f;
+	}
+	if (GetMoveKeyPress(MOVE_KEY_UP))
+	{// 上キーが押された
+		vec.y += 1.0f;
+	}
+	if (GetMoveKeyPress(MOVE_KEY_DOWN))
+	{// 下キーが押された
+		vec.y -= 1.0f;
+	}
+
+	// ベクトルの正規化
+	D3DXVec3Normalize(&vec, &vec);
+
+	s_camera.posR += vec * 5.0f;
+	s_camera.posV += vec * 5.0f;
+}
+
+//--------------------------------------------------
+// 移動制限
+//--------------------------------------------------
+void MovingLimit(void)
+{
+	// 背景のサイズの取得
+	float sizeBG = GetSizeBG();
+
+	float plus = sizeBG * 0.5f;
+	float minus = (sizeBG * -1.0f) * 0.5f;
+
+	if (s_camera.posR.y >= plus)
+	{// 上
+		s_camera.posR.y = plus;
+		s_camera.posV.y = plus;
+	}
+	else if (s_camera.posR.y <= minus)
+	{// 下
+		s_camera.posR.y = minus;
+		s_camera.posV.y = minus;
+	}
+
+	if (s_camera.posR.x >= plus)
+	{// 右
+		s_camera.posR.x = plus;
+		s_camera.posV.x = plus;
+	}
+	else if (s_camera.posR.x <= minus)
+	{// 左
+		s_camera.posR.x = minus;
+		s_camera.posV.x = minus;
+	}
+}
+}// namespaceはここまで

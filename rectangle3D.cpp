@@ -110,8 +110,8 @@ void DrawRectangle3D(void)
 		// ワールドマトリックスの初期化
 		D3DXMatrixIdentity(&pRectangle3D->mtxWorld);
 
-		// 向きを反映
-		D3DXMatrixRotationYawPitchRoll(&mtxRot, pRectangle3D->rot.y, pRectangle3D->rot.x, pRectangle3D->rot.z);
+		// Zの向きを反映
+		D3DXMatrixRotationZ(&mtxRot, pRectangle3D->rot.z);
 		D3DXMatrixMultiply(&pRectangle3D->mtxWorld, &pRectangle3D->mtxWorld, &mtxRot);
 
 		// 位置を反映
