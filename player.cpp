@@ -63,7 +63,7 @@ void InitPlayer(void)
 	memset(&s_player, 0, sizeof(s_player));
 
 	// 3D矩形の設定
-	s_player.idx = SetRectangle3D(TEXTURE_Hackathon_Direction_Yellow);
+	s_player.idx = SetRectangle3D(TEXTURE_icon_122380_256);
 
 	D3DXVECTOR3 size = D3DXVECTOR3(PLAYER_SIZE, PLAYER_SIZE, 0.0f);
 
@@ -165,8 +165,13 @@ void Rot(void)
 	// 角度の正規化
 	NormalizeAngle(&s_player.rotDest.z);
 
+	float rot = s_player.rotDest.z - s_player.rot.z;
+
+	// 角度の正規化
+	NormalizeAngle(&rot);
+
 	//慣性・向きを更新 (減衰させる)
-	s_player.rot.z += s_player.rotDest.z - s_player.rot.z;
+	s_player.rot.z += rot * 0.25f;
 
 	// 角度の正規化
 	NormalizeAngle(&s_player.rot.z);

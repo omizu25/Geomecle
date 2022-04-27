@@ -20,7 +20,8 @@ namespace
 {
 const char *s_FileName[] =
 {// テクスチャのパス	
-	"data/TEXTURE/Hackathon_Direction_Yellow.png",	// 仮画像
+	"data/TEXTURE/icon_122380_256.png",	// 仮画像1
+	"data/TEXTURE/icon_122540_256.png",	// 仮画像2
 };
 }// namespaceはここまで
 

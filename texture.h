@@ -12,7 +12,8 @@
 //==================================================
 typedef enum
 {
-	TEXTURE_Hackathon_Direction_Yellow = 0,	// ‰¼‰æ‘œ
+	TEXTURE_icon_122380_256 = 0,	// ‰¼‰æ‘œ1
+	TEXTURE_icon_122540_256,		// ‰¼‰æ‘œ2
 	TEXTURE_MAX,
 	TEXTURE_NONE,	// Žg—p‚µ‚È‚¢
 }TEXTURE;
