@@ -1,6 +1,6 @@
 //**************************************************
 //
-// Hackathon ( player.cpp )
+// Hackathon ( snake.cpp )
 // Author  : katsuki mizuki
 //
 //**************************************************
@@ -9,7 +9,7 @@
 // インクルード
 //==================================================
 #include "rectangle3D.h"
-#include "player.h"
+#include "snake.h"
 #include "texture.h"
 #include "color.h"
 #include "input.h"
@@ -23,68 +23,65 @@
 //==================================================
 namespace
 {
-const float	PLAYER_SIZE = 30.0f;	// プレイヤーのサイズ
-
-/* プレイヤー */
-struct Player
+/* 蛇 */
+struct Snake
 {
 	D3DXVECTOR3	pos;		// 位置
 	D3DXVECTOR3	rot;		// 向き
 	D3DXVECTOR3	rotDest;	// 目的の向き
 	D3DXVECTOR3	move;		// 移動量
+	float		size;		// サイズ
 	int			idx;		// 3D矩形のインデックス
 };
 }// namespaceはここまで
 
-//==================================================
-// スタティック変数
-//==================================================
+ //==================================================
+ // スタティック変数
+ //==================================================
 namespace
 {
-Player	s_player;	// プレイヤーの情報
+Snake	s_snake;	// 蛇の情報
 }// namespaceはここまで
 
-//==================================================
-// スタティック関数プロトタイプ宣言
-//==================================================
+ //==================================================
+ // スタティック関数プロトタイプ宣言
+ //==================================================
 namespace
 {
+void Load(void);
 void Move(void);
 void Rot(void);
 void MovingLimit(void);
 }// namespaceはここまで
 
-//--------------------------------------------------
-// 初期化
-//--------------------------------------------------
-void InitPlayer(void)
+ //--------------------------------------------------
+ // 初期化
+ //--------------------------------------------------
+void InitSnake(void)
 {
 	//メモリのクリア
-	memset(&s_player, 0, sizeof(s_player));
+	memset(&s_snake, 0, sizeof(s_snake));
 
 	// 3D矩形の設定
-	s_player.idx = SetRectangle3D(TEXTURE_icon_122380_256);
+	s_snake.idx = SetRectangle3D(TEXTURE_icon_122380_256);
 
-	D3DXVECTOR3 size = D3DXVECTOR3(PLAYER_SIZE, PLAYER_SIZE, 0.0f);
+	D3DXVECTOR3 size = D3DXVECTOR3(s_snake.size, s_snake.size, 0.0f);
 
 	// 3D矩形の位置の設定
-	SetSizeRectangle3D(s_player.idx, size);
-
-	// 3D矩形の色の設定
-	SetColorRectangle3D(s_player.idx, GetColor(COLOR_LIGHTBLUE));
+	SetSizeRectangle3D(s_snake.idx, size);
 }
 
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void UninitPlayer(void)
+void UninitSnake(void)
 {
 }
 
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void UpdatePlayer(void)
+void UpdateSnake(void)
 {
 	// 移動
 	Move();
@@ -96,16 +93,16 @@ void UpdatePlayer(void)
 	MovingLimit();
 
 	// 矩形の位置の設定
-	SetPosRectangle3D(s_player.idx, s_player.pos);
+	SetPosRectangle3D(s_snake.idx, s_snake.pos);
 
 	// 矩形の向きの設定
-	SetRotRectangle3D(s_player.idx, s_player.rot);
+	SetRotRectangle3D(s_snake.idx, s_snake.rot);
 }
 
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void DrawPlayer(void)
+void DrawSnake(void)
 {
 }
 
@@ -143,16 +140,16 @@ void Move(void)
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
-	s_player.rotDest.z = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
-	s_player.move += vec * 7.0f;
+	s_snake.rotDest.z = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
+	s_snake.move += vec * 7.0f;
 
 	// 移動
-	s_player.pos.x += s_player.move.x;
-	s_player.pos.y += s_player.move.y;
+	s_snake.pos.x += s_snake.move.x;
+	s_snake.pos.y += s_snake.move.y;
 
 	// 慣性・移動量を更新 (減衰させる)
-	s_player.move.x += (0.0f - s_player.move.x) * 1.0f;
-	s_player.move.y += (0.0f - s_player.move.y) * 1.0f;
+	s_snake.move.x += (0.0f - s_snake.move.x) * 1.0f;
+	s_snake.move.y += (0.0f - s_snake.move.y) * 1.0f;
 }
 
 //--------------------------------------------------
@@ -160,24 +157,24 @@ void Move(void)
 //--------------------------------------------------
 void Rot(void)
 {
-	if (s_player.rot.z == s_player.rotDest.z)
+	if (s_snake.rot.z == s_snake.rotDest.z)
 	{// 回転してない
 		return;
 	}
 
 	// 角度の正規化
-	NormalizeAngle(&s_player.rotDest.z);
+	NormalizeAngle(&s_snake.rotDest.z);
 
-	float rot = s_player.rotDest.z - s_player.rot.z;
+	float rot = s_snake.rotDest.z - s_snake.rot.z;
 
 	// 角度の正規化
 	NormalizeAngle(&rot);
 
 	//慣性・向きを更新 (減衰させる)
-	s_player.rot.z += rot * 0.25f;
+	s_snake.rot.z += rot * 0.25f;
 
 	// 角度の正規化
-	NormalizeAngle(&s_player.rot.z);
+	NormalizeAngle(&s_snake.rot.z);
 }
 
 //--------------------------------------------------
@@ -188,25 +185,25 @@ void MovingLimit(void)
 	// 背景のサイズの取得
 	float sizeBG = GetSizeBG();
 
-	float plus = sizeBG - PLAYER_SIZE;
-	float minus = (sizeBG * -1.0f) + PLAYER_SIZE;
+	float plus = sizeBG - s_snake.size;
+	float minus = (sizeBG * -1.0f) + s_snake.size;
 
-	if (s_player.pos.y >= plus)
+	if (s_snake.pos.y >= plus)
 	{// 上
-		s_player.pos.y = plus;
+		s_snake.pos.y = plus;
 	}
-	else if (s_player.pos.y <= minus)
+	else if (s_snake.pos.y <= minus)
 	{// 下
-		s_player.pos.y = minus;
+		s_snake.pos.y = minus;
 	}
 
-	if (s_player.pos.x >= plus)
+	if (s_snake.pos.x >= plus)
 	{// 右
-		s_player.pos.x = plus;
+		s_snake.pos.x = plus;
 	}
-	else if (s_player.pos.x <= minus)
+	else if (s_snake.pos.x <= minus)
 	{// 左
-		s_player.pos.x = minus;
+		s_snake.pos.x = minus;
 	}
 }
 }// namespaceはここまで

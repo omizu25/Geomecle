@@ -68,7 +68,7 @@ int IntRandam(int inMax, int inMin)
 //--------------------------------------------------
 float SinCurve(int inTime, float inCycle)
 {
-	return  (sinf((inTime * inCycle) * (D3DX_PI * 2.0f)) + 1.0f) * 0.5f;
+	return (sinf((inTime * inCycle) * (D3DX_PI * 2.0f)) + 1.0f) * 0.5f;
 }
 
 //--------------------------------------------------
@@ -76,7 +76,7 @@ float SinCurve(int inTime, float inCycle)
 //--------------------------------------------------
 float CosCurve(int inTime, float inCycle)
 {
-	return  (cosf((inTime * inCycle) * (D3DX_PI * 2.0f)) + 1.0f) * 0.5f;
+	return (cosf((inTime * inCycle) * (D3DX_PI * 2.0f)) + 1.0f) * 0.5f;
 }
 
 //--------------------------------------------------
