@@ -45,6 +45,11 @@ void LoadTextureAll(void)
 
 	for (int i = 0; i < TEXTURE_MAX; ++i)
 	{
+		if (s_pTexture[i] != NULL)
+		{// テクスチャの読み込みがされている
+			continue;
+		}
+
 		// テクスチャの読み込み
 		D3DXCreateTextureFromFile(pDevice,
 			s_FileName[i],
@@ -57,6 +62,13 @@ void LoadTextureAll(void)
 //--------------------------------------------------
 void LoadTexture(TEXTURE inTexture)
 {
+	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
+
+	if (s_pTexture[inTexture] != NULL)
+	{// テクスチャの読み込みがされている
+		return;
+	}
+
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = GetDevice();
 
@@ -86,11 +98,35 @@ void UnloadTextureAll(void)
 //--------------------------------------------------
 void UnloadTexture(TEXTURE inTexture)
 {
+	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
+
 	if (s_pTexture[inTexture] != NULL)
 	{// テクスチャの解放
 		s_pTexture[inTexture]->Release();
 		s_pTexture[inTexture] = NULL;
 	}
+}
+
+//--------------------------------------------------
+// 取得
+// 引数  : char* inFileName / 文字列 ファイル名
+// 返値  : TEXTURE / テクスチャの種類
+//--------------------------------------------------
+TEXTURE GetFileNameTexture(char* inFileName)
+{
+	for (int i = 0; i < TEXTURE_MAX; i++)
+	{
+		if (strcmp(inFileName, s_FileName[i]) == 0)
+		{// 文字列が同じ
+			// 読み込み
+			LoadTexture((TEXTURE)i);
+
+			return (TEXTURE)i;
+		}
+	}
+
+	assert(false);
+	return TEXTURE_NONE;
 }
 
 //--------------------------------------------------
@@ -105,11 +141,8 @@ LPDIRECT3DTEXTURE9 GetTexture(TEXTURE inTexture)
 
 	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
 
-	if (s_pTexture[inTexture] == NULL)
-	{// テクスチャの読み込みがされていない
-		// 読み込み
-		LoadTexture(inTexture);
-	}
+	// 読み込み
+	LoadTexture(inTexture);
 
 	return s_pTexture[inTexture];
 }
