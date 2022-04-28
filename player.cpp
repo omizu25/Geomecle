@@ -26,12 +26,12 @@ namespace
 const float	PLAYER_SIZE = 30.0f;	// プレイヤーのサイズ
 
 /* プレイヤー */
-struct Player
+struct SPlayer
 {
 	D3DXVECTOR3	pos;		// 位置
-	D3DXVECTOR3	rot;		// 向き
-	D3DXVECTOR3	rotDest;	// 目的の向き
 	D3DXVECTOR3	move;		// 移動量
+	float		rot;		// 向き
+	float		rotDest;	// 目的の向き
 	int			idx;		// 3D矩形のインデックス
 };
 }// namespaceはここまで
@@ -41,7 +41,7 @@ struct Player
 //==================================================
 namespace
 {
-Player	s_player;	// プレイヤーの情報
+SPlayer	s_player;	// プレイヤーの情報
 }// namespaceはここまで
 
 //==================================================
@@ -143,7 +143,7 @@ void Move(void)
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
-	s_player.rotDest.z = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
+	s_player.rotDest = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
 	s_player.move += vec * 7.0f;
 
 	// 移動
@@ -160,24 +160,24 @@ void Move(void)
 //--------------------------------------------------
 void Rot(void)
 {
-	if (s_player.rot.z == s_player.rotDest.z)
+	if (s_player.rot == s_player.rotDest)
 	{// 回転してない
 		return;
 	}
 
 	// 角度の正規化
-	NormalizeAngle(&s_player.rotDest.z);
+	NormalizeAngle(&s_player.rotDest);
 
-	float rot = s_player.rotDest.z - s_player.rot.z;
+	float rot = s_player.rotDest - s_player.rot;
 
 	// 角度の正規化
 	NormalizeAngle(&rot);
 
 	//慣性・向きを更新 (減衰させる)
-	s_player.rot.z += rot * 0.25f;
+	s_player.rot += rot * 0.25f;
 
 	// 角度の正規化
-	NormalizeAngle(&s_player.rot.z);
+	NormalizeAngle(&s_player.rot);
 }
 
 //--------------------------------------------------

@@ -29,7 +29,7 @@ typedef struct
 	LPDIRECT3DVERTEXBUFFER9	pVtxBuff;	// 頂点バッファ
 	D3DXMATRIX				mtxWorld;	// ワールドマトリックス
 	D3DXVECTOR3				pos;		// 位置
-	D3DXVECTOR3				rot;		// 向き
+	float					rot;		// 向き
 	bool					use;		// 使用しているかどうか
 	bool					draw;		// 描画するかどうか
 	bool					add;		// 加算合成するかどうか
@@ -111,7 +111,7 @@ void DrawRectangle3D(void)
 		D3DXMatrixIdentity(&pRectangle3D->mtxWorld);
 
 		// Zの向きを反映
-		D3DXMatrixRotationZ(&mtxRot, pRectangle3D->rot.z);
+		D3DXMatrixRotationZ(&mtxRot, pRectangle3D->rot);
 		D3DXMatrixMultiply(&pRectangle3D->mtxWorld, &pRectangle3D->mtxWorld, &mtxRot);
 
 		// 位置を反映
@@ -176,7 +176,7 @@ int SetRectangle3DWithTex(LPDIRECT3DTEXTURE9 pTexture)
 		pRectangle3D->draw = true;
 		pRectangle3D->add = false;
 		pRectangle3D->pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		pRectangle3D->rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pRectangle3D->rot = 0.0f;
 
 		// 頂点バッファの生成
 		GetDevice()->CreateVertexBuffer(
@@ -262,7 +262,7 @@ void SetPosRectangle3D(int inIdx, const D3DXVECTOR3& inPos)
 //--------------------------------------------------
 // 向きの設定
 //--------------------------------------------------
-void SetRotRectangle3D(int inIdx, const D3DXVECTOR3& inRot)
+void SetRotRectangle3D(int inIdx, float inRot)
 {
 	assert(inIdx >= 0 && inIdx < MAX_RECTANGLE3D);
 

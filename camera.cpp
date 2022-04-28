@@ -22,7 +22,7 @@
 namespace
 {
 const float	MAX_NEAR = 10.0f;	// ニアの最大値
-const float	MAX_FAR = 2500.0f;	// ファーの最大値
+const float	MAX_FAR = 1000.0f;	// ファーの最大値
 }
 
 //==================================================

@@ -74,9 +74,9 @@ void SetPosRectangle3D(int inIdx, const D3DXVECTOR3& inPos);
 //--------------------------------------------------
 // 向きの設定
 // 引数1  : int inIdx / インデックス
-// 引数2  : D3DXVECTOR3& inRot / 向き
+// 引数2  : float inRot / 向き
 //--------------------------------------------------
-void SetRotRectangle3D(int inIdx, const D3DXVECTOR3& inRot);
+void SetRotRectangle3D(int inIdx, float inRot);
 
 //--------------------------------------------------
 // サイズの設定

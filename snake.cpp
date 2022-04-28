@@ -24,12 +24,12 @@
 namespace
 {
 /* 蛇 */
-struct Snake
+struct SSnake
 {
 	D3DXVECTOR3	pos;		// 位置
-	D3DXVECTOR3	rot;		// 向き
-	D3DXVECTOR3	rotDest;	// 目的の向き
 	D3DXVECTOR3	move;		// 移動量
+	float		rot;		// 向き
+	float		rotDest;	// 目的の向き
 	float		size;		// サイズ
 	int			idx;		// 3D矩形のインデックス
 };
@@ -40,7 +40,7 @@ struct Snake
  //==================================================
 namespace
 {
-Snake	s_snake;	// 蛇の情報
+SSnake	s_snake;	// 蛇の情報
 }// namespaceはここまで
 
  //==================================================
@@ -140,7 +140,7 @@ void Move(void)
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
-	s_snake.rotDest.z = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
+	s_snake.rotDest = atan2f(vec.y, vec.x) - (D3DX_PI * 0.5f);
 	s_snake.move += vec * 7.0f;
 
 	// 移動
@@ -157,24 +157,24 @@ void Move(void)
 //--------------------------------------------------
 void Rot(void)
 {
-	if (s_snake.rot.z == s_snake.rotDest.z)
+	if (s_snake.rot == s_snake.rotDest)
 	{// 回転してない
 		return;
 	}
 
 	// 角度の正規化
-	NormalizeAngle(&s_snake.rotDest.z);
+	NormalizeAngle(&s_snake.rotDest);
 
-	float rot = s_snake.rotDest.z - s_snake.rot.z;
+	float rot = s_snake.rotDest - s_snake.rot;
 
 	// 角度の正規化
 	NormalizeAngle(&rot);
 
 	//慣性・向きを更新 (減衰させる)
-	s_snake.rot.z += rot * 0.25f;
+	s_snake.rot += rot * 0.25f;
 
 	// 角度の正規化
-	NormalizeAngle(&s_snake.rot.z);
+	NormalizeAngle(&s_snake.rot);
 }
 
 //--------------------------------------------------
