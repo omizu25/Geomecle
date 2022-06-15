@@ -76,7 +76,7 @@ void UninitRectangle3D(void)
 void DrawRectangle3D(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 	D3DXMATRIX mtxRot, mtxTrans, mtxView;	// 計算用マトリックス
 
 	// ライトを無効にする
@@ -179,7 +179,7 @@ int SetRectangle3DWithTex(LPDIRECT3DTEXTURE9 pTexture)
 		pRectangle3D->rot = 0.0f;
 
 		// 頂点バッファの生成
-		GetDevice()->CreateVertexBuffer(
+		GetRenderer()->GetDevice()->CreateVertexBuffer(
 			sizeof(VERTEX_3D) * NUM_VERTEX,
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_3D,

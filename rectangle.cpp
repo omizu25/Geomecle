@@ -73,7 +73,7 @@ void UninitRectangle(void)
 void DrawRectangle(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	for (int i = 0; i < MAX_RECTANGLE; i++)
 	{
@@ -153,7 +153,7 @@ int SetRectangleWithTex(LPDIRECT3DTEXTURE9 pTexture)
 		pRectangle->add = false;
 
 		// 頂点バッファの生成
-		GetDevice()->CreateVertexBuffer(
+		GetRenderer()->GetDevice()->CreateVertexBuffer(
 			sizeof(VERTEX_2D) * NUM_VERTEX,
 			D3DUSAGE_WRITEONLY,
 			FVF_VERTEX_2D,

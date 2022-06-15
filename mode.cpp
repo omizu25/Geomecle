@@ -97,6 +97,7 @@ void SetMode(void)
 	if (GetFade() == FADE_NONE)
 	{// ‰½‚à‚µ‚Ä‚¢‚È‚¢ó‘Ô‚È‚ç
 		StartFadeOut();
+		return;
 	}
 
 	if (GetFade() != FADE_IN)

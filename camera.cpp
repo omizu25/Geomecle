@@ -90,7 +90,7 @@ void UpdateCamera(void)
 void SetCamera(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	// ビューマトリックスの初期化
 	D3DXMatrixIdentity(&s_camera.mtxView);
@@ -111,11 +111,11 @@ void SetCamera(void)
 	// プロジェクションマトリックスの作成
 	D3DXMatrixOrthoLH(
 		&s_camera.mtxProjection,
-		(float)SCREEN_WIDTH,
-		(float)SCREEN_HEIGHT,
+		(float)CRenderer::SCREEN_WIDTH,
+		(float)CRenderer::SCREEN_HEIGHT,
 		MAX_NEAR,
 		MAX_FAR);
-
+	
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &s_camera.mtxProjection);
 }
@@ -137,19 +137,21 @@ void Move(void)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	if (GetMoveKeyPress(MOVE_KEY_LEFT))
+	CInput* pInput = CInput::GetKey();
+
+	if (pInput->Press(CInput::KEY_LEFT))
 	{// 左キーが押された
 		vec.x -= 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_RIGHT))
+	if (pInput->Press(CInput::KEY_RIGHT))
 	{// 右キーが押された
 		vec.x += 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_UP))
+	if (pInput->Press(CInput::KEY_UP))
 	{// 上キーが押された
 		vec.y += 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_DOWN))
+	if (pInput->Press(CInput::KEY_DOWN))
 	{// 下キーが押された
 		vec.y -= 1.0f;
 	}

@@ -38,7 +38,7 @@ float					s_alpha;			// ポリゴン(フェード)のα値
 void InitFade(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	s_alpha = 0.0f;	// 黒いポリゴン(不透明)にしておく
 	s_fade = FADE_NONE;	// 何もしてない状態
@@ -56,9 +56,9 @@ void InitFade(void)
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	s_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	float width = SCREEN_WIDTH * 0.5f;
-	float height = SCREEN_HEIGHT * 0.5f;
+	
+	float width = CRenderer::SCREEN_WIDTH * 0.5f;
+	float height = CRenderer::SCREEN_HEIGHT * 0.5f;
 
 	D3DXVECTOR3 pos = D3DXVECTOR3(width, height, 0.0f);
 
@@ -161,7 +161,7 @@ void UpdateFade(void)
 void DrawFade(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, s_pVtxBuff, 0, sizeof(VERTEX_2D));

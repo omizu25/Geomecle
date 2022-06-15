@@ -41,7 +41,7 @@ LPDIRECT3DTEXTURE9 s_pTexture[TEXTURE_MAX];
 void LoadTextureAll(void)
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	for (int i = 0; i < TEXTURE_MAX; ++i)
 	{
@@ -70,7 +70,7 @@ void LoadTexture(TEXTURE inTexture)
 	}
 
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = GetRenderer()->GetDevice();
 
 	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,

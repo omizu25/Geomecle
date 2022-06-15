@@ -115,19 +115,21 @@ void Move(void)
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	if (GetMoveKeyPress(MOVE_KEY_LEFT))
+	CInput* pInput = CInput::GetKey();
+
+	if (pInput->Press(CInput::KEY_LEFT))
 	{// 左キーが押された
 		vec.x -= 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_RIGHT))
+	if (pInput->Press(CInput::KEY_RIGHT))
 	{// 右キーが押された
 		vec.x += 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_UP))
+	if (pInput->Press(CInput::KEY_UP))
 	{// 上キーが押された
 		vec.y += 1.0f;
 	}
-	if (GetMoveKeyPress(MOVE_KEY_DOWN))
+	if (pInput->Press(CInput::KEY_DOWN))
 	{// 下キーが押された
 		vec.y -= 1.0f;
 	}

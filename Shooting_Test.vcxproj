@@ -154,11 +154,13 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="inputkeyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="rectangle.cpp" />
     <ClCompile Include="rectangle3D.cpp" />
+    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="snake.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="utility.cpp" />
@@ -170,11 +172,13 @@
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="inputkeyboard.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="rectangle.h" />
     <ClInclude Include="rectangle3D.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="snake.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="utility.h" />
