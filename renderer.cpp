@@ -10,8 +10,8 @@
 //==================================================
 #include "main.h"
 #include "renderer.h"
-#include "mode.h"
-#include "fade.h"
+#include "object.h"
+#include "object2D.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -108,14 +108,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &m_pFont);
 #endif // _DEBUG
 
-	// フェードの初期化
-	InitFade();
-
-	// モードの初期化
-	InitMode();
-
-	// モードの変更
-	ChangeMode(MODE_GAME);
+	// 全ての生成
+	CObject2D::CreateAll();
 
 	return S_OK;
 }
@@ -125,11 +119,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 //--------------------------------------------------
 void CRenderer::Uninit()
 {
-	// モードの終了
-	UninitMode();
-
-	// フェードの終了
-	UninitFade();
+	// 全ての解放
+	CObject::ReleaseAll();
 
 #ifdef _DEBUG
 	if (m_pFont != nullptr)
@@ -157,14 +148,8 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
-	// フェードの更新
-	UpdateFade();
-
-	// モードの更新
-	UpdateMode();
-
-	// モードの設定
-	SetMode();
+	// 全ての更新
+	CObject::UpdateAll();
 }
 
 //--------------------------------------------------
@@ -183,11 +168,9 @@ void CRenderer::Draw()
 
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
-		// モードの描画
-		DrawMode();
 
-		// フェードの描画
-		DrawFade();
+		// 全ての描画
+		CObject::DrawAll();
 
 #ifdef _DEBUG
 		// FPS表示
