@@ -18,9 +18,6 @@
 //==================================================
 class CObject2D : public CObject
 {
-public: /* ’è‹` */
-	static const int MAX_POLYGON = 5;	// ƒ|ƒŠƒSƒ“‚ÌÅ‘å”
-
 public:
 	static CObject2D* Create();	// ¶¬
 

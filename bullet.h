@@ -18,15 +18,11 @@
 //==================================================
 class CBullet : public CObject2D
 {
-public: /* 静的メンバ関数 */
-	static void Create();		// 生成
-	static void ReleaseAll();	// 全ての解放
-	static void UpdateAll();	// 全ての更新
-	static void DrawAll();		// 全ての描画
+private: /* 定義 */
+	static const int MAX_BULLET = 124;	// 弾の最大数
 
-private: /* 静的メンバ変数 */
-	static CBullet* m_pBullet[256];	// 弾の情報
-	static int m_numAll;			// 総数
+public: /* 静的メンバ関数 */
+	static CBullet* Create();	// 生成
 
 public:
 	CBullet();			// デフォルトコンストラクタ

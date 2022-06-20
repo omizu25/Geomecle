@@ -21,69 +21,21 @@ namespace
 {
 }
 
-//==================================================
-// 静的メンバ変数
-//==================================================
-CBullet* CBullet::m_pBullet[256] = {};
-int CBullet::m_numAll = 0;
-
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-void CBullet::Create()
+CBullet* CBullet::Create()
 {
+	CBullet* pBullet = nullptr;
 
-}
+	pBullet = new CBullet;
 
-//--------------------------------------------------
-// 全ての解放
-//--------------------------------------------------
-void CBullet::ReleaseAll()
-{
-	for (int i = 0; i < CObject2D::MAX_POLYGON; i++)
-	{
-		if (m_pBullet[i] == nullptr)
-		{// NULLチェック
-			return;
-		}
-
-		// 終了
-		m_pBullet[i]->Uninit();
+	if (pBullet != nullptr)
+	{// nullチェック
+		pBullet->Init();
 	}
-}
 
-//--------------------------------------------------
-// 全ての更新
-//--------------------------------------------------
-void CBullet::UpdateAll()
-{
-	for (int i = 0; i < CObject2D::MAX_POLYGON; i++)
-	{
-		if (m_pBullet[i] == nullptr)
-		{// NULLチェック
-			return;
-		}
-
-		// 更新
-		m_pBullet[i]->Update();
-	}
-}
-
-//--------------------------------------------------
-// 全ての描画
-//--------------------------------------------------
-void CBullet::DrawAll()
-{
-	for (int i = 0; i < CObject2D::MAX_POLYGON; i++)
-	{
-		if (m_pBullet[i] == nullptr)
-		{// NULLチェック
-			return;
-		}
-
-		// 更新
-		m_pBullet[i]->Draw();
-	}
+	return pBullet;
 }
 
 //--------------------------------------------------
@@ -107,6 +59,15 @@ CBullet::~CBullet()
 HRESULT CBullet::Init()
 {
 	m_life = 60;
+
+	// 初期化
+	CObject2D::Init();
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+
+	// 位置の設定
+	CObject2D::SetPos(pos);
+
 	return S_OK;
 }
 
@@ -115,7 +76,8 @@ HRESULT CBullet::Init()
 //--------------------------------------------------
 void CBullet::Uninit()
 {
-	
+	// 終了
+	CObject2D::Uninit();
 }
 
 //--------------------------------------------------
@@ -123,7 +85,19 @@ void CBullet::Uninit()
 //--------------------------------------------------
 void CBullet::Update()
 {
+	m_life--;
 
+	if (m_life <= 0)
+	{// 体力が亡くなった
+		// 終了
+  		CBullet::Uninit();
+
+		// 解放
+		CObject::Release();
+	}
+
+	// 更新
+	CObject2D::Update();
 }
 
 //--------------------------------------------------
@@ -131,18 +105,6 @@ void CBullet::Update()
 //--------------------------------------------------
 void CBullet::Draw()
 {
-}
-
-//--------------------------------------------------
-// 解放
-//--------------------------------------------------
-void CBullet::Release()
-{
-	if (m_pBullet[m_index] != nullptr)
-	{// NULLチェック
-		int index = m_index;
-		delete m_pBullet[index];
-		m_pBullet[index] = nullptr;
-		m_numAll = 0;
-	}
+	// 描画
+	CObject2D::Draw();
 }

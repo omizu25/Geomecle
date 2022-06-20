@@ -31,7 +31,6 @@ void CObject::ReleaseAll()
 
 		// オブジェクトの終了
 		m_pObject[i]->Uninit();
-
 	}
 }
 

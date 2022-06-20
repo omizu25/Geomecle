@@ -12,6 +12,7 @@
 #include "object2D.h"
 #include "application.h"
 #include "input.h"
+#include "bullet.h"
 #include <assert.h>
 
 //==================================================
@@ -82,6 +83,13 @@ void CPlayer::Uninit()
 //--------------------------------------------------
 void CPlayer::Update()
 {
+	CInput* pInput = CInput::GetKey();
+
+	if (pInput->Press(CInput::KEY_SHOT))
+	{// ¶ƒL[‚ª‰Ÿ‚³‚ê‚½
+		CBullet::Create();
+	}
+
 	// ˆÚ“®
 	Move();
 

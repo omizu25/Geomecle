@@ -14,6 +14,7 @@
 #include "object2D.h"
 #include "input.h"
 #include "player.h"
+#include "bullet.h"
 #include <assert.h>
 
 //==================================================
@@ -83,6 +84,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
+	// ÉvÉåÉCÉÑÅ[ÇÃê∂ê¨
 	CPlayer::Create();
 
 	return S_OK;
