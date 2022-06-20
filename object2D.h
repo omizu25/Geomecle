@@ -8,17 +8,18 @@
 #define _OBJECT2D_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
-// 前方宣言
+// インクルード
 //==================================================
-class CObject;
+#include "object.h"
+#include <d3dx9.h>
 
 //==================================================
 // 定義
 //==================================================
 class CObject2D : public CObject
 {
-public: /* 静的メンバ関数 */
-	static CObject2D* Create();	// 生成
+public: /* 定義 */
+	static const int MAX_POLYGON = 5;	// ポリゴンの最大数
 
 public:
 	CObject2D();			// デフォルトコンストラクタ
@@ -31,14 +32,12 @@ public: /* メンバ関数 */
 	void Draw() override;		// 描画
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
 
-private:
-	void Rotation(const D3DXVECTOR3& pos, float rot, float size);	// 回転
-
-private: /* メンバ変数 */
-	int m_time;			// 時間
+protected:
 	float m_rot;		// 向き
 	float m_size;		// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
+
+private: /* メンバ変数 */
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	LPDIRECT3DTEXTURE9 m_pTexture;		// テクスチャへのポインタ
 };

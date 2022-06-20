@@ -1,27 +1,26 @@
-//=============================================================================
+//**************************************************
 //
 // main.cpp
 // Author : katsuki mizuki
 //
-//=============================================================================
+//**************************************************
 
-//*****************************************************************************
+//==================================================
 // ライブラリーリンク
-//*****************************************************************************
+//==================================================
 #pragma comment(lib,"winmm.lib")
 
-//*****************************************************************************
+//==================================================
 // インクルード
-//*****************************************************************************
+//==================================================
 #include "main.h"
-#include "renderer.h"
-#include "object.h"
+#include "application.h"
 #include <Windows.h>
 #include <tchar.h> // _T
 
-//*****************************************************************************
-// 定数定義
-//*****************************************************************************
+//==================================================
+// 定義
+//==================================================
 namespace
 {
 // ウインドウのクラス名
@@ -29,32 +28,30 @@ LPCTSTR CLASS_NAME = _T("AppClass");
 
 // ウインドウのキャプション名
 LPCTSTR WINDOW_NAME = _T("ポリゴンの描画");
-
-// フルスクリーンにするかどうか
-const bool FULL_SCREEN = true;
 }
 
-//*****************************************************************************
-// プロトタイプ宣言
-//*****************************************************************************
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
-//*****************************************************************************
+//==================================================
 // 変数
-//*****************************************************************************
+//==================================================
 namespace
 {
-CRenderer* s_pRenderer = nullptr;
-
 #ifdef _DEBUG
 // FPSカウンタ
 int s_nCountFPS;
 #endif // _DEBUG
 }
 
-//=============================================================================
+//==================================================
+// プロトタイプ宣言
+//==================================================
+namespace
+{
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+}
+
+//--------------------------------------------------
 // メイン関数
-//=============================================================================
+//--------------------------------------------------
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
 	WNDCLASSEX wcex =
@@ -76,7 +73,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 	// ウィンドウクラスの登録
 	RegisterClassEx(&wcex);
 
-	RECT rect = { 0, 0, CRenderer::SCREEN_WIDTH, CRenderer::SCREEN_HEIGHT };
+	RECT rect = { 0, 0, CApplication::SCREEN_WIDTH, CApplication::SCREEN_HEIGHT };
 
 	// 指定したクライアント領域を確保するために必要なウィンドウ座標を計算
 	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
@@ -94,21 +91,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 		hInstance,
 		NULL);
 
-	if (s_pRenderer == nullptr)
-	{// nullチェック
-		s_pRenderer = new CRenderer;
-	}
+	// 分解能を設定
+	timeBeginPeriod(1);
 
-	if (s_pRenderer != nullptr)
+	CApplication* pApplication = new CApplication;
+
+	if (pApplication != nullptr)
 	{// nullチェック
-		if (FAILED(s_pRenderer->Init(hWnd, FULL_SCREEN)))
-		{// 初期化処理
+		if (FAILED(pApplication->Init(hInstance, hWnd)))
+		{// 初期化
 			return -1;
 		}
 	}
-
-	// 分解能を設定
-	timeBeginPeriod(1);
 
 	// フレームカウント初期化
 	DWORD dwCurrentTime = 0;
@@ -159,13 +153,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 				// 現在の時間を保存
 				dwExecLastTime = dwCurrentTime;
 
-				if (s_pRenderer != nullptr)
+				if (pApplication != nullptr)
 				{// nullチェック
-					// 更新処理
-					s_pRenderer->Update();
+					// 更新
+					pApplication->Update();
 
-					// 描画処理
-					s_pRenderer->Draw();
+					// 描画
+					pApplication->Draw();
 				}
 
 #ifdef _DEBUG
@@ -175,13 +169,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 		}
 	}
 
-	if (s_pRenderer != nullptr)
+	if (pApplication != nullptr)
 	{// nullチェック
 		// 終了処理
-		s_pRenderer->Uninit();
+		pApplication->Uninit();
 
-		delete s_pRenderer;
-		s_pRenderer = nullptr;
+		delete pApplication;
+		pApplication = nullptr;
 	}
 
 	// ウィンドウクラスの登録を解除
@@ -193,9 +187,21 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 	return (int)msg.wParam;
 }
 
-//=============================================================================
+#ifdef _DEBUG
+//--------------------------------------------------
+// FPS取得
+//--------------------------------------------------
+int GetFPS()
+{
+	return s_nCountFPS;
+}
+#endif // _DEBUG
+
+namespace
+{
+//--------------------------------------------------
 // ウインドウプロシージャ
-//=============================================================================
+//--------------------------------------------------
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
@@ -223,21 +229,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
-
-#ifdef _DEBUG
-//--------------------------------------------------
-// FPS取得
-//--------------------------------------------------
-int GetFPS()
-{
-	return s_nCountFPS;
-}
-#endif // _DEBUG
-
-//--------------------------------------------------
-// レンダラーの取得
-//--------------------------------------------------
-CRenderer* GetRenderer()
-{
-	return s_pRenderer;
 }

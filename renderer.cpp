@@ -9,9 +9,9 @@
 // インクルード
 //==================================================
 #include "main.h"
+#include "application.h"
 #include "renderer.h"
-#include "object.h"
-#include "object2D.h"
+#include "player.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -62,8 +62,8 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	// デバイスのプレゼンテーションパラメータの設定
 	ZeroMemory(&d3dpp, sizeof(d3dpp));							// ワークをゼロクリア
 	d3dpp.BackBufferCount = 1;									// バックバッファの数
-	d3dpp.BackBufferWidth = CRenderer::SCREEN_WIDTH;			// ゲーム画面サイズ(幅)
-	d3dpp.BackBufferHeight = CRenderer::SCREEN_HEIGHT;			// ゲーム画面サイズ(高さ)
+	d3dpp.BackBufferWidth = CApplication::SCREEN_WIDTH;			// ゲーム画面サイズ(幅)
+	d3dpp.BackBufferHeight = CApplication::SCREEN_HEIGHT;		// ゲーム画面サイズ(高さ)
 	d3dpp.BackBufferFormat = d3ddm.Format;						// カラーモードの指定
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;					// 映像信号に同期してフリップする
 	d3dpp.EnableAutoDepthStencil = TRUE;						// デプスバッファ（Ｚバッファ）とステンシルバッファを作成
@@ -108,9 +108,6 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 		OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, _T("Terminal"), &m_pFont);
 #endif // _DEBUG
 
-	// 全ての生成
-	CObject2D::CreateAll();
-
 	return S_OK;
 }
 
@@ -119,9 +116,6 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 //--------------------------------------------------
 void CRenderer::Uninit()
 {
-	// 全ての解放
-	CObject::ReleaseAll();
-
 #ifdef _DEBUG
 	if (m_pFont != nullptr)
 	{// デバッグ情報表示用フォントの破棄
@@ -148,8 +142,10 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
-	// 全ての更新
-	CObject::UpdateAll();
+	CPlayer* pPlayer = CApplication::GetPlayer();
+
+	// 更新
+	pPlayer->Update();
 }
 
 //--------------------------------------------------
@@ -169,8 +165,10 @@ void CRenderer::Draw()
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
 
-		// 全ての描画
-		CObject::DrawAll();
+		CPlayer* pPlayer = CApplication::GetPlayer();
+
+		// 描画
+		pPlayer->Draw();
 
 #ifdef _DEBUG
 		// FPS表示
@@ -199,7 +197,7 @@ LPDIRECT3DDEVICE9 CRenderer::GetDevice()
 //--------------------------------------------------
 void CRenderer::DrawFPS()
 {
-	RECT rect = { 0, 0, CRenderer::SCREEN_WIDTH, CRenderer::SCREEN_HEIGHT };
+	RECT rect = { 0, 0, CApplication::SCREEN_WIDTH, CApplication::SCREEN_HEIGHT };
 	TCHAR str[256];
 
 	wsprintf(str, _T("FPS : %d\n"), GetFPS());

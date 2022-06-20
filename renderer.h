@@ -23,20 +23,6 @@
 //==================================================
 class CRenderer
 {
-public: /* 定義 */
-	static const int SCREEN_WIDTH = 1280;	// スクリーンの幅
-	static const int SCREEN_HEIGHT = 720;	// スクリーンの高さ
-
-	static const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);	// 頂点フォーマット
-
-	struct VERTEX_2D
-	{// 頂点データ
-		D3DXVECTOR3 pos;
-		float rhw;
-		D3DCOLOR col;
-		D3DXVECTOR2 tex;
-	};
-
 public:
 	CRenderer();			// デフォルトコンストラクタ
 	virtual ~CRenderer();	// デストラクタ
