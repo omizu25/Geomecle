@@ -28,6 +28,9 @@ public: /* メンバ関数 */
 	void Update();	// 更新
 	void Draw();	// 描画
 
+private:
+	void Move();	// 移動
+
 private: /* メンバ変数 */
 	CObject2D* m_pObject;	// オブジェクトの情報
 };
