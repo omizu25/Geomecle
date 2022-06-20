@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h" />
+    <ClInclude Include="bullet.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="inputkeyboard.h" />
     <ClInclude Include="main.h" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="inputkeyboard.cpp" />
     <ClCompile Include="main.cpp" />

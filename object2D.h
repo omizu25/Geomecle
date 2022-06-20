@@ -22,6 +22,9 @@ public: /* 定義 */
 	static const int MAX_POLYGON = 5;	// ポリゴンの最大数
 
 public:
+	static CObject2D* Create();	// 生成
+
+public:
 	CObject2D();			// デフォルトコンストラクタ
 	~CObject2D() override;	// デストラクタ
 
@@ -31,13 +34,13 @@ public: /* メンバ関数 */
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
+	D3DXVECTOR3 GetPos() override;					// 位置の取得
+	void SetVtx();	// 頂点情報の設定
 
-protected:
+private: /* メンバ変数 */
 	float m_rot;		// 向き
 	float m_size;		// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
-
-private: /* メンバ変数 */
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	LPDIRECT3DTEXTURE9 m_pTexture;		// テクスチャへのポインタ
 };

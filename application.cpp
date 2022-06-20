@@ -30,7 +30,6 @@ const bool FULL_SCREEN = true;
 //==================================================
 CRenderer* CApplication::m_pRenderer = nullptr;
 CInput* CApplication::m_pInput = nullptr;
-CPlayer* CApplication::m_pPlayer = nullptr;
 
 //--------------------------------------------------
 // レンダラーの取得
@@ -38,14 +37,6 @@ CPlayer* CApplication::m_pPlayer = nullptr;
 LPDIRECT3DDEVICE9 CApplication::GetDevice()
 {
 	return m_pRenderer->GetDevice();
-}
-
-//--------------------------------------------------
-// プレイヤーの取得
-//--------------------------------------------------
-CPlayer* CApplication::GetPlayer()
-{
-	return m_pPlayer;
 }
 
 //--------------------------------------------------
@@ -61,7 +52,6 @@ CApplication::CApplication()
 CApplication::~CApplication()
 {
 	assert(m_pRenderer == nullptr);
-	assert(m_pPlayer == nullptr);
 }
 
 //--------------------------------------------------
@@ -93,18 +83,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
-	if (m_pPlayer == nullptr)
-	{// nullチェック
-		m_pPlayer = new CPlayer;
-	}
-
-	if (m_pPlayer != nullptr)
-	{// nullチェック
-		if (FAILED(m_pPlayer->Init()))
-		{// 初期化
-			return S_FALSE;
-		}
-	}
+	CPlayer::Create();
 
 	return S_OK;
 }
@@ -114,13 +93,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //--------------------------------------------------
 void CApplication::Uninit()
 {
-	if (m_pPlayer != nullptr)
-	{// nullチェック
-		// 終了
-		m_pPlayer->Uninit();
-		delete m_pPlayer;
-		m_pPlayer = nullptr;
-	}
+	// 全ての解放
+	CObject::ReleaseAll();
 
 	if (m_pInput != nullptr)
 	{// nullチェック

@@ -35,6 +35,23 @@ const float ROTATION_SPEED = 0.1f;	// 回転速度
 }
 
 //--------------------------------------------------
+// 生成
+//--------------------------------------------------
+CObject2D* CObject2D::Create()
+{
+	CObject2D* pObject2D = nullptr;
+
+	pObject2D = new CObject2D;
+
+	if (pObject2D != nullptr)
+	{// nullチェック
+		pObject2D->Init();
+	}
+
+	return pObject2D;
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CObject2D::CObject2D() :
@@ -85,11 +102,13 @@ HRESULT CObject2D::Init()
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
+	float size = m_size * 0.5f;
+
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(-size, -size, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+size, -size, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-size, +size, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+size, +size, 0.0f);
 
 	// rhwの設定
 	pVtx[0].rhw = 1.0f;
@@ -170,13 +189,30 @@ void CObject2D::SetPos(const D3DXVECTOR3& pos)
 {
 	m_pos = pos;
 
+	// 頂点情報の設定
+	CObject2D::SetVtx();
+}
+
+//--------------------------------------------------
+// 位置の取得
+//--------------------------------------------------
+D3DXVECTOR3 CObject2D::GetPos()
+{
+	return m_pos;
+}
+
+//--------------------------------------------------
+// 頂点情報の設定
+//--------------------------------------------------
+void CObject2D::SetVtx()
+{
 	D3DXMATRIX mtx, mtxTrans;
 
 	// 回転の反映
 	D3DXMatrixRotationZ(&mtx, -m_rot);
 
 	// 位置の反映
-	D3DXMatrixTranslation(&mtxTrans, pos.x, pos.y, 0.0f);
+	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, 0.0f);
 	D3DXMatrixMultiply(&mtx, &mtx, &mtxTrans);
 	
 	D3DXVECTOR3 pVtxPos[NUM_VERTEX];

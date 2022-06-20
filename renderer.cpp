@@ -142,10 +142,8 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
-	CPlayer* pPlayer = CApplication::GetPlayer();
-
 	// 更新
-	pPlayer->Update();
+	CObject::UpdateAll();
 }
 
 //--------------------------------------------------
@@ -165,10 +163,8 @@ void CRenderer::Draw()
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
 
-		CPlayer* pPlayer = CApplication::GetPlayer();
-
 		// 描画
-		pPlayer->Draw();
+		CObject::DrawAll();
 
 #ifdef _DEBUG
 		// FPS表示

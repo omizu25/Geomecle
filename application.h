@@ -35,7 +35,6 @@ public: /* 静的メンバ関数 */
 private: /* 静的メンバ変数 */
 	static CRenderer* m_pRenderer;	// レンダラーの情報
 	static CInput* m_pInput;		// 入力の情報
-	static CPlayer* m_pPlayer;		// オブジェクトの情報
 
 public:
 	CApplication();				// デフォルトコンストラクタ

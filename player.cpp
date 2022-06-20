@@ -22,10 +22,26 @@ namespace
 }
 
 //--------------------------------------------------
+// 生成
+//--------------------------------------------------
+CPlayer* CPlayer::Create()
+{
+	CPlayer* pPlayer = nullptr;
+
+	pPlayer = new CPlayer;
+
+	if (pPlayer != nullptr)
+	{// nullチェック
+		pPlayer->Init();
+	}
+
+	return pPlayer;
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CPlayer::CPlayer() :
-	m_pObject(nullptr)
+CPlayer::CPlayer()
 {
 }
 
@@ -34,7 +50,6 @@ CPlayer::CPlayer() :
 //--------------------------------------------------
 CPlayer::~CPlayer()
 {
-	assert(m_pObject == nullptr);
 }
 
 //--------------------------------------------------
@@ -42,17 +57,13 @@ CPlayer::~CPlayer()
 //--------------------------------------------------
 HRESULT CPlayer::Init()
 {
-	if (m_pObject == nullptr)
-	{// nullチェック
-		m_pObject = new CObject2D;
-	}
+	// 初期化
+	CObject2D::Init();
 
-	if (m_pObject != nullptr)
-	{// nullチェック
-		m_pObject->Init();
-		m_pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
-		m_pObject->SetPos(m_pos);
-	}
+	D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+
+	// 位置の設定
+	CObject2D::SetPos(pos);
 
 	return S_OK;
 }
@@ -62,12 +73,8 @@ HRESULT CPlayer::Init()
 //--------------------------------------------------
 void CPlayer::Uninit()
 {
-	if (m_pObject != nullptr)
-	{// nullチェック
-		m_pObject->Uninit();
-		delete m_pObject;
-		m_pObject = nullptr;
-	}
+	// 終了
+	CObject2D::Uninit();
 }
 
 //--------------------------------------------------
@@ -78,10 +85,8 @@ void CPlayer::Update()
 	// 移動
 	Move();
 
-	if (m_pObject != nullptr)
-	{// nullチェック
-		m_pObject->Update();
-	}
+	// 更新
+	CObject2D::Update();
 }
 
 //--------------------------------------------------
@@ -89,10 +94,8 @@ void CPlayer::Update()
 //--------------------------------------------------
 void CPlayer::Draw()
 {
-	if (m_pObject != nullptr)
-	{// nullチェック
-		m_pObject->Draw();
-	}
+	// 描画
+	CObject2D::Draw();
 }
 
 //--------------------------------------------------
@@ -129,10 +132,12 @@ void CPlayer::Move()
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
+	D3DXVECTOR3 pos = CObject2D::GetPos();
+
 	// 移動
-	m_pos.x += vec.x * 7.0f;
-	m_pos.y += vec.y * 7.0f;
+	pos.x += vec.x * 7.0f;
+	pos.y += vec.y * 7.0f;
 
 	// 位置の設定
-	m_pObject->SetPos(m_pos);
+	CObject2D::SetPos(pos);
 }

@@ -19,8 +19,11 @@
 class CPlayer : public CObject2D
 {
 public:
-	CPlayer();			// デフォルトコンストラクタ
-	virtual ~CPlayer();	// デストラクタ
+	static CPlayer* CPlayer::Create();	// 生成
+
+public:
+	CPlayer();		// デフォルトコンストラクタ
+	 ~CPlayer();	// デストラクタ
 
 public: /* メンバ関数 */
 	HRESULT Init();	// 初期化
@@ -32,7 +35,6 @@ private:
 	void Move();	// 移動
 
 private: /* メンバ変数 */
-	CObject2D* m_pObject;	// オブジェクトの情報
 };
 
 #endif // !_OBJECT_H_
