@@ -28,6 +28,7 @@
     <ClInclude Include="object2D.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="application.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EF7F50CD-65DE-42D9-A3F4-B41AEDC083BA}</ProjectGuid>
