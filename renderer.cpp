@@ -145,6 +145,8 @@ void CRenderer::Update()
 {
 	// 更新
 	CObject::UpdateAll();
+
+	CPlayer::ChangeNumShot();
 }
 
 //--------------------------------------------------
@@ -202,6 +204,9 @@ void CRenderer::DrawFPS()
 	length = (int)strlen(str);
 
 	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CBullet::GetNumAll());
+	length = (int)strlen(str);
+
+	wsprintf(&str[length], _T("放つ数 : %d\n"), CPlayer::GetNumShot());
 	length = (int)strlen(str);
 
 	// テキスト描画

@@ -19,7 +19,12 @@
 class CPlayer : public CObject2D
 {
 public:
-	static CPlayer* CPlayer::Create();	// 生成
+	static CPlayer* Create();		// 生成
+	static void ChangeNumShot();	// 放つ数の変更
+	static int GetNumShot();		// 放つ数の取得
+
+private:
+	static int m_numShot;	// 放つ数
 
 public:
 	CPlayer();				// デフォルトコンストラクタ

@@ -23,6 +23,11 @@ namespace
 {
 }
 
+//==================================================
+// 静的メンバ変数
+//==================================================
+int CPlayer::m_numShot = 0;
+
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
@@ -38,6 +43,36 @@ CPlayer* CPlayer::Create()
 	}
 
 	return pPlayer;
+}
+
+//--------------------------------------------------
+// 放つ数の変更
+//--------------------------------------------------
+void CPlayer::ChangeNumShot()
+{
+	CInput* pInput = CInput::GetKey();
+
+	if (pInput->Trigger(CInput::KEY_UP))
+	{// 上キーが押された
+		m_numShot++;
+	}
+	if (pInput->Trigger(CInput::KEY_DOWN))
+	{// 下キーが押された
+		m_numShot--;
+
+		if (m_numShot <= 0)
+		{// 指定の値以下
+			m_numShot = 0;
+		}
+	}
+}
+
+//--------------------------------------------------
+// 放つ数の変更
+//--------------------------------------------------
+int CPlayer::GetNumShot()
+{
+	return m_numShot;
 }
 
 //--------------------------------------------------
@@ -89,9 +124,12 @@ void CPlayer::Update()
 {
 	CInput* pInput = CInput::GetKey();
 
-	if (pInput->Trigger(CInput::KEY_SHOT))
+	if (pInput->Press(CInput::KEY_SHOT))
 	{// 左キーが押された
-		CBullet::Create();
+		for (int i = 0; i < m_numShot; i++)
+		{
+			CBullet::Create();
+		}
 	}
 
 	// 移動
