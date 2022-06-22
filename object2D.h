@@ -11,7 +11,9 @@
 // インクルード
 //==================================================
 #include "object.h"
+#include "texture.h"
 #include <d3dx9.h>
+
 
 //==================================================
 // 定義
@@ -31,7 +33,8 @@ public: /* メンバ関数 */
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
-	D3DXVECTOR3 GetPos() override;					// 位置の取得
+	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
+	void SetTexture(CTexture::TEXTURE texture);		// テクスチャの設定
 	void SetVtx();	// 頂点情報の設定
 
 private: /* メンバ変数 */
@@ -39,7 +42,7 @@ private: /* メンバ変数 */
 	float m_size;		// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
-	LPDIRECT3DTEXTURE9 m_pTexture;		// テクスチャへのポインタ
+	CTexture::TEXTURE m_texture;		// テクスチャの列挙型
 };
 
 #endif // !_OBJECT2D_H_

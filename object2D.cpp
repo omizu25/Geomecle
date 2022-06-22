@@ -11,6 +11,7 @@
 #include "application.h"
 #include "object.h"
 #include "object2D.h"
+#include "texture.h"
 #include <assert.h>
 
 //==================================================
@@ -56,7 +57,7 @@ CObject2D* CObject2D::Create()
 //--------------------------------------------------
 CObject2D::CObject2D() :
 	m_pVtxBuff(nullptr),
-	m_pTexture(nullptr),
+	m_texture(CTexture::TEXTURE_NONE),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(0.0f),
 	m_size(0.0f)
@@ -79,14 +80,10 @@ HRESULT CObject2D::Init()
 	m_rot = 0.0f;
 	m_size = POLYGON_SIZE;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_texture = CTexture::TEXTURE_NONE;
 	
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetDevice();
-
-	// テクスチャの読み込み
-	D3DXCreateTextureFromFile(
-		pDevice,
-		"data/TEXTURE/icon_122380_256.png",
-		&m_pTexture);
+	// デバイスへのポインタの取得
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(
@@ -144,12 +141,6 @@ void CObject2D::Uninit()
 		m_pVtxBuff->Release();
 		m_pVtxBuff = nullptr;
 	}
-
-	if (m_pTexture != nullptr)
-	{// テクスチャの破棄
-		m_pTexture->Release();
-		m_pTexture = nullptr;
-	}
 }
 
 //--------------------------------------------------
@@ -164,7 +155,8 @@ void CObject2D::Update()
 //--------------------------------------------------
 void CObject2D::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetDevice();
+	// デバイスへのポインタの取得
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
@@ -172,8 +164,12 @@ void CObject2D::Draw()
 	// 頂点フォーマットの設定
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
+	CTexture* pTexture = CApplication::GetInstanse()->GetTexture();
+
+	LPDIRECT3DTEXTURE9 t = pTexture->GetTexture(m_texture);
+
 	// テクスチャの設定
-	pDevice->SetTexture(0, m_pTexture);
+	pDevice->SetTexture(0, t);
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(
@@ -196,7 +192,7 @@ void CObject2D::SetPos(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 // 位置の取得
 //--------------------------------------------------
-D3DXVECTOR3 CObject2D::GetPos()
+const D3DXVECTOR3& CObject2D::GetPos() const
 {
 	return m_pos;
 }
@@ -236,4 +232,12 @@ void CObject2D::SetVtx()
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
+// テクスチャの設定
+//--------------------------------------------------
+void CObject2D::SetTexture(CTexture::TEXTURE texture)
+{
+	m_texture = texture;
 }

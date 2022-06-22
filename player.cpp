@@ -13,6 +13,7 @@
 #include "application.h"
 #include "input.h"
 #include "bullet.h"
+#include "texture.h"
 #include <assert.h>
 
 //==================================================
@@ -65,6 +66,9 @@ HRESULT CPlayer::Init()
 
 	// 位置の設定
 	CObject2D::SetPos(pos);
+
+	// テクスチャの設定
+	CObject2D::SetTexture(CTexture::TEXTURE_icon_122380_256);
 
 	return S_OK;
 }

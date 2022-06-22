@@ -39,7 +39,7 @@ public: /* メンバ関数 */
 	virtual void Update() = 0;	// 更新
 	virtual void Draw() = 0;	// 描画
 	virtual void SetPos(const D3DXVECTOR3& pos) = 0;	// 位置の設定
-	virtual D3DXVECTOR3 GetPos() = 0;					// 位置の取得
+	virtual const D3DXVECTOR3& GetPos() const = 0;		// 位置の取得
 
 protected:
 	void Release();	// 解放

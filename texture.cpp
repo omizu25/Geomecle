@@ -22,28 +22,15 @@ const char* CTexture::s_FileName[] =
 	"data/TEXTURE/icon_122540_256.png",	// 仮画像2
 };
 
-CTexture* CTexture::m_pTexture = nullptr;
-
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");
-
-//--------------------------------------------------
-// 生成
-//--------------------------------------------------
-CTexture* CTexture::Instanse()
-{
-	if (m_pTexture == nullptr)
-	{// nullチェック
-		m_pTexture = new CTexture;
-	}
-
-	return m_pTexture;
-}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CTexture::CTexture()
+CTexture::CTexture() :
+	s_pTexture()
 {
+	memset(s_pTexture, 0, sizeof(s_pTexture));
 }
 
 //--------------------------------------------------
@@ -59,11 +46,11 @@ CTexture::~CTexture()
 void CTexture::LoadAll()
 {
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 	
 	for (int i = 0; i < TEXTURE_MAX; ++i)
 	{
-		if (s_pTexture[i] != NULL)
+		if (s_pTexture[i] != nullptr)
 		{// テクスチャの読み込みがされている
 			continue;
 		}
@@ -82,13 +69,13 @@ void CTexture::Load(TEXTURE inTexture)
 {
 	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
 
-	if (s_pTexture[inTexture] != NULL)
+	if (s_pTexture[inTexture] != nullptr)
 	{// テクスチャの読み込みがされている
 		return;
 	}
 
 	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetDevice();
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	// テクスチャの読み込み
 	D3DXCreateTextureFromFile(pDevice,
@@ -154,7 +141,7 @@ LPDIRECT3DTEXTURE9 CTexture::GetTexture(TEXTURE inTexture)
 {
 	if (inTexture == TEXTURE_NONE)
 	{// テクスチャを使用しない
-		return NULL;
+		return nullptr;
 	}
 
 	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);

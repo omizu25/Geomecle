@@ -26,18 +26,10 @@ public: /* 定義 */
 		TEXTURE_NONE,	// 使用しない
 	};
 
-	static const char* s_FileName[];
+	static const char* s_FileName[];	// ファイルパス
 
 public:
-	static CTexture* Instanse();
-
-private: /* メンバ変数 */
-	static CTexture* m_pTexture;	// 自分のクラス
-
-private:
 	CTexture();		// デフォルトコンストラクタ
-
-public:
 	~CTexture();	// デストラクタ
 
 public: /* メンバ関数 */

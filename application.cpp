@@ -10,34 +10,32 @@
 //==================================================
 #include "application.h"
 #include "renderer.h"
-#include "object.h"
-#include "object2D.h"
 #include "input.h"
 #include "player.h"
-#include "bullet.h"
+#include "texture.h"
 #include <assert.h>
 
 //==================================================
 // 定義
 //==================================================
-namespace
-{
-// フルスクリーンにするかどうか
-const bool FULL_SCREEN = true;
-}
+const bool CApplication::FULL_SCREEN = true;
 
 //==================================================
 // 静的メンバ変数
 //==================================================
-CRenderer* CApplication::m_pRenderer = nullptr;
-CInput* CApplication::m_pInput = nullptr;
+CApplication* CApplication::m_pApplication = nullptr;
 
 //--------------------------------------------------
-// レンダラーの取得
+// インスタンスの取得
 //--------------------------------------------------
-LPDIRECT3DDEVICE9 CApplication::GetDevice()
+CApplication* CApplication::GetInstanse()
 {
-	return m_pRenderer->GetDevice();
+	if (m_pApplication == nullptr)
+	{// nullチェック
+		m_pApplication = new CApplication;
+	}
+
+	return m_pApplication;
 }
 
 //--------------------------------------------------
@@ -53,6 +51,7 @@ CApplication::CApplication()
 CApplication::~CApplication()
 {
 	assert(m_pRenderer == nullptr);
+	assert(m_pPlayer == nullptr);
 }
 
 //--------------------------------------------------
@@ -84,8 +83,18 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
+	if (m_pTexture == nullptr)
+	{// nullチェック
+		m_pTexture = new CTexture;
+	}
+
+	if (m_pTexture == nullptr)
+	{
+		return S_FALSE;
+	}
+
 	// プレイヤーの生成
-	CPlayer::Create();
+	m_pPlayer = CPlayer::Create();
 
 	return S_OK;
 }
@@ -97,6 +106,12 @@ void CApplication::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll();
+
+	if (m_pPlayer != nullptr)
+	{// nullチェック
+		delete m_pPlayer;
+		m_pPlayer = nullptr;
+	}
 
 	if (m_pInput != nullptr)
 	{// nullチェック
@@ -141,4 +156,28 @@ void CApplication::Draw()
 		// 描画処理
 		m_pRenderer->Draw();
 	}
+}
+
+//--------------------------------------------------
+// レンダラーの取得
+//--------------------------------------------------
+LPDIRECT3DDEVICE9 CApplication::GetDevice()
+{
+	return m_pRenderer->GetDevice();
+}
+
+//--------------------------------------------------
+// テクスチャの情報の取得
+//--------------------------------------------------
+CTexture* CApplication::GetTexture()
+{
+	return m_pTexture;
+}
+
+//--------------------------------------------------
+// プレイヤーの情報の取得
+//--------------------------------------------------
+CPlayer* CApplication::GetPlayer()
+{
+	return m_pPlayer;
 }

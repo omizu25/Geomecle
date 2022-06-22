@@ -94,7 +94,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpC
 	// 分解能を設定
 	timeBeginPeriod(1);
 
-	CApplication* pApplication = new CApplication;
+	CApplication* pApplication = CApplication::GetInstanse();
 
 	if (pApplication != nullptr)
 	{// nullチェック
