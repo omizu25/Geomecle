@@ -89,7 +89,7 @@ void CPlayer::Update()
 {
 	CInput* pInput = CInput::GetKey();
 
-	if (pInput->Press(CInput::KEY_SHOT))
+	if (pInput->Trigger(CInput::KEY_SHOT))
 	{// ¶ƒL[‚ª‰Ÿ‚³‚ê‚½
 		CBullet::Create();
 	}

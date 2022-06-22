@@ -106,12 +106,7 @@ void CApplication::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll();
-
-	if (m_pPlayer != nullptr)
-	{// nullチェック
-		delete m_pPlayer;
-		m_pPlayer = nullptr;
-	}
+	m_pPlayer = nullptr;
 
 	if (m_pInput != nullptr)
 	{// nullチェック

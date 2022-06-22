@@ -18,9 +18,6 @@
 //==================================================
 class CBullet : public CObject2D
 {
-private: /* ’è‹` */
-	static const int MAX_BULLET = 124;	// ’e‚ÌÅ‘å”
-
 public: /* Ã“Iƒƒ“ƒoŠÖ” */
 	static CBullet* Create();	// ¶¬
 
@@ -38,8 +35,9 @@ protected:
 	void Release();	// ‰ğ•ú
 
 private: /* ƒƒ“ƒo•Ï” */
-	int m_life;		// õ–½
-	int m_index;	// Ši”[æ‚Ì”Ô†
+	D3DXVECTOR3 m_move;	// ˆÚ“®—Ê
+	int m_life;			// õ–½
+	int m_index;		// Ši”[æ‚Ì”Ô†
 };
 
 #endif // !_BULLET_H_

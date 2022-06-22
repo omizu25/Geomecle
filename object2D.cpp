@@ -165,11 +165,9 @@ void CObject2D::Draw()
 	pDevice->SetFVF(FVF_VERTEX_2D);
 
 	CTexture* pTexture = CApplication::GetInstanse()->GetTexture();
-
-	LPDIRECT3DTEXTURE9 t = pTexture->GetTexture(m_texture);
-
+	 
 	// テクスチャの設定
-	pDevice->SetTexture(0, t);
+	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(

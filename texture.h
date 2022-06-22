@@ -33,11 +33,10 @@ public:
 	~CTexture();	// デストラクタ
 
 public: /* メンバ関数 */
-	void LoadAll();					// 全ての読み込み
-	void UnloadAll();				// 全ての破棄
-	void Load(TEXTURE inTexture);	// 指定の読み込み
-	void Unload(TEXTURE inTexture);	// 指定の破棄
-	TEXTURE GetFileName(char* inFileName);				// 列挙の取得
+	void LoadAll();										// 全ての読み込み
+	void Load(TEXTURE inTexture);						// 指定の読み込み
+	void ReleaseAll();									// 全ての破棄
+	void Release(TEXTURE inTexture);					// 指定の破棄
 	LPDIRECT3DTEXTURE9 GetTexture(TEXTURE inTexture);	// 情報の取得
 
 private: /* メンバ変数 */

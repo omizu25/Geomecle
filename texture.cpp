@@ -86,7 +86,7 @@ void CTexture::Load(TEXTURE inTexture)
 //--------------------------------------------------
 // 全ての解放
 //--------------------------------------------------
-void CTexture::UnloadAll(void)
+void CTexture::ReleaseAll(void)
 {
 	for (int i = 0; i < TEXTURE_MAX; ++i)
 	{
@@ -101,7 +101,7 @@ void CTexture::UnloadAll(void)
 //--------------------------------------------------
 // 解放
 //--------------------------------------------------
-void CTexture::Unload(TEXTURE inTexture)
+void CTexture::Release(TEXTURE inTexture)
 {
 	assert(inTexture >= 0 && inTexture < TEXTURE_MAX);
 
@@ -110,28 +110,6 @@ void CTexture::Unload(TEXTURE inTexture)
 		s_pTexture[inTexture]->Release();
 		s_pTexture[inTexture] = NULL;
 	}
-}
-
-//--------------------------------------------------
-// 取得
-// 引数  : char* inFileName / 文字列 ファイル名
-// 返値  : TEXTURE / テクスチャの種類
-//--------------------------------------------------
-CTexture::TEXTURE CTexture::GetFileName(char* inFileName)
-{
-	for (int i = 0; i < TEXTURE_MAX; i++)
-	{
-		if (strcmp(inFileName, s_FileName[i]) == 0)
-		{// 文字列が同じ
-			// 読み込み
-			Load((TEXTURE)i);
-
-			return (TEXTURE)i;
-		}
-	}
-
-	assert(false);
-	return TEXTURE_NONE;
 }
 
 //--------------------------------------------------

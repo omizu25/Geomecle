@@ -26,7 +26,6 @@ public: /* 静的メンバ関数 */
 	static void DrawAll();		// 全ての描画
 
 private: /* 静的メンバ変数 */
-	static int m_numAll;	// 総数
 	static CObject* m_pObject[MAX_OBJECT];	// オブジェクトの情報
 
 public:

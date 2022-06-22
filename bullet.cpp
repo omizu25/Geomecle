@@ -42,7 +42,9 @@ CBullet* CBullet::Create()
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CBullet::CBullet() :
-	m_life(0)
+	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_life(0),
+	m_index(0)
 {
 }
 
@@ -59,6 +61,7 @@ CBullet::~CBullet()
 HRESULT CBullet::Init()
 {
 	m_life = 60;
+	m_move = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 
 	// 初期化
 	CObject2D::Init();
@@ -67,6 +70,9 @@ HRESULT CBullet::Init()
 
 	// 位置の設定
 	CObject2D::SetPos(pos);
+
+	// テクスチャの設定
+	CObject2D::SetTexture(CTexture::TEXTURE_icon_122540_256);
 
 	return S_OK;
 }
@@ -87,17 +93,19 @@ void CBullet::Update()
 {
 	m_life--;
 
-	if (m_life <= 0)
-	{// 体力が亡くなった
-		// 終了
-  		CBullet::Uninit();
+	D3DXVECTOR3 pos = CObject2D::GetPos() + m_move;
 
-		// 解放
-		CObject::Release();
-	}
+	// 位置の設定
+	CObject2D::SetPos(pos);
 
 	// 更新
 	CObject2D::Update();
+
+	if (m_life <= 0)
+	{// 体力が亡くなった
+		// 解放
+		CObject::Release();
+	}
 }
 
 //--------------------------------------------------

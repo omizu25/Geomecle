@@ -14,7 +14,6 @@
 
 #include <assert.h>
 
-int CObject::m_numAll = 0;
 CObject* CObject::m_pObject[CObject::MAX_OBJECT] = {};
 
 //--------------------------------------------------
@@ -31,6 +30,8 @@ void CObject::ReleaseAll()
 
 		// オブジェクトの終了
 		m_pObject[i]->Uninit();
+		delete m_pObject[i];
+		m_pObject[i] = nullptr;
 	}
 }
 
@@ -79,7 +80,6 @@ CObject::CObject()
 		{
 			m_pObject[i] = this;
 			m_index = i;
-			m_numAll++;
 			break;
 		}
 	}
@@ -100,8 +100,8 @@ void CObject::Release()
 	if (m_pObject[m_index] != nullptr)
 	{// NULLチェック
 		int index = m_index;
+		m_pObject[index]->Uninit();
 		delete m_pObject[index];
 		m_pObject[index] = nullptr;
-		m_numAll = 0;
 	}
 }
