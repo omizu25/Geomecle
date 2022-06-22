@@ -18,8 +18,8 @@
 //==================================================
 const char* CTexture::s_FileName[] =
 {// テクスチャのパス
-	"data/TEXTURE/icon_122380_256.png",	// 仮画像1
-	"data/TEXTURE/icon_122540_256.png",	// 仮画像2
+	"data/TEXTURE/icon_122380_256.png",	// プレイヤー
+	"data/TEXTURE/icon_122540_256.png",	// 弾
 };
 
 static_assert(sizeof(CTexture::s_FileName) / sizeof(CTexture::s_FileName[0]) == CTexture::TEXTURE_MAX, "aho");

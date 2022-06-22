@@ -12,6 +12,7 @@
 #include "application.h"
 #include "renderer.h"
 #include "player.h"
+#include "bullet.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -195,8 +196,13 @@ void CRenderer::DrawFPS()
 {
 	RECT rect = { 0, 0, CApplication::SCREEN_WIDTH, CApplication::SCREEN_HEIGHT };
 	TCHAR str[256];
+	int length = 0;
 
-	wsprintf(str, _T("FPS : %d\n"), GetFPS());
+	wsprintf(&str[length], _T("FPS : %d\n"), GetFPS());
+	length = (int)strlen(str);
+
+	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CBullet::GetNumAll());
+	length = (int)strlen(str);
 
 	// テキスト描画
 	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));

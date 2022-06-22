@@ -11,7 +11,7 @@
 #include "bullet.h"
 #include "object2D.h"
 #include "application.h"
-
+#include "player.h"
 #include <assert.h>
 
 //==================================================
@@ -66,7 +66,7 @@ HRESULT CBullet::Init()
 	// ‰Šú‰»
 	CObject2D::Init();
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
 	// ˆÊ’u‚Ìİ’è
 	CObject2D::SetPos(pos);
@@ -105,6 +105,14 @@ void CBullet::Update()
 	{// ‘Ì—Í‚ª–S‚­‚È‚Á‚½
 		// ‰ğ•ú
 		CObject::Release();
+		return;
+	}
+
+	if (pos.x >= CApplication::SCREEN_WIDTH)
+	{// ‰æ–Ê‚Ì¶’[‚ğ‰z‚µ‚½
+		// ‰ğ•ú
+		CObject::Release();
+		return;
 	}
 }
 

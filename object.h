@@ -18,14 +18,16 @@
 class CObject
 {
 private: /* 定義 */
-	static const int MAX_OBJECT = 256;	// オブジェクトの最大数
+	static const int MAX_OBJECT = 30000;	// オブジェクトの最大数
 
 public: /* 静的メンバ関数 */
 	static void ReleaseAll();	// 全ての解放
 	static void UpdateAll();	// 全ての更新
 	static void DrawAll();		// 全ての描画
+	static int GetNumAll();		// 総数の取得
 
 private: /* 静的メンバ変数 */
+	static int m_numAll;					// 総数
 	static CObject* m_pObject[MAX_OBJECT];	// オブジェクトの情報
 
 public:

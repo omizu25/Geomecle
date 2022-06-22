@@ -10,8 +10,8 @@
 //==================================================
 // インクルード
 //==================================================
-#include <d3dx9.h>
 #include "object2D.h"
+#include <d3dx9.h>
 
 //==================================================
 // 定義
@@ -22,17 +22,14 @@ public: /* 静的メンバ関数 */
 	static CBullet* Create();	// 生成
 
 public:
-	CBullet();			// デフォルトコンストラクタ
-	virtual ~CBullet();	// デストラクタ
+	CBullet();				// デフォルトコンストラクタ
+	~CBullet() override;	// デストラクタ
 
 public: /* メンバ関数 */
-	HRESULT Init();	// 初期化
-	void Uninit();	// 終了
-	void Update();	// 更新
-	void Draw();	// 描画
-
-protected:
-	void Release();	// 解放
+	HRESULT Init() override;	// 初期化
+	void Uninit() override;		// 終了
+	void Update() override;		// 更新
+	void Draw() override;		// 描画
 
 private: /* メンバ変数 */
 	D3DXVECTOR3 m_move;	// 移動量

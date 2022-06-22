@@ -34,6 +34,8 @@ public: /* メンバ関数 */
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
 	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
 	void SetTexture(CTexture::TEXTURE texture);		// テクスチャの設定
+
+private:
 	void SetVtx();	// 頂点情報の設定
 
 private: /* メンバ変数 */

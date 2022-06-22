@@ -196,6 +196,14 @@ const D3DXVECTOR3& CObject2D::GetPos() const
 }
 
 //--------------------------------------------------
+// テクスチャの設定
+//--------------------------------------------------
+void CObject2D::SetTexture(CTexture::TEXTURE texture)
+{
+	m_texture = texture;
+}
+
+//--------------------------------------------------
 // 頂点情報の設定
 //--------------------------------------------------
 void CObject2D::SetVtx()
@@ -230,12 +238,4 @@ void CObject2D::SetVtx()
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
-}
-
-//--------------------------------------------------
-// テクスチャの設定
-//--------------------------------------------------
-void CObject2D::SetTexture(CTexture::TEXTURE texture)
-{
-	m_texture = texture;
 }

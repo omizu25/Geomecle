@@ -22,14 +22,15 @@ public:
 	static CPlayer* CPlayer::Create();	// 生成
 
 public:
-	CPlayer();		// デフォルトコンストラクタ
-	 ~CPlayer();	// デストラクタ
+	CPlayer();				// デフォルトコンストラクタ
+	 ~CPlayer() override;	// デストラクタ
 
 public: /* メンバ関数 */
-	HRESULT Init();	// 初期化
-	void Uninit();	// 終了
-	void Update();	// 更新
-	void Draw();	// 描画
+	HRESULT Init() override;	// 初期化
+	void Uninit() override;		// 終了
+	void Update() override;		// 更新
+	void Draw() override;		// 描画
+	const D3DXVECTOR3& GetPos() const override;	// 位置の取得
 
 private:
 	void Move();	// 移動
