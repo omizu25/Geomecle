@@ -19,31 +19,51 @@
 //==================================================
 class CObject2D : public CObject
 {
+	/* ↓定義↓ */
+private:
+	struct VERTEX_2D
+	{// 頂点データ
+		D3DXVECTOR3 pos;
+		float rhw;
+		D3DCOLOR col;
+		D3DXVECTOR2 tex;
+	};
+
+	static const DWORD FVF_VERTEX_2D;	// 頂点フォーマット
+	static const int NUM_VERTEX;		// 頂点の数
+	static const int NUM_POLYGON;		// ポリゴンの数
+	static const float POLYGON_SIZE;	// ポリゴンのサイズ
+	static const float ROTATION_SPEED;	// 回転速度
+
+	/* ↓静的メンバ関数↓ */
 public:
 	static CObject2D* Create();	// 生成
 
+	/* ↓メンバ関数↓ */
 public:
 	CObject2D();			// デフォルトコンストラクタ
 	~CObject2D() override;	// デストラクタ
 
-public: /* メンバ関数 */
+public: 
 	HRESULT Init() override;	// 初期化
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
 	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
-	void SetTexture(CTexture::TEXTURE texture);		// テクスチャの設定
+	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
+	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 
 private:
-	void SetVtx();	// 頂点情報の設定
+	void SetVtxPos();	// 頂点情報の設定
 
-private: /* メンバ変数 */
+	/* ↓メンバ変数↓ */
+private:
 	float m_rot;		// 向き
 	float m_size;		// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
-	CTexture::TEXTURE m_texture;		// テクスチャの列挙型
+	CTexture::ELabel m_texture;			// テクスチャの列挙型
 };
 
 #endif // !_OBJECT2D_H_

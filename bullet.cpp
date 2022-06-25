@@ -14,13 +14,6 @@
 #include "player.h"
 #include <assert.h>
 
-//==================================================
-// 定義
-//==================================================
-namespace
-{
-}
-
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
@@ -43,8 +36,7 @@ CBullet* CBullet::Create()
 //--------------------------------------------------
 CBullet::CBullet() :
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_life(0),
-	m_index(0)
+	m_life(0)
 {
 }
 
@@ -72,7 +64,7 @@ HRESULT CBullet::Init()
 	CObject2D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject2D::SetTexture(CTexture::TEXTURE_icon_122540_256);
+	CObject2D::SetTexture(CTexture::LABEL_icon_122540_256);
 
 	return S_OK;
 }

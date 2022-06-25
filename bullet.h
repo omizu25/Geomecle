@@ -18,23 +18,25 @@
 //==================================================
 class CBullet : public CObject2D
 {
-public: /* 静的メンバ関数 */
+	/* ↓静的メンバ関数↓ */
+public:
 	static CBullet* Create();	// 生成
 
+	/* ↓メンバ関数↓ */
 public:
 	CBullet();				// デフォルトコンストラクタ
 	~CBullet() override;	// デストラクタ
 
-public: /* メンバ関数 */
+public:
 	HRESULT Init() override;	// 初期化
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
 
-private: /* メンバ変数 */
+	/* ↓メンバ変数↓ */
+private:
 	D3DXVECTOR3 m_move;	// 移動量
 	int m_life;			// 寿命
-	int m_index;		// 格納先の番号
 };
 
 #endif // !_BULLET_H_

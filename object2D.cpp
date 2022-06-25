@@ -17,23 +17,11 @@
 //==================================================
 // 定義
 //==================================================
-namespace
-{
-static const DWORD FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);	// 頂点フォーマット
-
-struct VERTEX_2D
-{// 頂点データ
-	D3DXVECTOR3 pos;
-	float rhw;
-	D3DCOLOR col;
-	D3DXVECTOR2 tex;
-};
-
-const int NUM_VERTEX = 4;			// 頂点の数
-const int NUM_POLYGON = 2;			// ポリゴンの数
-const float POLYGON_SIZE = 100.0f;	// ポリゴンのサイズ
-const float ROTATION_SPEED = 0.1f;	// 回転速度
-}
+const DWORD CObject2D::FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+const int CObject2D::NUM_VERTEX = 4;
+const int CObject2D::NUM_POLYGON = 2;
+const float CObject2D::POLYGON_SIZE = 100.0f;
+const float CObject2D::ROTATION_SPEED = 0.1f;
 
 //--------------------------------------------------
 // 生成
@@ -57,7 +45,7 @@ CObject2D* CObject2D::Create()
 //--------------------------------------------------
 CObject2D::CObject2D() :
 	m_pVtxBuff(nullptr),
-	m_texture(CTexture::TEXTURE_NONE),
+	m_texture(CTexture::LABEL_NONE),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(0.0f),
 	m_size(0.0f)
@@ -80,7 +68,7 @@ HRESULT CObject2D::Init()
 	m_rot = 0.0f;
 	m_size = POLYGON_SIZE;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_texture = CTexture::TEXTURE_NONE;
+	m_texture = CTexture::LABEL_NONE;
 	
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -184,7 +172,7 @@ void CObject2D::SetPos(const D3DXVECTOR3& pos)
 	m_pos = pos;
 
 	// 頂点情報の設定
-	CObject2D::SetVtx();
+	CObject2D::SetVtxPos();
 }
 
 //--------------------------------------------------
@@ -198,15 +186,35 @@ const D3DXVECTOR3& CObject2D::GetPos() const
 //--------------------------------------------------
 // テクスチャの設定
 //--------------------------------------------------
-void CObject2D::SetTexture(CTexture::TEXTURE texture)
+void CObject2D::SetTexture(CTexture::ELabel texture)
 {
 	m_texture = texture;
 }
 
 //--------------------------------------------------
+// テクスチャ座標の設定
+//--------------------------------------------------
+void CObject2D::SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v)
+{
+	VERTEX_2D *pVtx = nullptr;	// 頂点情報へのポインタ
+
+	// 頂点情報をロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	// テクスチャ座標の設定
+	pVtx[0].tex = D3DXVECTOR2(u.x, v.x);
+	pVtx[1].tex = D3DXVECTOR2(u.y, v.x);
+	pVtx[2].tex = D3DXVECTOR2(u.x, v.y);
+	pVtx[3].tex = D3DXVECTOR2(u.y, v.y);
+
+	// 頂点バッファをアンロックする
+	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
 // 頂点情報の設定
 //--------------------------------------------------
-void CObject2D::SetVtx()
+void CObject2D::SetVtxPos()
 {
 	D3DXMATRIX mtx, mtxTrans;
 

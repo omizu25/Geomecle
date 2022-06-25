@@ -8,12 +8,6 @@
 #define _RENDERER_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
-// ライブラリーリンク
-//==================================================
-#pragma comment(lib,"d3d9.lib")
-#pragma comment(lib,"d3dx9.lib")
-
-//==================================================
 // インクルード
 //==================================================
 #include <d3dx9.h>
@@ -23,11 +17,12 @@
 //==================================================
 class CRenderer
 {
+	/* ↓メンバ関数↓ */
 public:
 	CRenderer();			// デフォルトコンストラクタ
 	virtual ~CRenderer();	// デストラクタ
 
-public: /* メンバ関数 */
+public:
 	HRESULT Init(HWND hWnd, bool bWindow);	// 初期化
 	void Uninit();	// 終了
 	void Update();	// 更新
@@ -39,8 +34,9 @@ private:
 	void DrawFPS();	// FPS表示
 #endif // _DEBUG
 
-private: /* メンバ変数 */
-	LPDIRECT3D9 m_pD3D;	// Direct3Dオブジェクト
+	 /* ↓メンバ変数↓ */
+private:
+	LPDIRECT3D9 m_pD3D;				// Direct3Dオブジェクト
 	LPDIRECT3DDEVICE9 m_pD3DDevice;	// Deviceオブジェクト
 
 #ifdef _DEBUG

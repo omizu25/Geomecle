@@ -11,6 +11,8 @@
 #include "application.h"
 #include "renderer.h"
 #include "input.h"
+#include "input_keyboard.h"
+#include "sound.h"
 #include "player.h"
 #include "texture.h"
 #include <assert.h>
@@ -41,7 +43,12 @@ CApplication* CApplication::GetInstanse()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CApplication::CApplication()
+CApplication::CApplication() :
+	m_pRenderer(nullptr),
+	m_pKeyboard(nullptr),
+	m_pSound(nullptr),
+	m_pTexture(nullptr),
+	m_pPlayer(nullptr)
 {
 }
 
@@ -51,6 +58,9 @@ CApplication::CApplication()
 CApplication::~CApplication()
 {
 	assert(m_pRenderer == nullptr);
+	assert(m_pKeyboard == nullptr);
+	assert(m_pSound == nullptr);
+	assert(m_pTexture == nullptr);
 	assert(m_pPlayer == nullptr);
 }
 
@@ -72,12 +82,27 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
-	// 生成
-	m_pInput = CInput::Create();
-
-	if (m_pInput != nullptr)
+	if (m_pKeyboard == nullptr)
 	{
-		if (FAILED(m_pInput->Init(hInstance, hWnd)))
+		m_pKeyboard = new CInputKeyboard;
+	}
+
+	if (m_pKeyboard != nullptr)
+	{
+		if (FAILED(m_pKeyboard->Init(hInstance, hWnd)))
+		{// 初期化
+			return S_FALSE;
+		}
+	}
+
+	if (m_pSound == nullptr)
+	{// nullチェック
+		m_pSound = new CSound;
+	}
+
+	if (m_pSound != nullptr)
+	{// nullチェック
+		if (FAILED(m_pSound->Init(hWnd)))
 		{// 初期化
 			return S_FALSE;
 		}
@@ -96,6 +121,8 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
 
+//	m_pSound->Play(CSound::LABEL_BGM_TITLE);
+
 	return S_OK;
 }
 
@@ -106,12 +133,32 @@ void CApplication::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll();
+
 	m_pPlayer = nullptr;
 
-	if (m_pInput != nullptr)
+//	m_pSound->Stop();
+	
+	if (m_pTexture != nullptr)
+	{// nullチェック
+		m_pTexture->ReleaseAll();
+		delete m_pTexture;
+		m_pTexture = nullptr;
+	}
+
+	if (m_pSound != nullptr)
 	{// nullチェック
 		// 終了
-		m_pInput->Uninit();
+		m_pSound->Uninit();
+		delete m_pSound;
+		m_pSound = nullptr;
+	}
+
+	if (m_pKeyboard != nullptr)
+	{// nullチェック
+		// 終了
+		m_pKeyboard->Uninit();
+		delete m_pKeyboard;
+		m_pKeyboard = nullptr;
 	}
 
 	if (m_pRenderer != nullptr)
@@ -128,10 +175,10 @@ void CApplication::Uninit()
 //--------------------------------------------------
 void CApplication::Update()
 {
-	if (m_pInput != nullptr)
+	if (m_pKeyboard != nullptr)
 	{// nullチェック
 		// 更新
-		m_pInput->Update();
+		m_pKeyboard->Update();
 	}
 
 	if (m_pRenderer != nullptr)
@@ -159,6 +206,22 @@ void CApplication::Draw()
 LPDIRECT3DDEVICE9 CApplication::GetDevice()
 {
 	return m_pRenderer->GetDevice();
+}
+
+//--------------------------------------------------
+// サウンドの情報の取得
+//--------------------------------------------------
+CInputKeyboard* CApplication::GetKeyboard()
+{
+	return m_pKeyboard;
+}
+
+//--------------------------------------------------
+// サウンドの情報の取得
+//--------------------------------------------------
+CSound* CApplication::GetSound()
+{
+	return m_pSound;
 }
 
 //--------------------------------------------------

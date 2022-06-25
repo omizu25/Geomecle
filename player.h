@@ -18,19 +18,22 @@
 //==================================================
 class CPlayer : public CObject2D
 {
+	/* ↓静的メンバ関数↓ */
 public:
 	static CPlayer* Create();		// 生成
 	static void ChangeNumShot();	// 放つ数の変更
 	static int GetNumShot();		// 放つ数の取得
 
+	/* ↓静的メンバ変数↓ */
 private:
 	static int m_numShot;	// 放つ数
 
+	/* ↓メンバ関数↓ */
 public:
 	CPlayer();				// デフォルトコンストラクタ
 	 ~CPlayer() override;	// デストラクタ
 
-public: /* メンバ関数 */
+public:
 	HRESULT Init() override;	// 初期化
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
@@ -39,8 +42,6 @@ public: /* メンバ関数 */
 
 private:
 	void Move();	// 移動
-
-private: /* メンバ変数 */
 };
 
 #endif // !_OBJECT_H_

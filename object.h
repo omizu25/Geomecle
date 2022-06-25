@@ -17,24 +17,28 @@
 //==================================================
 class CObject
 {
-private: /* 定義 */
+	/* ↓定義↓ */
+private:
 	static const int MAX_OBJECT = 30000;	// オブジェクトの最大数
 
-public: /* 静的メンバ関数 */
+	/* ↓静的メンバ関数↓ */
+public:
 	static void ReleaseAll();	// 全ての解放
 	static void UpdateAll();	// 全ての更新
 	static void DrawAll();		// 全ての描画
 	static int GetNumAll();		// 総数の取得
 
-private: /* 静的メンバ変数 */
+	/* ↓静的メンバ変数↓ */
+private:
 	static int m_numAll;					// 総数
 	static CObject* m_pObject[MAX_OBJECT];	// オブジェクトの情報
 
+	/* ↓メンバ関数↓ */
 public:
 	CObject();			// デフォルトコンストラクタ
 	virtual ~CObject();	// デストラクタ
 
-public: /* メンバ関数 */
+public:
 	virtual HRESULT Init() = 0;	// 初期化
 	virtual void Uninit() = 0;	// 終了
 	virtual void Update() = 0;	// 更新
@@ -45,7 +49,8 @@ public: /* メンバ関数 */
 protected:
 	void Release();	// 解放
 
-private: /* メンバ変数 */
+	/* ↓メンバ変数↓ */
+private:
 	int m_index;	// 格納先の番号
 };
 
