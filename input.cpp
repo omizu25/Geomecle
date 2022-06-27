@@ -1,79 +1,190 @@
-//==================================================
-// input.cpp
-// Author: Buriya Kota
-//==================================================
+//=============================================================================
+//
+// 入力処理 [input.cpp]
+// Author1 : KOZUNA HIROHITO
+// input.hを参照を推奨
+//
+//=============================================================================
 
-//**************************************************
-// include
-//**************************************************
+//-----------------------------------------------------------------------------
+//インクルードファイル
+//-----------------------------------------------------------------------------
 #include "input.h"
 
-//**************************************************
-// 静的メンバ変数
-//**************************************************
-LPDIRECTINPUT8 CInput::m_pInput = nullptr;
+CInput *CInput::m_Input = nullptr;
 
-//--------------------------------------------------
-// コンストラクタ
-//--------------------------------------------------
+//*************************************************************************************
+//コンストラクタ
+//*************************************************************************************
 CInput::CInput()
 {
-	m_pDevKeyboard = nullptr;
+	m_pKeyboard = nullptr;
 }
 
-//--------------------------------------------------
-// デストラクタ
-//--------------------------------------------------
+//*************************************************************************************
+//デストラクタ
+//*************************************************************************************
 CInput::~CInput()
 {
 }
 
-//--------------------------------------------------
-// 初期化
-//--------------------------------------------------
-HRESULT CInput::Init(const HINSTANCE hInstance, const HWND hWnd)
+//*************************************************************************************
+//初期化
+//*************************************************************************************
+HRESULT CInput::Init(HINSTANCE hInstance, HWND hWnd)
 {
-	// DirectInputオブジェクトの生成
-	if (FAILED(DirectInput8Create(hInstance, DIRECTINPUT_VERSION,
-		IID_IDirectInput8, (void**)&m_pInput, NULL)))
+	m_pKeyboard = new CInputKeyboard;
+
+	//キーボードの初期化処理
+	if (FAILED(m_pKeyboard->Init(hInstance, hWnd)))
 	{
 		return E_FAIL;
 	}
 
-	// 入力デバイス（キーボード）の生成
-	if (FAILED(m_pInput->CreateDevice(GUID_SysKeyboard, &m_pDevKeyboard, NULL)))
-	{
-		return E_FAIL;
-	}
-
-	// データフォーマットを設定
-	if (FAILED(m_pDevKeyboard->SetDataFormat(&c_dfDIKeyboard)))
-	{
-		return E_FAIL;
-	}
-
-	// 協調モードを設定
-	if (FAILED(m_pDevKeyboard->SetCooperativeLevel(hWnd,
-		(DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))))
-	{
-		return E_FAIL;
-	}
-
-	// キーボードへのアクセス権を獲得
-	m_pDevKeyboard->Acquire();
 
 	return S_OK;
 }
 
-//--------------------------------------------------
+//*************************************************************************************
 //終了処理
-//--------------------------------------------------
+//*************************************************************************************
 void CInput::Uninit()
 {
-	// DirectInputオブジェクトの破壊
-	if (m_pInput != nullptr)
+	if (m_pKeyboard != nullptr)
 	{
-		m_pInput->Release();
-		m_pInput = nullptr;
+		m_pKeyboard->Uninit();
+		delete m_pKeyboard;
+		m_pKeyboard = nullptr;
 	}
+
+	if (m_Input != nullptr)
+	{
+		delete m_Input;
+		m_Input = nullptr;
+	}
+}
+
+//*************************************************************************************
+//更新処理
+//*************************************************************************************
+void CInput::Update()
+{
+	m_pKeyboard->Update();
+}
+
+//*************************************************************************************
+//インプットの生成
+//*************************************************************************************
+CInput *CInput::Create()
+{
+	m_Input = new CInput;
+	return m_Input;
+}
+
+//*************************************************************************************
+//プレス処理
+//*************************************************************************************
+bool CInput::Press(STAN_DART_INPUT_KEY key)
+{
+	switch (key)
+	{
+	case CInput::KEY_UP:
+		if (m_pKeyboard->GetKeyboardPress(DIK_W)
+			|| m_pKeyboard->GetKeyboardPress(DIK_UP))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_DOWN:
+		if (m_pKeyboard->GetKeyboardPress(DIK_S)
+			|| m_pKeyboard->GetKeyboardPress(DIK_DOWN))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_LEFT:
+		if (m_pKeyboard->GetKeyboardPress(DIK_A)
+			|| m_pKeyboard->GetKeyboardPress(DIK_LEFT))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_RIGHT:
+		if (m_pKeyboard->GetKeyboardPress(DIK_D)
+			|| m_pKeyboard->GetKeyboardPress(DIK_RIGHT))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_DECISION:
+		if (m_pKeyboard->GetKeyboardPress(DIK_RETURN))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_SHOT:
+		if (m_pKeyboard->GetKeyboardPress(DIK_SPACE))
+		{
+			return true;
+		}
+		break;
+	default:
+		break;
+	}
+
+	return false;
+}
+
+//*************************************************************************************
+//トリガー処理
+//*************************************************************************************
+bool CInput::Trigger(STAN_DART_INPUT_KEY key)
+{
+	switch (key)
+	{
+	case CInput::KEY_UP:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_W)
+			|| m_pKeyboard->GetKeyboardTrigger(DIK_UP))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_DOWN:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_S)
+			|| m_pKeyboard->GetKeyboardTrigger(DIK_DOWN))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_LEFT:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_A)
+			|| m_pKeyboard->GetKeyboardTrigger(DIK_LEFT))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_RIGHT:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_D)
+			|| m_pKeyboard->GetKeyboardTrigger(DIK_RIGHT))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_DECISION:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_RETURN))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_SHOT:
+		if (m_pKeyboard->GetKeyboardTrigger(DIK_SPACE))
+		{
+			return true;
+		}
+		break;
+	default:
+		break;
+	}
+
+	return false;
 }

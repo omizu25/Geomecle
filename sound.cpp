@@ -162,7 +162,8 @@ HRESULT CSound::Init(HWND hWnd)
 		}
 
 		m_pDataAudio[i] = (BYTE*)malloc(m_sizeAudio[i]);
-//		m_pDataAudio[i] = new BYTE[m_sizeAudio[i]];
+
+		//m_pDataAudio[i] = new BYTE[m_sizeAudio[i]];
 
 		if (FAILED(LoadChunkData(hFile, m_pDataAudio[i], m_sizeAudio[i], dwChunkPosition)))
 		{
@@ -216,7 +217,7 @@ void CSound::Uninit()
 
 		// オーディオデータの開放
 		free(m_pDataAudio[i]);
-//		delete m_pDataAudio[i];
+		//delete m_pDataAudio[i];
 		m_pDataAudio[i] = nullptr;
 	}
 

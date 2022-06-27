@@ -45,7 +45,7 @@ CApplication* CApplication::GetInstanse()
 //--------------------------------------------------
 CApplication::CApplication() :
 	m_pRenderer(nullptr),
-	m_pKeyboard(nullptr),
+	m_pInput(nullptr),
 	m_pSound(nullptr),
 	m_pTexture(nullptr),
 	m_pPlayer(nullptr)
@@ -58,7 +58,7 @@ CApplication::CApplication() :
 CApplication::~CApplication()
 {
 	assert(m_pRenderer == nullptr);
-	assert(m_pKeyboard == nullptr);
+	assert(m_pInput == nullptr);
 	assert(m_pSound == nullptr);
 	assert(m_pTexture == nullptr);
 	assert(m_pPlayer == nullptr);
@@ -82,16 +82,16 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
-	if (m_pKeyboard == nullptr)
-	{
-		m_pKeyboard = new CInputKeyboard;
+	if (m_pInput == nullptr)
+	{// nullチェック
+		m_pInput = CInput::Create();
 	}
 
-	if (m_pKeyboard != nullptr)
-	{
-		if (FAILED(m_pKeyboard->Init(hInstance, hWnd)))
+	if (m_pInput != nullptr)
+	{// nullチェック
+		if (FAILED(m_pInput->Init(hInstance, hWnd)))
 		{// 初期化
-			return S_FALSE;
+			return E_FAIL;
 		}
 	}
 
@@ -121,8 +121,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
 
-//	m_pSound->Play(CSound::LABEL_BGM_TITLE);
-
 	return S_OK;
 }
 
@@ -135,8 +133,6 @@ void CApplication::Uninit()
 	CObject::ReleaseAll();
 
 	m_pPlayer = nullptr;
-
-//	m_pSound->Stop();
 	
 	if (m_pTexture != nullptr)
 	{// nullチェック
@@ -153,12 +149,11 @@ void CApplication::Uninit()
 		m_pSound = nullptr;
 	}
 
-	if (m_pKeyboard != nullptr)
+	if (m_pInput != nullptr)
 	{// nullチェック
 		// 終了
-		m_pKeyboard->Uninit();
-		delete m_pKeyboard;
-		m_pKeyboard = nullptr;
+		m_pInput->Uninit();
+		m_pInput = nullptr;
 	}
 
 	if (m_pRenderer != nullptr)
@@ -175,10 +170,10 @@ void CApplication::Uninit()
 //--------------------------------------------------
 void CApplication::Update()
 {
-	if (m_pKeyboard != nullptr)
+	if (m_pInput != nullptr)
 	{// nullチェック
 		// 更新
-		m_pKeyboard->Update();
+		m_pInput->Update();
 	}
 
 	if (m_pRenderer != nullptr)
@@ -206,14 +201,6 @@ void CApplication::Draw()
 LPDIRECT3DDEVICE9 CApplication::GetDevice()
 {
 	return m_pRenderer->GetDevice();
-}
-
-//--------------------------------------------------
-// サウンドの情報の取得
-//--------------------------------------------------
-CInputKeyboard* CApplication::GetKeyboard()
-{
-	return m_pKeyboard;
 }
 
 //--------------------------------------------------

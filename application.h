@@ -16,7 +16,7 @@
 // 前方宣言
 //==================================================
 class CRenderer;
-class CInputKeyboard;
+class CInput;
 class CSound;
 class CTexture;
 class CPlayer;
@@ -53,18 +53,17 @@ public:
 	void Update();	// 更新
 	void Draw();	// 描画
 	LPDIRECT3DDEVICE9 GetDevice();	// デバイスの取得
-	CInputKeyboard* GetKeyboard();	// キーボードの情報の取得
 	CSound* GetSound();				// サウンドの情報の取得
 	CTexture* GetTexture();			// テクスチャの情報の取得
 	CPlayer* GetPlayer();			// プレイヤーの情報の取得
 
 	/* ↓メンバ変数↓ */
 private:
-	CRenderer* m_pRenderer;			// レンダラーの情報
-	CInputKeyboard* m_pKeyboard;	// キーボードの情報
-	CSound* m_pSound;				// サウンドの情報
-	CTexture* m_pTexture;			// テクスチャの情報
-	CPlayer* m_pPlayer;				// プレイヤーの情報
+	CRenderer* m_pRenderer;	// レンダラーの情報
+	CInput* m_pInput;		// 入力の情報
+	CSound* m_pSound;		// サウンドの情報
+	CTexture* m_pTexture;	// テクスチャの情報
+	CPlayer* m_pPlayer;		// プレイヤーの情報
 };
 
 #endif // !_APPLICATION_H_

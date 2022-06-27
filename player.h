@@ -20,13 +20,7 @@ class CPlayer : public CObject2D
 {
 	/* ↓静的メンバ関数↓ */
 public:
-	static CPlayer* Create();		// 生成
-	static void ChangeNumShot();	// 放つ数の変更
-	static int GetNumShot();		// 放つ数の取得
-
-	/* ↓静的メンバ変数↓ */
-private:
-	static int m_numShot;	// 放つ数
+	static CPlayer* Create();	// 生成
 
 	/* ↓メンバ関数↓ */
 public:

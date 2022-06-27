@@ -9,18 +9,13 @@
 // インクルード
 //==================================================
 #include "application.h"
-#include "input_keyboard.h"
+#include "input.h"
 #include "sound.h"
 #include "player.h"
 #include "object2D.h"
 #include "bullet.h"
 #include "texture.h"
 #include <assert.h>
-
-//==================================================
-// 静的メンバ変数
-//==================================================
-int CPlayer::m_numShot = 0;
 
 //--------------------------------------------------
 // 生成
@@ -37,36 +32,6 @@ CPlayer* CPlayer::Create()
 	}
 
 	return pPlayer;
-}
-
-//--------------------------------------------------
-// 放つ数の変更
-//--------------------------------------------------
-void CPlayer::ChangeNumShot()
-{
-	CInputKeyboard* pInput = CApplication::GetInstanse()->GetKeyboard();
-
-	if (pInput->GetTrigger(DIK_UP))
-	{// 上キーが押された
-		m_numShot++;
-	}
-	if (pInput->GetTrigger(DIK_DOWN))
-	{// 下キーが押された
-		m_numShot--;
-
-		if (m_numShot <= 0)
-		{// 指定の値以下
-			m_numShot = 0;
-		}
-	}
-}
-
-//--------------------------------------------------
-// 放つ数の変更
-//--------------------------------------------------
-int CPlayer::GetNumShot()
-{
-	return m_numShot;
 }
 
 //--------------------------------------------------
@@ -116,19 +81,12 @@ void CPlayer::Uninit()
 //--------------------------------------------------
 void CPlayer::Update()
 {
-	CInputKeyboard* pInput = CApplication::GetInstanse()->GetKeyboard();
+	CInput* pInput = CInput::GetKey();
 
-	if (pInput->GetTrigger(DIK_SPACE))
+	if (pInput->Trigger(CInput::KEY_SHOT))
 	{// スペースキーが押された
-		for (int i = 0; i < m_numShot; i++)
-		{
-			CBullet::Create();
-		}
-
-		if (m_numShot > 0)
-		{// 指定の値より上
-			CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
-		}
+		CBullet::Create();
+		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
 	}
 
 	// 移動
@@ -162,24 +120,24 @@ void CPlayer::Move()
 {
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	CInputKeyboard* pInput = CApplication::GetInstanse()->GetKeyboard();
+	CInput* pInput = CInput::GetKey();
 
-	if (pInput->GetPress(DIK_A))
+	if (pInput->Press(CInput::KEY_LEFT))
 	{// 左キーが押された
 		vec.x -= 1.0f;
 	}
 	
-	if (pInput->GetPress(DIK_D))
+	if (pInput->Press(CInput::KEY_RIGHT))
 	{// 右キーが押された
 		vec.x += 1.0f;
 	}
 	
-	if (pInput->GetPress(DIK_W))
+	if (pInput->Press(CInput::KEY_UP))
 	{// 上キーが押された
 		vec.y -= 1.0f;
 	}
 	
-	if (pInput->GetPress(DIK_S))
+	if (pInput->Press(CInput::KEY_DOWN))
 	{// 下キーが押された
 		vec.y += 1.0f;
 	}
