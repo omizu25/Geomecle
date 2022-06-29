@@ -19,7 +19,9 @@ class CRenderer;
 class CInput;
 class CSound;
 class CTexture;
+class CCamera;
 class CPlayer;
+class CEnemy;
 
 //==================================================
 // 定義
@@ -55,6 +57,7 @@ public:
 	LPDIRECT3DDEVICE9 GetDevice();	// デバイスの取得
 	CSound* GetSound();				// サウンドの情報の取得
 	CTexture* GetTexture();			// テクスチャの情報の取得
+	CCamera* GetCamera();			// カメラの情報の取得
 	CPlayer* GetPlayer();			// プレイヤーの情報の取得
 
 	/* ↓メンバ変数↓ */
@@ -63,7 +66,9 @@ private:
 	CInput* m_pInput;		// 入力の情報
 	CSound* m_pSound;		// サウンドの情報
 	CTexture* m_pTexture;	// テクスチャの情報
+	CCamera* m_pCamera;		// カメラの情報
 	CPlayer* m_pPlayer;		// プレイヤーの情報
+	CEnemy* m_pEnemy;		// エネミーの情報
 };
 
 #endif // !_APPLICATION_H_

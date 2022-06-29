@@ -11,12 +11,12 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
-#include "object2D.h"
+#include "object3D.h"
 
 //==================================================
 // 定義
 //==================================================
-class CPlayer : public CObject2D
+class CPlayer : public CObject3D
 {
 	/* ↓静的メンバ関数↓ */
 public:
@@ -32,7 +32,6 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
-	const D3DXVECTOR3& GetPos() const override;	// 位置の取得
 
 private:
 	void Move();	// 移動

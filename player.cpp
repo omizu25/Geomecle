@@ -54,15 +54,19 @@ CPlayer::~CPlayer()
 HRESULT CPlayer::Init()
 {
 	// 初期化
-	CObject2D::Init();
+	CObject3D::Init();
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+	// 種類の設定
+	CObject3D::SetType(CObject::TYPE_PLAYER);
+
+	//D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	// 位置の設定
-	CObject2D::SetPos(pos);
+	CObject3D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject2D::SetTexture(CTexture::LABEL_icon_122380_256);
+	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
 
 	return S_OK;
 }
@@ -73,7 +77,7 @@ HRESULT CPlayer::Init()
 void CPlayer::Uninit()
 {
 	// 終了
-	CObject2D::Uninit();
+	CObject3D::Uninit();
 }
 
 //--------------------------------------------------
@@ -93,7 +97,7 @@ void CPlayer::Update()
 	Move();
 
 	// 更新
-	CObject2D::Update();
+	CObject3D::Update();
 }
 
 //--------------------------------------------------
@@ -102,15 +106,7 @@ void CPlayer::Update()
 void CPlayer::Draw()
 {
 	// 描画
-	CObject2D::Draw();
-}
-
-//--------------------------------------------------
-// 位置の取得
-//--------------------------------------------------
-const D3DXVECTOR3& CPlayer::GetPos() const
-{
-	return CObject2D::GetPos();
+	CObject3D::Draw();
 }
 
 //--------------------------------------------------
@@ -134,12 +130,12 @@ void CPlayer::Move()
 	
 	if (pInput->Press(CInput::KEY_UP))
 	{// 上キーが押された
-		vec.y -= 1.0f;
+		vec.y += 1.0f;
 	}
 	
 	if (pInput->Press(CInput::KEY_DOWN))
 	{// 下キーが押された
-		vec.y += 1.0f;
+		vec.y -= 1.0f;
 	}
 
 	if ((vec.x == 0.0f) && (vec.y == 0.0f))
@@ -150,12 +146,12 @@ void CPlayer::Move()
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
-	D3DXVECTOR3 pos = CObject2D::GetPos();
+	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// 移動
 	pos.x += vec.x * 7.0f;
 	pos.y += vec.y * 7.0f;
 
 	// 位置の設定
-	CObject2D::SetPos(pos);
+	CObject3D::SetPos(pos);
 }

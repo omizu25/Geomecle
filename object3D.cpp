@@ -1,6 +1,6 @@
 //**************************************************
 // 
-// object2D.cpp
+// object3D.cpp
 // Author  : katsuki mizuki
 // 
 //**************************************************
@@ -10,51 +10,52 @@
 //==================================================
 #include "application.h"
 #include "object.h"
-#include "object2D.h"
+#include "object3D.h"
 #include "texture.h"
 #include <assert.h>
 
 //==================================================
 // 定義
 //==================================================
-const DWORD CObject2D::FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
-const int CObject2D::NUM_VERTEX = 4;
-const int CObject2D::NUM_POLYGON = 2;
-const float CObject2D::POLYGON_SIZE = 100.0f;
+const DWORD CObject3D::FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+const int CObject3D::NUM_VERTEX = 4;
+const int CObject3D::NUM_POLYGON = 2;
+const float CObject3D::POLYGON_SIZE = 100.0f;
 
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CObject2D* CObject2D::Create()
+CObject3D* CObject3D::Create()
 {
-	CObject2D* pObject2D = nullptr;
+	CObject3D* pObject3D = nullptr;
 
-	pObject2D = new CObject2D;
+	pObject3D = new CObject3D;
 
-	if (pObject2D != nullptr)
+	if (pObject3D != nullptr)
 	{// nullチェック
-		pObject2D->Init();
+		pObject3D->Init();
 	}
 
-	return pObject2D;
+	return pObject3D;
 }
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CObject2D::CObject2D() :
+CObject3D::CObject3D() :
 	m_pVtxBuff(nullptr),
 	m_texture(CTexture::LABEL_NONE),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(0.0f),
 	m_size(0.0f)
 {
+	memset(m_mtxWorld, 0, sizeof(m_mtxWorld));
 }
 
 //--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
-CObject2D::~CObject2D()
+CObject3D::~CObject3D()
 {
 	assert(m_pVtxBuff == nullptr);
 }
@@ -62,26 +63,26 @@ CObject2D::~CObject2D()
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CObject2D::Init()
+HRESULT CObject3D::Init()
 {
 	m_rot = 0.0f;
 	m_size = POLYGON_SIZE;
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_texture = CTexture::LABEL_NONE;
-	
+
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	// 頂点バッファの生成
 	pDevice->CreateVertexBuffer(
-		sizeof(VERTEX_2D) * NUM_VERTEX,
+		sizeof(VERTEX_3D) * NUM_VERTEX,
 		D3DUSAGE_WRITEONLY,
-		FVF_VERTEX_2D,
+		FVF_VERTEX_3D,
 		D3DPOOL_MANAGED,
 		&m_pVtxBuff,
 		NULL);
 
-	VERTEX_2D *pVtx = nullptr;	// 頂点情報へのポインタ
+	VERTEX_3D *pVtx = nullptr;	// 頂点情報へのポインタ
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -89,16 +90,16 @@ HRESULT CObject2D::Init()
 	float size = m_size * 0.5f;
 
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-size, -size, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+size, -size, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-size, +size, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+size, +size, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(-size, +size, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+size, +size, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-size, -size, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+size, -size, 0.0f);
 
-	// rhwの設定
-	pVtx[0].rhw = 1.0f;
-	pVtx[1].rhw = 1.0f;
-	pVtx[2].rhw = 1.0f;
-	pVtx[3].rhw = 1.0f;
+	// 法線ベクトルの設定
+	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	pVtx[3].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
 	// 頂点カラーの設定
 	pVtx[0].col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -121,7 +122,7 @@ HRESULT CObject2D::Init()
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void CObject2D::Uninit()
+void CObject3D::Uninit()
 {
 	if (m_pVtxBuff != nullptr)
 	{// 頂点バッファの破棄
@@ -133,28 +134,43 @@ void CObject2D::Uninit()
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void CObject2D::Update()
+void CObject3D::Update()
 {
 }
 
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void CObject2D::Draw()
+void CObject3D::Draw()
 {
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	// 頂点バッファをデータストリームに設定
-	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
+	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_3D));
 
 	// 頂点フォーマットの設定
-	pDevice->SetFVF(FVF_VERTEX_2D);
+	pDevice->SetFVF(FVF_VERTEX_3D);
 
 	CTexture* pTexture = CApplication::GetInstanse()->GetTexture();
-	 
+
 	// テクスチャの設定
 	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+
+	D3DXMATRIX mtxTrans;
+
+	// ワールドマトリックスの初期化
+	D3DXMatrixIdentity(&m_mtxWorld);
+
+	// 回転の反映
+	D3DXMatrixRotationZ(&m_mtxWorld, -m_rot);
+
+	// 位置の反映
+	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, 0.0f);
+	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
+
+	// ワールドマトリックスの設定
+	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(
@@ -166,18 +182,15 @@ void CObject2D::Draw()
 //--------------------------------------------------
 // 位置の設定
 //--------------------------------------------------
-void CObject2D::SetPos(const D3DXVECTOR3& pos)
+void CObject3D::SetPos(const D3DXVECTOR3& pos)
 {
 	m_pos = pos;
-
-	// 頂点情報の設定
-	CObject2D::SetVtxPos();
 }
 
 //--------------------------------------------------
 // 位置の取得
 //--------------------------------------------------
-const D3DXVECTOR3& CObject2D::GetPos() const
+const D3DXVECTOR3& CObject3D::GetPos() const
 {
 	return m_pos;
 }
@@ -185,18 +198,31 @@ const D3DXVECTOR3& CObject2D::GetPos() const
 //--------------------------------------------------
 // サイズの設定
 //--------------------------------------------------
-void CObject2D::SetSize(float size)
+void CObject3D::SetSize(float size)
 {
 	m_size = size;
 
+	VERTEX_3D *pVtx = nullptr;	// 頂点情報へのポインタ
+
+	// 頂点情報をロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	float halfSize = m_size * 0.5f;
+
 	// 頂点情報の設定
-	CObject2D::SetVtxPos();
+	pVtx[0].pos = D3DXVECTOR3(-halfSize, +halfSize, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+halfSize, +halfSize, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-halfSize, -halfSize, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+halfSize, -halfSize, 0.0f);
+
+	// 頂点バッファをアンロックする
+	m_pVtxBuff->Unlock();
 }
 
 //--------------------------------------------------
 // 位置の取得
 //--------------------------------------------------
-float CObject2D::GetSize()
+float CObject3D::GetSize()
 {
 	return m_size;
 }
@@ -204,7 +230,7 @@ float CObject2D::GetSize()
 //--------------------------------------------------
 // テクスチャの設定
 //--------------------------------------------------
-void CObject2D::SetTexture(CTexture::ELabel texture)
+void CObject3D::SetTexture(CTexture::ELabel texture)
 {
 	m_texture = texture;
 }
@@ -212,9 +238,9 @@ void CObject2D::SetTexture(CTexture::ELabel texture)
 //--------------------------------------------------
 // テクスチャ座標の設定
 //--------------------------------------------------
-void CObject2D::SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v)
+void CObject3D::SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v)
 {
-	VERTEX_2D *pVtx = nullptr;	// 頂点情報へのポインタ
+	VERTEX_3D *pVtx = nullptr;	// 頂点情報へのポインタ
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
@@ -224,43 +250,6 @@ void CObject2D::SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v)
 	pVtx[1].tex = D3DXVECTOR2(u.y, v.x);
 	pVtx[2].tex = D3DXVECTOR2(u.x, v.y);
 	pVtx[3].tex = D3DXVECTOR2(u.y, v.y);
-
-	// 頂点バッファをアンロックする
-	m_pVtxBuff->Unlock();
-}
-
-//--------------------------------------------------
-// 頂点情報の設定
-//--------------------------------------------------
-void CObject2D::SetVtxPos()
-{
-	D3DXMATRIX mtx, mtxTrans;
-
-	// 回転の反映
-	D3DXMatrixRotationZ(&mtx, -m_rot);
-
-	// 位置の反映
-	D3DXMatrixTranslation(&mtxTrans, m_pos.x, m_pos.y, 0.0f);
-	D3DXMatrixMultiply(&mtx, &mtx, &mtxTrans);
-	
-	D3DXVECTOR3 pVtxPos[NUM_VERTEX];
-
-	float halfSize = m_size * 0.5f;
-
-	pVtxPos[0] = D3DXVECTOR3(-halfSize, -halfSize, 0.0f);
-	pVtxPos[1] = D3DXVECTOR3(+halfSize, -halfSize, 0.0f);
-	pVtxPos[2] = D3DXVECTOR3(-halfSize, +halfSize, 0.0f);
-	pVtxPos[3] = D3DXVECTOR3(+halfSize, +halfSize, 0.0f);
-
-	VERTEX_2D* pVtx = nullptr;	// 頂点情報へのポインタ
-
-	// 頂点情報をロックし、頂点情報へのポインタを取得
-	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
-
-	for (int i = 0; i < NUM_VERTEX; i++)
-	{// 頂点情報の設定
-		D3DXVec3TransformCoord(&pVtx[i].pos, &pVtxPos[i], &mtx);
-	}
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();

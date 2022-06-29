@@ -14,6 +14,9 @@
 
 #include <assert.h>
 
+//==================================================
+// 静的メンバ変数
+//==================================================
 int CObject::m_numAll = 0;
 CObject* CObject::m_pObject[CObject::MAX_OBJECT] = {};
 
@@ -29,10 +32,8 @@ void CObject::ReleaseAll()
 			continue;
 		}
 
-		// オブジェクトの終了
-		m_pObject[i]->Uninit();
-		delete m_pObject[i];
-		m_pObject[i] = nullptr;
+		// オブジェクトの開放
+		m_pObject[i]->Release();
 	}
 }
 
@@ -79,9 +80,18 @@ int CObject::GetNumAll()
 }
 
 //--------------------------------------------------
+// オブジェクトの取得
+//--------------------------------------------------
+CObject** CObject::GetMyObject()
+{
+	return m_pObject;
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CObject::CObject()
+CObject::CObject() : 
+	m_type(CObject::TYPE_NONE)
 {
 	for (int i = 0; i < CObject::MAX_OBJECT; i++)
 	{
@@ -115,4 +125,20 @@ void CObject::Release()
 		delete m_pObject[index];
 		m_pObject[index] = nullptr;
 	}
+}
+
+//--------------------------------------------------
+// 種類の設定
+//--------------------------------------------------
+void CObject::SetType(CObject::EType type)
+{
+	m_type = type;
+}
+
+//--------------------------------------------------
+// 種類の取得
+//--------------------------------------------------
+CObject::EType CObject::GetType()
+{
+	return m_type;
 }

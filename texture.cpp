@@ -21,6 +21,8 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/icon_122380_256.png",	// プレイヤー
 	"data/TEXTURE/icon_122540_256.png",	// 弾
 	"data/TEXTURE/tori_slyme.png",		// 爆発
+	"data/TEXTURE/kitune.png",			// ゴン
+	"data/TEXTURE/Inui Toko 000.jpg",	// 推し
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");
@@ -45,9 +47,6 @@ CTexture::~CTexture()
 //--------------------------------------------------
 void CTexture::LoadAll()
 {
-	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
-	
 	for (int i = 0; i < LABEL_MAX; ++i)
 	{
 		if (s_pTexture[i] != nullptr)
@@ -55,10 +54,8 @@ void CTexture::LoadAll()
 			continue;
 		}
 
-		// テクスチャの読み込み
-		D3DXCreateTextureFromFile(pDevice,
-			FILE_NAME[i],
-			&s_pTexture[i]);
+		// 読み込み
+		Load((ELabel)i);
 	}
 }
 

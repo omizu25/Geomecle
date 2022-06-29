@@ -10,6 +10,7 @@
 //==================================================
 #include "main.h"
 #include "application.h"
+#include "camera.h"
 #include "renderer.h"
 #include "player.h"
 #include "bullet.h"
@@ -109,6 +110,9 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);	// １つ目の色はテクスチャの色
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);	// ２つ目の色は現在の色
 
+	// ライトを無効にする
+	m_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 #ifdef _DEBUG
 	// デバッグ情報表示用フォントの生成
 	D3DXCreateFont(m_pD3DDevice, 18, 0, 0, 0, FALSE, SHIFTJIS_CHARSET,
@@ -169,6 +173,9 @@ void CRenderer::Draw()
 
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
+
+		// カメラの設定
+		CApplication::GetInstanse()->GetCamera()->Set();
 
 		// 描画
 		CObject::DrawAll();

@@ -9,7 +9,7 @@
 // インクルード
 //==================================================
 #include "bullet.h"
-#include "object2D.h"
+#include "object3D.h"
 #include "application.h"
 #include "player.h"
 #include <assert.h>
@@ -56,15 +56,18 @@ HRESULT CBullet::Init()
 	m_move = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 
 	// 初期化
-	CObject2D::Init();
+	CObject3D::Init();
+
+	// 種類の設定
+	CObject3D::SetType(CObject::TYPE_BULLET);
 
 	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
 	// 位置の設定
-	CObject2D::SetPos(pos);
+	CObject3D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject2D::SetTexture(CTexture::LABEL_icon_122540_256);
+	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
 
 	return S_OK;
 }
@@ -75,7 +78,7 @@ HRESULT CBullet::Init()
 void CBullet::Uninit()
 {
 	// 終了
-	CObject2D::Uninit();
+	CObject3D::Uninit();
 }
 
 //--------------------------------------------------
@@ -85,13 +88,44 @@ void CBullet::Update()
 {
 	m_life--;
 
-	D3DXVECTOR3 pos = CObject2D::GetPos() + m_move;
+	D3DXVECTOR3 pos = CObject3D::GetPos() + m_move;
 
 	// 位置の設定
-	CObject2D::SetPos(pos);
+	CObject3D::SetPos(pos);
 
 	// 更新
-	CObject2D::Update();
+	CObject3D::Update();
+
+	CObject** pObject = GetMyObject();
+
+	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	{
+		if (pObject[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		if (pObject[i]->GetType() != CObject::TYPE_ENEMY)
+		{// 種類が違う
+			continue;
+		}
+
+		D3DXVECTOR3 enemyPos = pObject[i]->GetPos();
+		float enemySize = pObject[i]->GetSize() * 0.5f;
+		float size = CObject3D::GetSize() * 0.5f;
+
+		if ((pos.y - size <= (enemyPos.y + enemySize)) &&
+			(pos.y + size >= (enemyPos.y - enemySize)) &&
+			(pos.x - size <= (enemyPos.x + enemySize)) &&
+			(pos.x + size >= (enemyPos.x - enemySize)))
+		{// 当たり判定
+			pObject[i]->Release();
+
+			// 解放
+			CObject::Release();
+			return;
+		}
+	}
 
 	if (m_life <= 0)
 	{// 体力が亡くなった
@@ -114,5 +148,5 @@ void CBullet::Update()
 void CBullet::Draw()
 {
 	// 描画
-	CObject2D::Draw();
+	CObject3D::Draw();
 }

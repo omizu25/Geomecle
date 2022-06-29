@@ -24,6 +24,8 @@ public:
 		LABEL_icon_122380_256 = 0,	// ‰¼‰æ‘œ1
 		LABEL_icon_122540_256,		// ‰¼‰æ‘œ2
 		LABEL_tori_slyme,			// ”š”­
+		LABEL_kitune,				// ƒSƒ“
+		LABEL_InuiToko000,			// „‚µ
 		LABEL_MAX,
 		LABEL_NONE,	// Žg—p‚µ‚È‚¢
 	};

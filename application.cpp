@@ -13,8 +13,10 @@
 #include "input.h"
 #include "input_keyboard.h"
 #include "sound.h"
-#include "player.h"
 #include "texture.h"
+#include "camera.h"
+#include "player.h"
+#include "enemy.h"
 #include <assert.h>
 
 //==================================================
@@ -48,7 +50,9 @@ CApplication::CApplication() :
 	m_pInput(nullptr),
 	m_pSound(nullptr),
 	m_pTexture(nullptr),
-	m_pPlayer(nullptr)
+	m_pCamera(nullptr),
+	m_pPlayer(nullptr),
+	m_pEnemy(nullptr)
 {
 }
 
@@ -61,7 +65,9 @@ CApplication::~CApplication()
 	assert(m_pInput == nullptr);
 	assert(m_pSound == nullptr);
 	assert(m_pTexture == nullptr);
+	assert(m_pCamera == nullptr);
 	assert(m_pPlayer == nullptr);
+	assert(m_pEnemy == nullptr);
 }
 
 //--------------------------------------------------
@@ -114,12 +120,27 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	}
 
 	if (m_pTexture == nullptr)
-	{
+	{// nullチェック
 		return S_FALSE;
+	}
+
+	if (m_pCamera == nullptr)
+	{// nullチェック
+		m_pCamera = new CCamera;
+	}
+
+	if (m_pCamera != nullptr)
+	{// nullチェック
+		if (FAILED(m_pCamera->Init()))
+		{// 初期化
+			return S_FALSE;
+		}
 	}
 
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
+
+	m_pEnemy = CEnemy::Create();
 
 	return S_OK;
 }
@@ -133,7 +154,15 @@ void CApplication::Uninit()
 	CObject::ReleaseAll();
 
 	m_pPlayer = nullptr;
-	
+	m_pEnemy = nullptr;
+
+	if (m_pCamera != nullptr)
+	{// nullチェック
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = nullptr;
+	}
+
 	if (m_pTexture != nullptr)
 	{// nullチェック
 		m_pTexture->ReleaseAll();
@@ -217,6 +246,14 @@ CSound* CApplication::GetSound()
 CTexture* CApplication::GetTexture()
 {
 	return m_pTexture;
+}
+
+//--------------------------------------------------
+// カメラの情報の取得
+//--------------------------------------------------
+CCamera* CApplication::GetCamera()
+{
+	return m_pCamera;
 }
 
 //--------------------------------------------------
