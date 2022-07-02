@@ -18,6 +18,10 @@
 //==================================================
 class CBullet : public CObject3D
 {
+	/* 定義 */
+private:
+	static const float MAX_SIZE;	// サイズの最大値
+
 	/* ↓静的メンバ関数↓ */
 public:
 	static CBullet* Create();	// 生成
@@ -36,7 +40,6 @@ public:
 	/* ↓メンバ変数↓ */
 private:
 	D3DXVECTOR3 m_move;	// 移動量
-	int m_life;			// 寿命
 };
 
 #endif // !_BULLET_H_

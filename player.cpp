@@ -15,7 +15,15 @@
 #include "object2D.h"
 #include "bullet.h"
 #include "texture.h"
+#include "utility.h"
+#include "wall.h"
 #include <assert.h>
+
+//==================================================
+// 定義
+//==================================================
+const float CPlayer::MAX_SIZE = 30.0f;
+const float CPlayer::MAX_MOVE = 5.0f;
 
 //--------------------------------------------------
 // 生成
@@ -59,11 +67,11 @@ HRESULT CPlayer::Init()
 	// 種類の設定
 	CObject3D::SetType(CObject::TYPE_PLAYER);
 
-	//D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
-	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
 	// 位置の設定
-	CObject3D::SetPos(pos);
+	CObject3D::SetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+
+	// サイズの設定
+	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
@@ -149,8 +157,14 @@ void CPlayer::Move()
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// 移動
-	pos.x += vec.x * 7.0f;
-	pos.y += vec.y * 7.0f;
+	pos.x += vec.x * MAX_MOVE;
+	pos.y += vec.y * MAX_MOVE;
+
+	float size = (MAX_SIZE * 0.5f) + (CWall::MAX_WIDTH * 0.5f);
+	float wall = (CWall::MAX_LENGTH * 0.5f) - size;
+
+	// 範囲内
+	InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f));
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

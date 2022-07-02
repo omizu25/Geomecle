@@ -20,7 +20,6 @@
 const DWORD CObject2D::FVF_VERTEX_2D = (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const int CObject2D::NUM_VERTEX = 4;
 const int CObject2D::NUM_POLYGON = 2;
-const float CObject2D::POLYGON_SIZE = 100.0f;
 
 //--------------------------------------------------
 // 生成
@@ -43,11 +42,11 @@ CObject2D* CObject2D::Create()
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CObject2D::CObject2D() :
-	m_pVtxBuff(nullptr),
 	m_texture(CTexture::LABEL_NONE),
-	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(0.0f),
-	m_size(0.0f)
+	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_pVtxBuff(nullptr)
 {
 }
 
@@ -65,7 +64,7 @@ CObject2D::~CObject2D()
 HRESULT CObject2D::Init()
 {
 	m_rot = 0.0f;
-	m_size = POLYGON_SIZE;
+	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_texture = CTexture::LABEL_NONE;
 	
@@ -86,13 +85,14 @@ HRESULT CObject2D::Init()
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float size = m_size * 0.5f;
+	float width = m_size.x * 0.5f;
+	float height = m_size.y * 0.5f;
 
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-size, -size, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+size, -size, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-size, +size, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+size, +size, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(-width, -height, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+width, -height, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-width, +height, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+width, +height, 0.0f);
 
 	// rhwの設定
 	pVtx[0].rhw = 1.0f;
@@ -185,7 +185,7 @@ const D3DXVECTOR3& CObject2D::GetPos() const
 //--------------------------------------------------
 // サイズの設定
 //--------------------------------------------------
-void CObject2D::SetSize(float size)
+void CObject2D::SetSize(const D3DXVECTOR3& size)
 {
 	m_size = size;
 
@@ -196,7 +196,7 @@ void CObject2D::SetSize(float size)
 //--------------------------------------------------
 // 位置の取得
 //--------------------------------------------------
-float CObject2D::GetSize()
+const D3DXVECTOR3& CObject2D::GetSize()
 {
 	return m_size;
 }
@@ -245,12 +245,14 @@ void CObject2D::SetVtxPos()
 	
 	D3DXVECTOR3 pVtxPos[NUM_VERTEX];
 
-	float halfSize = m_size * 0.5f;
+	float width = m_size.x * 0.5f;
+	float height = m_size.y * 0.5f;
 
-	pVtxPos[0] = D3DXVECTOR3(-halfSize, -halfSize, 0.0f);
-	pVtxPos[1] = D3DXVECTOR3(+halfSize, -halfSize, 0.0f);
-	pVtxPos[2] = D3DXVECTOR3(-halfSize, +halfSize, 0.0f);
-	pVtxPos[3] = D3DXVECTOR3(+halfSize, +halfSize, 0.0f);
+	// 頂点情報の設定
+	pVtxPos[0] = D3DXVECTOR3(-width, -height, 0.0f);
+	pVtxPos[1] = D3DXVECTOR3(+width, -height, 0.0f);
+	pVtxPos[2] = D3DXVECTOR3(-width, +height, 0.0f);
+	pVtxPos[3] = D3DXVECTOR3(+width, +height, 0.0f);
 
 	VERTEX_2D* pVtx = nullptr;	// 頂点情報へのポインタ
 

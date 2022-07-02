@@ -20,7 +20,6 @@
 const DWORD CObject3D::FVF_VERTEX_3D = (D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_DIFFUSE | D3DFVF_TEX1);
 const int CObject3D::NUM_VERTEX = 4;
 const int CObject3D::NUM_POLYGON = 2;
-const float CObject3D::POLYGON_SIZE = 100.0f;
 
 //--------------------------------------------------
 // 生成
@@ -43,11 +42,11 @@ CObject3D* CObject3D::Create()
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CObject3D::CObject3D() :
-	m_pVtxBuff(nullptr),
 	m_texture(CTexture::LABEL_NONE),
-	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(0.0f),
-	m_size(0.0f)
+	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_pVtxBuff(nullptr)
 {
 	memset(m_mtxWorld, 0, sizeof(m_mtxWorld));
 }
@@ -66,7 +65,7 @@ CObject3D::~CObject3D()
 HRESULT CObject3D::Init()
 {
 	m_rot = 0.0f;
-	m_size = POLYGON_SIZE;
+	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_texture = CTexture::LABEL_NONE;
 
@@ -87,13 +86,14 @@ HRESULT CObject3D::Init()
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float size = m_size * 0.5f;
+	float width = m_size.x * 0.5f;
+	float height = m_size.y * 0.5f;
 
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-size, +size, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+size, +size, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-size, -size, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+size, -size, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(-width, +height, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+width, +height, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-width, -height, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+width, -height, 0.0f);
 
 	// 法線ベクトルの設定
 	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -198,7 +198,7 @@ const D3DXVECTOR3& CObject3D::GetPos() const
 //--------------------------------------------------
 // サイズの設定
 //--------------------------------------------------
-void CObject3D::SetSize(float size)
+void CObject3D::SetSize(const D3DXVECTOR3& size)
 {
 	m_size = size;
 
@@ -207,13 +207,14 @@ void CObject3D::SetSize(float size)
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float halfSize = m_size * 0.5f;
+	float width = m_size.x * 0.5f;
+	float height = m_size.y * 0.5f;
 
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-halfSize, +halfSize, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+halfSize, +halfSize, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-halfSize, -halfSize, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+halfSize, -halfSize, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(-width, +height, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(+width, +height, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(-width, -height, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(+width, -height, 0.0f);
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -222,7 +223,7 @@ void CObject3D::SetSize(float size)
 //--------------------------------------------------
 // 位置の取得
 //--------------------------------------------------
-float CObject3D::GetSize()
+const D3DXVECTOR3& CObject3D::GetSize()
 {
 	return m_size;
 }

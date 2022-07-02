@@ -10,6 +10,8 @@
 //==================================================
 #include "application.h"
 #include "camera.h"
+#include "player.h"
+#include "utility.h"
 #include <assert.h>
 
 //==================================================
@@ -17,15 +19,14 @@
 //==================================================
 const float CCamera::MAX_NEAR = 10.0f;
 const float CCamera::MAX_FAR = 2500.0f;
+const float CCamera::MAX_DISTANCE = -500.0f;
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CCamera::CCamera() :
-	m_posV(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_posR(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_posVDest(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_posRDest(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_posDest(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_vecU(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rot(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_rotDest(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
@@ -46,10 +47,8 @@ CCamera::~CCamera()
 //--------------------------------------------------
 HRESULT CCamera::Init()
 {
-	m_posV = D3DXVECTOR3(0.0f, 0.0f, -150.0f);
-	m_posR = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_posVDest = m_posV;
-	m_posRDest = m_posR;
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_posDest = m_pos;
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// 固定
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotDest = m_rot;
@@ -70,6 +69,10 @@ void CCamera::Uninit()
 //--------------------------------------------------
 void CCamera::Update()
 {
+	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+
+	// ホーミング
+	Homing(&m_pos, m_pos, pos, 3.5f);
 }
 
 //--------------------------------------------------
@@ -83,11 +86,13 @@ void CCamera::Set()
 	// ビューマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxView);
 
+	D3DXVECTOR3 pos = m_pos + D3DXVECTOR3(0.0f, 0.0f, MAX_DISTANCE);
+
 	// ビューマトリックスの作成
 	D3DXMatrixLookAtLH(
 		&m_mtxView,
-		&m_posV,
-		&m_posR,
+		&pos,
+		&m_pos,
 		&m_vecU);
 
 	// ビューマトリックスの設定
@@ -105,4 +110,20 @@ void CCamera::Set()
 	
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProj);
+}
+
+//--------------------------------------------------
+// 位置の設定
+//--------------------------------------------------
+void CCamera::SetPos(const D3DXVECTOR3& pos)
+{
+	m_pos = pos;
+}
+
+//--------------------------------------------------
+// 位置の取得
+//--------------------------------------------------
+const D3DXVECTOR3& CCamera::GetPos()
+{
+	return m_pos;
 }

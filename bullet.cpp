@@ -12,7 +12,15 @@
 #include "object3D.h"
 #include "application.h"
 #include "player.h"
+#include "enemy.h"
+#include "wall.h"
+#include "utility.h"
 #include <assert.h>
+
+//==================================================
+// 定義
+//==================================================
+const float CBullet::MAX_SIZE = 30.0f;
 
 //--------------------------------------------------
 // 生成
@@ -35,8 +43,7 @@ CBullet* CBullet::Create()
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CBullet::CBullet() :
-	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_life(0)
+	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -52,7 +59,6 @@ CBullet::~CBullet()
 //--------------------------------------------------
 HRESULT CBullet::Init()
 {
-	m_life = 60;
 	m_move = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 
 	// 初期化
@@ -65,6 +71,9 @@ HRESULT CBullet::Init()
 
 	// 位置の設定
 	CObject3D::SetPos(pos);
+
+	// サイズの設定
+	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
@@ -86,8 +95,6 @@ void CBullet::Uninit()
 //--------------------------------------------------
 void CBullet::Update()
 {
-	m_life--;
-
 	D3DXVECTOR3 pos = CObject3D::GetPos() + m_move;
 
 	// 位置の設定
@@ -96,49 +103,43 @@ void CBullet::Update()
 	// 更新
 	CObject3D::Update();
 
-	CObject** pObject = GetMyObject();
-
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
 	{
-		if (pObject[i] == nullptr)
-		{// nullチェック
-			continue;
-		}
+		float size = (MAX_SIZE * 0.5f) + (CWall::MAX_WIDTH * 0.5f);
+		float wall = (CWall::MAX_LENGTH * 0.5f) - size;
 
-		if (pObject[i]->GetType() != CObject::TYPE_ENEMY)
-		{// 種類が違う
-			continue;
-		}
-
-		D3DXVECTOR3 enemyPos = pObject[i]->GetPos();
-		float enemySize = pObject[i]->GetSize() * 0.5f;
-		float size = CObject3D::GetSize() * 0.5f;
-
-		if ((pos.y - size <= (enemyPos.y + enemySize)) &&
-			(pos.y + size >= (enemyPos.y - enemySize)) &&
-			(pos.x - size <= (enemyPos.x + enemySize)) &&
-			(pos.x + size >= (enemyPos.x - enemySize)))
-		{// 当たり判定
-			pObject[i]->Release();
-
+		if (InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f)))
+		{// 範囲外
 			// 解放
 			CObject::Release();
 			return;
 		}
 	}
 
-	if (m_life <= 0)
-	{// 体力が亡くなった
-		// 解放
-		CObject::Release();
-		return;
-	}
+	CObject** pObject = GetMyObject();
 
-	if (pos.x >= CApplication::SCREEN_WIDTH)
-	{// 画面の左端を越した
-		// 解放
-		CObject::Release();
-		return;
+	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	{
+		if (pObject[i] == nullptr ||
+			pObject[i]->GetType() != CObject::TYPE_ENEMY)
+		{
+			continue;
+		}
+
+		D3DXVECTOR3 enemyPos = pObject[i]->GetPos();
+		float size = (MAX_SIZE * 0.5f);
+
+		if (((pos.y - size) <= (enemyPos.y + CEnemy::MAX_SIZE)) &&
+			((pos.y + size) >= (enemyPos.y - CEnemy::MAX_SIZE)) &&
+			((pos.x - size) <= (enemyPos.x + CEnemy::MAX_SIZE)) &&
+			((pos.x + size) >= (enemyPos.x - CEnemy::MAX_SIZE)))
+		{// 当たり判定
+			// 敵の解放
+			pObject[i]->Release();
+
+			// 解放
+			CObject::Release();
+			return;
+		}
 	}
 }
 

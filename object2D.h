@@ -32,7 +32,6 @@ private:
 	static const DWORD FVF_VERTEX_2D;	// 頂点フォーマット
 	static const int NUM_VERTEX;		// 頂点の数
 	static const int NUM_POLYGON;		// ポリゴンの数
-	static const float POLYGON_SIZE;	// ポリゴンのサイズ
 
 	/* ↓静的メンバ関数↓ */
 public:
@@ -50,8 +49,8 @@ public:
 	void Draw() override;		// 描画
 	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
 	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
-	void SetSize(float size) override;	// サイズの設定
-	float GetSize() override;			// サイズの取得
+	void SetSize(const D3DXVECTOR3& size) override;	// サイズの設定
+	const D3DXVECTOR3& GetSize() override;			// サイズの取得
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 
@@ -60,11 +59,11 @@ private:
 
 	/* ↓メンバ変数↓ */
 private:
+	CTexture::ELabel m_texture;	// テクスチャの列挙型
 	float m_rot;		// 向き
-	float m_size;		// サイズ
+	D3DXVECTOR3 m_size;	// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
-	CTexture::ELabel m_texture;			// テクスチャの列挙型
 };
 
 #endif // !_OBJECT2D_H_

@@ -17,6 +17,7 @@
 #include "camera.h"
 #include "player.h"
 #include "enemy.h"
+#include "wall.h"
 #include <assert.h>
 
 //==================================================
@@ -137,9 +138,32 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		}
 	}
 
+	{// 壁
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::MAX_LENGTH, CWall::MAX_WIDTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, CWall::MAX_LENGTH * 0.5f, 0.0f);
+
+		// 上の壁
+		CWall::Create(pos, size);
+
+		// 下の壁
+		CWall::Create(-pos, size);
+	}
+
+	{// 壁
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::MAX_WIDTH, CWall::MAX_LENGTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(CWall::MAX_LENGTH * 0.5f, 0.0f, 0.0f);
+
+		// 右の壁
+		CWall::Create(pos, size);
+
+		// 左の壁
+		CWall::Create(-pos, size);
+	}
+
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
 
+	// 敵の生成
 	m_pEnemy = CEnemy::Create();
 
 	return S_OK;

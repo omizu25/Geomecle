@@ -24,6 +24,8 @@ public:
 		TYPE_PLAYER = 0,	// プレイヤー
 		TYPE_BULLET,		// 弾
 		TYPE_ENEMY,			// 敵
+		TYPE_WALL,			// 壁
+		TYPE_BG,			// 背景
 		TYPE_MAX,
 		TYPE_NONE
 	};
@@ -55,8 +57,8 @@ public:
 	virtual void Draw() = 0;	// 描画
 	virtual void SetPos(const D3DXVECTOR3& pos) = 0;	// 位置の設定
 	virtual const D3DXVECTOR3& GetPos() const = 0;		// 位置の取得
-	virtual void SetSize(float size) = 0;	// サイズの設定
-	virtual float GetSize() = 0;			// サイズの取得
+	virtual void SetSize(const D3DXVECTOR3& size) = 0;	// サイズの設定
+	virtual const D3DXVECTOR3& GetSize() = 0;			// サイズの取得
 	void SetType(CObject::EType type);	// 種類の設定
 	CObject::EType GetType();			// 種類の取得
 	void Release();	// 解放

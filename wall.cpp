@@ -1,6 +1,6 @@
 //**************************************************
 // 
-// enemy.cpp
+// wall.cpp
 // Author  : katsuki mizuki
 // 
 //**************************************************
@@ -8,72 +8,60 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "input.h"
-#include "sound.h"
-#include "enemy.h"
+#include "wall.h"
 #include "object3D.h"
-#include "bullet.h"
-#include "player.h"
-#include "texture.h"
-#include "utility.h"
+#include "application.h"
 #include <assert.h>
 
 //==================================================
-// 定義
+// インクルード
 //==================================================
-const float CEnemy::MAX_SIZE = 30.0f;
+const float CWall::MAX_WIDTH = 10.0f;
+const float CWall::MAX_LENGTH = 1200.0f;
 
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CEnemy* CEnemy::Create()
+CWall* CWall::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
-	CEnemy* pEnemy = nullptr;
+	CWall* pWall = nullptr;
 
-	pEnemy = new CEnemy;
+	pWall = new CWall;
 
-	if (pEnemy != nullptr)
+	if (pWall != nullptr)
 	{// nullチェック
-		pEnemy->Init();
+		pWall->Init();
+		pWall->SetPos(pos);
+		pWall->SetSize(size);
 	}
 
-	return pEnemy;
+	return pWall;
 }
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEnemy::CEnemy()
+CWall::CWall()
 {
 }
 
 //--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
-CEnemy::~CEnemy()
+CWall::~CWall()
 {
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CEnemy::Init()
+HRESULT CWall::Init()
 {
 	// 初期化
 	CObject3D::Init();
 
 	// 種類の設定
-	CObject3D::SetType(CObject::TYPE_ENEMY);
-
-	// 位置の設定
-	CObject3D::SetPos(D3DXVECTOR3(300.0f, 0.0f, 0.0f));
-
-	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
-
-	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_InuiToko000);
+	CObject3D::SetType(CObject::TYPE_WALL);
 
 	return S_OK;
 }
@@ -81,7 +69,7 @@ HRESULT CEnemy::Init()
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void CEnemy::Uninit()
+void CWall::Uninit()
 {
 	// 終了
 	CObject3D::Uninit();
@@ -90,17 +78,8 @@ void CEnemy::Uninit()
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void CEnemy::Update()
+void CWall::Update()
 {
-	D3DXVECTOR3 posDest = CApplication::GetInstanse()->GetPlayer()->GetPos();
-	D3DXVECTOR3 pos = CObject3D::GetPos();
-
-	// ホーミング
-	Homing(&pos, pos, posDest, 3.0f);
-
-	// 位置の設定
-	CObject3D::SetPos(pos);
-
 	// 更新
 	CObject3D::Update();
 }
@@ -108,7 +87,7 @@ void CEnemy::Update()
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void CEnemy::Draw()
+void CWall::Draw()
 {
 	// 描画
 	CObject3D::Draw();

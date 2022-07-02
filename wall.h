@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// enemy.h
+// wall.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _ENEMY_H_	//このマクロ定義がされてなかったら
-#define _ENEMY_H_	//２重インクルード防止のマクロ定義
+#ifndef _WALL_H_	//このマクロ定義がされてなかったら
+#define _WALL_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -16,20 +16,21 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemy : public CObject3D
+class CWall : public CObject3D
 {
 	/* 定義 */
 public:
-	static const float MAX_SIZE;	// サイズの最大値
+	static const float MAX_WIDTH;	//	幅の最大値
+	static const float MAX_LENGTH;	//	長さの最大値
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CEnemy* Create();	// 生成
+	static CWall* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
-	CEnemy();				// デフォルトコンストラクタ
-	 ~CEnemy() override;	// デストラクタ
+	CWall();			// デフォルトコンストラクタ
+	~CWall() override;	// デストラクタ
 
 public:
 	HRESULT Init() override;	// 初期化
@@ -38,4 +39,4 @@ public:
 	void Draw() override;		// 描画
 };
 
-#endif // !_ENEMT_H_
+#endif // !_BG_H_

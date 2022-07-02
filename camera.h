@@ -19,8 +19,9 @@ class CCamera
 {
 	/* ↓定義↓ */
 private:
-	static const float MAX_NEAR;	// ニアの最大値
-	static const float MAX_FAR;		// ファーの最大値
+	static const float MAX_NEAR;		// ニアの最大値
+	static const float MAX_FAR;			// ファーの最大値
+	static const float MAX_DISTANCE;	// 視点の距離の最大値
 
 	/* ↓メンバ関数↓ */
 public:
@@ -32,13 +33,13 @@ public:
 	void Uninit();	// 終了
 	void Update();	// 更新
 	void Set();		// 設定
+	void SetPos(const D3DXVECTOR3& pos);	// 位置の設定
+	const D3DXVECTOR3& GetPos();
 
 	/* ↓メンバ変数↓ */
 private:
-	D3DXVECTOR3 m_posV;		// 現在の視点
-	D3DXVECTOR3 m_posR;		// 現在の注視点
-	D3DXVECTOR3 m_posVDest;	// 目的の視点
-	D3DXVECTOR3 m_posRDest;	// 目的の注視点
+	D3DXVECTOR3 m_pos;		// 現在の視点
+	D3DXVECTOR3 m_posDest;	// 目的の視点
 	D3DXVECTOR3 m_vecU;		// 上方向ベクトル
 	D3DXVECTOR3 m_rot;		// 現在の向き
 	D3DXVECTOR3 m_rotDest;	// 目的の向き

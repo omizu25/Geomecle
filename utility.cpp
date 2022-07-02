@@ -85,3 +85,35 @@ float Curve(float fCurve, float fMax, float fMin)
 {
 	return (fCurve * (fMax - fMin)) + fMin;
 }
+
+//--------------------------------------------------
+// ”ÍˆÍ“à
+//--------------------------------------------------
+bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range)
+{
+	bool out = false;
+
+	if (pPos->x >= range.x)
+	{// ‰E‚Ì•Ç
+		pPos->x = range.x;
+		out = true;
+	}
+	else if (pPos->x <= -range.x)
+	{// ¶‚Ì•Ç
+		pPos->x = -range.x;
+		out = true;
+	}
+
+	if (pPos->y >= range.y)
+	{// ã‚Ì•Ç
+		pPos->y = range.y;
+		out = true;
+	}
+	else if (pPos->y <= -range.y)
+	{// ‰º‚Ì•Ç
+		pPos->y = -range.y;
+		out = true;
+	}
+
+	return out;
+}

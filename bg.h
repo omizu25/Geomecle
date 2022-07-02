@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// enemy.h
+// bg.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _ENEMY_H_	//このマクロ定義がされてなかったら
-#define _ENEMY_H_	//２重インクルード防止のマクロ定義
+#ifndef _BG_H_	//このマクロ定義がされてなかったら
+#define _BG_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -16,20 +16,16 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemy : public CObject3D
+class CBG : public CObject3D
 {
-	/* 定義 */
-public:
-	static const float MAX_SIZE;	// サイズの最大値
-
 	/* ↓静的メンバ関数↓ */
 public:
-	static CEnemy* Create();	// 生成
+	static CBG* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
-	CEnemy();				// デフォルトコンストラクタ
-	 ~CEnemy() override;	// デストラクタ
+	CBG();				// デフォルトコンストラクタ
+	~CBG() override;	// デストラクタ
 
 public:
 	HRESULT Init() override;	// 初期化
@@ -38,4 +34,4 @@ public:
 	void Draw() override;		// 描画
 };
 
-#endif // !_ENEMT_H_
+#endif // !_BG_H_

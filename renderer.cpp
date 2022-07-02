@@ -155,6 +155,9 @@ void CRenderer::Update()
 {
 	// 更新
 	CObject::UpdateAll();
+
+	// カメラの更新
+	CApplication::GetInstanse()->GetCamera()->Update();
 }
 
 //--------------------------------------------------

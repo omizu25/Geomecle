@@ -87,4 +87,12 @@ float CosCurve(int nTime, float fCycle);
 //--------------------------------------------------
 float Curve(float fCurve, float fMax, float fMin);
 
+//--------------------------------------------------
+// 範囲内
+// 引数1  : D3DXVECTOR3* pPos / 位置
+// 引数2  : D3DXVECTOR3 range / 範囲
+// 返値  : bool / 範囲外に出たかどうか
+//--------------------------------------------------
+bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range);
+
 #endif // !_UTILITY_H_
