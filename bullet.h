@@ -21,10 +21,11 @@ class CBullet : public CObject3D
 	/* 定義 */
 private:
 	static const float MAX_SIZE;	// サイズの最大値
+	static const float MAX_MOVE;	// 移動量の最大値
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CBullet* Create();	// 生成
+	static CBullet* Create(float rot);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -36,6 +37,9 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
+
+private:
+	void SetMove(float rot);	// 移動量の設定
 
 	/* ↓メンバ変数↓ */
 private:

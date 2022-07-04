@@ -12,6 +12,7 @@
 #include "camera.h"
 #include "player.h"
 #include "utility.h"
+#include "wall.h"
 #include <assert.h>
 
 //==================================================
@@ -72,7 +73,13 @@ void CCamera::Update()
 	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
 	// ホーミング
-	Homing(&m_pos, m_pos, pos, 3.5f);
+	Homing(&m_pos, m_pos, pos, CPlayer::MAX_MOVE);
+
+	float size = (CWall::MAX_WIDTH * 0.5f);
+	float wall = ((CWall::MAX_LENGTH * 0.5f) - size);
+
+	// 範囲内
+	InRange(&m_pos, D3DXVECTOR3(wall * 0.3f, wall * 0.5f, 0.0f));
 }
 
 //--------------------------------------------------

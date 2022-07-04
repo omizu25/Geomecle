@@ -24,6 +24,7 @@
 //==================================================
 const float CPlayer::MAX_SIZE = 30.0f;
 const float CPlayer::MAX_MOVE = 5.0f;
+const float CPlayer::MAX_ROT = 0.1f;
 
 //--------------------------------------------------
 // 生成
@@ -97,12 +98,15 @@ void CPlayer::Update()
 
 	if (pInput->Trigger(CInput::KEY_SHOT))
 	{// スペースキーが押された
-		CBullet::Create();
+		CBullet::Create(CObject3D::GetRot());
 		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
 	}
 
 	// 移動
 	Move();
+
+	// 向き
+	Rot();
 
 	// 更新
 	CObject3D::Update();
@@ -154,6 +158,9 @@ void CPlayer::Move()
 	// ベクトルの正規化
 	D3DXVec3Normalize(&vec, &vec);
 
+	// 目的の向き
+	m_rotDest = atan2f(vec.x, vec.y);
+
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// 移動
@@ -168,4 +175,31 @@ void CPlayer::Move()
 
 	// 位置の設定
 	CObject3D::SetPos(pos);
+}
+
+//--------------------------------------------------
+// 向き
+//--------------------------------------------------
+void CPlayer::Rot()
+{
+	float angle = 0.0f;
+
+	// 角度の正規化
+	NormalizeAngle(&m_rotDest);
+
+	float rot = CObject3D::GetRot();
+
+	angle = m_rotDest - rot;
+
+	// 角度の正規化
+	NormalizeAngle(&angle);
+
+	//慣性・向きを更新 (減衰させる)
+	rot += angle * MAX_ROT;
+
+	// 角度の正規化
+	NormalizeAngle(&rot);
+
+	// 向きの設定
+	CObject3D::SetRot(rot);
 }

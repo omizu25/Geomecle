@@ -51,6 +51,8 @@ public:
 	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
 	void SetSize(const D3DXVECTOR3& size) override;	// サイズの設定
 	const D3DXVECTOR3& GetSize() override;			// サイズの取得
+	void SetRot(float rot) override;	// 向きの設定
+	float GetRot() override;			// 向きの取得
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 

@@ -59,6 +59,8 @@ public:
 	virtual const D3DXVECTOR3& GetPos() const = 0;		// 位置の取得
 	virtual void SetSize(const D3DXVECTOR3& size) = 0;	// サイズの設定
 	virtual const D3DXVECTOR3& GetSize() = 0;			// サイズの取得
+	virtual void SetRot(float rot) = 0;	// 向きの設定
+	virtual float GetRot() = 0;			// 向きの取得
 	void SetType(CObject::EType type);	// 種類の設定
 	CObject::EType GetType();			// 種類の取得
 	void Release();	// 解放

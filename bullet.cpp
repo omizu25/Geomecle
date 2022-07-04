@@ -21,11 +21,12 @@
 // 定義
 //==================================================
 const float CBullet::MAX_SIZE = 30.0f;
+const float CBullet::MAX_MOVE = 10.0f;
 
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CBullet* CBullet::Create()
+CBullet* CBullet::Create(float rot)
 {
 	CBullet* pBullet = nullptr;
 
@@ -34,6 +35,7 @@ CBullet* CBullet::Create()
 	if (pBullet != nullptr)
 	{// nullチェック
 		pBullet->Init();
+		pBullet->SetMove(rot);
 	}
 
 	return pBullet;
@@ -59,7 +61,7 @@ CBullet::~CBullet()
 //--------------------------------------------------
 HRESULT CBullet::Init()
 {
-	m_move = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
+	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	// 初期化
 	CObject3D::Init();
@@ -150,4 +152,15 @@ void CBullet::Draw()
 {
 	// 描画
 	CObject3D::Draw();
+}
+
+//--------------------------------------------------
+// 移動量の設定
+//--------------------------------------------------
+void CBullet::SetMove(float rot)
+{
+	// 向きの設定
+	CObject3D::SetRot(rot);
+
+	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * MAX_MOVE;
 }
