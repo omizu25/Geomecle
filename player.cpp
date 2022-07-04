@@ -94,14 +94,6 @@ void CPlayer::Uninit()
 //--------------------------------------------------
 void CPlayer::Update()
 {
-	CInput* pInput = CInput::GetKey();
-
-	if (pInput->Trigger(CInput::KEY_SHOT))
-	{// スペースキーが押された
-		CBullet::Create(CObject3D::GetRot());
-		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
-	}
-
 	// 移動
 	Move();
 
@@ -154,9 +146,6 @@ void CPlayer::Move()
 	{// 移動してない
 		return;
 	}
-
-	// ベクトルの正規化
-	D3DXVec3Normalize(&vec, &vec);
 
 	// 目的の向き
 	m_rotDest = atan2f(vec.x, vec.y);

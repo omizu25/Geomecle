@@ -25,7 +25,6 @@ public:
 		KEY_LEFT,
 		KEY_RIGHT,
 		KEY_DECISION,
-		KEY_SHOT
 	};
 
 	CInput();
@@ -37,6 +36,7 @@ public:
 	static CInput *GetKey() { return m_Input; }
 	bool Press(STAN_DART_INPUT_KEY key);
 	bool Trigger(STAN_DART_INPUT_KEY key);
+	bool Shot(D3DXVECTOR3* pRot);
 
 private:
 	CInputKeyboard *m_pKeyboard;

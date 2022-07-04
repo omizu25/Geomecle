@@ -22,10 +22,16 @@ class CBullet : public CObject3D
 private:
 	static const float MAX_SIZE;	// サイズの最大値
 	static const float MAX_MOVE;	// 移動量の最大値
+	static const int SHOT_INTERVAL;	// 発射の間隔
 
 	/* ↓静的メンバ関数↓ */
 public:
 	static CBullet* Create(float rot);	// 生成
+	static void Shot();	// 発射
+
+	/* ↓静的メンバ変数↓ */
+private:
+	static int m_time;	// 時間
 
 	/* ↓メンバ関数↓ */
 public:

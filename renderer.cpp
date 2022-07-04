@@ -153,6 +153,9 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
+	// ’e‚Ì”­Ë
+	CBullet::Shot();
+
 	// XV
 	CObject::UpdateAll();
 

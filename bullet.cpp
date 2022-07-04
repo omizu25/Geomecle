@@ -15,13 +15,21 @@
 #include "enemy.h"
 #include "wall.h"
 #include "utility.h"
+#include "input.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
 // ’è‹`
 //==================================================
-const float CBullet::MAX_SIZE = 30.0f;
+const float CBullet::MAX_SIZE = 25.0f;
 const float CBullet::MAX_MOVE = 10.0f;
+const int CBullet::SHOT_INTERVAL = 10;
+
+//==================================================
+// Ã“Iƒƒ“ƒo•Ï”
+//==================================================
+int CBullet::m_time = 0;
 
 //--------------------------------------------------
 // ¶¬
@@ -39,6 +47,32 @@ CBullet* CBullet::Create(float rot)
 	}
 
 	return pBullet;
+}
+
+//--------------------------------------------------
+// ”­ŽË
+//--------------------------------------------------
+void CBullet::Shot()
+{
+	CInput* pInput = CInput::GetKey();
+
+	D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+	if (!pInput->Shot(&rot))
+	{
+		m_time = 0;
+		return;
+	}
+
+	if (m_time % SHOT_INTERVAL != 0)
+	{
+		m_time++;
+		return;
+	}
+
+	m_time++;
+	CBullet::Create(atan2f(rot.x, rot.y));
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
 }
 
 //--------------------------------------------------
