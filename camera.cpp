@@ -72,8 +72,12 @@ void CCamera::Update()
 {
 	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
+	D3DXVECTOR3 vecDiff = pos - m_pos;
+
+	float length = D3DXVec3Length(&vecDiff);
+
 	// ホーミング
-	Homing(&m_pos, m_pos, pos, CPlayer::MAX_MOVE);
+	Homing(&m_pos, m_pos, pos, length);
 
 	float size = (CWall::MAX_WIDTH * 0.5f);
 	float wall = ((CWall::MAX_LENGTH * 0.5f) - size);
