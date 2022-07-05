@@ -134,7 +134,7 @@ void CCamera::SetPos(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 // ˆÊ’u‚ÌŽæ“¾
 //--------------------------------------------------
-const D3DXVECTOR3& CCamera::GetPos()
+const D3DXVECTOR3& CCamera::GetPos() const
 {
 	return m_pos;
 }

@@ -38,10 +38,10 @@ public:
 	~CTexture();	// デストラクタ
 
 public:
-	void LoadAll();									// 全ての読み込み
-	void Load(ELabel label);						// 指定の読み込み
-	void ReleaseAll();								// 全ての破棄
-	void Release(ELabel label);						// 指定の破棄
+	void LoadAll();				// 全ての読み込み
+	void Load(ELabel label);	// 指定の読み込み
+	void ReleaseAll();			// 全ての破棄
+	void Release(ELabel label);	// 指定の破棄
 	LPDIRECT3DTEXTURE9 GetTexture(ELabel label);	// 情報の取得
 
 	/* ↓メンバ変数↓ */

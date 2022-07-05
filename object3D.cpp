@@ -223,7 +223,7 @@ void CObject3D::SetSize(const D3DXVECTOR3& size)
 //--------------------------------------------------
 // ƒTƒCƒY‚ÌŽæ“¾
 //--------------------------------------------------
-const D3DXVECTOR3& CObject3D::GetSize()
+const D3DXVECTOR3& CObject3D::GetSize() const
 {
 	return m_size;
 }
@@ -239,7 +239,7 @@ void CObject3D::SetRot(float rot)
 //--------------------------------------------------
 // Œü‚«‚ÌŽæ“¾
 //--------------------------------------------------
-float CObject3D::GetRot()
+const float CObject3D::GetRot() const
 {
 	return m_rot;
 }

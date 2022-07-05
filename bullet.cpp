@@ -22,14 +22,17 @@
 //==================================================
 // ’è‹`
 //==================================================
+const int CBullet::SHOT_INTERVAL = 10;
 const float CBullet::MAX_SIZE = 25.0f;
 const float CBullet::MAX_MOVE = 10.0f;
-const int CBullet::SHOT_INTERVAL = 10;
+const float CBullet::MAX_INERTIA = 0.3f;
 
 //==================================================
 // Ã“Iƒƒ“ƒo•Ï”
 //==================================================
 int CBullet::m_time = 0;
+float CBullet::m_dest = 0.0f;
+float CBullet::m_now = 0.0f;
 
 //--------------------------------------------------
 // ¶¬
@@ -60,6 +63,8 @@ void CBullet::Shot()
 
 	if (!pInput->Shot(&rot))
 	{
+		m_dest = 0.0f;
+		m_now = 0.0f;
 		m_time = 0;
 		return;
 	}
@@ -71,7 +76,26 @@ void CBullet::Shot()
 	}
 
 	m_time++;
-	CBullet::Create(atan2f(rot.x, rot.y));
+
+	// –Ú“I‚ÌŒü‚«
+	m_dest = atan2f(rot.x, rot.y);
+
+	// Šp“x‚Ì³‹K‰»
+	NormalizeAngle(&m_dest);
+
+	float angle = m_dest - m_now;
+
+	// Šp“x‚Ì³‹K‰»
+	NormalizeAngle(&angle);
+
+	// Šµ«EŒü‚«‚ðXV (Œ¸Š‚³‚¹‚é)
+	m_now += angle * MAX_INERTIA;
+
+	// Šp“x‚Ì³‹K‰»
+	NormalizeAngle(&m_now);
+
+	// ’e”­ŽË
+	CBullet::Create(m_now);
 	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
 }
 

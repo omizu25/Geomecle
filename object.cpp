@@ -138,7 +138,7 @@ void CObject::SetType(CObject::EType type)
 //--------------------------------------------------
 // Ží—Þ‚ÌŽæ“¾
 //--------------------------------------------------
-CObject::EType CObject::GetType()
+const CObject::EType CObject::GetType() const
 {
 	return m_type;
 }
