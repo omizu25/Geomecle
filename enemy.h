@@ -22,9 +22,16 @@ class CEnemy : public CObject3D
 public:
 	static const float MAX_SIZE;	// サイズの最大値
 
+	enum EType
+	{
+		TYPE_HOMING = 0,	// ホーミング
+		TYPE_MAX,
+		TYPE_NONE
+	};
+
 	/* ↓静的メンバ関数↓ */
 public:
-	static CEnemy* Create();	// 生成
+	static CEnemy* Create(CEnemy::EType type, const D3DXVECTOR3& pos);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -36,6 +43,7 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
+	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定
 };
 
 #endif // !_ENEMT_H_

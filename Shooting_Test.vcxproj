@@ -24,6 +24,9 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemy_homing.h" />
+    <ClInclude Include="enemy_manager.h" />
+    <ClInclude Include="enemy_round_trip.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="input_keyboard.h" />
     <ClInclude Include="main.h" />
@@ -43,6 +46,9 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy_homing.cpp" />
+    <ClCompile Include="enemy_manager.cpp" />
+    <ClCompile Include="enemy_round_trip.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_keyboard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -110,7 +116,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;C:\Users\student.S-JOBI21-039\Documents\Visual Studio 2015\Projects\Shooting_Test\nlohmann;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -132,6 +138,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\student.S-JOBI21-039\Documents\Visual Studio 2015\Projects\Shooting_Test\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

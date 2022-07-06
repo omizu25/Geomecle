@@ -16,7 +16,7 @@
 #include "texture.h"
 #include "camera.h"
 #include "player.h"
-#include "enemy.h"
+#include "enemy_manager.h"
 #include "wall.h"
 #include <assert.h>
 
@@ -53,7 +53,7 @@ CApplication::CApplication() :
 	m_pTexture(nullptr),
 	m_pCamera(nullptr),
 	m_pPlayer(nullptr),
-	m_pEnemy(nullptr)
+	m_pEnemyManager(nullptr)
 {
 }
 
@@ -68,7 +68,7 @@ CApplication::~CApplication()
 	assert(m_pTexture == nullptr);
 	assert(m_pCamera == nullptr);
 	assert(m_pPlayer == nullptr);
-	assert(m_pEnemy == nullptr);
+	assert(m_pEnemyManager == nullptr);
 }
 
 //--------------------------------------------------
@@ -125,6 +125,16 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		return S_FALSE;
 	}
 
+	if (m_pEnemyManager == nullptr)
+	{// nullチェック
+		m_pEnemyManager = new CEnemyManager;
+	}
+
+	if (m_pEnemyManager != nullptr)
+	{// nullチェック
+		m_pEnemyManager->Load();
+	}
+
 	if (m_pCamera == nullptr)
 	{// nullチェック
 		m_pCamera = new CCamera;
@@ -163,9 +173,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
 
-	// 敵の生成
-	m_pEnemy = CEnemy::Create();
-
 	return S_OK;
 }
 
@@ -178,7 +185,6 @@ void CApplication::Uninit()
 	CObject::ReleaseAll();
 
 	m_pPlayer = nullptr;
-	m_pEnemy = nullptr;
 
 	if (m_pCamera != nullptr)
 	{// nullチェック
@@ -192,6 +198,13 @@ void CApplication::Uninit()
 		m_pTexture->ReleaseAll();
 		delete m_pTexture;
 		m_pTexture = nullptr;
+	}
+
+	if (m_pEnemyManager != nullptr)
+	{// nullチェック
+		m_pEnemyManager->Release();
+		delete m_pEnemyManager;
+		m_pEnemyManager = nullptr;
 	}
 
 	if (m_pSound != nullptr)
@@ -286,4 +299,12 @@ CCamera* CApplication::GetCamera()
 CPlayer* CApplication::GetPlayer()
 {
 	return m_pPlayer;
+}
+
+//--------------------------------------------------
+// エネミーマネージャーの情報の取得
+//--------------------------------------------------
+CEnemyManager* CApplication::GetEnemyManager()
+{
+	return m_pEnemyManager;
 }

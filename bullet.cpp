@@ -57,20 +57,18 @@ CBullet* CBullet::Create(float rot)
 //--------------------------------------------------
 void CBullet::Shot()
 {
-	CInput* pInput = CInput::GetKey();
-
 	D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	if (!pInput->Shot(&rot))
-	{
+	if (!CInput::GetKey()->Shot(&rot))
+	{// ’e‚Ì”­ŽË‚µ‚Ä‚¢‚È‚¢
 		m_dest = 0.0f;
 		m_now = 0.0f;
 		m_time = 0;
 		return;
 	}
 
-	if (m_time % SHOT_INTERVAL != 0)
-	{
+	if ((m_time % SHOT_INTERVAL) != 0)
+	{// ƒCƒ“ƒ^[ƒoƒ‹’†
 		m_time++;
 		return;
 	}
@@ -96,7 +94,6 @@ void CBullet::Shot()
 
 	// ’e”­ŽË
 	CBullet::Create(m_now);
-	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_ENTER);
 }
 
 //--------------------------------------------------

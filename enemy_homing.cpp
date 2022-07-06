@@ -1,6 +1,6 @@
 //**************************************************
 // 
-// enemy.cpp
+// enemy_homing.cpp
 // Author  : katsuki mizuki
 // 
 //**************************************************
@@ -11,76 +11,35 @@
 #include "application.h"
 #include "input.h"
 #include "sound.h"
-#include "enemy.h"
+#include "enemy_homing.h"
 #include "object3D.h"
 #include "bullet.h"
 #include "player.h"
 #include "texture.h"
 #include "utility.h"
-#include "enemy_homing.h"
 #include <assert.h>
-
-//==================================================
-// 定義
-//==================================================
-const float CEnemy::MAX_SIZE = 30.0f;
-
-//--------------------------------------------------
-// 生成
-//--------------------------------------------------
-CEnemy* CEnemy::Create(CEnemy::EType type, const D3DXVECTOR3& pos)
-{
-	CEnemy* pEnemy = nullptr;
-
-	switch (type)
-	{
-	case CEnemy::TYPE_HOMING:
-		pEnemy = new CEnemyHoming;
-		break;
-
-	case CEnemy::TYPE_MAX:
-	case CEnemy::TYPE_NONE:
-	default:
-		assert(false);
-		break;
-	}
-
-	if (pEnemy != nullptr)
-	{// nullチェック
-		pEnemy->Init();
-		pEnemy->Set(pos);
-	}
-
-	return pEnemy;
-}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEnemy::CEnemy()
+CEnemyHoming::CEnemyHoming()
 {
 }
 
 //--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
-CEnemy::~CEnemy()
+CEnemyHoming::~CEnemyHoming()
 {
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CEnemy::Init()
+HRESULT CEnemyHoming::Init()
 {
 	// 初期化
-	CObject3D::Init();
-
-	// 種類の設定
-	CObject3D::SetType(CObject::TYPE_ENEMY);
-
-	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CEnemy::Init();
 
 	return S_OK;
 }
@@ -88,26 +47,47 @@ HRESULT CEnemy::Init()
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void CEnemy::Uninit()
+void CEnemyHoming::Uninit()
 {
 	// 終了
-	CObject3D::Uninit();
+	CEnemy::Uninit();
 }
 
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void CEnemy::Update()
+void CEnemyHoming::Update()
 {
+	D3DXVECTOR3 posDest = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	D3DXVECTOR3 pos = CObject3D::GetPos();
+
+	// ホーミング
+	Homing(&pos, pos, posDest, 3.0f);
+
+	// 位置の設定
+	CObject3D::SetPos(pos);
+
 	// 更新
-	CObject3D::Update();
+	CEnemy::Update();
 }
 
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void CEnemy::Draw()
+void CEnemyHoming::Draw()
 {
 	// 描画
-	CObject3D::Draw();
+	CEnemy::Draw();
+}
+
+//--------------------------------------------------
+// 設定
+//--------------------------------------------------
+void CEnemyHoming::Set(const D3DXVECTOR3& pos)
+{
+	// 位置の設定
+	CObject3D::SetPos(pos);
+
+	// テクスチャの設定
+	CObject3D::SetTexture(CTexture::LABEL_InuiToko000);
 }

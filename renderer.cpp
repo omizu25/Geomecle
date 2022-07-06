@@ -14,6 +14,7 @@
 #include "renderer.h"
 #include "player.h"
 #include "bullet.h"
+#include "enemy_manager.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -153,6 +154,9 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
+	// “G‚ÌƒXƒ|[ƒ“
+	CApplication::GetInstanse()->GetEnemyManager()->Spawn();
+
 	// ’e‚Ì”­ŽË
 	CBullet::Shot();
 
