@@ -116,6 +116,9 @@ void CEnemyRoundTrip::Set(const D3DXVECTOR3& pos)
 
 	// ˆÚ“®—Ê‚Ìİ’è
 	SetMove();
+
+	// F‚Ìİ’è
+	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
 }
 
 //--------------------------------------------------

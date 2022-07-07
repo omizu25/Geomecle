@@ -100,4 +100,7 @@ void CEnemyHoming::Set(const D3DXVECTOR3& pos)
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_PaperAirplane);
+
+	// 色の設定
+	CObject3D::SetCol(D3DXCOLOR(0.0f, 0.75f, 1.0f, 1.0f));
 }
