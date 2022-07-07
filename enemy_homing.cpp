@@ -61,6 +61,16 @@ void CEnemyHoming::Update()
 	D3DXVECTOR3 posDest = CApplication::GetInstanse()->GetPlayer()->GetPos();
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
+	D3DXVECTOR3 posDiff = posDest - pos;
+
+	float rot = atan2f(posDiff.x, posDiff.y);
+
+	// 角度の正規化
+	NormalizeAngle(&rot);
+
+	// 向きの設定
+	CObject3D::SetRot(rot);
+
 	// ホーミング
 	Homing(&pos, pos, posDest, 3.0f);
 
@@ -89,5 +99,5 @@ void CEnemyHoming::Set(const D3DXVECTOR3& pos)
 	CObject3D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_InuiToko000);
+	CObject3D::SetTexture(CTexture::LABEL_PaperAirplane);
 }

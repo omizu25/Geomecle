@@ -45,6 +45,7 @@ private:
 	int m_time;				// 時間
 	int m_timing;			// タイミング
 	int m_max;				// 最大値
+	int m_spawn;			// スポーン
 };
 
 #endif // !_APPLICATION_H_

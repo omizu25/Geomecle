@@ -88,6 +88,27 @@ CObject** CObject::GetMyObject()
 }
 
 //--------------------------------------------------
+// 存在するかどうか
+//--------------------------------------------------
+bool CObject::Exist(CObject::EType type)
+{
+	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	{
+		if (m_pObject[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		if (m_pObject[i]->m_type == type)
+		{// 同じ種類
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CObject::CObject() : 

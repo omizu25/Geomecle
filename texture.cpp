@@ -20,9 +20,7 @@ const char* CTexture::FILE_NAME[] =
 {// テクスチャのパス
 	"data/TEXTURE/icon_122380_256.png",	// プレイヤー
 	"data/TEXTURE/icon_122540_256.png",	// 弾
-	"data/TEXTURE/tori_slyme.png",		// 爆発
-	"data/TEXTURE/kitune.png",			// ゴン
-	"data/TEXTURE/Inui Toko 000.jpg",	// 推し
+	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

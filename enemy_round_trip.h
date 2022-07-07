@@ -18,6 +18,10 @@
 //==================================================
 class CEnemyRoundTrip : public CEnemy
 {
+	/* 定義 */
+private:
+	static const float MAX_MOVE;	// 移動量の最大値
+
 	/* ↓メンバ関数↓ */
 public:
 	CEnemyRoundTrip();				// デフォルトコンストラクタ
@@ -29,6 +33,11 @@ public:
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
 	void Set(const D3DXVECTOR3& pos) override;	// 設定
+	void SetMove();	// 移動量の設定
+
+	/* メンバ変数 */
+private:
+	D3DXVECTOR3 m_move;	// 移動量
 };
 
 #endif // !_ENEMY_ROUND_TRIP_H_

@@ -31,7 +31,11 @@ const int CEnemyManager::SPAWN_INTERVAL = 60;
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEnemyManager::CEnemyManager() :
-	m_pEnemyLoad(nullptr)
+	m_pEnemyLoad(nullptr),
+	m_time(0),
+	m_timing(0),
+	m_max(0),
+	m_spawn(0)
 {
 
 }
@@ -84,8 +88,6 @@ void CEnemyManager::Load()
 		m_pEnemyLoad[i].type = (CEnemy::EType)enemy[name]["TYPE"];
 		m_pEnemyLoad[i].timing = enemy[name]["TIMING"];
 	}
-
-	int i = 0;
 }
 
 //--------------------------------------------------
@@ -93,13 +95,23 @@ void CEnemyManager::Load()
 //--------------------------------------------------
 void CEnemyManager::Spawn()
 {
+	if (m_max == m_spawn)
+	{// 全部スポーンした
+		return;
+	}
+
 	m_time++;
 
-	
-
-	if ((m_time % CEnemyManager::SPAWN_INTERVAL) != 0)
-	{// インターバル中
-		return;
+	if (CObject::Exist(CObject::TYPE_ENEMY))
+	{// 敵がいる
+		if ((m_time % CEnemyManager::SPAWN_INTERVAL) != 0)
+		{// インターバル中
+			return;
+		}
+	}
+	else
+	{
+		m_time = 0;
 	}
 
 	for (int i = 0; i < m_max; i++)
@@ -109,7 +121,10 @@ void CEnemyManager::Spawn()
 			continue;
 		}
 
+		// 敵の生成
 		CEnemy::Create(m_pEnemyLoad[i].type, m_pEnemyLoad[i].pos);
+		
+		m_spawn++;
 	}
 
 	m_timing++;

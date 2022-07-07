@@ -25,6 +25,7 @@ public:
 	enum EType
 	{
 		TYPE_HOMING = 0,	// ホーミング
+		TYPE_ROUNDTRIP,		// 往復
 		TYPE_MAX,
 		TYPE_NONE
 	};
