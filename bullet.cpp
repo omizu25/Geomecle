@@ -73,6 +73,23 @@ void CBullet::Shot()
 		return;
 	}
 
+	if (m_time == 0)
+	{// ‚P”­–Ú
+		// –Ú“I‚ÌŒü‚«
+		m_dest = atan2f(rot.x, rot.y);
+
+		// Šp“x‚Ì³‹K‰»
+		NormalizeAngle(&m_dest);
+
+		m_now = m_dest;
+
+		// ’e”­Ë
+		CBullet::Create(m_now);
+
+		m_time++;
+		return;
+	}
+
 	m_time++;
 
 	// –Ú“I‚ÌŒü‚«

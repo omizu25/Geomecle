@@ -19,10 +19,18 @@
 #include "utility.h"
 #include <assert.h>
 
+//==================================================
+// 定義
+//==================================================
+const int CEnemyHoming::MAX_U = 4;
+const int CEnemyHoming::ANIMATION_TIME = 10;
+
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEnemyHoming::CEnemyHoming()
+CEnemyHoming::CEnemyHoming() :
+	m_time(0),
+	m_idxPattern(0)
 {
 }
 
@@ -77,6 +85,16 @@ void CEnemyHoming::Update()
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
+	m_time++;
+
+	if ((m_time % CEnemyHoming::ANIMATION_TIME) == 0)
+	{// 一定時間経過
+		m_idxPattern++;
+
+		// テクスチャ座標の設定
+		CEnemyHoming::SetTex();
+	}
+
 	// 更新
 	CEnemy::Update();
 }
@@ -99,8 +117,24 @@ void CEnemyHoming::Set(const D3DXVECTOR3& pos)
 	CObject3D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_PaperAirplane);
+	CObject3D::SetTexture(CTexture::LABEL_Homing);
 
 	// 色の設定
 	CObject3D::SetCol(D3DXCOLOR(0.0f, 0.75f, 1.0f, 1.0f));
+}
+
+//--------------------------------------------------
+// テクスチャ座標の設定
+//--------------------------------------------------
+void CEnemyHoming::SetTex()
+{
+	int a = m_idxPattern % CEnemyHoming::MAX_U;
+	float b = 1.0f / CEnemyHoming::MAX_U;
+	float c = a * b;
+
+	D3DXVECTOR2 u = D3DXVECTOR2(c, c + b);
+	D3DXVECTOR2 v = D3DXVECTOR2(0.0f, 1.0f);
+
+	// テクスチャ座標の設定
+	CObject3D::SetVtxTex(u, v);
 }
