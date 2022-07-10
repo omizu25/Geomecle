@@ -26,6 +26,7 @@ public:
 	{
 		TYPE_HOMING = 0,	// ホーミング
 		TYPE_ROUNDTRIP,		// 往復
+		TYPE_WINDMILL,		// 風車
 		TYPE_MAX,
 		TYPE_NONE
 	};

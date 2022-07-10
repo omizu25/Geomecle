@@ -22,6 +22,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/icon_122540_256.png",	// 弾
 	"data/TEXTURE/Homing.png",			// ホーミング
 	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
+	"data/TEXTURE/Windmill.png",		// 風車
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

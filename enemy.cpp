@@ -19,6 +19,7 @@
 #include "utility.h"
 #include "enemy_homing.h"
 #include "enemy_round_trip.h"
+#include "enemy_windmill.h"
 #include <assert.h>
 
 //==================================================
@@ -41,6 +42,10 @@ CEnemy* CEnemy::Create(CEnemy::EType type, const D3DXVECTOR3& pos)
 
 	case CEnemy::TYPE_ROUNDTRIP:
 		pEnemy = new CEnemyRoundTrip;
+		break;
+
+	case CEnemy::TYPE_WINDMILL:
+		pEnemy = new CEnemyWindmill;
 		break;
 
 	case CEnemy::TYPE_MAX:
