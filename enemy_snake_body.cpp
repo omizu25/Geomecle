@@ -79,7 +79,7 @@ HRESULT CEnemySnakeBody::Init()
 	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
 
 	// êFÇÃê›íË
-	CObject3D::SetCol(D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
+	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
 
 	return S_OK;
 }

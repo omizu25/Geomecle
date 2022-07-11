@@ -196,7 +196,7 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 	SetMove();
 
 	// êFÇÃê›íË
-	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+	CObject3D::SetCol(D3DXCOLOR(0.0f, 0.5f, 1.0f, 1.0f));
 
 	m_pBody = new CEnemySnakeBody*[MAX_BODY];
 
