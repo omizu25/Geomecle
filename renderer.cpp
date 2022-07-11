@@ -12,6 +12,7 @@
 #include "application.h"
 #include "camera.h"
 #include "renderer.h"
+#include "object.h"
 #include "player.h"
 #include "bullet.h"
 #include "enemy_manager.h"
@@ -224,7 +225,7 @@ void CRenderer::DrawFPS()
 	wsprintf(&str[length], _T("FPS : %d\n"), GetFPS());
 	length = (int)strlen(str);
 
-	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CBullet::GetNumAll());
+	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CObject::GetNumAll());
 	length = (int)strlen(str);
 
 	// テキスト描画

@@ -171,7 +171,7 @@ void CObject2D::SetPos(const D3DXVECTOR3& pos)
 	m_pos = pos;
 
 	// í∏ì_èÓïÒÇÃê›íË
-	CObject2D::SetVtxPos();
+	SetVtxPos();
 }
 
 //--------------------------------------------------
@@ -190,7 +190,7 @@ void CObject2D::SetSize(const D3DXVECTOR3& size)
 	m_size = size;
 
 	// í∏ì_èÓïÒÇÃê›íË
-	CObject2D::SetVtxPos();
+	SetVtxPos();
 }
 
 //--------------------------------------------------

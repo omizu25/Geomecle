@@ -156,8 +156,8 @@ void CPlayer::Move()
 	pos.x += vec.x * MAX_MOVE;
 	pos.y += vec.y * MAX_MOVE;
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::MAX_WIDTH * 0.5f);
-	float wall = (CWall::MAX_LENGTH * 0.5f) - size;
+	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	// ”ÍˆÍ“à
 	InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f));

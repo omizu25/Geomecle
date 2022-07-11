@@ -20,7 +20,7 @@
 
 namespace nl = nlohmann;
 
-static nl::json enemy;//リストの生成
+static nl::json enemy;	// リストの生成
 
 //==================================================
 // 定義

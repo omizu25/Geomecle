@@ -19,8 +19,8 @@ class CRenderer
 {
 	/* ↓メンバ関数↓ */
 public:
-	CRenderer();			// デフォルトコンストラクタ
-	virtual ~CRenderer();	// デストラクタ
+	CRenderer();	// デフォルトコンストラクタ
+	~CRenderer();	// デストラクタ
 
 public:
 	HRESULT Init(HWND hWnd, bool bWindow);	// 初期化

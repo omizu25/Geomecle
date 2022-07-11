@@ -178,8 +178,8 @@ void CBullet::Update()
 	CObject3D::Update();
 
 	{
-		float size = (MAX_SIZE * 0.5f) + (CWall::MAX_WIDTH * 0.5f);
-		float wall = (CWall::MAX_LENGTH * 0.5f) - size;
+		float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+		float wall = (CWall::GetLength() * 0.5f) - size;
 
 		if (InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f)))
 		{// �͈͊O
@@ -199,7 +199,8 @@ void CBullet::Update()
 			continue;
 		}
 
-		D3DXVECTOR3 enemyPos = pObject[i]->GetPos();
+		CEnemy* pEnemy = (CEnemy*)pObject[i];
+		D3DXVECTOR3 enemyPos = pEnemy->GetPos();
 		float size = (MAX_SIZE * 0.5f);
 
 		if (((pos.y - size) <= (enemyPos.y + CEnemy::MAX_SIZE)) &&

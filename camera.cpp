@@ -79,8 +79,8 @@ void CCamera::Update()
 	// ホーミング
 	Homing(&m_pos, m_pos, pos, length);
 
-	float size = (CWall::MAX_WIDTH * 0.5f);
-	float wall = ((CWall::MAX_LENGTH * 0.5f) - size);
+	float size = (CWall::GetWidth() * 0.5f);
+	float wall = ((CWall::GetLength() * 0.5f) - size);
 
 	// 範囲内
 	InRange(&m_pos, D3DXVECTOR3(wall * 0.3f, wall * 0.5f, 0.0f));
@@ -116,8 +116,8 @@ void CCamera::Set()
 	D3DXMatrixOrthoLH(&m_mtxProj,			// プロジェクションマトリックス
 		(float)CApplication::SCREEN_WIDTH,	// 幅
 		(float)CApplication::SCREEN_HEIGHT,	// 高さ
-		CCamera::MAX_NEAR,					// ニア
-		CCamera::MAX_FAR);					// ファー
+		MAX_NEAR,							// ニア
+		MAX_FAR);							// ファー
 	
 	// プロジェクションマトリックスの設定
 	pDevice->SetTransform(D3DTS_PROJECTION, &m_mtxProj);

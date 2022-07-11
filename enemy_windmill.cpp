@@ -70,8 +70,8 @@ void CEnemyWindmill::Update()
 
 	pos += m_move;
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::MAX_WIDTH * 0.5f);
-	float wall = (CWall::MAX_LENGTH * 0.5f) - size;
+	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	if (pos.x >= wall)
 	{// ‰E‚Ì•Ç

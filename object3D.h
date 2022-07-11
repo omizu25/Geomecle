@@ -47,12 +47,12 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
-	void SetPos(const D3DXVECTOR3& pos) override;	// 位置の設定
-	const D3DXVECTOR3& GetPos() const override;		// 位置の取得
-	void SetSize(const D3DXVECTOR3& size) override;	// サイズの設定
-	const D3DXVECTOR3& GetSize() const override;	// サイズの取得
-	void SetRot(float rot) override;		// 向きの設定
-	const float GetRot() const override;	// 向きの取得
+	void SetPos(const D3DXVECTOR3& pos);	// 位置の設定
+	const D3DXVECTOR3& GetPos() const;		// 位置の取得
+	void SetSize(const D3DXVECTOR3& size);	// サイズの設定
+	const D3DXVECTOR3& GetSize() const;		// サイズの取得
+	void SetRot(float rot);					// 向きの設定
+	const float GetRot() const;				// 向きの取得
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 	void SetCol(const D3DXCOLOR& col);	// 色の設定

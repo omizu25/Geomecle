@@ -20,6 +20,50 @@ const float CWall::MAX_WIDTH = 10.0f;
 const float CWall::MAX_LENGTH = 1200.0f;
 
 //--------------------------------------------------
+// ëSÇƒÇÃê∂ê¨
+//--------------------------------------------------
+void CWall::AllCreate()
+{
+	{// è„â∫ÇÃï«
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::MAX_LENGTH, CWall::MAX_WIDTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, CWall::MAX_LENGTH * 0.5f, 0.0f);
+
+		// è„ÇÃï«
+		CWall::Create(pos, size);
+
+		// â∫ÇÃï«
+		CWall::Create(-pos, size);
+	}
+
+	{// ç∂âEÇÃï«
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::MAX_WIDTH, CWall::MAX_LENGTH, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(CWall::MAX_LENGTH * 0.5f, 0.0f, 0.0f);
+
+		// âEÇÃï«
+		CWall::Create(pos, size);
+
+		// ç∂ÇÃï«
+		CWall::Create(-pos, size);
+	}
+}
+
+//--------------------------------------------------
+// ïùÇÃéÊìæ
+//--------------------------------------------------
+float CWall::GetWidth()
+{
+	return MAX_WIDTH;
+}
+
+//--------------------------------------------------
+// í∑Ç≥ÇÃéÊìæ
+//--------------------------------------------------
+float CWall::GetLength()
+{
+	return MAX_LENGTH;
+}
+
+//--------------------------------------------------
 // ê∂ê¨
 //--------------------------------------------------
 CWall* CWall::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)

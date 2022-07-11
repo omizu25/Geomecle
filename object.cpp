@@ -18,14 +18,14 @@
 // 静的メンバ変数
 //==================================================
 int CObject::m_numAll = 0;
-CObject* CObject::m_pObject[CObject::MAX_OBJECT] = {};
+CObject* CObject::m_pObject[MAX_OBJECT] = {};
 
 //--------------------------------------------------
 // 全ての解放
 //--------------------------------------------------
 void CObject::ReleaseAll()
 {
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{// NULLチェック
@@ -42,7 +42,7 @@ void CObject::ReleaseAll()
 //--------------------------------------------------
 void CObject::UpdateAll()
 {
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{// NULLチェック
@@ -59,7 +59,7 @@ void CObject::UpdateAll()
 //--------------------------------------------------
 void CObject::DrawAll()
 {
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{// NULLチェック
@@ -92,7 +92,7 @@ CObject** CObject::GetMyObject()
 //--------------------------------------------------
 bool CObject::Exist(CObject::EType type)
 {
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{// nullチェック
@@ -114,7 +114,7 @@ bool CObject::Exist(CObject::EType type)
 CObject::CObject() : 
 	m_type(CObject::TYPE_NONE)
 {
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{

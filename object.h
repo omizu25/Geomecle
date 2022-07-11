@@ -34,12 +34,12 @@ public:
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static void ReleaseAll();				// 全ての解放
-	static void UpdateAll();				// 全ての更新
-	static void DrawAll();					// 全ての描画
-	static int GetNumAll();					// 総数の取得
-	static CObject** GetMyObject();			// オブジェクトの取得
-	static bool Exist(CObject::EType type);	// 存在するかどうか
+	static void ReleaseAll();		// 全ての解放
+	static void UpdateAll();		// 全ての更新
+	static void DrawAll();			// 全ての描画
+	static int GetNumAll();			// 総数の取得
+	static CObject** GetMyObject();	// オブジェクトの取得
+	static bool Exist(EType type);	// 存在するかどうか
 
 	/* ↓静的メンバ変数↓ */
 private:
@@ -56,20 +56,14 @@ public:
 	virtual void Uninit() = 0;	// 終了
 	virtual void Update() = 0;	// 更新
 	virtual void Draw() = 0;	// 描画
-	virtual void SetPos(const D3DXVECTOR3& pos) = 0;	// 位置の設定
-	virtual const D3DXVECTOR3& GetPos() const = 0;		// 位置の取得
-	virtual void SetSize(const D3DXVECTOR3& size) = 0;	// サイズの設定
-	virtual const D3DXVECTOR3& GetSize()const  = 0;		// サイズの取得
-	virtual void SetRot(float rot) = 0;		// 向きの設定
-	virtual const float GetRot() const = 0;	// 向きの取得
-	void SetType(CObject::EType type);		// 種類の設定
-	const CObject::EType GetType() const;	// 種類の取得
+	void SetType(EType type);		// 種類の設定
+	const EType GetType() const;	// 種類の取得
 	void Release();	// 解放
 
 	/* ↓メンバ変数↓ */
 private:
-	CObject::EType m_type;	// タイプ
-	int m_index;			// 格納先の番号
+	EType m_type;	// タイプ
+	int m_index;	// 格納先の番号
 };
 
 #endif // !_OBJECT_H_

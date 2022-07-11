@@ -19,12 +19,17 @@
 class CWall : public CObject3D
 {
 	/* 定義 */
-public:
+private:
 	static const float MAX_WIDTH;	//	幅の最大値
 	static const float MAX_LENGTH;	//	長さの最大値
 
 	/* ↓静的メンバ関数↓ */
 public:
+	static void AllCreate();	// 全ての生成
+	static float GetWidth();	// 幅の取得
+	static float GetLength();	// 長さの取得
+
+private:
 	static CWall* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 生成
 
 	/* ↓メンバ関数↓ */
