@@ -27,6 +27,7 @@ public:
 		TYPE_HOMING = 0,	// ホーミング
 		TYPE_ROUNDTRIP,		// 往復
 		TYPE_WINDMILL,		// 風車
+		TYPE_SNAKE,			// 蛇
 		TYPE_MAX,
 		TYPE_NONE
 	};
@@ -45,6 +46,8 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
+
+private:
 	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定
 };
 

@@ -32,6 +32,8 @@ public:
 	void Uninit() override;		// I—¹
 	void Update() override;		// XV
 	void Draw() override;		// •`‰æ
+
+private:
 	void Set(const D3DXVECTOR3& pos) override;	// İ’è
 	void SetMove();	// ˆÚ“®—Ê‚Ìİ’è
 

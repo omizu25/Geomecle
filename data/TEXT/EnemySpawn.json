@@ -1,11 +1,11 @@
 {
-	"MAX": 3,
+	"MAX": 4,
 	"ENEMY0": {
 		"POS": {
 			"X": 300,
 			"Y": -300
 		},
-		"TYPE": 0,
+		"TYPE": 3,
 		"TIMING": 0
 	},
 	"ENEMY1": {
@@ -13,15 +13,23 @@
 			"X": 300,
 			"Y": 300
 		},
-		"TYPE": 1,
+		"TYPE": 3,
 		"TIMING": 1
 	},
-	"ENEMY2": {
+  "ENEMY2": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 2
+  },
+  "ENEMY3": {
 		"POS": {
 			"X": -300,
 			"Y": -300
 		},
-		"TYPE": 2,
-		"TIMING": 2
+		"TYPE": 3,
+		"TIMING": 3
 	}
 }
