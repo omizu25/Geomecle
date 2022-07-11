@@ -18,20 +18,25 @@
 #include "texture.h"
 #include "utility.h"
 #include "wall.h"
+#include "enemy_snake_body.h"
 #include <assert.h>
 
 //==================================================
 // 定義
 //==================================================
+const int CEnemySnakeHead::MAX_BODY = 15;
+const int CEnemySnakeHead::IDX_PARENT = 0;
 const float CEnemySnakeHead::MAX_SIZE = 20.0f;
-const float CEnemySnakeHead::MAX_MOVE = 5.0f;
-const float CEnemySnakeHead::MAX_AMPLITUDE = 3.0f;
+const float CEnemySnakeHead::MAX_MOVE = 1.5f;
+const float CEnemySnakeHead::AMPLITUDE_WIDTH = 3.0f;
+const float CEnemySnakeHead::AMPLITUDE_SPEED = 2.0f;
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEnemySnakeHead::CEnemySnakeHead() :
 	m_time(0),
+	m_rotOld(0.0f),
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_posOld(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 {
@@ -62,6 +67,24 @@ HRESULT CEnemySnakeHead::Init()
 //--------------------------------------------------
 void CEnemySnakeHead::Uninit()
 {
+	for (int i = 0; i < MAX_BODY; i++)
+	{
+		if (m_pBody[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		// 解放
+		m_pBody[i]->Release();
+		m_pBody[i] = nullptr;
+	}
+
+	if (m_pBody != nullptr)
+	{// nullチェック
+		delete[] m_pBody;
+		m_pBody = nullptr;
+	}
+
 	// 終了
 	CEnemy::Uninit();
 }
@@ -93,6 +116,9 @@ void CEnemySnakeHead::Update()
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
+	// 前回の向きの保存
+	m_rotOld = CObject3D::GetRot();
+
 	float rot = atan2f(m_move.x, m_move.y);
 
 	// 角度の正規化
@@ -100,6 +126,34 @@ void CEnemySnakeHead::Update()
 
 	// 向きの設定
 	CObject3D::SetRot(rot);
+
+	if (m_pBody[IDX_PARENT] != nullptr)
+	{// nullチェック
+		// 目的の位置の設定
+		m_pBody[IDX_PARENT]->SetPosDest(m_posOld);
+
+		//	前回の向きの設定
+		m_pBody[IDX_PARENT]->SetRotOld(m_rotOld);
+	}
+
+	for (int i = 0; i < MAX_BODY; i++)
+	{
+		if (m_pBody[i] == nullptr || i == IDX_PARENT)
+		{// nullチェック
+			continue;
+		}
+
+		int parent = i - 1;
+		D3DXVECTOR3 posOld = m_pBody[parent]->GetPosOld();
+
+		// 目的の位置の設定
+		m_pBody[i]->SetPosDest(posOld);
+
+		float rotOld = m_pBody[parent]->GetRotOld();
+
+		//	前回の向きの設定
+		m_pBody[i]->SetRotOld(rotOld);
+	}
 
 	// 更新
 	CEnemy::Update();
@@ -115,12 +169,22 @@ void CEnemySnakeHead::Draw()
 }
 
 //--------------------------------------------------
+// 前回の位置の取得
+//--------------------------------------------------
+const D3DXVECTOR3& CEnemySnakeHead::GetPosOld() const
+{
+	return m_posOld;
+}
+
+//--------------------------------------------------
 // 設定
 //--------------------------------------------------
 void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 {
 	// 位置の設定
 	CObject3D::SetPos(pos);
+
+	m_posOld = pos;
 
 	// サイズの設定
 	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
@@ -133,6 +197,21 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 
 	// 色の設定
 	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+
+	m_pBody = new CEnemySnakeBody*[MAX_BODY];
+
+	for (int i = 0; i < MAX_BODY; i++)
+	{
+		if (m_pBody[i] == nullptr)
+		{
+			continue;
+		}
+
+		// 生成
+		m_pBody[i] = CEnemySnakeBody::Create();
+		m_pBody[i]->SetPos(pos);
+		m_pBody[i]->SetPosDest(pos);
+	}
 }
 
 //--------------------------------------------------
@@ -160,8 +239,9 @@ void CEnemySnakeHead::SetMove()
 	// 角度の正規化
 	NormalizeAngle(&fRotMove);
 
-	float sinCurve = sinf(D3DXToRadian(m_time * MAX_AMPLITUDE)) * MAX_MOVE;
+	float sinCurve = sinf(D3DXToRadian(m_time * AMPLITUDE_SPEED)) * AMPLITUDE_WIDTH;
 
-	m_move.x = sinf(fRotMove) + sinCurve * sinf(fRotMove + D3DX_PI * 0.5f);
-	m_move.y = cosf(fRotMove) + sinCurve * cosf(fRotMove + D3DX_PI * 0.5f);
+	m_move.x = (sinf(fRotMove) * MAX_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
+	m_move.y = (cosf(fRotMove) * MAX_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
+	//m_move *= 2.0f;
 }

@@ -14,15 +14,23 @@
 #include "enemy.h"
 
 //==================================================
+// 前方宣言
+//==================================================
+class CEnemySnakeBody;
+
+//==================================================
 // 定義
 //==================================================
 class CEnemySnakeHead : public CEnemy
 {
 	/* 定義 */
 private:
+	static const int MAX_BODY;			// 体の最大数
+	static const int IDX_PARENT;		// 親の番号
 	static const float MAX_SIZE;		// サイズの最大値
 	static const float MAX_MOVE;		// 移動量の最大値
-	static const float MAX_AMPLITUDE;	// 振幅の最大値
+	static const float AMPLITUDE_WIDTH;	// 振幅の幅
+	static const float AMPLITUDE_SPEED;	// 振幅の速度
 
 	/* ↓メンバ関数↓ */
 public:
@@ -34,6 +42,7 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
+	const D3DXVECTOR3& GetPosOld() const;	// 前回の位置の取得
 
 private:
 	void Set(const D3DXVECTOR3& pos) override;	// 設定
@@ -41,9 +50,12 @@ private:
 
 	/* メンバ変数 */
 private:
-	int m_time;				// タイム
-	D3DXVECTOR3 m_move;		// 移動量
-	D3DXVECTOR3 m_posOld;	// 前回の位置
+	int m_time;					// タイム
+	float m_rotOld;				// 前回の向き
+	D3DXVECTOR3 m_move;			// 移動量
+	D3DXVECTOR3 m_posOld;		// 前回の位置
+	CEnemySnakeBody** m_pBody;	// 体の情報
+
 };
 
 #endif // !_ENEMY_SNAKE_HEAD_H_

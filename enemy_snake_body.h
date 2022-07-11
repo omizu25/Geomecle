@@ -16,29 +16,38 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemySnakeHead : public CObject3D
+class CEnemySnakeBody : public CObject3D
 {
 	/* 定義 */
 private:
-	static const float MAX_SIZE;		// サイズの最大値
-	static const float MAX_MOVE;		// 移動量の最大値
-	static const float MAX_AMPLITUDE;	// 振幅の最大値
+	static const float MAX_SIZE;	// サイズの最大値
+	static const int MOVE_INTERVAL;	// 移動のインターバル
+
+		/* ↓静的メンバ関数↓ */
+public:
+	static CEnemySnakeBody* Create();	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
-	CEnemySnakeHead();				// デフォルトコンストラクタ
-	~CEnemySnakeHead() override;	// デストラクタ
+	CEnemySnakeBody();				// デフォルトコンストラクタ
+	~CEnemySnakeBody() override;	// デストラクタ
 
 public:
 	HRESULT Init() override;	// 初期化
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
+	void SetPosDest(const D3DXVECTOR3& posDest);	// 目的の位置の設定
+	const D3DXVECTOR3& GetPosOld() const;			// 前回の位置の取得
+	void SetRotOld(float rotOld);	// 前回の向きの設定
+	float GetRotOld();				// 前回の向きの取得
 
 	/* メンバ変数 */
 private:
-	int m_time;			// タイム
-	D3DXVECTOR3 m_move;	// 移動量
+	int m_time;				// タイム
+	float m_rotOld;			// 前回の向き
+	D3DXVECTOR3 m_posDest;	// 目的の位置
+	D3DXVECTOR3 m_posOld;	// 前回の位置
 };
 
 #endif // !_ENEMY_SNAKE_BODY_H_
