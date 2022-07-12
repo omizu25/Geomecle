@@ -1,5 +1,5 @@
 {
-	"MAX": 4,
+	"MAX": 11,
 	"ENEMY0": {
 		"POS": {
 			"X": 300,
@@ -25,11 +25,75 @@
     "TIMING": 2
   },
   "ENEMY3": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 3
+  },
+  "ENEMY4": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 4
+  },
+  "ENEMY5": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 5
+  },
+  "ENEMY6": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 6
+  },
+  "ENEMY7": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 7
+  },
+  "ENEMY8": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 8
+  },
+  "ENEMY9": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 9
+  },
+  "ENEMY10": {
+    "POS": {
+      "X": -300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 10
+  },
+   "ENEMY11": {
 		"POS": {
 			"X": -300,
 			"Y": -300
 		},
 		"TYPE": 3,
-		"TIMING": 3
+		"TIMING": 11
 	}
 }

@@ -20,8 +20,9 @@ class CEnemyHoming : public CEnemy
 {
 	/* ↓定義↓ */
 private:
-	static const int MAX_U;				// Uの最大数
-	static const int ANIMATION_TIME;	// アニメーションの時間
+	static const float MAX_MOVE;	// 移動量の最大値
+	static const float MAX_SIZE;	// サイズの最大値
+	static const float SIZE_CHANGE;	// サイズの変更値
 
 	/* ↓メンバ関数↓ */
 public:
@@ -36,12 +37,10 @@ public:
 
 private:
 	void Set(const D3DXVECTOR3& pos) override;	// 設定
-	void SetTex();	// テクスチャ座標の設定
 
 	/* ↓メンバ変数↓ */
 private:
-	int m_time;			// タイム
-	int m_idxPattern;	// パターン番号
+	int m_time;	// タイム
 };
 
 #endif // !_ENEMY_HOMING_H_

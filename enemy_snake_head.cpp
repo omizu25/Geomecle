@@ -132,7 +132,7 @@ void CEnemySnakeHead::Update()
 		// 目的の位置の設定
 		m_pBody[IDX_PARENT]->SetPosDest(m_posOld);
 
-		//	前回の向きの設定
+		// 前回の向きの設定
 		m_pBody[IDX_PARENT]->SetRotOld(m_rotOld);
 	}
 
@@ -151,7 +151,7 @@ void CEnemySnakeHead::Update()
 
 		float rotOld = m_pBody[parent]->GetRotOld();
 
-		//	前回の向きの設定
+		// 前回の向きの設定
 		m_pBody[i]->SetRotOld(rotOld);
 	}
 
