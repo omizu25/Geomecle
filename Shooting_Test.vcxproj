@@ -24,6 +24,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemy_division.h" />
     <ClInclude Include="enemy_homing.h" />
     <ClInclude Include="enemy_manager.h" />
     <ClInclude Include="enemy_round_trip.h" />
@@ -49,6 +50,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy_division.cpp" />
     <ClCompile Include="enemy_homing.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
     <ClCompile Include="enemy_round_trip.cpp" />

@@ -28,6 +28,7 @@ public:
 		TYPE_ROUNDTRIP,		// ‰•œ
 		TYPE_WINDMILL,		// •—ŽÔ
 		TYPE_SNAKE,			// ŽÖ
+		TYPE_DIVISION,		// •ª—ô
 		TYPE_MAX,
 		TYPE_NONE
 	};

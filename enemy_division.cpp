@@ -1,6 +1,6 @@
 //**************************************************
 // 
-// enemy_homing.cpp
+// enemy_division.cpp
 // Author  : katsuki mizuki
 // 
 //**************************************************
@@ -11,7 +11,7 @@
 #include "application.h"
 #include "input.h"
 #include "sound.h"
-#include "enemy_homing.h"
+#include "enemy_division.h"
 #include "object3D.h"
 #include "bullet.h"
 #include "player.h"
@@ -22,13 +22,13 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyHoming::MAX_MOVE = 3.0f;
-const float CEnemyHoming::SIZE_CHANGE = 10.0f;
+const float CEnemyDivision::MAX_MOVE = 4.0f;
+const float CEnemyDivision::ROT_CHANGE = 0.2f;
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEnemyHoming::CEnemyHoming() :
+CEnemyDivision::CEnemyDivision() :
 	m_time(0)
 {
 }
@@ -36,14 +36,14 @@ CEnemyHoming::CEnemyHoming() :
 //--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
-CEnemyHoming::~CEnemyHoming()
+CEnemyDivision::~CEnemyDivision()
 {
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CEnemyHoming::Init()
+HRESULT CEnemyDivision::Init()
 {
 	m_time = 0;
 
@@ -56,7 +56,7 @@ HRESULT CEnemyHoming::Init()
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void CEnemyHoming::Uninit()
+void CEnemyDivision::Uninit()
 {
 	// 終了
 	CEnemy::Uninit();
@@ -65,7 +65,7 @@ void CEnemyHoming::Uninit()
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void CEnemyHoming::Update()
+void CEnemyDivision::Update()
 {
 	m_time++;
 
@@ -78,13 +78,16 @@ void CEnemyHoming::Update()
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
-	D3DXVECTOR3 size = D3DXVECTOR3(CEnemy::MAX_SIZE, CEnemy::MAX_SIZE, 0.0f);
+	D3DXVECTOR3 posDiff = posDest - pos;
 
-	size.x += sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * SIZE_CHANGE;
-	size.y -= sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * SIZE_CHANGE;
+	float rot = atan2f(posDiff.x, posDiff.y) + (D3DX_PI * 0.25f);
+	rot += (sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * ROT_CHANGE) * (D3DX_PI * 2.0f);
 
-	// サイズの設定
-	CObject3D::SetSize(size);
+	// 角度の正規化
+	NormalizeAngle(&rot);
+
+	// 向きの設定
+	CEnemy::SetRot(rot);
 
 	// 更新
 	CEnemy::Update();
@@ -93,7 +96,7 @@ void CEnemyHoming::Update()
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void CEnemyHoming::Draw()
+void CEnemyDivision::Draw()
 {
 	// 描画
 	CEnemy::Draw();
@@ -102,14 +105,17 @@ void CEnemyHoming::Draw()
 //--------------------------------------------------
 // 設定
 //--------------------------------------------------
-void CEnemyHoming::Set(const D3DXVECTOR3& pos)
+void CEnemyDivision::Set(const D3DXVECTOR3& pos)
 {
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_Homing);
+	CObject3D::SetTexture(CTexture::LABEL_HomingDivision);
 
 	// 色の設定
-	CObject3D::SetCol(D3DXCOLOR(0.0f, 0.75f, 1.0f, 1.0f));
+	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
+
+	// サイズの設定
+	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
 }

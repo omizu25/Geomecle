@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// enemy_homing.h
+// enemy_division.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _ENEMY_HOMING_H_	//このマクロ定義がされてなかったら
-#define _ENEMY_HOMING_H_	//２重インクルード防止のマクロ定義
+#ifndef _ENEMY_DIVISION_H_	//このマクロ定義がされてなかったら
+#define _ENEMY_DIVISION_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -16,17 +16,17 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemyHoming : public CEnemy
+class CEnemyDivision : public CEnemy
 {
 	/* ↓定義↓ */
 private:
 	static const float MAX_MOVE;	// 移動量の最大値
-	static const float SIZE_CHANGE;	// サイズの変更値
+	static const float ROT_CHANGE;	// 向きの変更値
 
 	/* ↓メンバ関数↓ */
 public:
-	CEnemyHoming();				// デフォルトコンストラクタ
-	~CEnemyHoming() override;	// デストラクタ
+	CEnemyDivision();			// デフォルトコンストラクタ
+	~CEnemyDivision() override;	// デストラクタ
 
 public:
 	HRESULT Init() override;	// 初期化
@@ -42,4 +42,6 @@ private:
 	int m_time;	// タイム
 };
 
-#endif // !_ENEMY_HOMING_H_
+#endif // !_ENEMY_DIVISION_H_
+
+//アハー↑

@@ -21,9 +21,11 @@ class CTexture
 public:
 	enum ELabel
 	{
-		LABEL_icon_122380_256 = 0,	// 仮画像1
-		LABEL_icon_122540_256,		// 仮画像2
+		LABEL_icon_122380_256 = 0,	// プレイヤー
+		LABEL_icon_122540_256,		// 弾
 		LABEL_Homing,				// ホーミング
+		LABEL_HomingAI,				// AIホーミング
+		LABEL_HomingDivision,		// 分裂ホーミング
 		LABEL_PaperAirplane,		// 紙飛行機
 		LABEL_Windmill,				// 風車
 		LABEL_MAX,

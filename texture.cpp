@@ -21,6 +21,8 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/icon_122380_256.png",	// プレイヤー
 	"data/TEXTURE/icon_122540_256.png",	// 弾
 	"data/TEXTURE/Homing.png",			// ホーミング
+	"data/TEXTURE/HomingAI.png",		// AIホーミング
+	"data/TEXTURE/HomingDivision.png",	// 分裂ホーミング
 	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
 	"data/TEXTURE/Windmill.png",		// 風車
 };
