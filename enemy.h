@@ -24,6 +24,7 @@ public:
 
 	enum EType
 	{
+		TYPE_ROLLING = -1,	// 回転
 		TYPE_HOMING = 0,	// ホーミング
 		TYPE_ROUNDTRIP,		// 往復
 		TYPE_WINDMILL,		// 風車

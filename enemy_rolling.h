@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// enemy_division.h
+// enemy_rolling.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _ENEMY_DIVISION_H_	//このマクロ定義がされてなかったら
-#define _ENEMY_DIVISION_H_	//２重インクルード防止のマクロ定義
+#ifndef _ENEMY_ROLLING_H_	//このマクロ定義がされてなかったら
+#define _ENEMY_ROLLING_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -16,17 +16,22 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemyDivision : public CEnemy
+class CEnemyRolling : public CEnemy
 {
 	/* ↓定義↓ */
 private:
+	static const float MAX_SIZE;	// サイズの最大値
 	static const float MAX_MOVE;	// 移動量の最大値
 	static const float ROT_CHANGE;	// 向きの変更値
 
+	/* ↓静的メンバ関数↓ */
+public:
+	static void Create(const D3DXVECTOR3& pos);	// 生成
+
 	/* ↓メンバ関数↓ */
 public:
-	CEnemyDivision();			// デフォルトコンストラクタ
-	~CEnemyDivision() override;	// デストラクタ
+	CEnemyRolling();			// デフォルトコンストラクタ
+	~CEnemyRolling() override;	// デストラクタ
 
 public:
 	HRESULT Init() override;	// 初期化
@@ -36,10 +41,12 @@ public:
 
 private:
 	void Set(const D3DXVECTOR3& pos) override;	// 設定
+	void SetRotDir(bool rotDir);				// 回転方向の設定
 
 	/* ↓メンバ変数↓ */
 private:
-	int m_time;	// タイム
+	int m_time;		// タイム
+	bool m_rotDir;	// 回転方向 [ true / 右回り / false : 左回り ]
 };
 
-#endif // !_ENEMY_DIVISION_H_
+#endif // !_ENEMY_ROLLING_H_

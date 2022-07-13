@@ -27,6 +27,7 @@
     <ClInclude Include="enemy_division.h" />
     <ClInclude Include="enemy_homing.h" />
     <ClInclude Include="enemy_manager.h" />
+    <ClInclude Include="enemy_rolling.h" />
     <ClInclude Include="enemy_round_trip.h" />
     <ClInclude Include="enemy_snake_body.h" />
     <ClInclude Include="enemy_snake_head.h" />
@@ -53,6 +54,7 @@
     <ClCompile Include="enemy_division.cpp" />
     <ClCompile Include="enemy_homing.cpp" />
     <ClCompile Include="enemy_manager.cpp" />
+    <ClCompile Include="enemy_rolling.cpp" />
     <ClCompile Include="enemy_round_trip.cpp" />
     <ClCompile Include="enemy_snake_body.cpp" />
     <ClCompile Include="enemy_snake_head.cpp" />

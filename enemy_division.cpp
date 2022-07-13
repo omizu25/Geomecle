@@ -17,6 +17,7 @@
 #include "player.h"
 #include "texture.h"
 #include "utility.h"
+#include "enemy_rolling.h"
 #include <assert.h>
 
 //==================================================
@@ -58,6 +59,10 @@ HRESULT CEnemyDivision::Init()
 //--------------------------------------------------
 void CEnemyDivision::Uninit()
 {
+
+	// 生成
+	CEnemyRolling::Create(CObject3D::GetPos());
+
 	// 終了
 	CEnemy::Uninit();
 }
@@ -115,7 +120,4 @@ void CEnemyDivision::Set(const D3DXVECTOR3& pos)
 
 	// 色の設定
 	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
-
-	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
 }
