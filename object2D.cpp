@@ -8,10 +8,8 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "object.h"
 #include "object2D.h"
-#include "texture.h"
+#include "application.h"
 #include <assert.h>
 
 //==================================================

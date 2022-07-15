@@ -8,10 +8,10 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
 #include "camera.h"
-#include "player.h"
+#include "application.h"
 #include "utility.h"
+#include "player.h"
 #include "wall.h"
 #include <assert.h>
 

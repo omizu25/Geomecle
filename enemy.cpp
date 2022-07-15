@@ -8,15 +8,7 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "input.h"
-#include "sound.h"
 #include "enemy.h"
-#include "object3D.h"
-#include "bullet.h"
-#include "player.h"
-#include "texture.h"
-#include "utility.h"
 #include "enemy_homing.h"
 #include "enemy_round_trip.h"
 #include "enemy_windmill.h"

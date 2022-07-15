@@ -8,17 +8,9 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "input.h"
-#include "sound.h"
 #include "enemy_snake_body.h"
-#include "object3D.h"
-#include "bullet.h"
-#include "player.h"
-#include "texture.h"
 #include "utility.h"
 #include "wall.h"
-#include "enemy_snake_head.h"
 #include <assert.h>
 
 //==================================================

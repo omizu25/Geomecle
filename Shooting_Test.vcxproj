@@ -35,6 +35,7 @@
     <ClInclude Include="input.h" />
     <ClInclude Include="input_keyboard.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="number.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3D.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_keyboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="number.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3D.cpp" />

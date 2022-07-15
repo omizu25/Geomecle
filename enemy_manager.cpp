@@ -8,8 +8,6 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "renderer.h"
 #include "enemy_manager.h"
 #include <assert.h>
 

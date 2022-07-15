@@ -8,12 +8,11 @@
 //==================================================
 // インクルード
 //==================================================
+#include "renderer.h"
 #include "main.h"
 #include "application.h"
-#include "camera.h"
-#include "renderer.h"
 #include "object.h"
-#include "player.h"
+#include "camera.h"
 #include "bullet.h"
 #include "enemy_manager.h"
 #include <assert.h>

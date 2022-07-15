@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "bg.h"
-#include "object3D.h"
 #include "application.h"
 #include <assert.h>
 

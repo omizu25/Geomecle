@@ -8,14 +8,10 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "input.h"
-#include "sound.h"
 #include "player.h"
-#include "object2D.h"
-#include "bullet.h"
-#include "texture.h"
+#include "application.h"
 #include "utility.h"
+#include "input.h"
 #include "wall.h"
 #include <assert.h>
 

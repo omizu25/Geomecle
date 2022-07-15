@@ -8,9 +8,7 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
 #include "object.h"
-#include "object2D.h"
 
 #include <assert.h>
 

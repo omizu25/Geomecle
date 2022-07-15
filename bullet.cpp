@@ -9,14 +9,12 @@
 // インクルード
 //==================================================
 #include "bullet.h"
-#include "object3D.h"
 #include "application.h"
+#include "utility.h"
+#include "input.h"
 #include "player.h"
 #include "enemy.h"
 #include "wall.h"
-#include "utility.h"
-#include "input.h"
-#include "sound.h"
 #include <assert.h>
 
 //==================================================

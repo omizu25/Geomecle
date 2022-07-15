@@ -8,16 +8,8 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
-#include "input.h"
-#include "sound.h"
 #include "enemy_rolling.h"
-#include "object3D.h"
-#include "bullet.h"
-#include "player.h"
-#include "texture.h"
 #include "utility.h"
-#include "enemy.h"
 #include <assert.h>
 
 //==================================================

@@ -8,8 +8,8 @@
 //==================================================
 // インクルード
 //==================================================
-#include "application.h"
 #include "texture.h"
+#include "application.h"
 
 #include <assert.h>
 

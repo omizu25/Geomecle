@@ -114,6 +114,9 @@
     <ClInclude Include="enemy_rolling.h">
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="number.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="enemy_rolling.cpp">
       <Filter>ソース ファイル\Object\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="number.cpp">
+      <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
