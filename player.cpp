@@ -18,9 +18,9 @@
 //==================================================
 // 定義
 //==================================================
-const float CPlayer::MAX_SIZE = 30.0f;
-const float CPlayer::MAX_MOVE = 5.0f;
-const float CPlayer::MAX_ROT = 0.1f;
+const float CPlayer::STD_SIZE = 30.0f;
+const float CPlayer::STD_MOVE = 5.0f;
+const float CPlayer::STD_ROT = 0.1f;
 
 //--------------------------------------------------
 // 生成
@@ -68,7 +68,7 @@ HRESULT CPlayer::Init()
 	CObject3D::SetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
@@ -149,10 +149,10 @@ void CPlayer::Move()
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// 移動
-	pos.x += vec.x * MAX_MOVE;
-	pos.y += vec.y * MAX_MOVE;
+	pos.x += vec.x * STD_MOVE;
+	pos.y += vec.y * STD_MOVE;
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	// 範囲内
@@ -180,7 +180,7 @@ void CPlayer::Rot()
 	NormalizeAngle(&angle);
 
 	//慣性・向きを更新 (減衰させる)
-	rot += angle * MAX_ROT;
+	rot += angle * STD_ROT;
 
 	// 角度の正規化
 	NormalizeAngle(&rot);

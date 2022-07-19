@@ -26,10 +26,12 @@ public:
 		TYPE_ENEMY,			// 敵
 		TYPE_WALL,			// 壁
 		TYPE_BG,			// 背景
+		TYPE_UI,			// UI
 		TYPE_MAX,
 		TYPE_NONE
 	};
 
+private:
 	static const int MAX_OBJECT = 30000;	// オブジェクトの最大数
 
 	/* ↓静的メンバ関数↓ */
@@ -37,6 +39,7 @@ public:
 	static void ReleaseAll();		// 全ての解放
 	static void UpdateAll();		// 全ての更新
 	static void DrawAll();			// 全ての描画
+	static int GetMax();			// 最大値の取得
 	static int GetNumAll();			// 総数の取得
 	static CObject** GetMyObject();	// オブジェクトの取得
 	static bool Exist(EType type);	// 存在するかどうか

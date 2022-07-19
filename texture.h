@@ -28,6 +28,7 @@ public:
 		LABEL_HomingDivision,		// 分裂ホーミング
 		LABEL_PaperAirplane,		// 紙飛行機
 		LABEL_Windmill,				// 風車
+		LABEL_Number,				// 数
 		LABEL_MAX,
 		LABEL_NONE,	// 使用しない
 	};

@@ -20,7 +20,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemy::MAX_SIZE = 30.0f;
+const float CEnemy::STD_SIZE = 30.0f;
 
 //--------------------------------------------------
 // 生成
@@ -97,7 +97,7 @@ HRESULT CEnemy::Init()
 	CObject3D::SetType(CObject::TYPE_ENEMY);
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	return S_OK;
 }

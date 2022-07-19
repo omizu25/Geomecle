@@ -16,7 +16,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemySnakeBody::MAX_SIZE = 15.0f;
+const float CEnemySnakeBody::STD_SIZE = 15.0f;
 const int CEnemySnakeBody::MOVE_INTERVAL = 2;
 
 //--------------------------------------------------
@@ -65,7 +65,7 @@ HRESULT CEnemySnakeBody::Init()
 	CObject3D::Init();
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
@@ -105,7 +105,7 @@ void CEnemySnakeBody::Update()
 	// ホーミング
 	Homing(&pos, pos, m_posDest, 10.0f);
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	//	範囲内

@@ -22,6 +22,7 @@ class CTexture;
 class CCamera;
 class CPlayer;
 class CEnemyManager;
+class CNumberManager;
 
 //==================================================
 // 定義
@@ -32,6 +33,8 @@ class CApplication
 public:
 	static const int SCREEN_WIDTH = 1280;	// スクリーンの幅
 	static const int SCREEN_HEIGHT = 720;	// スクリーンの高さ
+
+private:
 	static const bool FULL_SCREEN;			// フルスクリーンにするかどうか
 
 	/* ↓静的メンバ関数↓ */
@@ -70,6 +73,7 @@ private:
 	CCamera* m_pCamera;				// カメラの情報
 	CPlayer* m_pPlayer;				// プレイヤーの情報
 	CEnemyManager* m_pEnemyManager;	// エネミーマネージャーの情報
+	CNumberManager* m_pNumber;		// ナンバーの情報
 };
 
 #endif // !_APPLICATION_H_

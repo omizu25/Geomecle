@@ -19,12 +19,10 @@
 class CPlayer : public CObject3D
 {
 	/* 定義 */
-public:
-	static const float MAX_MOVE;	// 移動量の最大値
-
 private:
-	static const float MAX_SIZE;	// サイズの最大値
-	static const float MAX_ROT;		// 向きの最大値
+	static const float STD_MOVE;	// 移動量の標準値
+	static const float STD_SIZE;	// サイズの標準値
+	static const float STD_ROT;		// 向きの標準値
 
 	/* ↓静的メンバ関数↓ */
 public:

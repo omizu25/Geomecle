@@ -20,8 +20,8 @@ class CEnemyWindmill : public CEnemy
 {
 	/* 定義 */
 private:
-	static const float MAX_MOVE;		// 移動量の最大値
-	static const float MAX_ROTATION;	// 回転の最大値
+	static const float STD_MOVE;		// 移動量の標準値
+	static const float STD_ROTATION;	// 回転の標準値
 
 	/* ↓メンバ関数↓ */
 public:

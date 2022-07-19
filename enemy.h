@@ -20,7 +20,6 @@ class CEnemy : public CObject3D
 {
 	/* 定義 */
 public:
-	static const float MAX_SIZE;	// サイズの最大値
 
 	enum EType
 	{
@@ -33,6 +32,9 @@ public:
 		TYPE_MAX,
 		TYPE_NONE
 	};
+	
+private:
+	static const float STD_SIZE;	// サイズの最大値
 
 	/* ↓静的メンバ関数↓ */
 public:

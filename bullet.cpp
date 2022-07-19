@@ -21,9 +21,9 @@
 // 定義
 //==================================================
 const int CBullet::SHOT_INTERVAL = 10;
-const float CBullet::MAX_SIZE = 25.0f;
-const float CBullet::MAX_MOVE = 10.0f;
-const float CBullet::MAX_INERTIA = 0.3f;
+const float CBullet::STD_SIZE = 25.0f;
+const float CBullet::STD_MOVE = 10.0f;
+const float CBullet::STD_INERTIA = 0.3f;
 
 //==================================================
 // 静的メンバ変数
@@ -102,7 +102,7 @@ void CBullet::Shot()
 	NormalizeAngle(&angle);
 
 	// 慣性・向きを更新 (減衰させる)
-	m_now += angle * MAX_INERTIA;
+	m_now += angle * STD_INERTIA;
 
 	// 角度の正規化
 	NormalizeAngle(&m_now);
@@ -145,7 +145,7 @@ HRESULT CBullet::Init()
 	CObject3D::SetPos(pos);
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
@@ -176,7 +176,7 @@ void CBullet::Update()
 	CObject3D::Update();
 
 	{
-		float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+		float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 		float wall = (CWall::GetLength() * 0.5f) - size;
 
 		if (InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f)))
@@ -189,7 +189,7 @@ void CBullet::Update()
 
 	CObject** pObject = GetMyObject();
 
-	for (int i = 0; i < CObject::MAX_OBJECT; i++)
+	for (int i = 0; i < CObject::GetMax(); i++)
 	{
 		if (pObject[i] == nullptr ||
 			pObject[i]->GetType() != CObject::TYPE_ENEMY)
@@ -199,12 +199,13 @@ void CBullet::Update()
 
 		CEnemy* pEnemy = (CEnemy*)pObject[i];
 		D3DXVECTOR3 enemyPos = pEnemy->GetPos();
-		float size = (MAX_SIZE * 0.5f);
+		D3DXVECTOR3 enemySize = pEnemy->GetSize();
+		float size = (STD_SIZE * 0.5f);
 
-		if (((pos.y - size) <= (enemyPos.y + CEnemy::MAX_SIZE)) &&
-			((pos.y + size) >= (enemyPos.y - CEnemy::MAX_SIZE)) &&
-			((pos.x - size) <= (enemyPos.x + CEnemy::MAX_SIZE)) &&
-			((pos.x + size) >= (enemyPos.x - CEnemy::MAX_SIZE)))
+		if (((pos.y - size) <= (enemyPos.y + enemySize.y)) &&
+			((pos.y + size) >= (enemyPos.y - enemySize.y)) &&
+			((pos.x - size) <= (enemyPos.x + enemySize.x)) &&
+			((pos.x + size) >= (enemyPos.x - enemySize.x)))
 		{// 当たり判定
 			// 敵の解放
 			pObject[i]->Release();
@@ -233,5 +234,5 @@ void CBullet::SetMove(float rot)
 	// 向きの設定
 	CObject3D::SetRot(rot);
 
-	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * MAX_MOVE;
+	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * STD_MOVE;
 }

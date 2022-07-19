@@ -18,7 +18,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyRoundTrip::MAX_MOVE = 10.0f;
+const float CEnemyRoundTrip::STD_MOVE = 10.0f;
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
@@ -64,7 +64,7 @@ void CEnemyRoundTrip::Update()
 
 	pos += m_move;
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float size = (CObject3D::GetSize().x * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	if (InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f)))
@@ -130,7 +130,7 @@ void CEnemyRoundTrip::SetMove()
 	// 角度の正規化
 	NormalizeAngle(&rot);
 
-	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * MAX_MOVE;
+	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * STD_MOVE;
 
 	// 向きの設定
 	CObject3D::SetRot(rot);

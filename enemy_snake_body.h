@@ -20,7 +20,7 @@ class CEnemySnakeBody : public CObject3D
 {
 	/* 定義 */
 private:
-	static const float MAX_SIZE;	// サイズの最大値
+	static const float STD_SIZE;	// サイズの標準値
 	static const int MOVE_INTERVAL;	// 移動のインターバル
 
 		/* ↓静的メンバ関数↓ */

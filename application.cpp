@@ -18,6 +18,7 @@
 #include "player.h"
 #include "enemy_manager.h"
 #include "wall.h"
+#include "number_manager.h"
 #include <assert.h>
 
 //==================================================
@@ -53,7 +54,8 @@ CApplication::CApplication() :
 	m_pTexture(nullptr),
 	m_pCamera(nullptr),
 	m_pPlayer(nullptr),
-	m_pEnemyManager(nullptr)
+	m_pEnemyManager(nullptr),
+	m_pNumber(nullptr)
 {
 }
 
@@ -69,6 +71,7 @@ CApplication::~CApplication()
 	assert(m_pCamera == nullptr);
 	assert(m_pPlayer == nullptr);
 	assert(m_pEnemyManager == nullptr);
+	assert(m_pNumber == nullptr);
 }
 
 //--------------------------------------------------
@@ -154,6 +157,13 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// プレイヤーの生成
 	m_pPlayer = CPlayer::Create();
 
+	m_pNumber = new CNumberManager;
+
+	if (m_pNumber != nullptr)
+	{// nullチェック
+		m_pNumber->Init(D3DXVECTOR3((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT * 0.1f, 0.0f), 1);
+	}
+
 	return S_OK;
 }
 
@@ -166,6 +176,13 @@ void CApplication::Uninit()
 	CObject::ReleaseAll();
 
 	m_pPlayer = nullptr;
+
+	if (m_pNumber != nullptr)
+	{// nullチェック
+		//m_pNumber->Uninit();
+		delete m_pNumber;
+		m_pNumber = nullptr;
+	}
 
 	if (m_pCamera != nullptr)
 	{// nullチェック
@@ -217,6 +234,14 @@ void CApplication::Uninit()
 //--------------------------------------------------
 void CApplication::Update()
 {
+	static int score = 1;
+	score++;
+
+	if (m_pNumber != nullptr)
+	{// nullチェック
+		m_pNumber->ChangeNumber(score);
+	}
+
 	if (m_pInput != nullptr)
 	{// nullチェック
 		// 更新

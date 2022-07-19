@@ -18,9 +18,13 @@
 //==================================================
 class CNumber : public CObject2D
 {
+	/* ↓定義↓ */
+private:
+	static const int TEX_DIVISION;	// テクスチャの分割数
+
 	/* ↓静的メンバ関数↓ */
 public:
-	static CNumber* Create(const D3DXVECTOR3& pos, int number);	// 生成
+	static CNumber* Create(const D3DXVECTOR3& pos);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -32,10 +36,7 @@ public:
 	void Uninit() override;		// 終了
 	void Update() override;		// 更新
 	void Draw() override;		// 描画
-
-	/* ↓メンバ変数↓ */
-private:
-	D3DXVECTOR3 m_move;	// 移動量
+	void Change(int number);	// 変更
 };
 
 #endif // !_NUMBER_H_

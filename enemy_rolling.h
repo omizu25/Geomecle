@@ -20,8 +20,8 @@ class CEnemyRolling : public CEnemy
 {
 	/* ↓定義↓ */
 private:
-	static const float MAX_SIZE;	// サイズの最大値
-	static const float MAX_MOVE;	// 移動量の最大値
+	static const float STD_SIZE;	// サイズの標準値
+	static const float STD_MOVE;	// 移動量の標準値
 	static const float ROT_CHANGE;	// 向きの変更値
 
 	/* ↓静的メンバ関数↓ */

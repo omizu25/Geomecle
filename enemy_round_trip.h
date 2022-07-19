@@ -20,7 +20,7 @@ class CEnemyRoundTrip : public CEnemy
 {
 	/* 定義 */
 private:
-	static const float MAX_MOVE;	// 移動量の最大値
+	static const float STD_MOVE;	// 移動量の標準値
 
 	/* ↓メンバ関数↓ */
 public:

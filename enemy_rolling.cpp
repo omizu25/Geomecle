@@ -15,8 +15,8 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyRolling::MAX_SIZE = 17.5f;
-const float CEnemyRolling::MAX_MOVE = 4.0f;
+const float CEnemyRolling::STD_SIZE = 17.5f;
+const float CEnemyRolling::STD_MOVE = 4.0f;
 const float CEnemyRolling::ROT_CHANGE = 0.2f;
 
 //--------------------------------------------------
@@ -100,14 +100,14 @@ void CEnemyRolling::Update()
 
 	if (m_rotDir)
 	{// 右回り
-		pos.x += sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * MAX_MOVE;
+		pos.x += sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * STD_MOVE;
 	}
 	else
 	{// 左回り
-		pos.x += -sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * MAX_MOVE;
+		pos.x += -sinf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * STD_MOVE;
 	}
 	
-	pos.y += cosf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * MAX_MOVE;
+	pos.y += cosf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * STD_MOVE;
 
 	// 位置の設定
 	CObject3D::SetPos(pos);
@@ -148,7 +148,7 @@ void CEnemyRolling::Set(const D3DXVECTOR3& pos)
 	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.0f, 1.0f, 1.0f));
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 }
 
 //--------------------------------------------------

@@ -20,7 +20,7 @@ class CEnemyHoming : public CEnemy
 {
 	/* ↓定義↓ */
 private:
-	static const float MAX_MOVE;	// 移動量の最大値
+	static const float STD_MOVE;	// 移動量の標準値
 	static const float SIZE_CHANGE;	// サイズの変更値
 
 	/* ↓メンバ関数↓ */
@@ -39,7 +39,8 @@ private:
 
 	/* ↓メンバ変数↓ */
 private:
-	int m_time;	// タイム
+	int m_time;				// タイム
+	D3DXVECTOR3 m_saveSize;	// サイズの保存
 };
 
 #endif // !_ENEMY_HOMING_H_

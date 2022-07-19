@@ -20,7 +20,7 @@ class CEnemyDivision : public CEnemy
 {
 	/* ↓定義↓ */
 private:
-	static const float MAX_MOVE;	// 移動量の最大値
+	static const float STD_MOVE;	// 移動量の標準値
 	static const float ROT_CHANGE;	// 向きの変更値
 
 	/* ↓メンバ関数↓ */

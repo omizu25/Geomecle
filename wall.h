@@ -20,8 +20,8 @@ class CWall : public CObject3D
 {
 	/* 定義 */
 private:
-	static const float MAX_WIDTH;	//	幅の最大値
-	static const float MAX_LENGTH;	//	長さの最大値
+	static const float STD_WIDTH;	//	幅の標準値
+	static const float STD_LENGTH;	//	長さの標準値
 
 	/* ↓静的メンバ関数↓ */
 public:

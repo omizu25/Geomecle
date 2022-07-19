@@ -81,9 +81,6 @@
     <ClInclude Include="renderer.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="application.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
@@ -115,6 +112,12 @@
       <Filter>ヘッダー ファイル\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="number.h">
+      <Filter>ヘッダー ファイル\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="application.h">
+      <Filter>ヘッダー ファイル\System</Filter>
+    </ClInclude>
+    <ClInclude Include="number_manager.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
   </ItemGroup>
@@ -195,6 +198,9 @@
       <Filter>ソース ファイル\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="number.cpp">
+      <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="number_manager.cpp">
       <Filter>ソース ファイル\Object</Filter>
     </ClCompile>
   </ItemGroup>

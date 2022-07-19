@@ -21,8 +21,8 @@
 //==================================================
 const int CEnemySnakeHead::MAX_BODY = 15;
 const int CEnemySnakeHead::IDX_PARENT = 0;
-const float CEnemySnakeHead::MAX_SIZE = 20.0f;
-const float CEnemySnakeHead::MAX_MOVE = 1.5f;
+const float CEnemySnakeHead::STD_SIZE = 20.0f;
+const float CEnemySnakeHead::STD_MOVE = 1.5f;
 const float CEnemySnakeHead::AMPLITUDE_WIDTH = 3.0f;
 const float CEnemySnakeHead::AMPLITUDE_SPEED = 2.0f;
 
@@ -102,7 +102,7 @@ void CEnemySnakeHead::Update()
 	pos.x += m_move.x;
 	pos.y += m_move.y;
 
-	float size = (MAX_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
 	//	範囲内
@@ -182,7 +182,7 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 	m_posOld = pos;
 
 	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(MAX_SIZE, MAX_SIZE, 0.0f));
+	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
@@ -236,7 +236,6 @@ void CEnemySnakeHead::SetMove()
 
 	float sinCurve = sinf(D3DXToRadian(m_time * AMPLITUDE_SPEED)) * AMPLITUDE_WIDTH;
 
-	m_move.x = (sinf(fRotMove) * MAX_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
-	m_move.y = (cosf(fRotMove) * MAX_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
-	//m_move *= 2.0f;
+	m_move.x = (sinf(fRotMove) * STD_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
+	m_move.y = (cosf(fRotMove) * STD_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
 }
