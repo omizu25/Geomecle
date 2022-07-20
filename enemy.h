@@ -46,10 +46,10 @@ public:
 	 ~CEnemy() override;	// デストラクタ
 
 public:
-	HRESULT Init() override;	// 初期化
-	void Uninit() override;		// 終了
-	void Update() override;		// 更新
-	void Draw() override;		// 描画
+	void Init() override;	// 初期化
+	void Uninit() override;	// 終了
+	void Update() override;	// 更新
+	void Draw() override;	// 描画
 
 private:
 	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定

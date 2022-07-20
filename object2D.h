@@ -43,10 +43,10 @@ public:
 	~CObject2D() override;	// デストラクタ
 
 public: 
-	HRESULT Init() override;	// 初期化
-	void Uninit() override;		// 終了
-	void Update() override;		// 更新
-	void Draw() override;		// 描画
+	void Init() override;	// 初期化
+	void Uninit() override;	// 終了
+	void Update() override;	// 更新
+	void Draw() override;	// 描画
 	void SetPos(const D3DXVECTOR3& pos);	// 位置の設定
 	const D3DXVECTOR3& GetPos() const;		// 位置の取得
 	void SetSize(const D3DXVECTOR3& size);	// サイズの設定

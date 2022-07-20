@@ -145,10 +145,7 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	if (m_pCamera != nullptr)
 	{// nullチェック
-		if (FAILED(m_pCamera->Init()))
-		{// 初期化
-			return S_FALSE;
-		}
+		m_pCamera->Init();
 	}
 
 	// 全ての壁の生成

@@ -52,7 +52,7 @@ CNumber::~CNumber()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CNumber::Init()
+void CNumber::Init()
 {
 	// ‰Šú‰»
 	CObject2D::Init();
@@ -61,8 +61,6 @@ HRESULT CNumber::Init()
 	CObject2D::SetType(CObject::TYPE_NONE);
 
 	CObject2D::SetTexture(CTexture::LABEL_Number);
-
-	return S_OK;
 }
 
 //--------------------------------------------------

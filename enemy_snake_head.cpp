@@ -47,14 +47,12 @@ CEnemySnakeHead::~CEnemySnakeHead()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CEnemySnakeHead::Init()
+void CEnemySnakeHead::Init()
 {
 	m_time = 0;
 
 	// ‰Šú‰»
 	CEnemy::Init();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

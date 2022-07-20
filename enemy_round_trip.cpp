@@ -38,12 +38,10 @@ CEnemyRoundTrip::~CEnemyRoundTrip()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CEnemyRoundTrip::Init()
+void CEnemyRoundTrip::Init()
 {
 	// ‰Šú‰»
 	CEnemy::Init();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

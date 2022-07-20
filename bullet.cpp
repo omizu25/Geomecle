@@ -129,7 +129,7 @@ CBullet::~CBullet()
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CBullet::Init()
+void CBullet::Init()
 {
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -149,8 +149,6 @@ HRESULT CBullet::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
-
-	return S_OK;
 }
 
 //--------------------------------------------------

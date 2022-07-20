@@ -57,7 +57,7 @@ CEnemySnakeBody::~CEnemySnakeBody()
 //--------------------------------------------------
 // èâä˙âª
 //--------------------------------------------------
-HRESULT CEnemySnakeBody::Init()
+void CEnemySnakeBody::Init()
 {
 	m_time = 0;
 
@@ -72,8 +72,6 @@ HRESULT CEnemySnakeBody::Init()
 
 	// êFÇÃê›íË
 	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
-
-	return S_OK;
 }
 
 //--------------------------------------------------

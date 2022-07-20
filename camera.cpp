@@ -46,15 +46,13 @@ CCamera::~CCamera()
 //--------------------------------------------------
 // èâä˙âª
 //--------------------------------------------------
-HRESULT CCamera::Init()
+void CCamera::Init()
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_posDest = m_pos;
 	m_vecU = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// å≈íË
 	m_rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_rotDest = m_rot;
-
-	return S_OK;
 }
 
 //--------------------------------------------------

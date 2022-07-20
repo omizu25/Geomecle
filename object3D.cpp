@@ -60,7 +60,7 @@ CObject3D::~CObject3D()
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CObject3D::Init()
+void CObject3D::Init()
 {
 	m_rot = 0.0f;
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -113,8 +113,6 @@ HRESULT CObject3D::Init()
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

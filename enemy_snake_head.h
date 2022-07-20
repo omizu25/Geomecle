@@ -38,10 +38,10 @@ public:
 	~CEnemySnakeHead() override;	// デストラクタ
 
 public:
-	HRESULT Init() override;	// 初期化
-	void Uninit() override;		// 終了
-	void Update() override;		// 更新
-	void Draw() override;		// 描画
+	void Init() override;	// 初期化
+	void Uninit() override;	// 終了
+	void Update() override;	// 更新
+	void Draw() override;	// 描画
 	const D3DXVECTOR3& GetPosOld() const;	// 前回の位置の取得
 
 private:

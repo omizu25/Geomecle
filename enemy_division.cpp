@@ -39,14 +39,12 @@ CEnemyDivision::~CEnemyDivision()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CEnemyDivision::Init()
+void CEnemyDivision::Init()
 {
 	m_time = 0;
 
 	// ‰Šú‰»
 	CEnemy::Init();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

@@ -37,6 +37,12 @@
     <Filter Include="ソース ファイル\Object\Enemy">
       <UniqueIdentifier>{0947b851-a952-4b29-a69c-ae65bea5200d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\System\Mode">
+      <UniqueIdentifier>{ab67859d-19a7-4f42-87e5-d170871053a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\System\Mode">
+      <UniqueIdentifier>{7c91d3c0-2396-4260-9f93-7a6f3a41748c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -120,6 +126,18 @@
     <ClInclude Include="number_manager.h">
       <Filter>ヘッダー ファイル\Object</Filter>
     </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>ヘッダー ファイル\System\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="mode.h">
+      <Filter>ヘッダー ファイル\System\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>ヘッダー ファイル\System\Mode</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\System\Mode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -202,6 +220,18 @@
     </ClCompile>
     <ClCompile Include="number_manager.cpp">
       <Filter>ソース ファイル\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>ソース ファイル\System\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="mode.cpp">
+      <Filter>ソース ファイル\System\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\System\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>ソース ファイル\System\Mode</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -70,14 +70,12 @@ CEnemyRolling::~CEnemyRolling()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CEnemyRolling::Init()
+void CEnemyRolling::Init()
 {
 	m_time = 0;
 
 	// ‰Šú‰»
 	CEnemy::Init();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

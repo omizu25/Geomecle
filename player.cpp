@@ -56,7 +56,7 @@ CPlayer::~CPlayer()
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-HRESULT CPlayer::Init()
+void CPlayer::Init()
 {
 	// 初期化
 	CObject3D::Init();
@@ -72,8 +72,6 @@ HRESULT CPlayer::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
-
-	return S_OK;
 }
 
 //--------------------------------------------------

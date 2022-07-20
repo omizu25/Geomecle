@@ -39,12 +39,10 @@ CEnemyWindmill::~CEnemyWindmill()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-HRESULT CEnemyWindmill::Init()
+void CEnemyWindmill::Init()
 {
 	// ‰Šú‰»
 	CEnemy::Init();
-
-	return S_OK;
 }
 
 //--------------------------------------------------

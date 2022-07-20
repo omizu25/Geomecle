@@ -88,7 +88,7 @@ CEnemy::~CEnemy()
 //--------------------------------------------------
 // èâä˙âª
 //--------------------------------------------------
-HRESULT CEnemy::Init()
+void CEnemy::Init()
 {
 	// èâä˙âª
 	CObject3D::Init();
@@ -98,8 +98,6 @@ HRESULT CEnemy::Init()
 
 	// ÉTÉCÉYÇÃê›íË
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
-
-	return S_OK;
 }
 
 //--------------------------------------------------
