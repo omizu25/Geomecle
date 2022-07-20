@@ -15,8 +15,8 @@
 //==================================================
 // 定義
 //==================================================
-const float CNumberManager::STD_WIDTH = 100.0f;
-const float CNumberManager::STD_HEIGHT = 200.0f;
+const float CNumberManager::STD_WIDTH = 50.0f;
+const float CNumberManager::STD_HEIGHT = 100.0f;
 
 //--------------------------------------------------
 // デフォルトコンストラクタ

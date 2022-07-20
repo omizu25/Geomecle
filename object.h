@@ -59,6 +59,8 @@ public:
 	virtual void Uninit() = 0;	// I—¹
 	virtual void Update() = 0;	// XV
 	virtual void Draw() = 0;	// •`‰æ
+
+public:
 	void SetType(EType type);		// í—Ş‚Ìİ’è
 	const EType GetType() const;	// í—Ş‚Ìæ“¾
 	void Release();	// ‰ğ•ú

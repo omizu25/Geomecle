@@ -17,31 +17,40 @@
 //==================================================
 class CMode
 {
+	/* ↓定義↓ */
+public:
+	enum EMode
+	{
+		MODE_NONE = -1,
+		MODE_TITLE,		// タイトル
+		MODE_GAME,		// ゲーム
+		MODE_RESULT,	// リザルト
+		MODE_MAX,
+	};
+
+	/* ↓静的メンバ関数↓ */
+public:
+	static CMode* Create(EMode mode);	// 生成
+
 	/* ↓メンバ関数↓ */
 public:
 	CMode();	// デフォルトコンストラクタ
 	~CMode();	// デストラクタ
 
 public:
-	HRESULT Init();	// 初期化
-	void Uninit();	// 終了
-	void Update();	// 更新
-	void Draw();	// 描画
-	LPDIRECT3DDEVICE9 GetDevice();	// デバイスの取得
+	virtual void Init() = 0;	// 初期化
+	virtual void Uninit() = 0;	// 終了
+	virtual void Update() = 0;	// 更新
+	virtual void Draw() = 0;	// 描画
 
-private:
-#ifdef _DEBUG
-	void DrawFPS();	// FPS表示
-#endif // _DEBUG
+public:
+	void Set();					// 設定
+	void Change(EMode mode);	// 変更
 
 	 /* ↓メンバ変数↓ */
 private:
-	LPDIRECT3D9 m_pD3D;				// Direct3Dオブジェクト
-	LPDIRECT3DDEVICE9 m_pD3DDevice;	// Deviceオブジェクト
-
-#ifdef _DEBUG
-	LPD3DXFONT m_pFont;	// フォント
-#endif // _DEBUG
+	EMode m_mode;		// モード
+	EMode m_modeNext;	// 次のモード
 };
 
-#endif // !_RENDERER_H_
+#endif // !_MODE_H_
