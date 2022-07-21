@@ -11,6 +11,8 @@
 #include "enemy_division.h"
 #include "enemy_rolling.h"
 #include "application.h"
+#include "game.h"
+#include "mode.h"
 #include "player.h"
 #include "utility.h"
 #include <assert.h>
@@ -52,9 +54,11 @@ void CEnemyDivision::Init()
 //--------------------------------------------------
 void CEnemyDivision::Uninit()
 {
-
-	// ê∂ê¨
-	CEnemyRolling::Create(CObject3D::GetPos());
+	if (CMode::MODE_GAME == CApplication::GetInstanse()->GetMode()->Get())
+	{
+		// ê∂ê¨
+		CEnemyRolling::Create(CObject3D::GetPos());
+	}
 
 	// èIóπ
 	CEnemy::Uninit();

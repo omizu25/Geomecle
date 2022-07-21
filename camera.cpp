@@ -10,6 +10,7 @@
 //==================================================
 #include "camera.h"
 #include "application.h"
+#include "game.h"
 #include "utility.h"
 #include "player.h"
 #include "wall.h"

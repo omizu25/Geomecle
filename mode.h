@@ -34,8 +34,9 @@ public:
 
 	/* ↓メンバ関数↓ */
 public:
-	CMode();	// デフォルトコンストラクタ
-	~CMode();	// デストラクタ
+	CMode();			// デフォルトコンストラクタ
+	CMode(EMode mode);	// コンストラクタ
+	virtual ~CMode();	// デストラクタ
 
 public:
 	virtual void Init() = 0;	// 初期化
@@ -44,7 +45,8 @@ public:
 	virtual void Draw() = 0;	// 描画
 
 public:
-	void Set();					// 設定
+	CMode* Set();				// 設定
+	EMode Get();				// 取得
 	void Change(EMode mode);	// 変更
 
 	 /* ↓メンバ変数↓ */

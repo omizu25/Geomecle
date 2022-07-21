@@ -10,6 +10,7 @@
 //==================================================
 #include "object2D.h"
 #include "application.h"
+#include "game.h"
 #include <assert.h>
 
 //==================================================

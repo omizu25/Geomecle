@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "bullet.h"
 #include "enemy_manager.h"
+#include "game.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -155,17 +156,8 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
-	// 敵のスポーン
-	CApplication::GetInstanse()->GetEnemyManager()->Spawn();
-
-	// 弾の発射
-	CBullet::Shot();
-
-	// 更新
-	CObject::UpdateAll();
-
-	// カメラの更新
-	CApplication::GetInstanse()->GetCamera()->Update();
+	// ゲームの更新
+	CApplication::GetInstanse()->GetMode()->Update();
 }
 
 //--------------------------------------------------
@@ -185,11 +177,8 @@ void CRenderer::Draw()
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
 
-		// カメラの設定
-		CApplication::GetInstanse()->GetCamera()->Set();
-
-		// 描画
-		CObject::DrawAll();
+		// ゲームの更新
+		CApplication::GetInstanse()->GetMode()->Draw();
 
 #ifdef _DEBUG
 		// FPS表示

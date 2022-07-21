@@ -13,12 +13,12 @@
 #include "input.h"
 #include "input_keyboard.h"
 #include "sound.h"
+#include "object.h"
+#include "mode.h"
 #include "texture.h"
 #include "camera.h"
-#include "player.h"
-#include "enemy_manager.h"
 #include "wall.h"
-#include "number_manager.h"
+#include "player.h"
 #include <assert.h>
 
 //==================================================
@@ -51,11 +51,10 @@ CApplication::CApplication() :
 	m_pRenderer(nullptr),
 	m_pInput(nullptr),
 	m_pSound(nullptr),
+	m_pMode(nullptr),
 	m_pTexture(nullptr),
 	m_pCamera(nullptr),
-	m_pPlayer(nullptr),
-	m_pEnemyManager(nullptr),
-	m_pNumber(nullptr)
+	m_pPlayer(nullptr)
 {
 }
 
@@ -64,14 +63,13 @@ CApplication::CApplication() :
 //--------------------------------------------------
 CApplication::~CApplication()
 {
-	assert(m_pRenderer == nullptr);
-	assert(m_pInput == nullptr);
-	assert(m_pSound == nullptr);
-	assert(m_pTexture == nullptr);
-	assert(m_pCamera == nullptr);
+	assert(m_pMode == nullptr);
 	assert(m_pPlayer == nullptr);
-	assert(m_pEnemyManager == nullptr);
-	assert(m_pNumber == nullptr);
+	assert(m_pCamera == nullptr);
+	assert(m_pTexture == nullptr);
+	assert(m_pSound == nullptr);
+	assert(m_pInput == nullptr);
+	assert(m_pRenderer == nullptr);
 }
 
 //--------------------------------------------------
@@ -123,21 +121,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pTexture = new CTexture;
 	}
 
-	if (m_pTexture == nullptr)
-	{// nullチェック
-		return S_FALSE;
-	}
-
-	if (m_pEnemyManager == nullptr)
-	{// nullチェック
-		m_pEnemyManager = new CEnemyManager;
-	}
-
-	if (m_pEnemyManager != nullptr)
-	{// nullチェック
-		m_pEnemyManager->Load();
-	}
-
 	if (m_pCamera == nullptr)
 	{// nullチェック
 		m_pCamera = new CCamera;
@@ -151,14 +134,14 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// 全ての壁の生成
 	CWall::AllCreate();
 
-	// プレイヤーの生成
-	m_pPlayer = CPlayer::Create();
-
-	m_pNumber = new CNumberManager;
-
-	if (m_pNumber != nullptr)
+	if (m_pPlayer == nullptr)
 	{// nullチェック
-		m_pNumber->Init(D3DXVECTOR3((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT * 0.1f, 0.0f), 1);
+		m_pPlayer = CPlayer::Create();
+	}
+	
+	if (m_pMode == nullptr)
+	{// nullチェック
+		m_pMode = CMode::Create(CMode::MODE_TITLE);
 	}
 
 	return S_OK;
@@ -169,16 +152,20 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 //--------------------------------------------------
 void CApplication::Uninit()
 {
-	// 全ての解放
-	CObject::ReleaseAll();
-
-	m_pPlayer = nullptr;
-
-	if (m_pNumber != nullptr)
+	if (m_pMode != nullptr)
 	{// nullチェック
-		//m_pNumber->Uninit();
-		delete m_pNumber;
-		m_pNumber = nullptr;
+		// 終了
+		m_pMode->Uninit();
+		delete m_pMode;
+		m_pMode = nullptr;
+	}
+
+	// 全ての解放
+	CObject::ReleaseAll(true);
+
+	if (m_pPlayer != nullptr)
+	{// nullチェック
+		m_pPlayer = nullptr;
 	}
 
 	if (m_pCamera != nullptr)
@@ -193,13 +180,6 @@ void CApplication::Uninit()
 		m_pTexture->ReleaseAll();
 		delete m_pTexture;
 		m_pTexture = nullptr;
-	}
-
-	if (m_pEnemyManager != nullptr)
-	{// nullチェック
-		m_pEnemyManager->Release();
-		delete m_pEnemyManager;
-		m_pEnemyManager = nullptr;
 	}
 
 	if (m_pSound != nullptr)
@@ -231,14 +211,6 @@ void CApplication::Uninit()
 //--------------------------------------------------
 void CApplication::Update()
 {
-	static int score = 1;
-	score++;
-
-	if (m_pNumber != nullptr)
-	{// nullチェック
-		m_pNumber->ChangeNumber(score);
-	}
-
 	if (m_pInput != nullptr)
 	{// nullチェック
 		// 更新
@@ -249,6 +221,11 @@ void CApplication::Update()
 	{// nullチェック
 		// 更新処理
 		m_pRenderer->Update();
+	}
+
+	if (m_pMode != nullptr)
+	{// nullチェック
+		m_pMode = m_pMode->Set();
 	}
 }
 
@@ -265,7 +242,7 @@ void CApplication::Draw()
 }
 
 //--------------------------------------------------
-// レンダラーの取得
+// デバイスの取得
 //--------------------------------------------------
 LPDIRECT3DDEVICE9 CApplication::GetDevice()
 {
@@ -278,6 +255,14 @@ LPDIRECT3DDEVICE9 CApplication::GetDevice()
 CSound* CApplication::GetSound()
 {
 	return m_pSound;
+}
+
+//--------------------------------------------------
+// ゲームの情報の取得
+//--------------------------------------------------
+CMode* CApplication::GetMode()
+{
+	return m_pMode;
 }
 
 //--------------------------------------------------
@@ -302,12 +287,4 @@ CCamera* CApplication::GetCamera()
 CPlayer* CApplication::GetPlayer()
 {
 	return m_pPlayer;
-}
-
-//--------------------------------------------------
-// エネミーマネージャーの情報の取得
-//--------------------------------------------------
-CEnemyManager* CApplication::GetEnemyManager()
-{
-	return m_pEnemyManager;
 }

@@ -29,6 +29,8 @@ public:
 		LABEL_PaperAirplane,		// 紙飛行機
 		LABEL_Windmill,				// 風車
 		LABEL_Number,				// 数
+		LABEL_Result,				// リザルト
+		LABEL_Title,				// タイトル
 		LABEL_MAX,
 		LABEL_NONE,	// 使用しない
 	};

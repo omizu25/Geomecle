@@ -72,6 +72,9 @@ void CPlayer::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
+
+	// キープの設定
+	CObject::SetKeep(true);
 }
 
 //--------------------------------------------------

@@ -21,12 +21,17 @@ CObject* CObject::m_pObject[MAX_OBJECT] = {};
 //--------------------------------------------------
 // 全ての解放
 //--------------------------------------------------
-void CObject::ReleaseAll()
+void CObject::ReleaseAll(bool releaseKeep)
 {
 	for (int i = 0; i < MAX_OBJECT; i++)
 	{
 		if (m_pObject[i] == nullptr)
 		{// NULLチェック
+			continue;
+		}
+
+		if (!releaseKeep && m_pObject[i]->m_keep)
+		{// キープしてあるものは解放しない
 			continue;
 		}
 
@@ -118,7 +123,8 @@ bool CObject::Exist(CObject::EType type)
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CObject::CObject() : 
-	m_type(CObject::TYPE_NONE)
+	m_type(TYPE_NONE),
+	m_keep(false)
 {
 	for (int i = 0; i < MAX_OBJECT; i++)
 	{
@@ -168,4 +174,12 @@ void CObject::SetType(CObject::EType type)
 const CObject::EType CObject::GetType() const
 {
 	return m_type;
+}
+
+//--------------------------------------------------
+// ずっと持っているかの設定
+//--------------------------------------------------
+void CObject::SetKeep(bool keep)
+{
+	m_keep = keep;
 }

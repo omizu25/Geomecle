@@ -9,8 +9,47 @@
 // インクルード
 //==================================================
 #include "mode.h"
+#include "title.h"
+#include "game.h"
+#include "result.h"
 
 #include <assert.h>
+
+//--------------------------------------------------
+// 生成
+//--------------------------------------------------
+CMode* CMode::Create(EMode mode)
+{
+	CMode* pMode = nullptr;
+
+	switch (mode)
+	{
+	case CMode::MODE_TITLE:
+		pMode = new CTitle(MODE_TITLE);
+		break;
+
+	case CMode::MODE_GAME:
+		pMode = new CGame(MODE_GAME);
+		break;
+
+	case CMode::MODE_RESULT:
+		pMode = new CResult(MODE_RESULT);
+		break;
+
+	case CMode::MODE_NONE:
+	case CMode::MODE_MAX:
+	default:
+		assert(false);
+		break;
+	}
+
+	if (pMode != nullptr)
+	{// nullチェック
+		pMode->Init();
+	}
+
+	return pMode;
+}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
@@ -23,6 +62,15 @@ CMode::CMode() :
 }
 
 //--------------------------------------------------
+// コンストラクタ
+//--------------------------------------------------
+CMode::CMode(EMode mode) :
+	m_modeNext(MODE_NONE)
+{
+	m_mode = mode;
+}
+
+//--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
 CMode::~CMode()
@@ -32,53 +80,28 @@ CMode::~CMode()
 //--------------------------------------------------
 // 設定
 //--------------------------------------------------
-void CMode::Set()
+CMode* CMode::Set()
 {
 	if (m_modeNext == MODE_NONE)
 	{// 次のモードが決まってない
-		return;
-	}
-
-	switch (m_mode)
-	{// 現在のモードの終了
-	case MODE_TITLE:	// タイトル
-		break;
-
-	case MODE_GAME:		// ゲーム
-		break;
-
-	case MODE_RESULT:	// リザルト
-		break;
-
-	case MODE_NONE:
-		/* 処理なし */
-		break;
-
-	default:
-		assert(false);
-		break;
+		return this;
 	}
 
 	m_mode = m_modeNext;	// 現在の画面(モード)を切り替える
-
-	switch (m_modeNext)
-	{// 次のモードの初期化
-	case MODE_TITLE:	// タイトル
-		break;
-
-	case MODE_GAME:		// ゲーム
-		break;
-
-	case MODE_RESULT:	// リザルト
-		break;
-
-	case MODE_NONE:
-	default:
-		assert(false);
-		break;
-	}
-
 	m_modeNext = MODE_NONE;
+
+	// 終了
+	Uninit();
+
+	return Create(m_mode);
+}
+
+//--------------------------------------------------
+// 取得
+//--------------------------------------------------
+CMode::EMode CMode::Get()
+{
+	return m_mode;
 }
 
 //--------------------------------------------------

@@ -29,9 +29,19 @@ private:
 		CEnemy::EType type;
 	};
 
-	/* ↓メンバ関数↓ */
+	/* ↓静的メンバ関数↓ */
 public:
+	static CEnemyManager* GetInstanse();	// インスタンスの取得
+
+	/* ↓静的メンバ変数↓ */
+private:
+	static CEnemyManager* m_pEnemyManager;	// 自分のクラス
+
+	/* ↓メンバ関数↓ */
+private:
 	CEnemyManager();	// デフォルトコンストラクタ
+
+public:
 	~CEnemyManager();	// デストラクタ
 
 public:

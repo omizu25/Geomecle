@@ -53,8 +53,8 @@ void CBG::Init()
 	// ‰Šú‰»
 	CObject3D::Init();
 
-	// í—Ş‚Ìİ’è
-	CObject3D::SetType(CObject::TYPE_BG);
+	// ƒL[ƒv‚Ìİ’è
+	CObject::SetKeep(true);
 }
 
 //--------------------------------------------------

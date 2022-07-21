@@ -10,6 +10,7 @@
 //==================================================
 #include "bullet.h"
 #include "application.h"
+#include "game.h"
 #include "utility.h"
 #include "input.h"
 #include "player.h"

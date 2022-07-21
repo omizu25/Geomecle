@@ -25,6 +25,24 @@ static nl::json enemy;	// リストの生成
 //==================================================
 const int CEnemyManager::SPAWN_INTERVAL = 60;
 
+//==================================================
+// 静的メンバ変数
+//==================================================
+CEnemyManager* CEnemyManager::m_pEnemyManager = nullptr;
+
+//--------------------------------------------------
+// インスタンスの取得
+//--------------------------------------------------
+CEnemyManager* CEnemyManager::GetInstanse()
+{
+	if (m_pEnemyManager == nullptr)
+	{// nullチェック
+		m_pEnemyManager = new CEnemyManager;
+	}
+
+	return m_pEnemyManager;
+}
+
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
@@ -51,6 +69,10 @@ CEnemyManager::~CEnemyManager()
 //--------------------------------------------------
 void CEnemyManager::Load()
 {
+	m_time = 0;
+	m_timing = 0;
+	m_spawn = 0;
+
 	std::ifstream ifs("data/TEXT/EnemySpawn.json");
 
 	if (!ifs)
