@@ -51,7 +51,6 @@ private:
 	/* メンバ変数 */
 private:
 	int m_time;					// タイム
-	float m_rotOld;				// 前回の向き
 	D3DXVECTOR3 m_move;			// 移動量
 	D3DXVECTOR3 m_posOld;		// 前回の位置
 	CEnemySnakeBody** m_pBody;	// 体の情報

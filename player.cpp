@@ -144,8 +144,14 @@ void CPlayer::Move()
 		return;
 	}
 
+	// ³‹K‰»
+	D3DXVec3Normalize(&vec, &vec);
+
 	// –Ú“I‚ÌŒü‚«
 	m_rotDest = atan2f(vec.x, vec.y);
+
+	// Šp“x‚Ì³‹K‰»
+	NormalizeAngle(&m_rotDest);
 
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
@@ -169,9 +175,6 @@ void CPlayer::Move()
 void CPlayer::Rot()
 {
 	float angle = 0.0f;
-
-	// Šp“x‚Ì³‹K‰»
-	NormalizeAngle(&m_rotDest);
 
 	float rot = CObject3D::GetRot();
 

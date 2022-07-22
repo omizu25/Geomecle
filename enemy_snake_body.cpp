@@ -41,7 +41,6 @@ CEnemySnakeBody* CEnemySnakeBody::Create()
 //--------------------------------------------------
 CEnemySnakeBody::CEnemySnakeBody() :
 	m_time(0),
-	m_rotOld(0.0f),
 	m_posDest(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_posOld(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 {
@@ -67,8 +66,11 @@ void CEnemySnakeBody::Init()
 	// サイズの設定
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
+	// 種類の設定
+	CObject3D::SetType(CObject::TYPE_BODY);
+
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
+	CObject3D::SetTexture(CTexture::LABEL_Snake_Body);
 
 	// 色の設定
 	CObject3D::SetCol(D3DXCOLOR(1.0f, 0.5f, 0.0f, 1.0f));
@@ -112,9 +114,6 @@ void CEnemySnakeBody::Update()
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
-	// 向きの設定
-	CObject3D::SetRot(m_rotOld);
-
 	// 更新
 	CObject3D::Update();
 }
@@ -142,20 +141,4 @@ void CEnemySnakeBody::SetPosDest(const D3DXVECTOR3& posDest)
 const D3DXVECTOR3& CEnemySnakeBody::GetPosOld() const
 {
 	return m_posOld;
-}
-
-//--------------------------------------------------
-// 前回の向きの設定
-//--------------------------------------------------
-void CEnemySnakeBody::SetRotOld(float rotOld)
-{
-	m_rotOld = rotOld;
-}
-
-//--------------------------------------------------
-// 前回の向きの取得
-//--------------------------------------------------
-float CEnemySnakeBody::GetRotOld()
-{
-	return m_rotOld;
 }

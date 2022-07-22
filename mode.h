@@ -21,7 +21,7 @@ class CMode
 public:
 	enum EMode
 	{
-		MODE_NONE = -1,
+		MODE_NONE = 0,
 		MODE_TITLE,		// タイトル
 		MODE_GAME,		// ゲーム
 		MODE_RESULT,	// リザルト

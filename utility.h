@@ -95,4 +95,14 @@ float Curve(float fCurve, float fMax, float fMin);
 //--------------------------------------------------
 bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range);
 
+//--------------------------------------------------
+// ‰~‚Ì“–‚½‚è”»’è
+// ˆø”1  : D3DXVECTOR3& pos1 / ‚P‚Â–Ú‚ÌˆÊ’u
+// ˆø”2  : float radius1 / ‚P‚Â–Ú‚Ì”¼Œa
+// ˆø”3  : D3DXVECTOR3& pos2 / ‚Q‚Â–Ú‚ÌˆÊ’u
+// ˆø”4  : float radius2 / ‚Q‚Â–Ú‚Ì”¼Œa
+// •Ô’l  : bool / ”ÍˆÍŠO‚Éo‚½‚©‚Ç‚¤‚©
+//--------------------------------------------------
+bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& pos2, float radius2);
+
 #endif // !_UTILITY_H_

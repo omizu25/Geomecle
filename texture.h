@@ -28,6 +28,7 @@ public:
 		LABEL_HomingDivision,		// 分裂ホーミング
 		LABEL_PaperAirplane,		// 紙飛行機
 		LABEL_Windmill,				// 風車
+		LABEL_Snake_Body,			// 蛇の体
 		LABEL_Number,				// 数
 		LABEL_Result,				// リザルト
 		LABEL_Title,				// タイトル

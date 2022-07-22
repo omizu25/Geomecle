@@ -117,3 +117,30 @@ bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range)
 
 	return out;
 }
+
+//--------------------------------------------------
+// ‰~‚Ì“–‚½‚è”»’è
+//--------------------------------------------------
+bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& pos2, float radius2)
+{
+	// ‚Q‚Â‚Ì•¨‘Ì‚Ì”¼Œa“¯m‚Ì˜a
+	float radius = radius1 + radius2;
+
+	// X‚Ì·•ª
+	float diffX = pos1.x - pos2.x;
+
+	// Y‚Ì·•ª
+	float diffY = pos1.y - pos2.y;
+
+	// Œ»İ‚Ì‚Q“_‚Ì‹——£
+	float length = sqrtf((diffX * diffX) + (diffY * diffY));
+
+	if (radius >= length)
+	{// ‚Q‚Â‚Ì•¨‘Ì‚Ì”¼Œa“¯m‚Ì˜a‚æ‚èŒ»İ‚Ì‚Q“_‚Ì‹——£‚ª¬‚³‚¢‚©‚Ç‚¤‚©
+		// “–‚½‚Á‚½
+		return true;
+	}
+
+	// “–‚½‚Á‚Ä‚È‚¢
+	return false;
+}

@@ -21,11 +21,12 @@ class CObject
 public:
 	enum EType
 	{
-		TYPE_PLAYER = 0,	// プレイヤー
-		TYPE_BULLET,		// 弾
-		TYPE_ENEMY,			// 敵
+		TYPE_NONE = 0,
+		TYPE_PLAYER,	// プレイヤー
+		TYPE_BULLET,	// 弾
+		TYPE_ENEMY,		// 敵
+		TYPE_BODY,		// 体
 		TYPE_MAX,
-		TYPE_NONE
 	};
 
 private:

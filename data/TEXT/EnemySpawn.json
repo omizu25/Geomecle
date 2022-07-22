@@ -1,21 +1,21 @@
 {
-	"MAX": 11,
-	"ENEMY0": {
-		"POS": {
-			"X": 300,
-			"Y": -300
-		},
-		"TYPE": 0,
-		"TIMING": 0
-	},
-	"ENEMY1": {
-		"POS": {
-			"X": 300,
-			"Y": 300
-		},
-		"TYPE": 1,
-		"TIMING": 1
-	},
+  "MAX": 16,
+  "ENEMY0": {
+    "POS": {
+      "X": 300,
+      "Y": -300
+    },
+    "TYPE": 0,
+    "TIMING": 0
+  },
+  "ENEMY1": {
+    "POS": {
+      "X": 300,
+      "Y": 300
+    },
+    "TYPE": 1,
+    "TIMING": 1
+  },
   "ENEMY2": {
     "POS": {
       "X": -300,
@@ -42,27 +42,27 @@
   },
   "ENEMY5": {
     "POS": {
-      "X": -300,
+      "X": 300,
       "Y": -300
     },
     "TYPE": 3,
-    "TIMING": 5
+    "TIMING": 4
   },
   "ENEMY6": {
     "POS": {
       "X": -300,
-      "Y": -300
+      "Y": 300
     },
     "TYPE": 3,
-    "TIMING": 6
+    "TIMING": 4
   },
   "ENEMY7": {
     "POS": {
-      "X": -300,
-      "Y": -300
+      "X": 300,
+      "Y": 300
     },
     "TYPE": 3,
-    "TIMING": 7
+    "TIMING": 4
   },
   "ENEMY8": {
     "POS": {
@@ -70,30 +70,62 @@
       "Y": -300
     },
     "TYPE": 3,
-    "TIMING": 8
+    "TIMING": 6
   },
   "ENEMY9": {
     "POS": {
-      "X": -300,
+      "X": 300,
       "Y": -300
     },
     "TYPE": 3,
-    "TIMING": 9
+    "TIMING": 6
   },
   "ENEMY10": {
     "POS": {
       "X": -300,
+      "Y": 300
+    },
+    "TYPE": 3,
+    "TIMING": 6
+  },
+  "ENEMY11": {
+    "POS": {
+      "X": 300,
+      "Y": 300
+    },
+    "TYPE": 3,
+    "TIMING": 6
+  },
+  "ENEMY12": {
+    "POS": {
+      "X": -300,
       "Y": -300
     },
     "TYPE": 3,
-    "TIMING": 10
+    "TIMING": 8
   },
-   "ENEMY11": {
-		"POS": {
-			"X": -300,
-			"Y": -300
-		},
-		"TYPE": 3,
-		"TIMING": 11
-	}
+  "ENEMY13": {
+    "POS": {
+      "X": 300,
+      "Y": -300
+    },
+    "TYPE": 3,
+    "TIMING": 8
+  },
+  "ENEMY14": {
+    "POS": {
+      "X": -300,
+      "Y": 300
+    },
+    "TYPE": 3,
+    "TIMING": 8
+  },
+  "ENEMY15": {
+    "POS": {
+      "X": 300,
+      "Y": 300
+    },
+    "TYPE": 3,
+    "TIMING": 8
+  }
 }

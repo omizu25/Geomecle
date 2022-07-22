@@ -25,6 +25,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/HomingDivision.png",	// 分裂ホーミング
 	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
 	"data/TEXTURE/Windmill.png",		// 風車
+	"data/TEXTURE/snake_body.png",		// 蛇の体
 	"data/TEXTURE/Number.png",			// 数
 	"data/TEXTURE/result.png",			// リザルト
 	"data/TEXTURE/title.png",			// タイトル

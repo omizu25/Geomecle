@@ -45,7 +45,6 @@ public:
 	/* メンバ変数 */
 private:
 	int m_time;				// タイム
-	float m_rotOld;			// 前回の向き
 	D3DXVECTOR3 m_posDest;	// 目的の位置
 	D3DXVECTOR3 m_posOld;	// 前回の位置
 };
