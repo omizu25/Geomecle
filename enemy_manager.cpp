@@ -9,6 +9,8 @@
 // インクルード
 //==================================================
 #include "enemy_manager.h"
+#include "application.h"
+#include "mode.h"
 #include <assert.h>
 
 // ジェイソン用
@@ -117,6 +119,15 @@ void CEnemyManager::Spawn()
 {
 	if (m_max == m_spawn)
 	{// 全部スポーンした
+		
+		if (CObject::Exist(CObject::TYPE_ENEMY))
+		{// 敵がいる
+			return;
+		}
+
+		// モードの変更
+		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+
 		return;
 	}
 
