@@ -187,6 +187,10 @@ void CBullet::Update()
 	}
 
 	CObject** pObject = GetMyObject();
+	CObject::EType type = CObject::TYPE_NONE;
+	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float targetSize = 0.0f;
+	float size = STD_SIZE * 0.5f;
 
 	for (int i = 0; i < CObject::GetMax(); i++)
 	{
@@ -195,7 +199,7 @@ void CBullet::Update()
 			continue;
 		}
 
-		CObject::EType type = pObject[i]->GetType();
+		type = pObject[i]->GetType();
 
 		if (type != CObject::TYPE_ENEMY && type != CObject::TYPE_BODY)
 		{
@@ -207,11 +211,10 @@ void CBullet::Update()
 		case CObject::TYPE_BODY:
 		{
 			CObject3D* pBody = (CObject3D*)pObject[i];
-			D3DXVECTOR3 bodyPos = pBody->GetPos();
-			D3DXVECTOR3 bodySize = pBody->GetSize();
-			float size = (STD_SIZE * 0.5f);
+			targetPos = pBody->GetPos();
+			targetSize = pBody->GetSize().x * 0.5f;
 
-			if (CollisionCircle(pos, size, bodyPos, bodySize.x * 0.5f))
+			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// “–‚½‚è”»’è
 				// ‰ð•ú
 				CObject::Release();
@@ -223,11 +226,10 @@ void CBullet::Update()
 		case CObject::TYPE_ENEMY:
 		{
 			CEnemy* pEnemy = (CEnemy*)pObject[i];
-			D3DXVECTOR3 enemyPos = pEnemy->GetPos();
-			D3DXVECTOR3 enemySize = pEnemy->GetSize();
-			float size = (STD_SIZE * 0.5f);
+			targetPos = pEnemy->GetPos();
+			targetSize = pEnemy->GetSize().x * 0.5f;
 
-			if (CollisionCircle(pos, size, enemyPos, enemySize.x * 0.5f))
+			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// “–‚½‚è”»’è
 				// “G‚Ì‰ð•ú
 				pObject[i]->Release();

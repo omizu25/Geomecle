@@ -10,6 +10,7 @@
 //==================================================
 #include "enemy_rolling.h"
 #include "utility.h"
+#include "wall.h"
 #include <assert.h>
 
 //==================================================
@@ -106,6 +107,12 @@ void CEnemyRolling::Update()
 	}
 	
 	pos.y += cosf((m_time * 0.01f) * (D3DX_PI * 2.0f)) * STD_MOVE;
+
+	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float wall = (CWall::GetLength() * 0.5f) - size;
+
+	// îÕàÕì‡
+	InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f));
 
 	// à íuÇÃê›íË
 	CObject3D::SetPos(pos);

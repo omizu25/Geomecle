@@ -1,5 +1,5 @@
 {
-  "MAX": 16,
+  "MAX": 6,
   "ENEMY0": {
     "POS": {
       "X": 300,
@@ -43,89 +43,9 @@
   "ENEMY5": {
     "POS": {
       "X": 300,
-      "Y": -300
-    },
-    "TYPE": 3,
-    "TIMING": 4
-  },
-  "ENEMY6": {
-    "POS": {
-      "X": -300,
       "Y": 300
     },
     "TYPE": 3,
     "TIMING": 4
-  },
-  "ENEMY7": {
-    "POS": {
-      "X": 300,
-      "Y": 300
-    },
-    "TYPE": 3,
-    "TIMING": 4
-  },
-  "ENEMY8": {
-    "POS": {
-      "X": -300,
-      "Y": -300
-    },
-    "TYPE": 3,
-    "TIMING": 6
-  },
-  "ENEMY9": {
-    "POS": {
-      "X": 300,
-      "Y": -300
-    },
-    "TYPE": 3,
-    "TIMING": 6
-  },
-  "ENEMY10": {
-    "POS": {
-      "X": -300,
-      "Y": 300
-    },
-    "TYPE": 3,
-    "TIMING": 6
-  },
-  "ENEMY11": {
-    "POS": {
-      "X": 300,
-      "Y": 300
-    },
-    "TYPE": 3,
-    "TIMING": 6
-  },
-  "ENEMY12": {
-    "POS": {
-      "X": -300,
-      "Y": -300
-    },
-    "TYPE": 3,
-    "TIMING": 8
-  },
-  "ENEMY13": {
-    "POS": {
-      "X": 300,
-      "Y": -300
-    },
-    "TYPE": 3,
-    "TIMING": 8
-  },
-  "ENEMY14": {
-    "POS": {
-      "X": -300,
-      "Y": 300
-    },
-    "TYPE": 3,
-    "TIMING": 8
-  },
-  "ENEMY15": {
-    "POS": {
-      "X": 300,
-      "Y": 300
-    },
-    "TYPE": 3,
-    "TIMING": 8
   }
 }
