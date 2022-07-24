@@ -133,11 +133,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	// 全ての壁の生成
 	CWall::AllCreate();
-
-	if (m_pPlayer == nullptr)
-	{// nullチェック
-		m_pPlayer = CPlayer::Create();
-	}
 	
 	if (m_pMode == nullptr)
 	{// nullチェック
@@ -287,4 +282,12 @@ CCamera* CApplication::GetCamera()
 CPlayer* CApplication::GetPlayer()
 {
 	return m_pPlayer;
+}
+
+//--------------------------------------------------
+// プレイヤーのインスタンスの取得
+//--------------------------------------------------
+CPlayer** CApplication::GetPlayerInstanse()
+{
+	return &m_pPlayer;
 }

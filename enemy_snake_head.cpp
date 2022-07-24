@@ -201,12 +201,17 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CEnemySnakeHead::SetMove()
 {
+	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
 	float fRotMove, fRotDest, fRotDiff;
 
 	// 現在の移動方向(角度)
 	fRotMove = atan2f(m_move.x, m_move.y);
-
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
 
 	// 目的の移動方向(角度)
 	fRotDest = atan2f(pPlayer->GetPos().x - GetPos().x, pPlayer->GetPos().y - GetPos().y);

@@ -62,6 +62,7 @@ public:
 	CTexture* GetTexture();			// テクスチャの情報の取得
 	CCamera* GetCamera();			// カメラの情報の取得
 	CPlayer* GetPlayer();			// プレイヤーの情報の取得
+	CPlayer** GetPlayerInstanse();	// プレイヤーのインスタンスの取得
 
 	/* ↓メンバ変数↓ */
 private:

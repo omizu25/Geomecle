@@ -43,6 +43,14 @@ CGame::~CGame()
 //--------------------------------------------------
 void CGame::Init()
 {
+	// プレイヤーの生成
+	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
+
+	if (*pPlayer == nullptr)
+	{// nullチェック
+		*pPlayer = CPlayer::Create();
+	}
+
 	// 読み込み
 	CEnemyManager::GetInstanse()->Load();
 }
@@ -55,6 +63,9 @@ void CGame::Uninit()
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
+	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
+	*pPlayer = nullptr;
+
 	// 解放
 	CEnemyManager::GetInstanse()->Release();
 }
@@ -64,12 +75,6 @@ void CGame::Uninit()
 //--------------------------------------------------
 void CGame::Update()
 {
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		Change(MODE_RESULT);
-		return;
-	}
-
 	// 敵のスポーン
 	CEnemyManager::GetInstanse()->Spawn();
 

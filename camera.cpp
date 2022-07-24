@@ -69,7 +69,23 @@ void CCamera::Uninit()
 //--------------------------------------------------
 void CCamera::Update()
 {
-	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	if (CMode::MODE_GAME != CApplication::GetInstanse()->GetMode()->Get())
+	{// 指定のモードではない
+		// ホーミング
+		Homing(&m_pos, m_pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 5.0f);
+		return;
+	}
+
+	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		// ホーミング
+		Homing(&m_pos, m_pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 5.0f);
+		return;
+	}
+
+	D3DXVECTOR3 pos = pPlayer->GetPos();
 
 	D3DXVECTOR3 vecDiff = pos - m_pos;
 

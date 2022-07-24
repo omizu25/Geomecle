@@ -13,6 +13,8 @@
 #include "utility.h"
 #include "input.h"
 #include "wall.h"
+#include "enemy.h"
+#include "mode.h"
 #include <assert.h>
 
 //==================================================
@@ -72,9 +74,6 @@ void CPlayer::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
-
-	// キープの設定
-	CObject::SetKeep(true);
 }
 
 //--------------------------------------------------
@@ -96,6 +95,62 @@ void CPlayer::Update()
 
 	// 向き
 	Rot();
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float size = 0.0f;
+
+	CObject** pObject = GetMyObject();
+
+	for (int i = 0; i < CObject::GetMax(); i++)
+	{
+		if (pObject[i] == nullptr)
+		{
+			continue;
+		}
+
+		CObject::EType type = pObject[i]->GetType();
+
+		if (type != CObject::TYPE_ENEMY && type != CObject::TYPE_BODY)
+		{
+			continue;
+		}
+
+		switch (type)
+		{
+		case CObject::TYPE_BODY:
+		{
+			CObject3D* pBody = (CObject3D*)pObject[i];
+			pos = pBody->GetPos();
+			size = pBody->GetSize().x;
+		}
+		break;
+
+		case CObject::TYPE_ENEMY:
+		{
+			CEnemy* pEnemy = (CEnemy*)pObject[i];
+			pos = pEnemy->GetPos();
+			size = pEnemy->GetSize().x;
+		}
+		break;
+
+		default:
+			assert(false);
+			break;
+		}
+
+		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.5f, pos, size * 0.5f))
+		{// 当たり判定
+			// 解放
+			CObject::Release();
+
+			CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
+			*pPlayer = nullptr;
+
+			// モードの変更
+			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+			return;
+		}
+	}
 
 	// 更新
 	CObject3D::Update();

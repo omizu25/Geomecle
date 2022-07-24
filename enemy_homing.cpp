@@ -62,9 +62,16 @@ void CEnemyHoming::Uninit()
 //--------------------------------------------------
 void CEnemyHoming::Update()
 {
+	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
 	m_time++;
 
-	D3DXVECTOR3 posDest = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	D3DXVECTOR3 posDest = pPlayer->GetPos();
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// ホーミング
