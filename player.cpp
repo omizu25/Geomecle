@@ -99,9 +99,9 @@ void CPlayer::Update()
 	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float size = 0.0f;
 
-	CObject** pObject = GetMyObject();
+	CObject** pObject = GetMyObject(CObject::CATEGORY_3D);
 
-	for (int i = 0; i < CObject::GetMax(); i++)
+	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
 	{
 		if (pObject[i] == nullptr)
 		{

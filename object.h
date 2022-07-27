@@ -21,7 +21,7 @@ class CObject
 public:
 	enum EType
 	{
-		TYPE_NONE = 0,
+		TYPE_NONE = -1,
 		TYPE_PLAYER,	// プレイヤー
 		TYPE_BULLET,	// 弾
 		TYPE_ENEMY,		// 敵
@@ -29,28 +29,41 @@ public:
 		TYPE_MAX,
 	};
 
+	enum ECategory
+	{
+		CATEGORY_NONE = -1,
+		CATEGORY_3D,		// 3D
+		CATEGORY_EFFECT,	// エフェクト
+		CATEGORY_2D,		// 2D
+		CATEGORY_MAX
+	};
+
 private:
-	static const int MAX_OBJECT = 30000;	// オブジェクトの最大数
+	static const int MAX_2D;		// 2Dの最大数
+	static const int MAX_3D;		// 3Dの最大数
+	static const int MAX_EFFECT = 30000;	// エフェクトの最大数
+	static const int MAX_OBJECT[CATEGORY_MAX];	// 最大数の配列
 
 	/* ↓静的メンバ関数↓ */
 public:
 	static void ReleaseAll(bool releaseKeep);	// 全ての解放
 	static void UpdateAll();	// 全ての更新
 	static void DrawAll();		// 全ての描画
-	static int GetMax();		// 最大値の取得
 	static int GetNumAll();		// 総数の取得
-	static CObject** GetMyObject();	// オブジェクトの取得
+	static int GetMax(ECategory cat);	// 最大数の取得
+	static CObject** GetMyObject(ECategory cat);	// オブジェクトの取得
 	static bool Exist(EType type);	// 存在するかどうか
 
 	/* ↓静的メンバ変数↓ */
 private:
-	static int m_numAll;					// 総数
-	static CObject* m_pObject[MAX_OBJECT];	// オブジェクトの情報
+	static int m_numAll;	// 総数
+	static CObject* m_pObject[CATEGORY_MAX][MAX_EFFECT];	// オブジェクトの情報
 
 	/* ↓メンバ関数↓ */
 public:
-	CObject();			// デフォルトコンストラクタ
-	virtual ~CObject();	// デストラクタ
+	CObject();				// デフォルトコンストラクタ
+	CObject(ECategory cat);	// コンストラクタ
+	virtual ~CObject();		// デストラクタ
 
 public:
 	virtual void Init() = 0;	// 初期化
@@ -66,9 +79,10 @@ public:
 
 	/* ↓メンバ変数↓ */
 private:
-	EType m_type;	// タイプ
-	int m_index;	// 格納先の番号
-	bool m_keep;	// ずっと持っているかどうか
+	EType m_type;		// タイプ
+	ECategory m_cat;	// カテゴリー
+	int m_index;		// 格納先の番号
+	bool m_keep;		// ずっと持っているかどうか
 };
 
 #endif // !_OBJECT_H_

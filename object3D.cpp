@@ -40,7 +40,7 @@ CObject3D* CObject3D::Create()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CObject3D::CObject3D() :
+CObject3D::CObject3D(CObject::ECategory cat) : CObject(cat),
 	m_texture(CTexture::LABEL_NONE),
 	m_rot(0.0f),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),

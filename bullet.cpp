@@ -186,13 +186,13 @@ void CBullet::Update()
 		}
 	}
 
-	CObject** pObject = GetMyObject();
+	CObject** pObject = GetMyObject(CObject::CATEGORY_3D);
 	CObject::EType type = CObject::TYPE_NONE;
 	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float targetSize = 0.0f;
 	float size = STD_SIZE * 0.5f;
 
-	for (int i = 0; i < CObject::GetMax(); i++)
+	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
 	{
 		if (pObject[i] == nullptr)
 		{

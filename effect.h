@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// enemy.h
+// effect.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _ENEMY_H_	//このマクロ定義がされてなかったら
-#define _ENEMY_H_	//２重インクルード防止のマクロ定義
+#ifndef _EFFECT_H_	//このマクロ定義がされてなかったら
+#define _EFFECT_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -16,34 +16,26 @@
 //==================================================
 // 定義
 //==================================================
-class CEnemy : public CObject3D
+class CEffect : public CObject3D
 {
 	/* 定義 */
-public:
-
-	enum EType
-	{
-		TYPE_NONE = -1,
-		TYPE_HOMING,	// ホーミング
-		TYPE_ROUNDTRIP,	// 往復
-		TYPE_WINDMILL,	// 風車
-		TYPE_SNAKE,		// 蛇
-		TYPE_DIVISION,	// 分裂
-		TYPE_ROLLING,	// 回転
-		TYPE_MAX
-	};
-	
 private:
-	static const float STD_SIZE;	// サイズの最大値
+	static const float STD_SIZE;	// サイズの標準値
+	static const float STD_MOVE;	// 移動量の標準値
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CEnemy* Create(CEnemy::EType type, const D3DXVECTOR3& pos);	// 生成
+	static CEffect* Create();	// 生成
+	static int GetNumAll();		// 総数の取得
+
+	/* ↓静的メンバ変数↓ */
+private:
+	static int m_numAll;	// 総数
 
 	/* ↓メンバ関数↓ */
 public:
-	CEnemy();				// デフォルトコンストラクタ
-	 ~CEnemy() override;	// デストラクタ
+	CEffect();				// デフォルトコンストラクタ
+	~CEffect() override;	// デストラクタ
 
 public:
 	void Init() override;	// 初期化
@@ -51,8 +43,10 @@ public:
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
 
+	/* ↓メンバ変数↓ */
 private:
-	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定
+	D3DXVECTOR3 m_move;	// 移動量
+	int m_life;			// 寿命
 };
 
-#endif // !_ENEMT_H_
+#endif // !_EFFECT_H_

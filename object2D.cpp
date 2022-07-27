@@ -40,7 +40,7 @@ CObject2D* CObject2D::Create()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CObject2D::CObject2D() :
+CObject2D::CObject2D() : CObject(CObject::CATEGORY_2D),
 	m_texture(CTexture::LABEL_NONE),
 	m_rot(0.0f),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
@@ -142,11 +142,6 @@ void CObject2D::Draw()
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
-	// レンダーステートの設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
 	// 頂点バッファをデータストリームに設定
 	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(VERTEX_2D));
 
@@ -163,11 +158,6 @@ void CObject2D::Draw()
 		D3DPT_TRIANGLESTRIP,	// プリミティブの種類
 		0,						// 描画する最初の頂点インデックス
 		NUM_POLYGON);			// プリミティブ(ポリゴン)数
-
-	// レンダーステートを元に戻す
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 }
 
 //--------------------------------------------------
