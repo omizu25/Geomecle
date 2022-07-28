@@ -23,8 +23,8 @@ public:
 	enum ELabel
 	{
 		LABEL_NONE = -1,
-		LABEL_BGM_TITLE,	// タイトル
-		LABEL_SE_ENTER,		// 決定音
+		LABEL_BGM_TITLE = 0,	// タイトル
+		LABEL_SE_ENTER,			// 決定音
 		LABEL_MAX,
 	};
 

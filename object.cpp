@@ -16,44 +16,74 @@
 //==================================================
 // 定義
 //==================================================
-const int CObject::MAX_2D = 64;
-const int CObject::MAX_3D = 1024;
-//const int CObject::MAX_EFFECT = 30000;
-
-const int CObject::MAX_OBJECT[CATEGORY_MAX]
+const int CObject::MAX_OBJECT[]
 {
-	MAX_3D,
-	MAX_EFFECT,
-	MAX_2D
+	1024,
+	30000,
+	64
 };
+
 
 //==================================================
 // 静的メンバ変数
 //==================================================
 int CObject::m_numAll = 0;
-CObject* CObject::m_pObject[CATEGORY_MAX][MAX_EFFECT];
+CObject** CObject::m_pObject[CATEGORY_MAX];
+
+//--------------------------------------------------
+// 生成
+//--------------------------------------------------
+void CObject::Create()
+{
+	for (int i = 0; i < CATEGORY_MAX; i++)
+	{
+		m_pObject[i] = new CObject* [MAX_OBJECT[i]];
+	}
+
+	for (int numCat = 0; numCat < CATEGORY_MAX; numCat++)
+	{
+		for (int numObj = 0; numObj < MAX_OBJECT[numCat]; numObj++)
+		{
+			m_pObject[numCat][numObj] = nullptr;
+		}
+	}
+}
+
+//--------------------------------------------------
+// 破棄
+//--------------------------------------------------
+void CObject::Delete()
+{
+	// 全ての解放
+	ReleaseAll(true);
+
+	for (int i = 0; i < CATEGORY_MAX; i++)
+	{
+		delete[] m_pObject[i];
+	}
+}
 
 //--------------------------------------------------
 // 全ての解放
 //--------------------------------------------------
 void CObject::ReleaseAll(bool releaseKeep)
 {
-	for (int i = 0; i < CATEGORY_MAX; i++)
+	for (int numCat = 0; numCat < CATEGORY_MAX; numCat++)
 	{
-		for (int j = 0; j < MAX_OBJECT[i]; j++)
+		for (int numObj = 0; numObj < MAX_OBJECT[numCat]; numObj++)
 		{
-			if (m_pObject[i][j] == nullptr)
+			if (m_pObject[numCat][numObj] == nullptr)
 			{// NULLチェック
 				continue;
 			}
 
-			if (!releaseKeep && m_pObject[i][j]->m_keep)
+			if (!releaseKeep && m_pObject[numCat][numObj]->m_keep)
 			{// キープしてあるものは解放しない
 				continue;
 			}
 
 			// オブジェクトの開放
-			m_pObject[i][j]->Release();
+			m_pObject[numCat][numObj]->Release();
 		}
 	}
 }
@@ -63,17 +93,17 @@ void CObject::ReleaseAll(bool releaseKeep)
 //--------------------------------------------------
 void CObject::UpdateAll()
 {
-	for (int i = 0; i < CATEGORY_MAX; i++)
+	for (int numCat = 0; numCat < CATEGORY_MAX; numCat++)
 	{
-		for (int j = 0; j < MAX_OBJECT[i]; j++)
+		for (int numObj = 0; numObj < MAX_OBJECT[numCat]; numObj++)
 		{
-			if (m_pObject[i][j] == nullptr)
+			if (m_pObject[numCat][numObj] == nullptr)
 			{// NULLチェック
 				continue;
 			}
 
 			// オブジェクトの更新
-			m_pObject[i][j]->Update();
+			m_pObject[numCat][numObj]->Update();
 		}
 	}
 }
@@ -83,9 +113,9 @@ void CObject::UpdateAll()
 //--------------------------------------------------
 void CObject::DrawAll()
 {
-	for (int i = 0; i < CATEGORY_MAX; i++)
+	for (int numCat = 0; numCat < CATEGORY_MAX; numCat++)
 	{
-		if (i == CATEGORY_2D)
+		if (numCat == CATEGORY_2D)
 		{// 指定の値と同じ
 			// デバイスへのポインタの取得
 			LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -96,18 +126,18 @@ void CObject::DrawAll()
 			pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		}
 
-		for (int j = 0; j < MAX_OBJECT[i]; j++)
+		for (int numObj = 0; numObj < MAX_OBJECT[numCat]; numObj++)
 		{
-			if (m_pObject[i][j] == nullptr)
+			if (m_pObject[numCat][numObj] == nullptr)
 			{// NULLチェック
 				continue;
 			}
 
 			// オブジェクトの描画
-			m_pObject[i][j]->Draw();
+			m_pObject[numCat][numObj]->Draw();
 		}
 
-		if (i == CATEGORY_2D)
+		if (numCat == CATEGORY_2D)
 		{// 指定の値と同じ
 			// デバイスへのポインタの取得
 			LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -147,45 +177,13 @@ CObject** CObject::GetMyObject(ECategory cat)
 }
 
 //--------------------------------------------------
-// 存在するかどうか
-//--------------------------------------------------
-bool CObject::Exist(CObject::EType type)
-{
-	for (int i = 0; i < MAX_3D; i++)
-	{
-		if (m_pObject[CATEGORY_3D][i] == nullptr)
-		{// nullチェック
-			continue;
-		}
-
-		if (m_pObject[CATEGORY_3D][i]->m_type == type)
-		{// 同じ種類
-			return true;
-		}
-	}
-
-	return false;
-}
-
-//--------------------------------------------------
-// デフォルトコンストラクタ
-//--------------------------------------------------
-CObject::CObject() : 
-	m_cat(CATEGORY_NONE),
-	m_type(TYPE_NONE),
-	m_index(0),
-	m_keep(false)
-{
-	assert(false);
-}
-
-//--------------------------------------------------
 // コンストラクタ
 //--------------------------------------------------
 CObject::CObject(ECategory cat) :
-	m_type(TYPE_NONE),
 	m_keep(false)
 {
+	static_assert(sizeof(MAX_OBJECT) / sizeof(MAX_OBJECT[0]) == CATEGORY_MAX, "aho");
+
 	assert(cat > CATEGORY_NONE && cat < CATEGORY_MAX);
 
 	for (int i = 0; i < MAX_OBJECT[cat]; i++)
@@ -222,22 +220,6 @@ void CObject::Release()
 		delete m_pObject[cat][index];
 		m_pObject[cat][index] = nullptr;
 	}
-}
-
-//--------------------------------------------------
-// 種類の設定
-//--------------------------------------------------
-void CObject::SetType(CObject::EType type)
-{
-	m_type = type;
-}
-
-//--------------------------------------------------
-// 種類の取得
-//--------------------------------------------------
-const CObject::EType CObject::GetType() const
-{
-	return m_type;
 }
 
 //--------------------------------------------------

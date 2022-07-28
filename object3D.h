@@ -20,6 +20,17 @@
 class CObject3D : public CObject
 {
 	/* ↓定義↓ */
+public:
+	enum EType
+	{
+		TYPE_NONE = -1,
+		TYPE_PLAYER = 0,	// プレイヤー
+		TYPE_BULLET,		// 弾
+		TYPE_ENEMY,			// 敵
+		TYPE_BODY,			// 体
+		TYPE_MAX
+	};
+
 private:
 	struct VERTEX_3D
 	{// 頂点データ
@@ -35,11 +46,13 @@ private:
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CObject3D* Create();	// 生成
+	static CObject3D* Create();		// 生成
+	static bool Exist(EType type);	// 存在するかどうか
 
 	/* ↓メンバ関数↓ */
 public:
-	CObject3D(CObject::ECategory cat = CObject::CATEGORY_3D);	// コンストラクタ
+//	CObject3D() = delete;	// デフォルトコンストラクタ
+	explicit CObject3D(CObject::ECategory cat = CObject::CATEGORY_3D);	// コンストラクタ
 	~CObject3D() override;	// デストラクタ
 
 public: 
@@ -58,9 +71,12 @@ public:
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 	void SetCol(const D3DXCOLOR& col);	// 色の設定
+	void SetType(EType type);		// 種類の設定
+	const EType GetType() const;	// 種類の取得
 
 	/* ↓メンバ変数↓ */
 private:
+	EType m_type;	// タイプ
 	CTexture::ELabel m_texture;	// テクスチャの列挙型
 	float m_rot;		// 向き
 	D3DXVECTOR3 m_size;	// サイズ

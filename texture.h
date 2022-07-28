@@ -21,18 +21,18 @@ class CTexture
 public:
 	enum ELabel
 	{
-		LABEL_NONE = -1,		// 使用しない
-		LABEL_icon_122380_256,	// プレイヤー
-		LABEL_icon_122540_256,	// 弾
-		LABEL_Homing,			// ホーミング
-		LABEL_HomingAI,			// AIホーミング
-		LABEL_HomingDivision,	// 分裂ホーミング
-		LABEL_PaperAirplane,	// 紙飛行機
-		LABEL_Windmill,			// 風車
-		LABEL_Snake_Body,		// 蛇の体
-		LABEL_Number,			// 数
-		LABEL_Result,			// リザルト
-		LABEL_Title,			// タイトル
+		LABEL_NONE = -1,			// 使用しない
+		LABEL_icon_122380_256 = 0,	// プレイヤー
+		LABEL_icon_122540_256,		// 弾
+		LABEL_Homing,				// ホーミング
+		LABEL_HomingAI,				// AIホーミング
+		LABEL_HomingDivision,		// 分裂ホーミング
+		LABEL_PaperAirplane,		// 紙飛行機
+		LABEL_Windmill,				// 風車
+		LABEL_Snake_Body,			// 蛇の体
+		LABEL_Number,				// 数
+		LABEL_Result,				// リザルト
+		LABEL_Title,				// タイトル
 		LABEL_MAX
 	};
 

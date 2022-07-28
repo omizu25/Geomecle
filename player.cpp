@@ -64,7 +64,7 @@ void CPlayer::Init()
 	CObject3D::Init();
 
 	// éÌóﬁÇÃê›íË
-	CObject3D::SetType(CObject::TYPE_PLAYER);
+	CObject3D::SetType(CObject3D::TYPE_PLAYER);
 
 	// à íuÇÃê›íË
 	CObject3D::SetPos(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -99,7 +99,7 @@ void CPlayer::Update()
 	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float size = 0.0f;
 
-	CObject** pObject = GetMyObject(CObject::CATEGORY_3D);
+	CObject3D** pObject = (CObject3D**)GetMyObject(CObject::CATEGORY_3D);
 
 	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
 	{
@@ -108,24 +108,23 @@ void CPlayer::Update()
 			continue;
 		}
 
-		CObject::EType type = pObject[i]->GetType();
+		CObject3D::EType type = pObject[i]->GetType();
 
-		if (type != CObject::TYPE_ENEMY && type != CObject::TYPE_BODY)
+		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
 		{
 			continue;
 		}
 
 		switch (type)
 		{
-		case CObject::TYPE_BODY:
+		case CObject3D::TYPE_BODY:
 		{
-			CObject3D* pBody = (CObject3D*)pObject[i];
-			pos = pBody->GetPos();
-			size = pBody->GetSize().x;
+			pos = pObject[i]->GetPos();
+			size = pObject[i]->GetSize().x;
 		}
 		break;
 
-		case CObject::TYPE_ENEMY:
+		case CObject3D::TYPE_ENEMY:
 		{
 			CEnemy* pEnemy = (CEnemy*)pObject[i];
 			pos = pEnemy->GetPos();

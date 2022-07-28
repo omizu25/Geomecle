@@ -131,6 +131,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 		m_pCamera->Init();
 	}
 
+	// 生成
+	CObject::Create();
+
 	// 全ての壁の生成
 	CWall::AllCreate();
 	
@@ -155,8 +158,8 @@ void CApplication::Uninit()
 		m_pMode = nullptr;
 	}
 
-	// 全ての解放
-	CObject::ReleaseAll(true);
+	// 破棄
+	CObject::Delete();
 
 	if (m_pPlayer != nullptr)
 	{// nullチェック

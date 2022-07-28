@@ -138,7 +138,7 @@ void CBullet::Init()
 	CObject3D::Init();
 
 	// Ží—Þ‚ÌÝ’è
-	CObject3D::SetType(CObject::TYPE_BULLET);
+	CObject3D::SetType(CObject3D::TYPE_BULLET);
 
 	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
@@ -186,8 +186,8 @@ void CBullet::Update()
 		}
 	}
 
-	CObject** pObject = GetMyObject(CObject::CATEGORY_3D);
-	CObject::EType type = CObject::TYPE_NONE;
+	CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
+	CObject3D::EType type = CObject3D::TYPE_NONE;
 	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float targetSize = 0.0f;
 	float size = STD_SIZE * 0.5f;
@@ -201,18 +201,17 @@ void CBullet::Update()
 
 		type = pObject[i]->GetType();
 
-		if (type != CObject::TYPE_ENEMY && type != CObject::TYPE_BODY)
+		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
 		{
 			continue;
 		}
 
 		switch (type)
 		{
-		case CObject::TYPE_BODY:
+		case CObject3D::TYPE_BODY:
 		{
-			CObject3D* pBody = (CObject3D*)pObject[i];
-			targetPos = pBody->GetPos();
-			targetSize = pBody->GetSize().x * 0.5f;
+			targetPos = pObject[i]->GetPos();
+			targetSize = pObject[i]->GetSize().x * 0.5f;
 
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// “–‚½‚è”»’è
@@ -223,7 +222,7 @@ void CBullet::Update()
 		}
 			break;
 
-		case CObject::TYPE_ENEMY:
+		case CObject3D::TYPE_ENEMY:
 		{
 			CEnemy* pEnemy = (CEnemy*)pObject[i];
 			targetPos = pEnemy->GetPos();

@@ -38,9 +38,33 @@ CObject3D* CObject3D::Create()
 }
 
 //--------------------------------------------------
-// デフォルトコンストラクタ
+// 存在するかどうか
+//--------------------------------------------------
+bool CObject3D::Exist(EType type)
+{
+	CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
+
+	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
+	{
+		if (pObject[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		if (pObject[i]->m_type == type)
+		{// 指定の値と同じ
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//--------------------------------------------------
+// コンストラクタ
 //--------------------------------------------------
 CObject3D::CObject3D(CObject::ECategory cat) : CObject(cat),
+	m_type(TYPE_NONE),
 	m_texture(CTexture::LABEL_NONE),
 	m_rot(0.0f),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
@@ -287,4 +311,20 @@ void CObject3D::SetCol(const D3DXCOLOR& col)
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
+// 種類の設定
+//--------------------------------------------------
+void CObject3D::SetType(EType type)
+{
+	m_type = type;
+}
+
+//--------------------------------------------------
+// 種類の取得
+//--------------------------------------------------
+const CObject3D::EType CObject3D::GetType() const
+{
+	return m_type;
 }

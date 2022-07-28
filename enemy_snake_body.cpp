@@ -67,7 +67,7 @@ void CEnemySnakeBody::Init()
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// 種類の設定
-	CObject3D::SetType(CObject::TYPE_BODY);
+	CObject3D::SetType(CObject3D::TYPE_BODY);
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Snake_Body);

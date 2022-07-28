@@ -57,9 +57,6 @@ void CNumber::Init()
 	// ‰Šú‰»
 	CObject2D::Init();
 
-	// í—Ş‚Ìİ’è
-	CObject2D::SetType(CObject::TYPE_NONE);
-
 	CObject2D::SetTexture(CTexture::LABEL_Number);
 }
 

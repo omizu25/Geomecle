@@ -22,7 +22,7 @@ public:
 	enum EMode
 	{
 		MODE_NONE = -1,
-		MODE_TITLE,		// タイトル
+		MODE_TITLE = 0,	// タイトル
 		MODE_GAME,		// ゲーム
 		MODE_RESULT,	// リザルト
 		MODE_MAX,

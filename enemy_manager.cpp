@@ -120,7 +120,7 @@ void CEnemyManager::Spawn()
 	if (m_max == m_spawn)
 	{// 全部スポーンした
 		
-		if (CObject::Exist(CObject::TYPE_ENEMY))
+		if (CObject3D::Exist(CObject3D::TYPE_ENEMY))
 		{// 敵がいる
 			return;
 		}
@@ -133,7 +133,7 @@ void CEnemyManager::Spawn()
 
 	m_time++;
 
-	if (CObject::Exist(CObject::TYPE_ENEMY))
+	if (CObject3D::Exist(CObject3D::TYPE_ENEMY))
 	{// 敵がいる
 		if ((m_time % CEnemyManager::SPAWN_INTERVAL) != 0)
 		{// インターバル中

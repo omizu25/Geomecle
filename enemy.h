@@ -20,16 +20,15 @@ class CEnemy : public CObject3D
 {
 	/* 定義 */
 public:
-
 	enum EType
 	{
 		TYPE_NONE = -1,
-		TYPE_HOMING,	// ホーミング
-		TYPE_ROUNDTRIP,	// 往復
-		TYPE_WINDMILL,	// 風車
-		TYPE_SNAKE,		// 蛇
-		TYPE_DIVISION,	// 分裂
-		TYPE_ROLLING,	// 回転
+		TYPE_HOMING = 0,	// ホーミング
+		TYPE_ROUNDTRIP,		// 往復
+		TYPE_WINDMILL,		// 風車
+		TYPE_SNAKE,			// 蛇
+		TYPE_DIVISION,		// 分裂
+		TYPE_ROLLING,		// 回転
 		TYPE_MAX
 	};
 	

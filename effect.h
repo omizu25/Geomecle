@@ -25,8 +25,9 @@ private:
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CEffect* Create();	// 生成
-	static int GetNumAll();		// 総数の取得
+	static CEffect* Create();		// 生成
+	static int GetNumAll();			// 総数の取得
+	static void DrawInstancing();	// インスタンシングの描画
 
 	/* ↓静的メンバ変数↓ */
 private:

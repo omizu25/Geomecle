@@ -40,6 +40,32 @@ CEffect* CEffect::Create()
 }
 
 //--------------------------------------------------
+// 総数の取得
+//--------------------------------------------------
+int CEffect::GetNumAll()
+{
+	return m_numAll;
+}
+
+//--------------------------------------------------
+// インスタンシングの描画
+//--------------------------------------------------
+void DrawInstancing()
+{
+	{// エフェクトの情報取得
+		CObject** pObject = CObject::GetMyObject(CObject::CATEGORY_EFFECT);
+
+		for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_EFFECT); i++)
+		{
+			if (pObject[i] == nullptr)
+			{
+				continue;
+			}
+		}
+	}
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEffect::CEffect() : CObject3D(CObject::CATEGORY_EFFECT),
@@ -65,7 +91,7 @@ void CEffect::Init()
 	CObject3D::Init();
 
 	// 種類の設定
-	CObject3D::SetType(CObject::TYPE_BULLET);
+	CObject3D::SetType(CObject3D::TYPE_BULLET);
 
 	// サイズの設定
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
