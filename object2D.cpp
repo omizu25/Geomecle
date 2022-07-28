@@ -151,7 +151,7 @@ void CObject2D::Draw()
 	CTexture* pTexture = CApplication::GetInstanse()->GetTexture();
 	 
 	// テクスチャの設定
-	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+	pDevice->SetTexture(0, pTexture->Get(m_texture));
 
 	// ポリゴンの描画
 	pDevice->DrawPrimitive(

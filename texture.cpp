@@ -29,6 +29,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/Number.png",			// 数
 	"data/TEXTURE/result.png",			// リザルト
 	"data/TEXTURE/title.png",			// タイトル
+	"data/TEXTURE/bright.jpg",			// エフェクト
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");
@@ -118,7 +119,7 @@ void CTexture::Release(ELabel label)
 //--------------------------------------------------
 // 取得
 //--------------------------------------------------
-LPDIRECT3DTEXTURE9 CTexture::GetTexture(ELabel label)
+LPDIRECT3DTEXTURE9 CTexture::Get(ELabel label)
 {
 	if (label == LABEL_NONE)
 	{// テクスチャを使用しない

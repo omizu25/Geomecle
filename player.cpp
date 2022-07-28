@@ -96,61 +96,9 @@ void CPlayer::Update()
 	// 向き
 	Rot();
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	float size = 0.0f;
-
-	CObject3D** pObject = (CObject3D**)GetMyObject(CObject::CATEGORY_3D);
-
-	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
-	{
-		if (pObject[i] == nullptr)
-		{
-			continue;
-		}
-
-		CObject3D::EType type = pObject[i]->GetType();
-
-		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
-		{
-			continue;
-		}
-
-		switch (type)
-		{
-		case CObject3D::TYPE_BODY:
-		{
-			pos = pObject[i]->GetPos();
-			size = pObject[i]->GetSize().x;
-		}
-		break;
-
-		case CObject3D::TYPE_ENEMY:
-		{
-			CEnemy* pEnemy = (CEnemy*)pObject[i];
-			pos = pEnemy->GetPos();
-			size = pEnemy->GetSize().x;
-		}
-		break;
-
-		default:
-			assert(false);
-			break;
-		}
-
-		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.5f, pos, size * 0.5f))
-		{// 当たり判定
-			// 解放
-			CObject::Release();
-
-			CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
-			*pPlayer = nullptr;
-
-			// モードの変更
-			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
-			return;
-		}
-	}
-
+	// 当たり判定
+//	Collision();
+	
 	// 更新
 	CObject3D::Update();
 }
@@ -245,4 +193,66 @@ void CPlayer::Rot()
 
 	// 向きの設定
 	CObject3D::SetRot(rot);
+}
+
+
+//--------------------------------------------------
+// 当たり判定
+//--------------------------------------------------
+void CPlayer::Collision()
+{
+	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float size = 0.0f;
+
+	CObject3D** pObject = (CObject3D**)GetMyObject(CObject::CATEGORY_3D);
+
+	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
+	{
+		if (pObject[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		CObject3D::EType type = pObject[i]->GetType();
+
+		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
+		{// 指定の値ではない
+			continue;
+		}
+
+		switch (type)
+		{
+		case CObject3D::TYPE_BODY:
+		{
+			pos = pObject[i]->GetPos();
+			size = pObject[i]->GetSize().x;
+		}
+		break;
+
+		case CObject3D::TYPE_ENEMY:
+		{
+			CEnemy* pEnemy = (CEnemy*)pObject[i];
+			pos = pEnemy->GetPos();
+			size = pEnemy->GetSize().x;
+		}
+		break;
+
+		default:
+			assert(false);
+			break;
+		}
+
+		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.5f, pos, size * 0.5f))
+		{// 当たり判定
+			// 解放
+			CObject::Release();
+
+			CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
+			*pPlayer = nullptr;
+
+			// モードの変更
+			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+			return;
+		}
+	}
 }

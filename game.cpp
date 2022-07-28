@@ -15,6 +15,7 @@
 #include "enemy_manager.h"
 #include "bullet.h"
 #include "input.h"
+#include "effect.h"
 #include <assert.h>
 
 //--------------------------------------------------

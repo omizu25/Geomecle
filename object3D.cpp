@@ -176,7 +176,7 @@ void CObject3D::Draw()
 	CTexture* pTexture = CApplication::GetInstanse()->GetTexture();
 
 	// テクスチャの設定
-	pDevice->SetTexture(0, pTexture->GetTexture(m_texture));
+	pDevice->SetTexture(0, pTexture->Get(m_texture));
 
 	D3DXMATRIX mtxTrans;
 

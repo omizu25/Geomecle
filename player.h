@@ -40,8 +40,9 @@ public:
 	void Draw() override;	// •`‰æ
 
 private:
-	void Move();	// ˆÚ“®
-	void Rot();		// Œü‚«
+	void Move();		// ˆÚ“®
+	void Rot();			// Œü‚«
+	void Collision();	// “–‚½‚è”»’è
 
 private:
 	float m_rotDest;	// –Ú“I‚ÌŒü‚«

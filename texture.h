@@ -33,6 +33,7 @@ public:
 		LABEL_Number,				// 数
 		LABEL_Result,				// リザルト
 		LABEL_Title,				// タイトル
+		LABEL_bright,				// エフェクト
 		LABEL_MAX
 	};
 
@@ -48,7 +49,7 @@ public:
 	void Load(ELabel label);	// 指定の読み込み
 	void ReleaseAll();			// 全ての破棄
 	void Release(ELabel label);	// 指定の破棄
-	LPDIRECT3DTEXTURE9 GetTexture(ELabel label);	// 情報の取得
+	LPDIRECT3DTEXTURE9 Get(ELabel label);	// 情報の取得
 
 	/* ↓メンバ変数↓ */
 private:

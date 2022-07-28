@@ -10,6 +10,7 @@
 //==================================================
 #include "object.h"
 #include "application.h"
+#include "effect.h"
 
 #include <assert.h>
 
@@ -113,41 +114,43 @@ void CObject::UpdateAll()
 //--------------------------------------------------
 void CObject::DrawAll()
 {
-	for (int numCat = 0; numCat < CATEGORY_MAX; numCat++)
+	for (int numObj = 0; numObj < MAX_OBJECT[CATEGORY_3D]; numObj++)
 	{
-		if (numCat == CATEGORY_2D)
-		{// 指定の値と同じ
-			// デバイスへのポインタの取得
-			LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
-
-			// レンダーステートの設定
-			pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-			pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		if (m_pObject[CATEGORY_3D][numObj] == nullptr)
+		{// NULLチェック
+			continue;
 		}
 
-		for (int numObj = 0; numObj < MAX_OBJECT[numCat]; numObj++)
-		{
-			if (m_pObject[numCat][numObj] == nullptr)
-			{// NULLチェック
-				continue;
-			}
-
-			// オブジェクトの描画
-			m_pObject[numCat][numObj]->Draw();
-		}
-
-		if (numCat == CATEGORY_2D)
-		{// 指定の値と同じ
-			// デバイスへのポインタの取得
-			LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
-
-			// レンダーステートを元に戻す
-			pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-			pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-			pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-		}
+		// オブジェクトの描画
+		m_pObject[CATEGORY_3D][numObj]->Draw();
 	}
+
+	// インスタンシングの描画
+	CEffect::DrawInstancing();
+
+	// デバイスへのポインタの取得
+	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
+
+	// レンダーステートの設定
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	for (int numObj = 0; numObj < MAX_OBJECT[CATEGORY_2D]; numObj++)
+	{
+		if (m_pObject[CATEGORY_2D][numObj] == nullptr)
+		{// NULLチェック
+			continue;
+		}
+
+		// オブジェクトの描画
+		m_pObject[CATEGORY_2D][numObj]->Draw();
+	}
+
+	// レンダーステートを元に戻す
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 }
 
 //--------------------------------------------------
