@@ -25,17 +25,7 @@ private:
 		float x, y;	// pos
 		float u, v;	// tex
 	};
-
-	// チップのUVバッファ
-	struct UV {
-		float u, v;	// 
-	};
-
-	// 板ポリのワールド座標位置バッファ
-	struct WorldPos {
-		float x, y;	// メンバ変数のpos
-	};
-
+	
 	static const float STD_SIZE;	// サイズの標準値
 	static const float STD_MOVE;	// 移動量の標準値
 
@@ -52,6 +42,7 @@ private:
 	static int m_numAll;	// 総数
 	static IDirect3DVertexBuffer9 *vtxBuf;
 	static IDirect3DVertexBuffer9 *worldPosBuf;
+	static IDirect3DVertexBuffer9 *colBuf;
 	static IDirect3DVertexDeclaration9 *decl;
 	static IDirect3DIndexBuffer9 *indexBuf;
 	static ID3DXEffect *effect;
@@ -69,7 +60,10 @@ public:
 
 	/* ↓メンバ変数↓ */
 private:
+	D3DXCOLOR m_col;	// 色
 	D3DXVECTOR3 m_move;	// 移動量
+	D3DXVECTOR3 m_saveMove;	// 保存した移動量
+	float m_time;	// 時間
 };
 
 #endif // !_EFFECT_H_

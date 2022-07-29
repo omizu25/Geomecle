@@ -153,3 +153,19 @@ const D3DXVECTOR3& CCamera::GetPos() const
 {
 	return m_pos;
 }
+
+//--------------------------------------------------
+// プロジェクションの取得
+//--------------------------------------------------
+const D3DXMATRIX& CCamera::GetProj() const
+{
+	return m_mtxProj;
+}
+
+//--------------------------------------------------
+// ビューの取得
+//--------------------------------------------------
+const D3DXMATRIX& CCamera::GetView() const
+{
+	return m_mtxView;
+}

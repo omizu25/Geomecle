@@ -11,6 +11,7 @@
 #include "effect.h"
 #include "application.h"
 #include "wall.h"
+#include "utility.h"
 #include <assert.h>
 
 //==================================================
@@ -25,6 +26,7 @@ const float CEffect::STD_MOVE = 10.0f;
 int CEffect::m_numAll = 0;
 IDirect3DVertexBuffer9* CEffect::vtxBuf = nullptr;
 IDirect3DVertexBuffer9* CEffect::worldPosBuf = nullptr;
+IDirect3DVertexBuffer9* CEffect::colBuf = nullptr;
 IDirect3DVertexDeclaration9* CEffect::decl = nullptr;
 IDirect3DIndexBuffer9* CEffect::indexBuf = nullptr;
 ID3DXEffect* CEffect::effect = nullptr;
@@ -49,6 +51,8 @@ CEffect* CEffect::Create(const D3DXVECTOR3& pos, float rot)
 		pEffect->SetPos(pos);
 		pEffect->SetRot(rot);
 		pEffect->m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * STD_MOVE;
+		pEffect->m_saveMove = pEffect->m_move;
+		pEffect->m_col = D3DXCOLOR(FloatRandam(1.0f, 0.0f), FloatRandam(1.0f, 0.0f), FloatRandam(1.0f, 0.0f), 1.0f);
 	}
 
 	return pEffect;
@@ -100,6 +104,7 @@ void CEffect::InitInstancing()
 		{ 0, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },	// Local coord
 		{ 0, 8, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },	// UV
 		{ 1, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1 },	// ワールド位置
+		{ 2, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 },	// 色
 		D3DDECL_END()
 	};
 	pDevice->CreateVertexDeclaration(declElems, &decl);
@@ -138,12 +143,14 @@ void CEffect::DrawInstancing()
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
-	pDevice->CreateVertexBuffer(sizeof(WorldPos) * m_numAll, 0, 0, D3DPOOL_MANAGED, &worldPosBuf, 0);
+	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR2) * m_numAll, 0, 0, D3DPOOL_MANAGED, &worldPosBuf, 0);
+	pDevice->CreateVertexBuffer(sizeof(D3DXCOLOR) * m_numAll, 0, 0, D3DPOOL_MANAGED, &colBuf, 0);
 
 	{// エフェクトの情報取得
-		WorldPos *worldPos = new WorldPos[m_numAll];	// ワールド座標位置バッファ
+		D3DXVECTOR2* worldPos = new D3DXVECTOR2[m_numAll];	// ワールド座標位置バッファ
+		D3DXCOLOR* col = new D3DXCOLOR[m_numAll];
 
-		CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
+		CEffect** pObject = (CEffect**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
 		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		int num = 0;
@@ -158,6 +165,9 @@ void CEffect::DrawInstancing()
 
 			worldPos[num].x = pos.x;
 			worldPos[num].y = pos.y;
+
+			col[num] = pObject[i]->m_col;
+
 			num++;
 		}
 
@@ -166,21 +176,28 @@ void CEffect::DrawInstancing()
 		{
 			void *p = 0;
 			worldPosBuf->Lock(0, 0, &p, 0);
-			memcpy(p, worldPos, sizeof(WorldPos) * m_numAll);
+			memcpy(p, worldPos, sizeof(D3DXVECTOR2) * m_numAll);
 			worldPosBuf->Unlock();
+
+			colBuf->Lock(0, 0, &p, 0);
+			memcpy(p, col, sizeof(D3DXCOLOR) * m_numAll);
+			colBuf->Unlock();
 		}
 
 		delete[] worldPos;
+		delete[] col;
 	}
 
 	// インスタンス宣言
 	pDevice->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | m_numAll);
 	pDevice->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
+	pDevice->SetStreamSourceFreq(2, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
 
 	// 頂点とインデックスを設定して描画
 	pDevice->SetVertexDeclaration(decl);
 	pDevice->SetStreamSource(0, vtxBuf, 0, sizeof(Vtx));
 	pDevice->SetStreamSource(1, worldPosBuf, 0, sizeof(WorldPos));
+	pDevice->SetStreamSource(2, colBuf, 0, sizeof(Col));
 	pDevice->SetIndices(indexBuf);
 
 	effect->SetTechnique("tech");
@@ -200,15 +217,19 @@ void CEffect::DrawInstancing()
 	// 後始末
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
-
+	pDevice->SetStreamSourceFreq(2, 1);
+	
 	worldPosBuf->Release();
+	colBuf->Release();
 }
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEffect::CEffect() : CObject3D(CObject::CATEGORY_EFFECT),
-	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
+	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_saveMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_time(0.0f)
 {
 	m_numAll++;
 }
@@ -227,6 +248,8 @@ CEffect::~CEffect()
 void CEffect::Init()
 {
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_saveMove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_time = 0.0f;
 
 	// 初期化
 	CObject3D::Init();
@@ -296,6 +319,11 @@ void CEffect::Update()
 
 	// 位置の設定
 	CObject3D::SetPos(pos);
+
+	m_col.a += (0.0f - m_col.a) * 0.01f;
+
+	// 色の設定
+	CObject3D::SetCol(m_col);
 
 	// 更新
 	CObject3D::Update();

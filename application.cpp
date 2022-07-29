@@ -20,6 +20,7 @@
 #include "wall.h"
 #include "effect.h"
 #include "player.h"
+#include <time.h>
 #include <assert.h>
 
 //==================================================
@@ -131,6 +132,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	{// nullチェック
 		m_pCamera->Init();
 	}
+
+	// ランダムの初期化
+	srand((unsigned int)time(NULL));
 
 	// 生成
 	CObject::Create();

@@ -35,6 +35,8 @@ public:
 	void Set();		// 設定
 	void SetPos(const D3DXVECTOR3& pos);	// 位置の設定
 	const D3DXVECTOR3& GetPos() const;		// 位置の取得
+	const D3DXMATRIX& GetProj() const;		// プロジェクションの取得
+	const D3DXMATRIX& GetView() const;		// ビューの取得
 
 	/* ↓メンバ変数↓ */
 private:

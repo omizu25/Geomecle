@@ -83,13 +83,13 @@ void CGame::Update()
 	// ’e‚Ì”­ŽË
 	CBullet::Shot();
 
-	if (CInput::GetKey()->Press(CInput::KEY_DECISION))
+	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// Œˆ’èƒL[‚ª‰Ÿ‚³‚ê‚½
 		D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
 
 		for (int i = 0; i < 100; i++)
 		{
-			float rot = (D3DX_PI * 2.0f) * 0.01f * i;
+			float rot = (D3DX_PI * 2.0f) / 100 * i;
 
 			NormalizeAngle(&rot);
 
