@@ -17,8 +17,7 @@ struct VS_OUT {
 VS_OUT vsMain(
 	float2 pos : POSITION,
 	float2 localUV  : TEXCOORD0,
-	float2 worldPos : TEXCOORD1,
-	float2 tipUV    : TEXCOORD2
+	float2 worldPos : TEXCOORD1
 ) {
 	VS_OUT Out;
 	Out.pos = float4(
@@ -27,7 +26,7 @@ VS_OUT vsMain(
 				0.0f,
 				1.0f
 			);
-	Out.uv = tipUV + localUV;
+	Out.uv = localUV;
 	
 	return Out;
 }

@@ -16,6 +16,7 @@
 #include "bullet.h"
 #include "enemy_manager.h"
 #include "game.h"
+#include "effect.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -217,7 +218,10 @@ void CRenderer::DrawFPS()
 	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CObject::GetNumAll());
 	length = (int)strlen(str);
 
+	wsprintf(&str[length], _T("エフェクトの総数 : %d\n"), CEffect::GetNumAll());
+	length = (int)strlen(str);
+
 	// テキスト描画
-	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 }
 #endif // _DEBUG

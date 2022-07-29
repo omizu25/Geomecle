@@ -15,6 +15,7 @@
 #include "enemy_manager.h"
 #include "bullet.h"
 #include "input.h"
+#include "utility.h"
 #include "effect.h"
 #include <assert.h>
 
@@ -81,6 +82,20 @@ void CGame::Update()
 
 	// 弾の発射
 	CBullet::Shot();
+
+	if (CInput::GetKey()->Press(CInput::KEY_DECISION))
+	{// 決定キーが押された
+		D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+
+		for (int i = 0; i < 100; i++)
+		{
+			float rot = (D3DX_PI * 2.0f) * 0.01f * i;
+
+			NormalizeAngle(&rot);
+
+			CEffect::Create(pos, rot);
+		}
+	}
 
 	// 更新
 	CObject::UpdateAll();

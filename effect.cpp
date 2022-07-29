@@ -10,6 +10,7 @@
 //==================================================
 #include "effect.h"
 #include "application.h"
+#include "wall.h"
 #include <assert.h>
 
 //==================================================
@@ -23,7 +24,6 @@ const float CEffect::STD_MOVE = 10.0f;
 //==================================================
 int CEffect::m_numAll = 0;
 IDirect3DVertexBuffer9* CEffect::vtxBuf = nullptr;
-IDirect3DVertexBuffer9* CEffect::uvBuf = nullptr;
 IDirect3DVertexBuffer9* CEffect::worldPosBuf = nullptr;
 IDirect3DVertexDeclaration9* CEffect::decl = nullptr;
 IDirect3DIndexBuffer9* CEffect::indexBuf = nullptr;
@@ -34,6 +34,11 @@ ID3DXEffect* CEffect::effect = nullptr;
 //--------------------------------------------------
 CEffect* CEffect::Create(const D3DXVECTOR3& pos, float rot)
 {
+	if (m_numAll >= CObject::GetMax(CObject::CATEGORY_EFFECT))
+	{// 最大数を越した
+		return nullptr;
+	}
+
 	CEffect* pEffect = nullptr;
 
 	pEffect = new CEffect;
@@ -95,7 +100,6 @@ void CEffect::InitInstancing()
 		{ 0, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },	// Local coord
 		{ 0, 8, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },	// UV
 		{ 1, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1 },	// ワールド位置
-		{ 2, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2 },	// チップのUV
 		D3DDECL_END()
 	};
 	pDevice->CreateVertexDeclaration(declElems, &decl);
@@ -127,7 +131,7 @@ void CEffect::UninitInstancing()
 void CEffect::DrawInstancing()
 {
 	if (m_numAll == 0)
-	{
+	{// 表示されていない
 		return;
 	}
 
@@ -135,13 +139,14 @@ void CEffect::DrawInstancing()
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	pDevice->CreateVertexBuffer(sizeof(WorldPos) * m_numAll, 0, 0, D3DPOOL_MANAGED, &worldPosBuf, 0);
-	pDevice->CreateVertexBuffer(sizeof(UV) * m_numAll, 0, 0, D3DPOOL_MANAGED, &uvBuf, 0);
 
 	{// エフェクトの情報取得
 		WorldPos *worldPos = new WorldPos[m_numAll];	// ワールド座標位置バッファ
 
 		CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
 		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+		int num = 0;
 
 		for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_EFFECT); i++)
 		{
@@ -151,9 +156,12 @@ void CEffect::DrawInstancing()
 			}
 			pos = pObject[i]->GetPos();
 
-			worldPos[i].x = pos.x;
-			worldPos[i].y = pos.y;
+			worldPos[num].x = pos.x;
+			worldPos[num].y = pos.y;
+			num++;
 		}
+
+		assert(num == m_numAll);
 
 		{
 			void *p = 0;
@@ -165,29 +173,14 @@ void CEffect::DrawInstancing()
 		delete[] worldPos;
 	}
 
-	{
-		UV *p = 0;
-		uvBuf->Lock(0, 0, (void**)&p, 0);
-
-		for (int i = 0; i < m_numAll; i++)
-		{
-			p[i].u = 0.0f;
-			p[i].v = 1.0f;
-		}
-
-		uvBuf->Unlock();
-	}
-
 	// インスタンス宣言
 	pDevice->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | m_numAll);
 	pDevice->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
-	pDevice->SetStreamSourceFreq(2, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
 
 	// 頂点とインデックスを設定して描画
 	pDevice->SetVertexDeclaration(decl);
 	pDevice->SetStreamSource(0, vtxBuf, 0, sizeof(Vtx));
 	pDevice->SetStreamSource(1, worldPosBuf, 0, sizeof(WorldPos));
-	pDevice->SetStreamSource(2, uvBuf, 0, sizeof(UV));
 	pDevice->SetIndices(indexBuf);
 
 	effect->SetTechnique("tech");
@@ -207,10 +200,8 @@ void CEffect::DrawInstancing()
 	// 後始末
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
-	pDevice->SetStreamSourceFreq(2, 1);
 
 	worldPosBuf->Release();
-	uvBuf->Release();
 }
 
 //--------------------------------------------------
@@ -265,6 +256,43 @@ void CEffect::Uninit()
 void CEffect::Update()
 {
 	D3DXVECTOR3 pos = CObject3D::GetPos() + m_move;
+
+	//慣性・移動量を更新 (減衰させる)
+	m_move.x += (0.0f - m_move.x) * 0.01f;
+	m_move.y += (0.0f - m_move.y) * 0.01f;
+
+	float move = D3DXVec3Length(&m_move);
+
+	if (move <= 1.0f)
+	{
+		CObject::Release();
+		return;
+	}
+
+	float size = (CObject3D::GetSize().x * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float wall = (CWall::GetLength() * 0.5f) - size;
+
+	if (pos.x >= 1280)
+	{// 右の壁
+		pos.x = 1280;
+		m_move.x *= -1.0f;
+	}
+	else if (pos.x <= -0)
+	{// 左の壁
+		pos.x = -0;
+		m_move.x *= -1.0f;
+	}
+
+	if (pos.y >= 720)
+	{// 上の壁
+		pos.y = 720;
+		m_move.y *= -1.0f;
+	}
+	else if (pos.y <= -0)
+	{// 下の壁
+		pos.y = -0;
+		m_move.y *= -1.0f;
+	}
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

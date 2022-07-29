@@ -51,7 +51,6 @@ public:
 private:
 	static int m_numAll;	// ‘”
 	static IDirect3DVertexBuffer9 *vtxBuf;
-	static IDirect3DVertexBuffer9 *uvBuf;
 	static IDirect3DVertexBuffer9 *worldPosBuf;
 	static IDirect3DVertexDeclaration9 *decl;
 	static IDirect3DIndexBuffer9 *indexBuf;
@@ -71,7 +70,6 @@ public:
 	/* «ƒƒ“ƒo•Ï”« */
 private:
 	D3DXVECTOR3 m_move;	// ˆÚ“®—Ê
-	int m_life;			// õ–½
 };
 
 #endif // !_EFFECT_H_
