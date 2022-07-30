@@ -172,7 +172,7 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
+	CObject3D::SetTexture(CTexture::LABEL_Bullet);
 
 	// 移動量の設定
 	SetMove();

@@ -11,12 +11,12 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
-#include "object3D.h"
+#include "object.h"
 
 //==================================================
 // 定義
 //==================================================
-class CEffect : public CObject3D
+class CEffect : public CObject
 {
 	/* 定義 */
 private:
@@ -60,10 +60,9 @@ public:
 
 	/* ↓メンバ変数↓ */
 private:
-	D3DXCOLOR m_col;	// 色
+	D3DXVECTOR3 m_pos;	// 位置
 	D3DXVECTOR3 m_move;	// 移動量
-	D3DXVECTOR3 m_saveMove;	// 保存した移動量
-	float m_time;	// 時間
+	D3DXCOLOR m_col;	// 色
 };
 
 #endif // !_EFFECT_H_

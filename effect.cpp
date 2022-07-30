@@ -48,10 +48,8 @@ CEffect* CEffect::Create(const D3DXVECTOR3& pos, float rot)
 	if (pEffect != nullptr)
 	{// nullチェック
 		pEffect->Init();
-		pEffect->SetPos(pos);
-		pEffect->SetRot(rot);
+		pEffect->m_pos = pos;
 		pEffect->m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * STD_MOVE;
-		pEffect->m_saveMove = pEffect->m_move;
 		pEffect->m_col = D3DXCOLOR(FloatRandam(1.0f, 0.0f), FloatRandam(1.0f, 0.0f), FloatRandam(1.0f, 0.0f), 1.0f);
 	}
 
@@ -161,7 +159,7 @@ void CEffect::DrawInstancing()
 			{
 				continue;
 			}
-			pos = pObject[i]->GetPos();
+			pos = pObject[i]->m_pos;
 
 			worldPos[num].x = pos.x;
 			worldPos[num].y = pos.y;
@@ -196,8 +194,8 @@ void CEffect::DrawInstancing()
 	// 頂点とインデックスを設定して描画
 	pDevice->SetVertexDeclaration(decl);
 	pDevice->SetStreamSource(0, vtxBuf, 0, sizeof(Vtx));
-	pDevice->SetStreamSource(1, worldPosBuf, 0, sizeof(WorldPos));
-	pDevice->SetStreamSource(2, colBuf, 0, sizeof(Col));
+	pDevice->SetStreamSource(1, worldPosBuf, 0, sizeof(D3DXVECTOR2));
+	pDevice->SetStreamSource(2, colBuf, 0, sizeof(D3DXCOLOR));
 	pDevice->SetIndices(indexBuf);
 
 	effect->SetTechnique("tech");
@@ -205,7 +203,7 @@ void CEffect::DrawInstancing()
 	effect->Begin(&passNum, 0);
 	effect->BeginPass(0);
 
-	effect->SetTexture("tex", CApplication::GetInstanse()->GetTexture()->Get(CTexture::LABEL_bright));
+	effect->SetTexture("tex", CApplication::GetInstanse()->GetTexture()->Get(CTexture::LABEL_Effect));
 	effect->SetFloat("screenW", CApplication::SCREEN_WIDTH * 0.5f);
 	effect->SetFloat("screenH", CApplication::SCREEN_HEIGHT * 0.5f);
 
@@ -226,10 +224,10 @@ void CEffect::DrawInstancing()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEffect::CEffect() : CObject3D(CObject::CATEGORY_EFFECT),
+CEffect::CEffect() : CObject(CObject::CATEGORY_EFFECT),
+	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_saveMove(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_time(0.0f)
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f))
 {
 	m_numAll++;
 }
@@ -247,21 +245,9 @@ CEffect::~CEffect()
 //--------------------------------------------------
 void CEffect::Init()
 {
+	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_saveMove = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	m_time = 0.0f;
-
-	// 初期化
-	CObject3D::Init();
-
-	// 種類の設定
-	CObject3D::SetType(CObject3D::TYPE_BULLET);
-
-	// サイズの設定
-	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
-
-	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_icon_122540_256);
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 //--------------------------------------------------
@@ -269,8 +255,6 @@ void CEffect::Init()
 //--------------------------------------------------
 void CEffect::Uninit()
 {
-	// 終了
-	CObject3D::Uninit();
 }
 
 //--------------------------------------------------
@@ -278,7 +262,7 @@ void CEffect::Uninit()
 //--------------------------------------------------
 void CEffect::Update()
 {
-	D3DXVECTOR3 pos = CObject3D::GetPos() + m_move;
+	m_pos += m_move;
 
 	//慣性・移動量を更新 (減衰させる)
 	m_move.x += (0.0f - m_move.x) * 0.01f;
@@ -292,41 +276,32 @@ void CEffect::Update()
 		return;
 	}
 
-	float size = (CObject3D::GetSize().x * 0.5f) + (CWall::GetWidth() * 0.5f);
+	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
-	if (pos.x >= 1280)
+	if (m_pos.x >= 1280)
 	{// 右の壁
-		pos.x = 1280;
+		m_pos.x = 1280;
 		m_move.x *= -1.0f;
 	}
-	else if (pos.x <= -0)
+	else if (m_pos.x <= -0)
 	{// 左の壁
-		pos.x = -0;
+		m_pos.x = -0;
 		m_move.x *= -1.0f;
 	}
 
-	if (pos.y >= 720)
+	if (m_pos.y >= 720)
 	{// 上の壁
-		pos.y = 720;
+		m_pos.y = 720;
 		m_move.y *= -1.0f;
 	}
-	else if (pos.y <= -0)
+	else if (m_pos.y <= -0)
 	{// 下の壁
-		pos.y = -0;
+		m_pos.y = -0;
 		m_move.y *= -1.0f;
 	}
-
-	// 位置の設定
-	CObject3D::SetPos(pos);
 
 	m_col.a += (0.0f - m_col.a) * 0.01f;
-
-	// 色の設定
-	CObject3D::SetCol(m_col);
-
-	// 更新
-	CObject3D::Update();
 }
 
 //--------------------------------------------------

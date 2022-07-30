@@ -73,7 +73,7 @@ void CPlayer::Init()
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
-	CObject3D::SetTexture(CTexture::LABEL_icon_122380_256);
+	CObject3D::SetTexture(CTexture::LABEL_Player);
 }
 
 //--------------------------------------------------
