@@ -96,6 +96,15 @@ float Curve(float fCurve, float fMax, float fMin);
 bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range);
 
 //--------------------------------------------------
+// 範囲内で反射
+// 引数1  : D3DXVECTOR3* pPos / 位置
+// 引数2  : D3DXVECTOR3* pMove / 移動量
+// 引数3  : D3DXVECTOR3 range / 範囲
+// 返値  : bool / 範囲外に出たかどうか
+//--------------------------------------------------
+bool InRangeReflect(D3DXVECTOR3* pPos, D3DXVECTOR3* pMove, const D3DXVECTOR3& range);
+
+//--------------------------------------------------
 // 円の当たり判定
 // 引数1  : D3DXVECTOR3& pos1 / １つ目の位置
 // 引数2  : float radius1 / １つ目の半径

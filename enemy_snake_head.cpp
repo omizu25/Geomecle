@@ -100,11 +100,12 @@ void CEnemySnakeHead::Update()
 	pos.x += m_move.x;
 	pos.y += m_move.y;
 
-	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
-	float wall = (CWall::GetLength() * 0.5f) - size;
+	float size = (STD_SIZE * 0.5f) + (CWall::STD_SIZE * 0.5f);
+	float width = (CWall::STD_WIDTH * 0.5f) - size;
+	float height = (CWall::STD_HEIGHT * 0.5f) - size;
 
 	//	îÕàÕì‡
-	InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f));
+	InRange(&pos, D3DXVECTOR3(width, height, 0.0f));
 
 	// à íuÇÃê›íË
 	CObject3D::SetPos(pos);

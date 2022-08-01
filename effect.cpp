@@ -19,7 +19,7 @@
 // 定義
 //==================================================
 const float CEffect::STD_SIZE = 30.0f;
-const float CEffect::STD_MOVE = 5.0f;
+const float CEffect::STD_MOVE = 30.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -276,38 +276,22 @@ void CEffect::Update()
 	m_move.x += (0.0f - m_move.x) * 0.01f;
 	m_move.y += (0.0f - m_move.y) * 0.01f;
 
-	float move = D3DXVec3Length(&m_move);
-
-	if (move <= 1.0f)
 	{
-		CObject::Release();
-		return;
+		float lenMove = D3DXVec3LengthSq(&m_move);
+
+		if (lenMove <= 1.0f * 1.0f)
+		{
+			CObject::Release();
+			return;
+		}
 	}
 
-	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
-	float wall = (CWall::GetLength() * 0.5f) - size;
+	float size = (STD_SIZE * 0.5f) + (CWall::STD_SIZE * 0.5f);
+	float width = (CWall::STD_WIDTH * 0.5f) - size;
+	float height = (CWall::STD_HEIGHT * 0.5f) - size;
 
-	if (m_pos.x >= wall)
-	{// 右の壁
-		m_pos.x = wall;
-		m_move.x *= -1.0f;
-	}
-	else if (m_pos.x <= -wall)
-	{// 左の壁
-		m_pos.x = -wall;
-		m_move.x *= -1.0f;
-	}
-
-	if (m_pos.y >= wall)
-	{// 上の壁
-		m_pos.y = wall;
-		m_move.y *= -1.0f;
-	}
-	else if (m_pos.y <= -wall)
-	{// 下の壁
-		m_pos.y = -wall;
-		m_move.y *= -1.0f;
-	}
+	// 範囲内で反射
+	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
 
 	m_col.a += (0.0f - m_col.a) * 0.01f;
 }

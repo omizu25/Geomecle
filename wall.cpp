@@ -14,8 +14,9 @@
 //==================================================
 // インクルード
 //==================================================
-const float CWall::STD_WIDTH = 10.0f;
-const float CWall::STD_LENGTH = 1200.0f;
+const float CWall::STD_SIZE = 10.0f;
+const float CWall::STD_WIDTH = 1200.0f;
+const float CWall::STD_HEIGHT = 800.0f;
 
 //--------------------------------------------------
 // 全ての生成
@@ -23,8 +24,8 @@ const float CWall::STD_LENGTH = 1200.0f;
 void CWall::AllCreate()
 {
 	{// 上下の壁
-		D3DXVECTOR3 size = D3DXVECTOR3(CWall::STD_LENGTH, CWall::STD_WIDTH, 0.0f);
-		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, CWall::STD_LENGTH * 0.5f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::STD_WIDTH, CWall::STD_SIZE, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, CWall::STD_HEIGHT * 0.5f, 0.0f);
 
 		// 上の壁
 		CWall::Create(pos, size);
@@ -34,8 +35,8 @@ void CWall::AllCreate()
 	}
 
 	{// 左右の壁
-		D3DXVECTOR3 size = D3DXVECTOR3(CWall::STD_WIDTH, CWall::STD_LENGTH, 0.0f);
-		D3DXVECTOR3 pos = D3DXVECTOR3(CWall::STD_LENGTH * 0.5f, 0.0f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(CWall::STD_SIZE, CWall::STD_HEIGHT, 0.0f);
+		D3DXVECTOR3 pos = D3DXVECTOR3(CWall::STD_WIDTH * 0.5f, 0.0f, 0.0f);
 
 		// 右の壁
 		CWall::Create(pos, size);
@@ -43,22 +44,6 @@ void CWall::AllCreate()
 		// 左の壁
 		CWall::Create(-pos, size);
 	}
-}
-
-//--------------------------------------------------
-// 幅の取得
-//--------------------------------------------------
-float CWall::GetWidth()
-{
-	return STD_WIDTH;
-}
-
-//--------------------------------------------------
-// 長さの取得
-//--------------------------------------------------
-float CWall::GetLength()
-{
-	return STD_LENGTH;
 }
 
 //--------------------------------------------------

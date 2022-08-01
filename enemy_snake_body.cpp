@@ -105,11 +105,12 @@ void CEnemySnakeBody::Update()
 	// ホーミング
 	Homing(&pos, pos, m_posDest, 10.0f);
 
-	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
-	float wall = (CWall::GetLength() * 0.5f) - size;
+	float size = (STD_SIZE * 0.5f) + (CWall::STD_SIZE * 0.5f);
+	float width = (CWall::STD_WIDTH * 0.5f) - size;
+	float height = (CWall::STD_HEIGHT * 0.5f) - size;
 
 	//	範囲内
-	InRange(&pos, D3DXVECTOR3(wall, wall, 0.0f));
+	InRange(&pos, D3DXVECTOR3(width, height, 0.0f));
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

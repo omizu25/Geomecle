@@ -20,7 +20,7 @@
 const int CObject::MAX_OBJECT[]
 {
 	1024,
-	30000,
+	50000,
 	64
 };
 

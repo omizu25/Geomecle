@@ -119,6 +119,42 @@ bool InRange(D3DXVECTOR3* pPos, const D3DXVECTOR3& range)
 }
 
 //--------------------------------------------------
+// ”ÍˆÍ“à‚Å”½ŽË
+//--------------------------------------------------
+bool InRangeReflect(D3DXVECTOR3* pPos, D3DXVECTOR3* pMove, const D3DXVECTOR3& range)
+{
+	bool out = false;
+
+	if (pPos->x >= range.x)
+	{// ‰E‚Ì•Ç
+		pPos->x = range.x;
+		pMove->x *= -1.0f;
+		out = true;
+	}
+	else if (pPos->x <= -range.x)
+	{// ¶‚Ì•Ç
+		pPos->x = -range.x;
+		pMove->x *= -1.0f;
+		out = true;
+	}
+
+	if (pPos->y >= range.y)
+	{// ã‚Ì•Ç
+		pPos->y = range.y;
+		pMove->y *= -1.0f;
+		out = true;
+	}
+	else if (pPos->y <= -range.y)
+	{// ‰º‚Ì•Ç
+		pPos->y = -range.y;
+		pMove->y *= -1.0f;
+		out = true;
+	}
+
+	return out;
+}
+
+//--------------------------------------------------
 // ‰~‚Ì“–‚½‚è”»’è
 //--------------------------------------------------
 bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& pos2, float radius2)

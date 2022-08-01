@@ -19,15 +19,14 @@
 class CWall : public CObject3D
 {
 	/* 定義 */
-private:
-	static const float STD_WIDTH;	//	幅の標準値
-	static const float STD_LENGTH;	//	長さの標準値
+public:
+	static const float STD_SIZE;	// サイズの標準値
+	static const float STD_WIDTH;	// 幅の標準値
+	static const float STD_HEIGHT;	// 高さの標準値
 
 	/* ↓静的メンバ関数↓ */
 public:
 	static void AllCreate();	// 全ての生成
-	static float GetWidth();	// 幅の取得
-	static float GetLength();	// 長さの取得
 
 private:
 	static CWall* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 生成
