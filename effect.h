@@ -19,33 +19,20 @@
 class CEffect : public CObject
 {
 	/* 定義 */
-private:
-	// 頂点バッファ
-	struct Vtx {
-		float x, y;	// pos
-		float u, v;	// tex
-	};
-	
+public:
 	static const float STD_SIZE;	// サイズの標準値
+
+private:
 	static const float STD_MOVE;	// 移動量の標準値
 
 	/* ↓静的メンバ関数↓ */
 public:
 	static CEffect* Create(const D3DXVECTOR3& pos, float rot);	// 生成
-	static int GetNumAll();			// 総数の取得
-	static void InitInstancing();	// インスタンシングの初期化
-	static void UninitInstancing();	// インスタンシングの終了
-	static void DrawInstancing();	// インスタンシングの描画
+	static int GetNumAll();	// 総数の取得
 
 	/* ↓静的メンバ変数↓ */
 private:
 	static int m_numAll;	// 総数
-	static IDirect3DVertexBuffer9 *vtxBuf;
-	static IDirect3DVertexBuffer9 *worldPosBuf;
-	static IDirect3DVertexBuffer9 *colBuf;
-	static IDirect3DVertexDeclaration9 *decl;
-	static IDirect3DIndexBuffer9 *indexBuf;
-	static ID3DXEffect *effect;
 
 	/* ↓メンバ関数↓ */
 public:
@@ -57,6 +44,10 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+
+public:
+	const D3DXVECTOR3& GetPos() const;	// 位置の取得
+	const D3DXCOLOR& GetCol() const;	// 色の取得
 
 	/* ↓メンバ変数↓ */
 private:

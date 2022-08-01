@@ -36,6 +36,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="input_keyboard.h" />
+    <ClInclude Include="instancing.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="number.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_keyboard.cpp" />
+    <ClCompile Include="instancing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="number.cpp" />

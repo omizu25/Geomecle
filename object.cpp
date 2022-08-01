@@ -10,7 +10,7 @@
 //==================================================
 #include "object.h"
 #include "application.h"
-#include "effect.h"
+#include "instancing.h"
 
 #include <assert.h>
 
@@ -24,12 +24,12 @@ const int CObject::MAX_OBJECT[]
 	64
 };
 
-
 //==================================================
 // 静的メンバ変数
 //==================================================
 int CObject::m_numAll = 0;
 CObject** CObject::m_pObject[CATEGORY_MAX];
+CInstancing* CObject::m_pInstancing = nullptr;
 
 //--------------------------------------------------
 // 生成
@@ -48,6 +48,11 @@ void CObject::Create()
 			m_pObject[numCat][numObj] = nullptr;
 		}
 	}
+
+	if (m_pInstancing == nullptr)
+	{// nullチェック
+		m_pInstancing = CInstancing::Create();
+	}
 }
 
 //--------------------------------------------------
@@ -61,6 +66,11 @@ void CObject::Delete()
 	for (int i = 0; i < CATEGORY_MAX; i++)
 	{
 		delete[] m_pObject[i];
+	}
+
+	if (m_pInstancing != nullptr)
+	{// nullチェック
+		m_pInstancing->Uninit();
 	}
 }
 
@@ -125,8 +135,10 @@ void CObject::DrawAll()
 		m_pObject[CATEGORY_3D][numObj]->Draw();
 	}
 
-	// インスタンシングの描画
-	CEffect::DrawInstancing();
+	if (m_pInstancing != nullptr)
+	{// nullチェック
+		m_pInstancing->Draw();
+	}
 
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();

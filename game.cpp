@@ -87,9 +87,9 @@ void CGame::Update()
 	{// Œˆ’èƒL[‚ª‰Ÿ‚³‚ê‚½
 		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
-		for (int i = 0; i < 5000; i++)
+		for (int i = 0; i < 300; i++)
 		{
-			float rot = (D3DX_PI * 2.0f) / 5000 * i;
+			float rot = (D3DX_PI * 2.0f) / 300 * i;
 
 			NormalizeAngle(&rot);
 

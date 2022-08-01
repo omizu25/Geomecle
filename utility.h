@@ -114,4 +114,12 @@ bool InRangeReflect(D3DXVECTOR3* pPos, D3DXVECTOR3* pMove, const D3DXVECTOR3& ra
 //--------------------------------------------------
 bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& pos2, float radius2);
 
+//--------------------------------------------------
+// バッファのコピー
+// 引数1  : IDirect3DVertexBuffer9* pBuf / バッファ
+// 引数2  : void* pSrc / ソース
+// 引数3  : unsigned size / ソースのサイズ
+//--------------------------------------------------
+void CopyBuf(IDirect3DVertexBuffer9* pBuf, void* pSrc, unsigned size);
+
 #endif // !_UTILITY_H_

@@ -180,3 +180,14 @@ bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& 
 	// 当たってない
 	return false;
 }
+
+//--------------------------------------------------
+// バッファのコピー
+//--------------------------------------------------
+void CopyBuf(IDirect3DVertexBuffer9* pBuf, void* pSrc, unsigned size)
+{
+	void *p = 0;
+	pBuf->Lock(0, 0, &p, 0);
+	memcpy(p, pSrc, size);
+	pBuf->Unlock();
+}

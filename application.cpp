@@ -139,9 +139,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// 生成
 	CObject::Create();
 
-	// インスタンシングの初期化
-	CEffect::InitInstancing();
-
 	// 全ての壁の生成
 	CWall::AllCreate();
 	
@@ -165,9 +162,6 @@ void CApplication::Uninit()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
-
-	// インスタンシングの終了
-	CEffect::UninitInstancing();
 
 	// 破棄
 	CObject::Delete();
