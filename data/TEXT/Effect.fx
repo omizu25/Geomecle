@@ -1,20 +1,47 @@
-float screenW;
-float screenH;
-texture tex;
+//--------------------------------------------------
+// グローバル変数
+//--------------------------------------------------
+float4x4 g_view;
+float4x4 g_proj;
+texture g_tex;
 
+//--------------------------------------------------
+// テクスチャ
+//--------------------------------------------------
 sampler tipSampler = sampler_state {
-	texture = <tex>;
+	texture = <g_tex>;
 	MipFilter = LINEAR;
 	MinFilter = POINT;
 	MagFilter = POINT;
 };
 
+//--------------------------------------------------
+// 頂点を射影空間へ移動
+//--------------------------------------------------
+float4 TransVertex(
+	float4 vtx,
+	float4x4 mtxWorld,
+	float4x4 view,
+	float4x4 proj)
+{
+	vtx = mul(vtx, mtxWorld);
+	vtx = mul(vtx, view);
+	vtx = mul(vtx, proj);
+	return vtx;
+}
+
+//--------------------------------------------------
+// 頂点シェーダからピクセルシェーダに渡すデータ
+//--------------------------------------------------
 struct VS_OUT {
 	float4 pos : POSITION;
 	float2 uv  : TEXCOORD0;
 	float4 col : COLOR;
 };
 
+//--------------------------------------------------
+// 頂点シェーダプログラム
+//--------------------------------------------------
 VS_OUT vsMain(
 	float2 pos : POSITION,
 	float2 localUV : TEXCOORD0,
@@ -22,23 +49,31 @@ VS_OUT vsMain(
 	float4 col : COLOR
 ) {
 	VS_OUT Out;
-	Out.pos = float4(
-		(pos.x + worldPos.x - screenW) / screenW,
-		-(pos.y + worldPos.y - screenH) / screenH,
-		0.0f,
-		1.0f
-		);
+	
+	float4x4 world = { 
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		worldPos.x, worldPos.y, 0.0f, 1.0f };
+
+	Out.pos = TransVertex(float4(pos.x, pos.y, 0.0f, 1.0f), world, g_view, g_proj);
+
 	Out.uv = localUV;
 	Out.col = col;
 
 	return Out;
 }
 
+//--------------------------------------------------
+// ピクセルシェーダプログラム
+//--------------------------------------------------
 float4 psMain(VS_OUT In) : COLOR0{
 	return tex2D(tipSampler, In.uv) * In.col;
 }
 
-
+//--------------------------------------------------
+// テクニック
+//--------------------------------------------------
 technique tech {
 	pass p0 {
 		VertexShader = compile vs_2_0 vsMain();

@@ -10,6 +10,7 @@
 //==================================================
 #include "effect.h"
 #include "application.h"
+#include "camera.h"
 #include "wall.h"
 #include "utility.h"
 #include <assert.h>
@@ -17,8 +18,8 @@
 //==================================================
 // 定義
 //==================================================
-const float CEffect::STD_SIZE = 25.0f;
-const float CEffect::STD_MOVE = 10.0f;
+const float CEffect::STD_SIZE = 30.0f;
+const float CEffect::STD_MOVE = 5.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -73,10 +74,10 @@ void CEffect::InitInstancing()
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
 	Vtx vtx[4] = {	// 単位板ポリバッファ
-		{ -STD_SIZE, -STD_SIZE, 0.0f, 0.0f},
-		{ +STD_SIZE, -STD_SIZE, 1.0f, 0.0f},
-		{ -STD_SIZE, +STD_SIZE, 0.0f, 1.0f},
-		{ +STD_SIZE, +STD_SIZE, 1.0f, 1.0f}
+		{ -STD_SIZE, +STD_SIZE, 0.0f, 0.0f},
+		{ +STD_SIZE, +STD_SIZE, 1.0f, 0.0f},
+		{ -STD_SIZE, -STD_SIZE, 0.0f, 1.0f},
+		{ +STD_SIZE, -STD_SIZE, 1.0f, 1.0f}
 	};
 
 	// 頂点バッファ作成
@@ -150,7 +151,7 @@ void CEffect::DrawInstancing()
 
 		CEffect** pObject = (CEffect**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
 		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
+		
 		int num = 0;
 
 		for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_EFFECT); i++)
@@ -199,13 +200,20 @@ void CEffect::DrawInstancing()
 	pDevice->SetIndices(indexBuf);
 
 	effect->SetTechnique("tech");
+	
+	effect->SetTexture("g_tex", CApplication::GetInstanse()->GetTexture()->Get(CTexture::LABEL_Effect));
+
+	CCamera* pCamera = CApplication::GetInstanse()->GetCamera();
+
+	D3DXMATRIX view = pCamera->GetView();
+	D3DXMATRIX proj = pCamera->GetProj();
+
+	effect->SetMatrix("g_view", &pCamera->GetView());
+	effect->SetMatrix("g_proj", &pCamera->GetProj());
+
 	UINT passNum = 0;
 	effect->Begin(&passNum, 0);
 	effect->BeginPass(0);
-
-	effect->SetTexture("tex", CApplication::GetInstanse()->GetTexture()->Get(CTexture::LABEL_Effect));
-	effect->SetFloat("screenW", CApplication::SCREEN_WIDTH * 0.5f);
-	effect->SetFloat("screenH", CApplication::SCREEN_HEIGHT * 0.5f);
 
 	pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, 4, 0, 2);
 
@@ -279,25 +287,25 @@ void CEffect::Update()
 	float size = (STD_SIZE * 0.5f) + (CWall::GetWidth() * 0.5f);
 	float wall = (CWall::GetLength() * 0.5f) - size;
 
-	if (m_pos.x >= 1280)
+	if (m_pos.x >= wall)
 	{// 右の壁
-		m_pos.x = 1280;
+		m_pos.x = wall;
 		m_move.x *= -1.0f;
 	}
-	else if (m_pos.x <= -0)
+	else if (m_pos.x <= -wall)
 	{// 左の壁
-		m_pos.x = -0;
+		m_pos.x = -wall;
 		m_move.x *= -1.0f;
 	}
 
-	if (m_pos.y >= 720)
+	if (m_pos.y >= wall)
 	{// 上の壁
-		m_pos.y = 720;
+		m_pos.y = wall;
 		m_move.y *= -1.0f;
 	}
-	else if (m_pos.y <= -0)
+	else if (m_pos.y <= -wall)
 	{// 下の壁
-		m_pos.y = -0;
+		m_pos.y = -wall;
 		m_move.y *= -1.0f;
 	}
 

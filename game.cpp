@@ -85,7 +85,7 @@ void CGame::Update()
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// Œˆ’èƒL[‚ª‰Ÿ‚³‚ê‚½
-		D3DXVECTOR3 pos = D3DXVECTOR3(CApplication::SCREEN_WIDTH * 0.5f, CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
 		for (int i = 0; i < 100; i++)
 		{
