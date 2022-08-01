@@ -15,6 +15,7 @@
 #include "enemy_snake_head.h"
 #include "enemy_division.h"
 #include "enemy_rolling.h"
+#include "effect.h"
 #include <assert.h>
 
 //==================================================
@@ -105,6 +106,9 @@ void CEnemy::Init()
 //--------------------------------------------------
 void CEnemy::Uninit()
 {
+	// îöî≠
+	CEffect::Explosion(CObject3D::GetPos());
+
 	// èIóπ
 	CObject3D::Uninit();
 }

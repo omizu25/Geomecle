@@ -15,6 +15,7 @@
 #include "wall.h"
 #include "enemy.h"
 #include "mode.h"
+#include "effect.h"
 #include <assert.h>
 
 //==================================================
@@ -81,6 +82,9 @@ void CPlayer::Init()
 //--------------------------------------------------
 void CPlayer::Uninit()
 {
+	// îöî≠
+	CEffect::Explosion(CObject3D::GetPos());
+
 	// èIóπ
 	CObject3D::Uninit();
 }

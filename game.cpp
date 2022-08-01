@@ -77,25 +77,19 @@ void CGame::Uninit()
 //--------------------------------------------------
 void CGame::Update()
 {
+	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
+	{// 決定キーが押された
+		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+
+		// 爆発
+		CEffect::Explosion(pos);
+	}
+
 	// 敵のスポーン
 	CEnemyManager::GetInstanse()->Spawn();
 
 	// 弾の発射
 	CBullet::Shot();
-
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
-
-		for (int i = 0; i < 300; i++)
-		{
-			float rot = (D3DX_PI * 2.0f) / 300 * i;
-
-			NormalizeAngle(&rot);
-
-			CEffect::Create(pos, rot);
-		}
-	}
 
 	// 更新
 	CObject::UpdateAll();
