@@ -20,20 +20,16 @@ class CEffect : public CObject
 {
 	/* 定義 */
 public:
-	static const float STD_SIZE;	// サイズの標準値
+	static const float STD_WIDTH;	// 幅の標準値
+	static const float STD_HEIGHT;	// 高さの標準値
 
 private:
-	static const int MAX_EXPLOSION;	// 爆発の最大数
 	static const int MAX_LIFE;		// 寿命の最大値
-	static const float STD_MOVE;	// 移動量の標準値
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static void Explosion(const D3DXVECTOR3& pos);	// 爆発の生成
-	static int GetNumAll();	// 総数の取得
-
-private:
 	static CEffect* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& move, const D3DXCOLOR& col);	// 生成
+	static int GetNumAll();	// 総数の取得
 
 	/* ↓静的メンバ変数↓ */
 private:

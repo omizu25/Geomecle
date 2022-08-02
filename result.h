@@ -19,7 +19,7 @@ class CResult : public CMode
 {
 	/* ↓メンバ関数↓ */
 public:
-	CResult();				// デフォルトコンストラクタ
+	CResult() = delete;		// デフォルトコンストラクタ
 	CResult(EMode mode);	// コンストラクタ
 	~CResult() override;	// デストラクタ
 
@@ -28,6 +28,13 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+
+private:
+	void Effect();	// エフェクト
+
+	/* メンバ変数 */
+private:
+	int m_time;	// 時間
 };
 
 #endif // !_RESULT_H_

@@ -15,22 +15,18 @@
 #include "number_manager.h"
 #include "input.h"
 #include "object2D.h"
-#include "effect.h"
+#include "effect_manager.h"
 #include "wall.h"
 #include "utility.h"
 #include <assert.h>
 
 //--------------------------------------------------
-// デフォルトコンストラクタ
-//--------------------------------------------------
-CTitle::CTitle()
-{
-}
-
-//--------------------------------------------------
 // コンストラクタ
 //--------------------------------------------------
-CTitle::CTitle(EMode mode) : CMode(mode)
+CTitle::CTitle(EMode mode) : CMode(mode),
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
+	m_time(0),
+	m_partCnt(0)
 {
 }
 
@@ -46,6 +42,10 @@ CTitle::~CTitle()
 //--------------------------------------------------
 void CTitle::Init()
 {
+	m_time = 0;
+	m_partCnt = 0;
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
 	CObject2D* pTitle = CObject2D::Create();
 	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
 	pTitle->SetSize(D3DXVECTOR3(1000.0f, 300.0f, 0.0f));
@@ -69,20 +69,8 @@ void CTitle::Update()
 	// 更新
 	CObject::UpdateAll();
 
-	static int time = 0;
-
-	time++;
-
-	if ((time % 10) == 0)
-	{// 一定間隔
-		float width = CWall::STD_WIDTH * 0.5f;
-		float height = CWall::STD_HEIGHT * 0.5f;
-
-		D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandam(width, -width), FloatRandam(height, -height), 0.0f);
-
-		// 爆発
-		CEffect::Explosion(pos);
-	}
+	// エフェクト
+	Effect();
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
@@ -104,4 +92,34 @@ void CTitle::Draw()
 
 	// 描画
 	CObject::DrawAll();
+}
+
+//--------------------------------------------------
+// エフェクト
+//--------------------------------------------------
+void CTitle::Effect()
+{
+	m_time++;
+
+	if ((m_time % 20) != 0)
+	{// 一定間隔待ち
+		return;
+	}
+
+	if (m_partCnt % 10 == 0)
+	{// 一定間隔
+		m_col.r = FloatRandam(1.0f, 0.0f);
+		m_col.g = FloatRandam(1.0f, 0.0f);
+		m_col.b = FloatRandam(1.0f, 0.0f);
+	}
+
+	m_partCnt++;
+
+	float width = CWall::STD_WIDTH * 0.25f;
+	float height = CWall::STD_HEIGHT * 0.25f;
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandam(width, -width), FloatRandam(height, -height), 0.0f);
+
+	// パーティクル
+	CEffectManager::GetInstanse()->Particle(pos, m_col);
 }

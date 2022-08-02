@@ -16,15 +16,8 @@
 #include "bullet.h"
 #include "input.h"
 #include "utility.h"
-#include "effect.h"
+#include "effect_manager.h"
 #include <assert.h>
-
-//--------------------------------------------------
-// デフォルトコンストラクタ
-//--------------------------------------------------
-CGame::CGame()
-{
-}
 
 //--------------------------------------------------
 // コンストラクタ
@@ -82,7 +75,7 @@ void CGame::Update()
 		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
 
 		// 爆発
-		CEffect::Explosion(pos);
+		CEffectManager::GetInstanse()->Explosion(pos);
 	}
 
 	// 敵のスポーン

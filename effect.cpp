@@ -18,47 +18,14 @@
 //==================================================
 // 定義
 //==================================================
-const int CEffect::MAX_EXPLOSION = 100;
 const int CEffect::MAX_LIFE = 100;
-const float CEffect::STD_SIZE = 20.0f;
-const float CEffect::STD_MOVE = 10.0f;
+const float CEffect::STD_WIDTH = 12.0f;
+const float CEffect::STD_HEIGHT = 30.0f;
 
 //==================================================
 // 静的メンバ変数
 //==================================================
 int CEffect::m_numAll = 0;
-
-//--------------------------------------------------
-// 爆発
-//--------------------------------------------------
-void CEffect::Explosion(const D3DXVECTOR3& pos)
-{
-	float red = FloatRandam(1.0f, 0.0f);
-	float green = FloatRandam(1.0f, 0.0f);
-	float blue = FloatRandam(1.0f, 0.0f);
-
-	D3DXCOLOR col = D3DXCOLOR(red, green, blue, 1.0f);
-	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	float rot = 0.0f;
-
-	for (int i = 0; i < MAX_EXPLOSION; i++)
-	{
-		rot = (D3DX_PI * 2.0f) / MAX_EXPLOSION * i;
-
-		// 角度の正規化
-		NormalizeAngle(&rot);
-
-		float random = FloatRandam(STD_MOVE, 0.5f);
-
-		move.x = sinf(rot) * random;
-		move.y = cosf(rot) * random;
-
-		col = D3DXCOLOR(red + FloatRandam(0.25f, -0.25f), green + FloatRandam(0.25f, -0.25f), blue + FloatRandam(0.25f, -0.25f), 1.0f);
-
-		// 生成
-		CEffect::Create(pos, move, col);
-	}
-}
 
 //--------------------------------------------------
 // 生成
@@ -150,12 +117,12 @@ void CEffect::Update()
 	m_pos += m_move;
 
 	//慣性・移動量を更新 (減衰させる)
-	m_move.x += (0.0f - m_move.x) * 0.01f;
-	m_move.y += (0.0f - m_move.y) * 0.01f;
+	m_move.x += (0.0f - m_move.x) * 0.05f;
+	m_move.y += (0.0f - m_move.y) * 0.05f;
 
-	float size = (STD_SIZE * 0.5f) + (CWall::STD_SIZE * 0.5f);
-	float width = (CWall::STD_WIDTH * 0.5f) - size;
-	float height = (CWall::STD_HEIGHT * 0.5f) - size;
+	float size = CWall::STD_SIZE * 0.5f;
+	float width = (CWall::STD_WIDTH * 0.5f) - ((STD_WIDTH * 0.5f) + size);
+	float height = (CWall::STD_HEIGHT * 0.5f) - ((STD_HEIGHT * 0.5f) + size);
 
 	// 範囲内で反射
 	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));	

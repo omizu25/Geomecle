@@ -19,7 +19,7 @@ class CTitle : public CMode
 {
 	/* ↓メンバ関数↓ */
 public:
-	CTitle();			// デフォルトコンストラクタ
+	CTitle() = delete;	// デフォルトコンストラクタ
 	CTitle(EMode mode);	// コンストラクタ
 	~CTitle() override;	// デストラクタ
 
@@ -28,6 +28,15 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+
+private:
+	void Effect();	// エフェクト
+
+	/* メンバ変数 */
+private:
+	D3DXCOLOR m_col;	// 色
+	int m_time;			// 時間
+	int m_partCnt;		// パーティクルカウンター
 };
 
 #endif // !_TITLE_H_

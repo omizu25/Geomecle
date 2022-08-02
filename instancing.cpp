@@ -72,10 +72,10 @@ void CInstancing::Init()
 	{// 頂点バッファ
 		Vtx vtx[4] =
 		{// 頂点バッファ
-			{ -CEffect::STD_SIZE * 0.5f, +CEffect::STD_SIZE, 0.0f, 0.0f },
-			{ +CEffect::STD_SIZE * 0.5f, +CEffect::STD_SIZE, 1.0f, 0.0f },
-			{ -CEffect::STD_SIZE * 0.5f, -CEffect::STD_SIZE, 0.0f, 1.0f },
-			{ +CEffect::STD_SIZE * 0.5f, -CEffect::STD_SIZE, 1.0f, 1.0f }
+			{ -CEffect::STD_WIDTH, +CEffect::STD_HEIGHT, 0.0f, 0.0f },
+			{ +CEffect::STD_WIDTH, +CEffect::STD_HEIGHT, 1.0f, 0.0f },
+			{ -CEffect::STD_WIDTH, -CEffect::STD_HEIGHT, 0.0f, 1.0f },
+			{ +CEffect::STD_WIDTH, -CEffect::STD_HEIGHT, 1.0f, 1.0f }
 		};
 
 		// 頂点バッファ作成
