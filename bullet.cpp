@@ -16,6 +16,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "wall.h"
+#include "effect_manager.h"
 #include <assert.h>
 
 //==================================================
@@ -181,6 +182,9 @@ void CBullet::Update()
 
 		if (InRange(&pos, D3DXVECTOR3(width, height, 0.0f)))
 		{// ”ÍˆÍŠO
+			// ”š”­
+			CEffectManager::GetInstanse()->Bullet(pos);
+
 			// ‰ð•ú
 			CObject::Release();
 			return;

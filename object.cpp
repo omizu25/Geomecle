@@ -140,14 +140,6 @@ void CObject::DrawAll()
 		m_pInstancing->Draw();
 	}
 
-	// デバイスへのポインタの取得
-	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
-
-	// レンダーステートの設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
 	for (int numObj = 0; numObj < MAX_OBJECT[CATEGORY_2D]; numObj++)
 	{
 		if (m_pObject[CATEGORY_2D][numObj] == nullptr)
@@ -158,11 +150,6 @@ void CObject::DrawAll()
 		// オブジェクトの描画
 		m_pObject[CATEGORY_2D][numObj]->Draw();
 	}
-
-	// レンダーステートを元に戻す
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 }
 
 //--------------------------------------------------

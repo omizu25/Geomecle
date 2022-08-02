@@ -183,8 +183,10 @@ void CInstancing::Draw()
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
-	//IDirect3DVertexBuffer9* pRotBuff = nullptr;
-	//pDevice->CreateVertexBuffer(sizeof(float) * numAll, 0, 0, D3DPOOL_MANAGED, &pRotBuff, 0);
+	// レンダーステートの設定
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 	{// エフェクトの情報取得
 		D3DXVECTOR3* worldPos = new D3DXVECTOR3[numAll];	// ワールド座標位置バッファ
@@ -193,8 +195,7 @@ void CInstancing::Draw()
 		CEffect** pObject = (CEffect**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
 		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		float rot = 0.0f;
-
+		
 		int num = 0;
 
 		for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_EFFECT); i++)
@@ -205,11 +206,10 @@ void CInstancing::Draw()
 			}
 			pos = pObject[i]->GetPos();
 			move = pObject[i]->GetMove();
-			rot = atan2f(move.x, move.y);
-
+			
 			worldPos[num].x = pos.x;
 			worldPos[num].y = pos.y;
-			worldPos[num].z = rot;
+			worldPos[num].z = atan2f(move.x, move.y);
 
 			col[num] = pObject[i]->GetCol();
 
@@ -262,4 +262,9 @@ void CInstancing::Draw()
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
 	pDevice->SetStreamSourceFreq(2, 1);
+
+	// レンダーステートを元に戻す
+	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 }
