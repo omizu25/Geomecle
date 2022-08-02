@@ -185,11 +185,11 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 
 	for (int i = 0; i < MAX_BODY; i++)
 	{
-		if (m_pBody[i] == nullptr)
-		{
-			continue;
-		}
+		m_pBody[i] = nullptr;
+	}
 
+	for (int i = 0; i < MAX_BODY; i++)
+	{
 		// ¶¬
 		m_pBody[i] = CEnemySnakeBody::Create();
 		m_pBody[i]->SetPos(pos);
