@@ -29,7 +29,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/Number.png",			// 数
 	"data/TEXTURE/result.png",			// リザルト
 	"data/TEXTURE/title.png",			// タイトル
-	"data/TEXTURE/bright.jpg",			// エフェクト
+	"data/TEXTURE/effect.jpg",			// エフェクト
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

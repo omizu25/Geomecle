@@ -37,6 +37,12 @@
     <Filter Include="Object\3D\Enemy">
       <UniqueIdentifier>{0947b851-a952-4b29-a69c-ae65bea5200d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{e8a4b0d0-1785-4ab0-9849-833218a854c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="json">
+      <UniqueIdentifier>{8cc487ef-113f-4ef0-b9c3-87f1cebd1231}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -239,5 +245,13 @@
     <ClCompile Include="instancing.cpp">
       <Filter>Object\instancing</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\TEXT\EnemySpawn.json">
+      <Filter>json</Filter>
+    </None>
+    <None Include="data\TEXT\Effect.fx">
+      <Filter>shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

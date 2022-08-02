@@ -45,14 +45,17 @@ struct VS_OUT {
 VS_OUT vsMain(
 	float2 pos : POSITION,
 	float2 localUV : TEXCOORD0,
-	float2 worldPos : TEXCOORD1,
+	float3 worldPos : NORMAL,
 	float4 col : COLOR
 ) {
 	VS_OUT Out;
 	
+	float s = sin(worldPos.z);
+	float c = cos(worldPos.z);
+
 	float4x4 world = { 
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
+		c, -s, 0.0f, 0.0f,
+		s, c, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		worldPos.x, worldPos.y, 0.0f, 1.0f };
 

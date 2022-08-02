@@ -15,6 +15,9 @@
 #include "number_manager.h"
 #include "input.h"
 #include "object2D.h"
+#include "effect.h"
+#include "wall.h"
+#include "utility.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -65,6 +68,21 @@ void CTitle::Update()
 {
 	// 更新
 	CObject::UpdateAll();
+
+	static int time = 0;
+
+	time++;
+
+	if ((time % 10) == 0)
+	{// 一定間隔
+		float width = CWall::STD_WIDTH * 0.5f;
+		float height = CWall::STD_HEIGHT * 0.5f;
+
+		D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandam(width, -width), FloatRandam(height, -height), 0.0f);
+
+		// 爆発
+		CEffect::Explosion(pos);
+	}
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された

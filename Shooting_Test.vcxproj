@@ -88,6 +88,14 @@
     <ClCompile Include="utility.cpp" />
     <ClCompile Include="wall.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="data\TEXT\Effect.fx">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\TEXT\EnemySpawn.json" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EF7F50CD-65DE-42D9-A3F4-B41AEDC083BA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

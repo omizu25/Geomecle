@@ -18,9 +18,10 @@
 //==================================================
 // 定義
 //==================================================
-const int CEffect::MAX_EXPLOSION = 300;
-const float CEffect::STD_SIZE = 15.0f;
-const float CEffect::STD_MOVE = 20.0f;
+const int CEffect::MAX_EXPLOSION = 100;
+const int CEffect::MAX_LIFE = 100;
+const float CEffect::STD_SIZE = 20.0f;
+const float CEffect::STD_MOVE = 10.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -38,15 +39,21 @@ void CEffect::Explosion(const D3DXVECTOR3& pos)
 
 	D3DXCOLOR col = D3DXCOLOR(red, green, blue, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float rot = 0.0f;
 
 	for (int i = 0; i < MAX_EXPLOSION; i++)
 	{
-		float rot = (D3DX_PI * 2.0f) / MAX_EXPLOSION * i;
+		rot = (D3DX_PI * 2.0f) / MAX_EXPLOSION * i;
 
 		// 角度の正規化
 		NormalizeAngle(&rot);
 
-		move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * STD_MOVE;
+		float random = FloatRandam(STD_MOVE, 0.5f);
+
+		move.x = sinf(rot) * random;
+		move.y = cosf(rot) * random;
+
+		col = D3DXCOLOR(red + FloatRandam(0.25f, -0.25f), green + FloatRandam(0.25f, -0.25f), blue + FloatRandam(0.25f, -0.25f), 1.0f);
 
 		// 生成
 		CEffect::Create(pos, move, col);
@@ -92,7 +99,8 @@ int CEffect::GetNumAll()
 CEffect::CEffect() : CObject(CObject::CATEGORY_EFFECT),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f))
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
+	m_life(0)
 {
 	m_numAll++;
 }
@@ -113,6 +121,7 @@ void CEffect::Init()
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	m_life = MAX_LIFE;
 
 	// キープの設定
 	CObject::SetKeep(true);
@@ -130,30 +139,31 @@ void CEffect::Uninit()
 //--------------------------------------------------
 void CEffect::Update()
 {
+	m_life--;
+
+	if (m_life <= 0)
+	{
+		CObject::Release();
+		return;
+	}
+
 	m_pos += m_move;
 
 	//慣性・移動量を更新 (減衰させる)
 	m_move.x += (0.0f - m_move.x) * 0.01f;
 	m_move.y += (0.0f - m_move.y) * 0.01f;
 
-	{
-		float lenMove = D3DXVec3LengthSq(&m_move);
-
-		if (lenMove <= 1.0f * 1.0f)
-		{
-			CObject::Release();
-			return;
-		}
-	}
-
 	float size = (STD_SIZE * 0.5f) + (CWall::STD_SIZE * 0.5f);
 	float width = (CWall::STD_WIDTH * 0.5f) - size;
 	float height = (CWall::STD_HEIGHT * 0.5f) - size;
 
 	// 範囲内で反射
-	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
-
-	m_col.a += (0.0f - m_col.a) * 0.01f;
+	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));	
+	
+	{
+		float ratio = ((float)(MAX_LIFE - m_life) / MAX_LIFE);
+		m_col.a = 1.0f - (ratio * ratio);
+	}
 }
 
 //--------------------------------------------------
@@ -178,4 +188,12 @@ const D3DXVECTOR3& CEffect::GetPos() const
 const D3DXCOLOR& CEffect::GetCol() const
 {
 	return m_col;
+}
+
+//--------------------------------------------------
+// 移動量の取得
+//--------------------------------------------------
+const D3DXVECTOR3& CEffect::GetMove() const
+{
+	return m_move;
 }

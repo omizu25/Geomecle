@@ -55,7 +55,7 @@ private:
 
 	/* ↓メンバ関数↓ */
 public:
-//	CObject() = delete;	// デフォルトコンストラクタ
+	CObject() = delete;	// デフォルトコンストラクタ
 	explicit CObject(ECategory cat);	// コンストラクタ
 	virtual ~CObject();	// デストラクタ
 
