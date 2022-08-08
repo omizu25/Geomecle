@@ -101,7 +101,7 @@ void CPlayer::Update()
 	Rot();
 
 	// “–‚½‚è”»’è
-//	Collision();
+	Collision();
 	
 	// XV
 	CObject3D::Update();
