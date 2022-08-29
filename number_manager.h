@@ -23,14 +23,16 @@ class CNumber;
 class CNumberManager
 {
 	/* ↓定義↓ */
-private:
-	static const int MAX_DIGIT = 8;	// 桁の最大数
+public:
 	static const float STD_WIDTH;	// 幅の標準値
 	static const float STD_HEIGHT;	// 高さの標準値
 
+private:
+	static const int MAX_DIGIT = 8;	// 桁の最大数
+
 	/* ↓静的メンバ関数↓ */
 public:
-	static CNumberManager* Create(const D3DXVECTOR3& pos, int value);	// 生成
+	static CNumberManager* Create(const D3DXVECTOR3& pos, int value, bool zero);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -44,12 +46,13 @@ public:
 	void ChangeNumber(int value);	// 数の変更
 
 private:
-	int GetDigit(int value);	// 桁の取得
+	void ZeroDraw();	// ゼロの描画
 
 	/* ↓メンバ変数↓ */
 private:
 	CNumber* m_number[MAX_DIGIT];	// 数
 	int m_value;	// 値
+	bool m_zero;	// ゼロを描画するかどうか
 };
 
 #endif // !_NUMBER_MANAGER_H_

@@ -10,6 +10,7 @@
 //==================================================
 #include "number_manager.h"
 #include "number.h"
+#include "utility.h"
 #include <assert.h>
 
 //==================================================
@@ -21,7 +22,7 @@ const float CNumberManager::STD_HEIGHT = 100.0f;
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value)
+CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value, bool zero)
 {
 	CNumberManager* pNumberManager = nullptr;
 
@@ -31,6 +32,8 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value)
 	{// nullチェック
 		// 初期化
 		pNumberManager->Init(pos);
+
+		pNumberManager->m_zero = zero;
 
 		// 数の変更
 		pNumberManager->ChangeNumber(value);
@@ -103,36 +106,9 @@ void CNumberManager::Release()
 		// 解放
 		m_number[i]->Release();
 	}
-}
 
-//--------------------------------------------------
-// 桁の取得
-//--------------------------------------------------
-int CNumberManager::GetDigit(int value)
-{
-	int digit = 0;
-	int saveValue = value;
-
-	while (1)
-	{// 無限ループ
-		if (saveValue >= 10)
-		{// 2桁以上
-			saveValue /= 10;
-			digit++;
-		}
-		else
-		{// 1桁
-			digit++;
-
-			if (digit > MAX_DIGIT)
-			{// 指定の値より大きい
-				digit = MAX_DIGIT;
-			}
-			break;
-		}
-	}
-
-	return digit;
+	// 終了
+	Uninit();
 }
 
 //--------------------------------------------------
@@ -151,7 +127,7 @@ void CNumberManager::ChangeNumber(int value)
 
 	int saveValue = m_value;
 
-	for (int i = 0; i < GetDigit(value); i++)
+	for (int i = 0; i < Digit(m_value); i++)
 	{// 一桁ずつに分ける
 		num[i] = saveValue % 10;
 		saveValue /= 10;
@@ -161,5 +137,29 @@ void CNumberManager::ChangeNumber(int value)
 	{
 		// 数の変更
 		m_number[i]->Change(num[i]);
+	}
+
+	// ゼロの描画
+	ZeroDraw();
+}
+
+//--------------------------------------------------
+// 描画の設定
+//--------------------------------------------------
+void CNumberManager::ZeroDraw()
+{
+	if (m_zero)
+	{// ゼロを描画する
+		return;
+	}
+
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		m_number[i]->SetDraw(false);
+	}
+
+	for (int i = 0; i < Digit(m_value); i++)
+	{
+		m_number[i]->SetDraw(true);
 	}
 }

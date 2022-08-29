@@ -15,7 +15,7 @@
 //==================================================
 // 前方宣言
 //==================================================
-class CPlayer;
+class CTime;
 
 //==================================================
 // 定義
@@ -33,6 +33,9 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+
+private:
+	CTime* m_pTime;	// タイム
 };
 
 #endif // !_GAME_H_

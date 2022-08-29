@@ -191,3 +191,11 @@ void CopyBuf(IDirect3DVertexBuffer9* pBuf, void* pSrc, unsigned size)
 	memcpy(p, pSrc, size);
 	pBuf->Unlock();
 }
+
+//--------------------------------------------------
+// Œ…”
+//--------------------------------------------------
+int Digit(int number)
+{
+	return (int)log10(number) + 1;
+}

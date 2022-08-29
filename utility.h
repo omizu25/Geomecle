@@ -122,4 +122,11 @@ bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& 
 //--------------------------------------------------
 void CopyBuf(IDirect3DVertexBuffer9* pBuf, void* pSrc, unsigned size);
 
+//--------------------------------------------------
+// Œ…”
+// ˆø”  : int number / ”
+// •Ô’l  : int / Œ…”
+//--------------------------------------------------
+int Digit(int number);
+
 #endif // !_UTILITY_H_

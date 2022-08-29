@@ -17,12 +17,15 @@
 #include "input.h"
 #include "utility.h"
 #include "effect_manager.h"
+#include "number_manager.h"
+#include "time.h"
 #include <assert.h>
 
 //--------------------------------------------------
 // コンストラクタ
 //--------------------------------------------------
-CGame::CGame(EMode mode) : CMode(mode)
+CGame::CGame(EMode mode) : CMode(mode),
+	m_pTime(nullptr)
 {
 }
 
@@ -31,6 +34,7 @@ CGame::CGame(EMode mode) : CMode(mode)
 //--------------------------------------------------
 CGame::~CGame()
 {
+	assert(m_pTime == nullptr);
 }
 
 //--------------------------------------------------
@@ -48,6 +52,12 @@ void CGame::Init()
 
 	// 読み込み
 	CEnemyManager::GetInstanse()->Load();
+
+	float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CNumberManager::STD_WIDTH * 2.0f);
+	float height = CNumberManager::STD_HEIGHT * 0.5f;
+
+	// タイムの生成
+	m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 3000);
 }
 
 //--------------------------------------------------
@@ -57,6 +67,8 @@ void CGame::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll(false);
+
+	m_pTime = nullptr;
 
 	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
 	*pPlayer = nullptr;
@@ -83,6 +95,9 @@ void CGame::Update()
 
 	// 弾の発射
 	CBullet::Shot();
+
+	// タイムの減算
+	m_pTime->Update();
 
 	// 更新
 	CObject::UpdateAll();

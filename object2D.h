@@ -55,6 +55,7 @@ public:
 	const D3DXVECTOR3& GetSize() const;		// サイズの取得
 	void SetRot(float rot);					// 向きの設定
 	const float GetRot() const;				// 向きの取得
+	void SetDraw(bool draw);				// 描画するかどうかの設定
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 
@@ -64,10 +65,11 @@ private:
 	/* ↓メンバ変数↓ */
 private:
 	CTexture::ELabel m_texture;	// テクスチャの列挙型
-	float m_rot;		// 向き
+	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	D3DXVECTOR3 m_size;	// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
-	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
+	float m_rot;		// 向き
+	bool m_draw;		// 描画するかどうか
 };
 
 #endif // !_OBJECT2D_H_

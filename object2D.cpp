@@ -42,10 +42,11 @@ CObject2D* CObject2D::Create()
 //--------------------------------------------------
 CObject2D::CObject2D() : CObject(CObject::CATEGORY_2D),
 	m_texture(CTexture::LABEL_NONE),
-	m_rot(0.0f),
+	m_pVtxBuff(nullptr),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_pVtxBuff(nullptr)
+	m_rot(0.0f),
+	m_draw(false)
 {
 }
 
@@ -66,6 +67,7 @@ void CObject2D::Init()
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_texture = CTexture::LABEL_NONE;
+	m_draw = true;
 	
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -139,6 +141,11 @@ void CObject2D::Update()
 //--------------------------------------------------
 void CObject2D::Draw()
 {
+	if (!m_draw)
+	{// 描画しない
+		return;
+	}
+
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
 
@@ -212,6 +219,14 @@ void CObject2D::SetRot(float rot)
 const float CObject2D::GetRot() const
 {
 	return m_rot;
+}
+
+//--------------------------------------------------
+// 描画するかどうかの設定
+//--------------------------------------------------
+void CObject2D::SetDraw(bool draw)
+{
+	m_draw = draw;
 }
 
 //--------------------------------------------------
