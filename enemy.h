@@ -31,9 +31,11 @@ public:
 		TYPE_ROLLING,		// 回転
 		TYPE_MAX
 	};
+
+	static const int STD_SCORE;	// スコアの標準値
 	
 private:
-	static const float STD_SIZE;	// サイズの最大値
+	static const float STD_SIZE;	// サイズの標準値
 
 	/* ↓静的メンバ関数↓ */
 public:

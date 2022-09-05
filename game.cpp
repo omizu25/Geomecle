@@ -16,13 +16,15 @@
 #include "bullet.h"
 #include "number_manager.h"
 #include "time.h"
+#include "score.h"
 #include <assert.h>
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CGame::CGame() : CMode(CMode::MODE_GAME),
-	m_pTime(nullptr)
+	m_pTime(nullptr),
+	m_pScore(nullptr)
 {
 }
 
@@ -32,6 +34,7 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 CGame::~CGame()
 {
 	assert(m_pTime == nullptr);
+	assert(m_pScore == nullptr);
 }
 
 //--------------------------------------------------
@@ -55,6 +58,9 @@ void CGame::Init()
 
 	// タイムの生成
 	m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 3000);
+
+	// スコアの生成
+	m_pScore = CScore::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, height, 0.0f));
 }
 
 //--------------------------------------------------
@@ -66,6 +72,7 @@ void CGame::Uninit()
 	CObject::ReleaseAll(false);
 
 	m_pTime = nullptr;
+	m_pScore = nullptr;
 
 	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
 	*pPlayer = nullptr;
@@ -105,4 +112,12 @@ void CGame::Draw()
 
 	// 描画
 	CObject::DrawAll();
+}
+
+//--------------------------------------------------
+// スコアの取得
+//--------------------------------------------------
+CScore* CGame::GetScore()
+{
+	return m_pScore;
 }

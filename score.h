@@ -34,6 +34,8 @@ public:
 public:
 	void Init(const D3DXVECTOR3& pos);	// ‰Šú‰»
 	void Uninit();						// I—¹
+	void Add(int score);				// ‰ÁZ
+	int Get();							// æ“¾
 
 	/* «ƒƒ“ƒo•Ï”« */
 private:

@@ -29,7 +29,6 @@ private:
 	static const float STD_SIZE;		// サイズの標準値
 	static const float STD_ROTATION;	// 回転の標準値
 	static const float MAX_MOVE;		// 移動量の最大値
-	static const float MIN_MOVE;		// 移動量の最小値
 	static const float MAX_RADIUS;		// 半径の最大値
 
 	/* ↓静的メンバ関数↓ */

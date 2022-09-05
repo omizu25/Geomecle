@@ -16,8 +16,8 @@
 //==================================================
 // ’è‹`
 //==================================================
-const float CNumberManager::STD_WIDTH = 50.0f;
-const float CNumberManager::STD_HEIGHT = 100.0f;
+const float CNumberManager::STD_WIDTH = 25.0f;
+const float CNumberManager::STD_HEIGHT = 50.0f;
 
 //--------------------------------------------------
 // ¶¬
@@ -191,4 +191,7 @@ void CNumberManager::ZeroDraw()
 			m_number[i]->SetDraw(true);
 		}
 	}
+
+	// 1Œ…–Ú‚Íâ‘Î‚É•`‰æ‚·‚é
+	m_number[0]->SetDraw(true);
 }

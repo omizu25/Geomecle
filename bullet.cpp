@@ -16,6 +16,10 @@
 #include "enemy.h"
 #include "wall.h"
 #include "effect_manager.h"
+#include "exp.h"
+#include "score.h"
+#include "mode.h"
+#include "game.h"
 #include <assert.h>
 
 //==================================================
@@ -199,14 +203,14 @@ void CBullet::Update()
 	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
 	{
 		if (pObject[i] == nullptr)
-		{
+		{// nullチェック
 			continue;
 		}
 
 		type = pObject[i]->GetType();
 
 		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
-		{
+		{// 指定のタイプではない
 			continue;
 		}
 
@@ -234,6 +238,17 @@ void CBullet::Update()
 
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// 当たり判定
+				// 爆発
+				CEffectManager::GetInstanse()->Explosion(targetPos);
+
+				// 経験値の生成
+				CExp::CreateAll(targetPos);
+
+				CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+				// スコアの加算
+				pGame->GetScore()->Add(CEnemy::STD_SCORE);
+
 				// 敵の解放
 				pObject[i]->Release();
 

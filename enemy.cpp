@@ -15,15 +15,12 @@
 #include "enemy_snake_head.h"
 #include "enemy_division.h"
 #include "enemy_rolling.h"
-#include "effect_manager.h"
-#include "exp.h"
-#include "application.h"
-#include "mode.h"
 #include <assert.h>
 
 //==================================================
 // 定義
 //==================================================
+const int CEnemy::STD_SCORE = 100;
 const float CEnemy::STD_SIZE = 30.0f;
 
 //--------------------------------------------------
@@ -109,17 +106,6 @@ void CEnemy::Init()
 //--------------------------------------------------
 void CEnemy::Uninit()
 {
-	D3DXVECTOR3 pos = CObject3D::GetPos();
-
-	// 爆発
-	CEffectManager::GetInstanse()->Explosion(pos);
-
-	if (CApplication::GetInstanse()->GetMode()->Get() == CMode::MODE_GAME)
-	{// ゲーム中
-		// 経験値の生成
-		CExp::CreateAll(pos);
-	}
-
 	// 終了
 	CObject3D::Uninit();
 }

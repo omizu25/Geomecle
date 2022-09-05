@@ -156,6 +156,9 @@
     <ClInclude Include="score.h">
       <Filter>Object\2D</Filter>
     </ClInclude>
+    <ClInclude Include="mul.h">
+      <Filter>Object\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -267,6 +270,9 @@
       <Filter>Object\3D</Filter>
     </ClCompile>
     <ClCompile Include="score.cpp">
+      <Filter>Object\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="mul.cpp">
       <Filter>Object\2D</Filter>
     </ClCompile>
   </ItemGroup>

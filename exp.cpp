@@ -18,7 +18,7 @@
 //==================================================
 // íËã`
 //==================================================
-const int CExp::MAX_EXP = 5;
+const int CExp::MAX_EXP = 15;
 const int CExp::STD_LIFE = 300;
 const int CExp::BLINK_START = 200;
 const float CExp::BLINK_SPEED = 0.1f;
@@ -26,8 +26,7 @@ const float CExp::HOMING_START = 150;
 const float CExp::HOMING_SPEED = 7.5f;
 const float CExp::STD_SIZE = 10.0f;
 const float CExp::STD_ROTATION = 0.01f;
-const float CExp::MAX_MOVE = 1.0f;
-const float CExp::MIN_MOVE = 0.25f;
+const float CExp::MAX_MOVE = 0.5f;
 const float CExp::MAX_RADIUS = 25.0f;
 
 //--------------------------------------------------
@@ -182,7 +181,7 @@ void CExp::SetMove(float rot)
 	// å¸Ç´ÇÃê›íË
 	CObject3D::SetRot(rot);
 
-	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandam(MAX_MOVE, MIN_MOVE);
+	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandam(MAX_MOVE, 0.0f);
 }
 
 //--------------------------------------------------

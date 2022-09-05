@@ -41,6 +41,7 @@
     <ClInclude Include="instancing.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mode.h" />
+    <ClInclude Include="mul.h" />
     <ClInclude Include="number.h" />
     <ClInclude Include="number_manager.h" />
     <ClInclude Include="object.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="instancing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mode.cpp" />
+    <ClCompile Include="mul.cpp" />
     <ClCompile Include="number.cpp" />
     <ClCompile Include="number_manager.cpp" />
     <ClCompile Include="object.cpp" />

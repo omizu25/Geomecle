@@ -16,6 +16,7 @@
 // 前方宣言
 //==================================================
 class CTime;
+class CScore;
 
 //==================================================
 // 定義
@@ -33,8 +34,12 @@ public:
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
 
+public:
+	CScore* GetScore();	// スコアの取得
+
 private:
-	CTime* m_pTime;	// タイム
+	CTime* m_pTime;		// タイム
+	CScore* m_pScore;	// スコア
 };
 
 #endif // !_GAME_H_
