@@ -197,5 +197,5 @@ void CopyBuf(IDirect3DVertexBuffer9* pBuf, void* pSrc, unsigned size)
 //--------------------------------------------------
 int Digit(int number)
 {
-	return (int)log10f(number) + 1;
+	return (int)log10f((float)number) + 1;
 }
