@@ -17,6 +17,7 @@
 //==================================================
 class CTime;
 class CScore;
+class CMul;
 
 //==================================================
 // 定義
@@ -36,10 +37,12 @@ public:
 
 public:
 	CScore* GetScore();	// スコアの取得
+	CMul* GetMul();		// 倍率の取得
 
 private:
 	CTime* m_pTime;		// タイム
 	CScore* m_pScore;	// スコア
+	CMul* m_pMul;		// 倍率
 };
 
 #endif // !_GAME_H_

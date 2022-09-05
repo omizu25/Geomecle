@@ -13,6 +13,9 @@
 #include "utility.h"
 #include "application.h"
 #include "player.h"
+#include "mode.h"
+#include "game.h"
+#include "mul.h"
 #include <assert.h>
 
 //==================================================
@@ -204,6 +207,11 @@ void CExp::Collision()
 
 	if (CollisionCircle(pos, size, playerPos, playerSize))
 	{// “–‚½‚è”»’è
+		CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+		// ”{—¦‚Ì‰ÁŽZ
+		pGame->GetMul()->Add();
+
 		// ‰ð•ú
 		CObject::Release();
 		return;

@@ -17,6 +17,7 @@
 #include "number_manager.h"
 #include "time.h"
 #include "score.h"
+#include "mul.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -24,7 +25,8 @@
 //--------------------------------------------------
 CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pTime(nullptr),
-	m_pScore(nullptr)
+	m_pScore(nullptr),
+	m_pMul(nullptr)
 {
 }
 
@@ -35,6 +37,7 @@ CGame::~CGame()
 {
 	assert(m_pTime == nullptr);
 	assert(m_pScore == nullptr);
+	assert(m_pMul == nullptr);
 }
 
 //--------------------------------------------------
@@ -61,6 +64,9 @@ void CGame::Init()
 
 	// ƒXƒRƒA‚Ì¶¬
 	m_pScore = CScore::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, height, 0.0f));
+
+	// ”{—¦‚Ì¶¬
+	m_pMul = CMul::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, CNumberManager::STD_HEIGHT + height, 0.0f));
 }
 
 //--------------------------------------------------
@@ -73,6 +79,7 @@ void CGame::Uninit()
 
 	m_pTime = nullptr;
 	m_pScore = nullptr;
+	m_pMul = nullptr;
 
 	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
 	*pPlayer = nullptr;
@@ -120,4 +127,12 @@ void CGame::Draw()
 CScore* CGame::GetScore()
 {
 	return m_pScore;
+}
+
+//--------------------------------------------------
+// ”{—¦‚ÌŽæ“¾
+//--------------------------------------------------
+CMul* CGame::GetMul()
+{
+	return m_pMul;
 }

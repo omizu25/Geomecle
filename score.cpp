@@ -10,7 +10,10 @@
 //==================================================
 #include "score.h"
 #include "number_manager.h"
-#include "utility.h"
+#include "application.h"
+#include "mode.h"
+#include "game.h"
+#include "mul.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -75,7 +78,12 @@ void CScore::Uninit()
 //--------------------------------------------------
 void CScore::Add(int score)
 {
-	m_score += score;
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+	// ”{—¦‚Ì‰ÁŽZ
+	int mul = pGame->GetMul()->Get();
+
+	m_score += score + (score * mul);
 
 	// ”‚Ì•ÏX
 	m_pNumber->ChangeNumber(m_score);
