@@ -17,6 +17,8 @@
 #include "enemy_rolling.h"
 #include "effect_manager.h"
 #include "exp.h"
+#include "application.h"
+#include "mode.h"
 #include <assert.h>
 
 //==================================================
@@ -112,8 +114,11 @@ void CEnemy::Uninit()
 	// 爆発
 	CEffectManager::GetInstanse()->Explosion(pos);
 
-	// 経験値の生成
-	CExp::CreateAll(pos);
+	if (CApplication::GetInstanse()->GetMode()->Get() == CMode::MODE_GAME)
+	{// ゲーム中
+		// 経験値の生成
+		CExp::CreateAll(pos);
+	}
 
 	// 終了
 	CObject3D::Uninit();

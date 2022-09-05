@@ -190,11 +190,18 @@ void CExp::SetMove(float rot)
 //--------------------------------------------------
 void CExp::Collision()
 {
+	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 	float size = CObject3D::GetSize().x * 0.5f;
 
-	D3DXVECTOR3 playerPos = CApplication::GetInstanse()->GetPlayer()->GetPos();
-	float playerSize = CApplication::GetInstanse()->GetPlayer()->GetSize().x * 0.5f;
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
+	float playerSize = pPlayer->GetSize().x * 0.5f;
 
 	if (CollisionCircle(pos, size, playerPos, playerSize))
 	{// 当たり判定
@@ -209,8 +216,15 @@ void CExp::Collision()
 //==================================================
 void CExp::Absorption()
 {
+	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
 	D3DXVECTOR3 pos = CObject3D::GetPos();
-	D3DXVECTOR3 playerPos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	D3DXVECTOR3 playerPos = pPlayer->GetPos();
 
 	D3DXVECTOR3 vecDiff = playerPos - pos;
 

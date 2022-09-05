@@ -11,6 +11,8 @@
 #include "time.h"
 #include "number_manager.h"
 #include "utility.h"
+#include "application.h"
+#include "mode.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -90,10 +92,16 @@ void CTime::Update()
 
 	m_elapsed = time - m_start;
 
-	int number = m_end - m_elapsed - 1000;
+	int number = m_end - m_elapsed;
 
 	// 数の変更
 	m_pNumber->ChangeNumber(number);
+
+	if (number <= 0)
+	{// 時間切れ
+		// モードの変更
+		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+	}
 }
 
 //--------------------------------------------------
