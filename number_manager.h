@@ -28,11 +28,11 @@ public:
 	static const float STD_HEIGHT;	// 高さの標準値
 
 private:
-	static const int MAX_DIGIT = 8;	// 桁の最大数
+	static const int MAX_DIGIT = 10;	// 桁の最大数
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CNumberManager* Create(const D3DXVECTOR3& pos, int value, bool zero);	// 生成
+	static CNumberManager* Create(const D3DXVECTOR3& pos, int value);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -43,6 +43,8 @@ public:
 	void Init(const D3DXVECTOR3& pos);	// 初期化
 	void Uninit();	// 終了
 	void Release();	// 解放
+	void SetZero(bool zero);		// ゼロの設定
+	void SetZeroDigit(int digit);	// ゼロの桁数の設定
 	void ChangeNumber(int value);	// 数の変更
 
 private:
@@ -51,8 +53,9 @@ private:
 	/* ↓メンバ変数↓ */
 private:
 	CNumber* m_number[MAX_DIGIT];	// 数
-	int m_value;	// 値
-	bool m_zero;	// ゼロを描画するかどうか
+	int m_value;		// 値
+	int m_zeroDigit;	// ゼロを描画する桁数
+	bool m_zero;		// ゼロを描画するかどうか
 };
 
 #endif // !_NUMBER_MANAGER_H_

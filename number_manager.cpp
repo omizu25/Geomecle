@@ -22,7 +22,7 @@ const float CNumberManager::STD_HEIGHT = 100.0f;
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value, bool zero)
+CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value)
 {
 	CNumberManager* pNumberManager = nullptr;
 
@@ -32,8 +32,6 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value, bool z
 	{// nullチェック
 		// 初期化
 		pNumberManager->Init(pos);
-
-		pNumberManager->m_zero = zero;
 
 		// 数の変更
 		pNumberManager->ChangeNumber(value);
@@ -46,7 +44,9 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value, bool z
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CNumberManager::CNumberManager() :
-	m_value(0)
+	m_value(0),
+	m_zeroDigit(0),
+	m_zero(false)
 {
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
@@ -66,6 +66,9 @@ CNumberManager::~CNumberManager()
 //--------------------------------------------------
 void CNumberManager::Init(const D3DXVECTOR3& pos)
 {
+	m_zero = false;
+	m_zeroDigit = MAX_DIGIT;
+
 	float halfWidth = STD_WIDTH * 0.5f;
 
 	D3DXVECTOR3 addPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -112,6 +115,22 @@ void CNumberManager::Release()
 }
 
 //--------------------------------------------------
+// ゼロの設定
+//--------------------------------------------------
+void CNumberManager::SetZero(bool zero)
+{
+	m_zero = zero;
+}
+
+//--------------------------------------------------
+// ゼロの桁数の設定
+//--------------------------------------------------
+void CNumberManager::SetZeroDigit(int digit)
+{
+	m_zeroDigit = digit;
+}
+
+//--------------------------------------------------
 // 数の変更
 //--------------------------------------------------
 void CNumberManager::ChangeNumber(int value)
@@ -150,16 +169,26 @@ void CNumberManager::ZeroDraw()
 {
 	if (m_zero)
 	{// ゼロを描画する
-		return;
-	}
+		for (int i = 0; i < MAX_DIGIT; i++)
+		{
+			m_number[i]->SetDraw(false);
+		}
 
-	for (int i = 0; i < MAX_DIGIT; i++)
-	{
-		m_number[i]->SetDraw(false);
+		for (int i = 0; i < m_zeroDigit; i++)
+		{
+			m_number[i]->SetDraw(true);
+		}
 	}
+	else
+	{// ゼロを描画しない
+		for (int i = 0; i < MAX_DIGIT; i++)
+		{
+			m_number[i]->SetDraw(false);
+		}
 
-	for (int i = 0; i < Digit(m_value); i++)
-	{
-		m_number[i]->SetDraw(true);
+		for (int i = 0; i < Digit(m_value); i++)
+		{
+			m_number[i]->SetDraw(true);
+		}
 	}
 }

@@ -62,7 +62,9 @@ void CTime::Init(const D3DXVECTOR3& pos)
 	m_end = 0;
 
 	// ”‚Ì¶¬
-	m_pNumber = CNumberManager::Create(pos, 0, false);
+	m_pNumber = CNumberManager::Create(pos, 0);
+	m_pNumber->SetZero(true);
+	m_pNumber->SetZeroDigit(4);
 }
 
 //--------------------------------------------------
@@ -83,12 +85,12 @@ void CTime::Update()
 {
 	int time = timeGetTime();
 
-	time %= (int)pow(10, Digit(time) - 3);	// ã‚ğí‚é
+	time %= (int)powf(10.0f, (float)Digit(time) - 3.0f);	// ã‚ğí‚é
 	time /= 10;	// ‰ºí‚é
 
 	m_elapsed = time - m_start;
 
-	int number = m_end - m_elapsed;
+	int number = m_end - m_elapsed - 1000;
 
 	// ”‚Ì•ÏX
 	m_pNumber->ChangeNumber(number);
@@ -101,7 +103,7 @@ void CTime::SetStart(int start)
 {
 	m_start = start;
 
-	m_start %= (int)pow(10, Digit(m_start) - 3);	// ã‚ğí‚é
+	m_start %= (int)powf(10.0f, (float)Digit(m_start) - 3.0f);	// ã‚ğí‚é
 	m_start /= 10;	// ‰ºí‚é
 }
 

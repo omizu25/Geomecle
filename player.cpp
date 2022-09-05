@@ -94,6 +94,12 @@ void CPlayer::Uninit()
 //--------------------------------------------------
 void CPlayer::Update()
 {
+	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
+	{// Œˆ’èƒL[‚ª‰Ÿ‚³‚ê‚½
+		// ”š”­
+		CEffectManager::GetInstanse()->Explosion(CObject3D::GetPos());
+	}
+
 	// ˆÚ“®
 	Move();
 

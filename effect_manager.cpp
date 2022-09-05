@@ -11,7 +11,6 @@
 #include "effect_manager.h"
 #include "utility.h"
 #include "effect.h"
-#include "wall.h"
 #include <assert.h>
 
 //==================================================

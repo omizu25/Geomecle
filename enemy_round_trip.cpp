@@ -10,7 +10,6 @@
 //==================================================
 #include "enemy_round_trip.h"
 #include "application.h"
-#include "game.h"
 #include "player.h"
 #include "wall.h"
 #include "utility.h"

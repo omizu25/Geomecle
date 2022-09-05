@@ -12,11 +12,8 @@
 #include "main.h"
 #include "application.h"
 #include "object.h"
-#include "camera.h"
-#include "bullet.h"
-#include "enemy_manager.h"
-#include "game.h"
 #include "effect.h"
+#include "mode.h"
 #include <assert.h>
 #include <tchar.h> // _T
 
@@ -157,7 +154,7 @@ void CRenderer::Uninit()
 //--------------------------------------------------
 void CRenderer::Update()
 {
-	// ゲームの更新
+	// モードの更新
 	CApplication::GetInstanse()->GetMode()->Update();
 }
 
@@ -178,7 +175,7 @@ void CRenderer::Draw()
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{// Direct3Dによる描画の開始
 
-		// ゲームの更新
+		// モードの描画
 		CApplication::GetInstanse()->GetMode()->Draw();
 
 #ifdef _DEBUG

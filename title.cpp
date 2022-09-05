@@ -12,7 +12,6 @@
 #include "application.h"
 #include "camera.h"
 #include "object.h"
-#include "number_manager.h"
 #include "input.h"
 #include "object2D.h"
 #include "effect_manager.h"

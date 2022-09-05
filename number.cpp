@@ -57,6 +57,7 @@ void CNumber::Init()
 	// 初期化
 	CObject2D::Init();
 
+	// テクスチャの設定
 	CObject2D::SetTexture(CTexture::LABEL_Number);
 }
 

@@ -10,7 +10,6 @@
 //==================================================
 #include "object3D.h"
 #include "application.h"
-#include "game.h"
 #include <assert.h>
 
 //==================================================
@@ -69,6 +68,7 @@ CObject3D::CObject3D(CObject::ECategory cat) : CObject(cat),
 	m_rot(0.0f),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
 	m_pVtxBuff(nullptr)
 {
 	memset(m_mtxWorld, 0, sizeof(m_mtxWorld));
@@ -90,6 +90,7 @@ void CObject3D::Init()
 	m_rot = 0.0f;
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_texture = CTexture::LABEL_NONE;
 
 	// デバイスへのポインタの取得
@@ -109,14 +110,11 @@ void CObject3D::Init()
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float width = m_size.x * 0.5f;
-	float height = m_size.y * 0.5f;
-
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-width, +height, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+width, +height, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-width, -height, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+width, -height, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	// 法線ベクトルの設定
 	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -298,19 +296,29 @@ void CObject3D::SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v)
 //--------------------------------------------------
 void CObject3D::SetCol(const D3DXCOLOR& col)
 {
+	m_col = col;
+
 	VERTEX_3D *pVtx = nullptr;	// 頂点情報へのポインタ
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// テクスチャ座標の設定
-	pVtx[0].col = col;
-	pVtx[1].col = col;
-	pVtx[2].col = col;
-	pVtx[3].col = col;
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
+// 色の取得
+//--------------------------------------------------
+const D3DXCOLOR& CObject3D::GetCol() const
+{
+	return m_col;
 }
 
 //--------------------------------------------------

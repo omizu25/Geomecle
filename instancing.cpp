@@ -13,7 +13,6 @@
 #include "utility.h"
 #include "camera.h"
 #include "texture.h"
-#include "object.h"
 #include "effect.h"
 
 #include <assert.h>

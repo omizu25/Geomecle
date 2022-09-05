@@ -18,7 +18,6 @@
 #include "texture.h"
 #include "camera.h"
 #include "wall.h"
-#include "effect.h"
 #include "player.h"
 #include <time.h>
 #include <assert.h>

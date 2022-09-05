@@ -11,7 +11,6 @@
 #include "enemy_snake_head.h"
 #include "enemy_snake_body.h"
 #include "application.h"
-#include "game.h"
 #include "utility.h"
 #include "player.h"
 #include "wall.h"

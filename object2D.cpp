@@ -10,7 +10,6 @@
 //==================================================
 #include "object2D.h"
 #include "application.h"
-#include "game.h"
 #include <assert.h>
 
 //==================================================
@@ -86,14 +85,11 @@ void CObject2D::Init()
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	float width = m_size.x * 0.5f;
-	float height = m_size.y * 0.5f;
-
 	// 頂点情報の設定
-	pVtx[0].pos = D3DXVECTOR3(-width, -height, 0.0f);
-	pVtx[1].pos = D3DXVECTOR3(+width, -height, 0.0f);
-	pVtx[2].pos = D3DXVECTOR3(-width, +height, 0.0f);
-	pVtx[3].pos = D3DXVECTOR3(+width, +height, 0.0f);
+	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[1].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[2].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	pVtx[3].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	// rhwの設定
 	pVtx[0].rhw = 1.0f;

@@ -14,9 +14,6 @@
 #include "player.h"
 #include "enemy_manager.h"
 #include "bullet.h"
-#include "input.h"
-#include "utility.h"
-#include "effect_manager.h"
 #include "number_manager.h"
 #include "time.h"
 #include <assert.h>
@@ -82,14 +79,6 @@ void CGame::Uninit()
 //--------------------------------------------------
 void CGame::Update()
 {
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
-
-		// 爆発
-		CEffectManager::GetInstanse()->Explosion(pos);
-	}
-
 	// 敵のスポーン
 	CEnemyManager::GetInstanse()->Spawn();
 

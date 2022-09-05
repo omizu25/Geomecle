@@ -16,6 +16,7 @@
 #include "enemy_division.h"
 #include "enemy_rolling.h"
 #include "effect_manager.h"
+#include "exp.h"
 #include <assert.h>
 
 //==================================================
@@ -106,8 +107,13 @@ void CEnemy::Init()
 //--------------------------------------------------
 void CEnemy::Uninit()
 {
+	D3DXVECTOR3 pos = CObject3D::GetPos();
+
 	// îöî≠
-	CEffectManager::GetInstanse()->Explosion(CObject3D::GetPos());
+	CEffectManager::GetInstanse()->Explosion(pos);
+
+	// åoå±ílÇÃê∂ê¨
+	CExp::CreateAll(pos);
 
 	// èIóπ
 	CObject3D::Uninit();

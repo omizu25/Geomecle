@@ -11,7 +11,6 @@
 #include "enemy_division.h"
 #include "enemy_rolling.h"
 #include "application.h"
-#include "game.h"
 #include "mode.h"
 #include "player.h"
 #include "utility.h"

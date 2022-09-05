@@ -34,7 +34,7 @@ public:
 
 	/* ↓メンバ関数↓ */
 public:
-	CMode();			// デフォルトコンストラクタ
+	CMode() = delete;	// デフォルトコンストラクタ
 	CMode(EMode mode);	// コンストラクタ
 	virtual ~CMode();	// デストラクタ
 

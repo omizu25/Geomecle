@@ -34,6 +34,7 @@
     <ClInclude Include="enemy_snake_body.h" />
     <ClInclude Include="enemy_snake_head.h" />
     <ClInclude Include="enemy_windmill.h" />
+    <ClInclude Include="exp.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="input_keyboard.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="enemy_snake_body.cpp" />
     <ClCompile Include="enemy_snake_head.cpp" />
     <ClCompile Include="enemy_windmill.cpp" />
+    <ClCompile Include="exp.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="input_keyboard.cpp" />

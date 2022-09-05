@@ -10,7 +10,6 @@
 //==================================================
 #include "effect.h"
 #include "application.h"
-#include "camera.h"
 #include "wall.h"
 #include "utility.h"
 #include <assert.h>

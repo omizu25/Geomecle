@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "object.h"
-#include "application.h"
 #include "instancing.h"
 
 #include <assert.h>

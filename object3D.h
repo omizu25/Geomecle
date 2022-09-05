@@ -28,6 +28,7 @@ public:
 		TYPE_BULLET,		// 弾
 		TYPE_ENEMY,			// 敵
 		TYPE_BODY,			// 体
+		TYPE_EXP,			// 経験値
 		TYPE_MAX
 	};
 
@@ -71,6 +72,7 @@ public:
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 	void SetCol(const D3DXCOLOR& col);	// 色の設定
+	const D3DXCOLOR& GetCol() const;	// 色の取得
 	void SetType(EType type);		// 種類の設定
 	const EType GetType() const;	// 種類の取得
 
@@ -81,6 +83,7 @@ private:
 	float m_rot;		// 向き
 	D3DXVECTOR3 m_size;	// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
+	D3DXCOLOR m_col;	// 色
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	D3DXMATRIX m_mtxWorld;				// ワールドマトリックス
 };
