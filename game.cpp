@@ -19,9 +19,9 @@
 #include <assert.h>
 
 //--------------------------------------------------
-// コンストラクタ
+// デフォルトコンストラクタ
 //--------------------------------------------------
-CGame::CGame(EMode mode) : CMode(mode),
+CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pTime(nullptr)
 {
 }

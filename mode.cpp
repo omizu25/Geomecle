@@ -25,15 +25,15 @@ CMode* CMode::Create(EMode mode)
 	switch (mode)
 	{
 	case CMode::MODE_TITLE:
-		pMode = new CTitle(MODE_TITLE);
+		pMode = new CTitle;
 		break;
 
 	case CMode::MODE_GAME:
-		pMode = new CGame(MODE_GAME);
+		pMode = new CGame;
 		break;
 
 	case CMode::MODE_RESULT:
-		pMode = new CResult(MODE_RESULT);
+		pMode = new CResult;
 		break;
 
 	case CMode::MODE_NONE:

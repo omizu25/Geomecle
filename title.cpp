@@ -20,9 +20,9 @@
 #include <assert.h>
 
 //--------------------------------------------------
-// コンストラクタ
+// デフォルトコンストラクタ
 //--------------------------------------------------
-CTitle::CTitle(EMode mode) : CMode(mode),
+CTitle::CTitle() : CMode(CMode::MODE_TITLE),
 	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
 	m_time(0),
 	m_partCnt(0)

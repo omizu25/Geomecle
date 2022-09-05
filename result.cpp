@@ -20,9 +20,9 @@
 #include <assert.h>
 
 //--------------------------------------------------
-// コンストラクタ
+// デフォルトコンストラクタ
 //--------------------------------------------------
-CResult::CResult(EMode mode) : CMode(mode),
+CResult::CResult() : CMode(CMode::MODE_RESULT),
 	m_time(0)
 {
 }

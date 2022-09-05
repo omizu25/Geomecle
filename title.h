@@ -19,8 +19,7 @@ class CTitle : public CMode
 {
 	/* ↓メンバ関数↓ */
 public:
-	CTitle() = delete;	// デフォルトコンストラクタ
-	CTitle(EMode mode);	// コンストラクタ
+	CTitle();			// デフォルトコンストラクタ
 	~CTitle() override;	// デストラクタ
 
 public:

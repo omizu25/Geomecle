@@ -19,8 +19,7 @@ class CResult : public CMode
 {
 	/* ↓メンバ関数↓ */
 public:
-	CResult() = delete;		// デフォルトコンストラクタ
-	CResult(EMode mode);	// コンストラクタ
+	CResult();				// デフォルトコンストラクタ
 	~CResult() override;	// デストラクタ
 
 public:

@@ -24,8 +24,7 @@ class CGame : public CMode
 {
 	/* ↓メンバ関数↓ */
 public:
-	CGame() = delete;	// デフォルトコンストラクタ
-	CGame(EMode mode);	// コンストラクタ
+	CGame();			// デフォルトコンストラクタ
 	~CGame() override;	// デストラクタ
 
 public:
