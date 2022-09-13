@@ -104,13 +104,13 @@ void CResult::Effect()
 	float width = CWall::STD_WIDTH * 0.5f;
 	float height = CWall::STD_HEIGHT * 0.5f;
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandam(width, -width), FloatRandam(height, -height), 0.0f);
+	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
 
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	col.r = FloatRandam(1.0f, 0.0f);
-	col.g = FloatRandam(1.0f, 0.0f);
-	col.b = FloatRandam(1.0f, 0.0f);
+	col.r = FloatRandom(1.0f, 0.0f);
+	col.g = FloatRandom(1.0f, 0.0f);
+	col.b = FloatRandom(1.0f, 0.0f);
 
 	// パーティクル
 	CEffectManager::GetInstanse()->Particle(pos, col);

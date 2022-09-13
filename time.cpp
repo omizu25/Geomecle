@@ -87,10 +87,7 @@ void CTime::Update()
 {
 	int time = timeGetTime();
 
-	time %= (int)powf(10.0f, (float)Digit(time) - 3.0f);	// ã‚ğí‚é
-	time /= 10;	// ‰ºí‚é
-
-	m_elapsed = time - m_start;
+	m_elapsed = (time - m_start) / 10;
 
 	int number = m_end - m_elapsed;
 
@@ -110,9 +107,6 @@ void CTime::Update()
 void CTime::SetStart(int start)
 {
 	m_start = start;
-
-	m_start %= (int)powf(10.0f, (float)Digit(m_start) - 3.0f);	// ã‚ğí‚é
-	m_start /= 10;	// ‰ºí‚é
 }
 
 //--------------------------------------------------

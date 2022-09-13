@@ -46,20 +46,21 @@ VS_OUT vsMain(
 	float2 pos : POSITION,
 	float2 localUV : TEXCOORD0,
 	float3 worldPos : NORMAL,
-	float4 col : COLOR
+	float4 col : COLOR,
+	float2 size : TEXCOORD1
 ) {
 	VS_OUT Out;
-	
+
 	float s = sin(worldPos.z);
 	float c = cos(worldPos.z);
 
-	float4x4 world = { 
+	float4x4 world = {
 		c, -s, 0.0f, 0.0f,
 		s, c, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		worldPos.x, worldPos.y, 0.0f, 1.0f };
 
-	Out.pos = TransVertex(float4(pos.x, pos.y, 0.0f, 1.0f), world, g_view, g_proj);
+	Out.pos = TransVertex(float4(pos.x * size.x, pos.y * size.y, 0.0f, 1.0f), world, g_view, g_proj);
 
 	Out.uv = localUV;
 	Out.col = col;

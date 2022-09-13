@@ -42,9 +42,9 @@ void CExp::CreateAll(const D3DXVECTOR3& pos)
 
 	for (int i = 0; i < MAX_EXP; i++)
 	{
-		rot = FloatRandam(D3DX_PI * 2.0f, 0.0f);
+		rot = FloatRandom(D3DX_PI * 2.0f, 0.0f);
 
-		vec = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandam(MAX_RADIUS, 0.0f);
+		vec = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(MAX_RADIUS, 0.0f);
 
 		// ¶¬
 		Create(pos + vec, rot);
@@ -184,7 +184,7 @@ void CExp::SetMove(float rot)
 	// Œü‚«‚ÌÝ’è
 	CObject3D::SetRot(rot);
 
-	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandam(MAX_MOVE, 0.0f);
+	m_move = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(MAX_MOVE, 0.0f);
 }
 
 //--------------------------------------------------

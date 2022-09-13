@@ -53,8 +53,8 @@ void CGame::Init()
 		*pPlayer = CPlayer::Create();
 	}
 
-	// 読み込み
-	CEnemyManager::GetInstanse()->Load();
+	// 初期化
+	CEnemyManager::GetInstanse()->Init();
 
 	float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CNumberManager::STD_WIDTH * 2.0f);
 	float height = CNumberManager::STD_HEIGHT * 0.5f;
@@ -84,8 +84,8 @@ void CGame::Uninit()
 	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
 	*pPlayer = nullptr;
 
-	// 解放
-	CEnemyManager::GetInstanse()->Release();
+	// 終了
+	CEnemyManager::GetInstanse()->Uninit();
 }
 
 //--------------------------------------------------
@@ -93,8 +93,8 @@ void CGame::Uninit()
 //--------------------------------------------------
 void CGame::Update()
 {
-	// 敵のスポーン
-	CEnemyManager::GetInstanse()->Spawn();
+	// 更新
+	CEnemyManager::GetInstanse()->Update();
 
 	// 弾の発射
 	CBullet::Shot();

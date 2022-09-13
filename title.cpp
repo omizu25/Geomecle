@@ -46,8 +46,8 @@ void CTitle::Init()
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	CObject2D* pTitle = CObject2D::Create();
-	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
-	pTitle->SetSize(D3DXVECTOR3(1000.0f, 300.0f, 0.0f));
+	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.3f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
+	pTitle->SetSize(D3DXVECTOR3(600.0f, 150.0f, 0.0f));
 	pTitle->SetTexture(CTexture::LABEL_Title);
 }
 
@@ -107,9 +107,9 @@ void CTitle::Effect()
 
 	if (m_partCnt % 10 == 0)
 	{// 一定間隔
-		m_col.r = FloatRandam(1.0f, 0.0f);
-		m_col.g = FloatRandam(1.0f, 0.0f);
-		m_col.b = FloatRandam(1.0f, 0.0f);
+		m_col.r = FloatRandom(1.0f, 0.0f);
+		m_col.g = FloatRandom(1.0f, 0.0f);
+		m_col.b = FloatRandom(1.0f, 0.0f);
 	}
 
 	m_partCnt++;
@@ -117,7 +117,7 @@ void CTitle::Effect()
 	float width = CWall::STD_WIDTH * 0.25f;
 	float height = CWall::STD_HEIGHT * 0.25f;
 
-	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandam(width, -width), FloatRandam(height, -height), 0.0f);
+	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
 
 	// パーティクル
 	CEffectManager::GetInstanse()->Particle(pos, m_col);

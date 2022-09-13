@@ -159,6 +159,9 @@
     <ClInclude Include="mul.h">
       <Filter>Object\2D</Filter>
     </ClInclude>
+    <ClInclude Include="enemy_wave.h">
+      <Filter>Object\3D\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -274,6 +277,9 @@
     </ClCompile>
     <ClCompile Include="mul.cpp">
       <Filter>Object\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_wave.cpp">
+      <Filter>Object\3D\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
