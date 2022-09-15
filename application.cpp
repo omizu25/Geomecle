@@ -19,6 +19,7 @@
 #include "camera.h"
 #include "wall.h"
 #include "player.h"
+#include "bg.h"
 #include <time.h>
 #include <assert.h>
 
@@ -137,6 +138,12 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	// ê∂ê¨
 	CObject::Create();
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 size = D3DXVECTOR3(CWall::STD_WIDTH, CWall::STD_HEIGHT, 0.0f);
+	
+	// îwåiÇÃê∂ê¨
+	CBG::Create(pos, size);
 
 	// ëSÇƒÇÃï«ÇÃê∂ê¨
 	CWall::AllCreate();

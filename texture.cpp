@@ -30,6 +30,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/result.png",			// リザルト
 	"data/TEXTURE/title.png",			// タイトル
 	"data/TEXTURE/effect.jpg",			// エフェクト
+	"data/TEXTURE/bg.png",				// 背景
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

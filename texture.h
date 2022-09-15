@@ -34,6 +34,7 @@ public:
 		LABEL_Result,			// リザルト
 		LABEL_Title,			// タイトル
 		LABEL_Effect,			// エフェクト
+		LABEL_BG,				// 背景
 		LABEL_MAX
 	};
 

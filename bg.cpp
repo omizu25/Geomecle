@@ -53,6 +53,9 @@ void CBG::Init()
 	// 初期化
 	CObject3D::Init();
 
+	// テクスチャの設定
+	CObject3D::SetTexture(CTexture::LABEL_BG);
+
 	// キープの設定
 	CObject::SetKeep(true);
 }
