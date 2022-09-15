@@ -22,11 +22,27 @@ namespace nl = nlohmann;
 
 static nl::json enemy;	// リストの生成
 
-
 //==================================================
 // 定義
 //==================================================
 const int CEnemyWave::SPAWN_INTERVAL = 60;
+
+//--------------------------------------------------
+// 生成
+//--------------------------------------------------
+CEnemyWave* CEnemyWave::Create(const char* pPath)
+{
+	CEnemyWave* pWave = nullptr;
+
+	pWave = new CEnemyWave;
+
+	if (pWave != nullptr)
+	{// nullチェック
+		pWave->Load(pPath);
+	}
+
+	return pWave;
+}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
@@ -51,9 +67,9 @@ CEnemyWave::~CEnemyWave()
 //--------------------------------------------------
 // 読み込み
 //--------------------------------------------------
-void CEnemyWave::Load()
+void CEnemyWave::Load(const char* pPath)
 {
-	std::ifstream ifs("data/TEXT/EnemySpawn.json");
+	std::ifstream ifs(pPath);
 
 	if (!ifs)
 	{// テキストが開けない
@@ -93,20 +109,11 @@ void CEnemyWave::Load()
 //--------------------------------------------------
 // スポーン
 //--------------------------------------------------
-void CEnemyWave::Spawn()
+bool CEnemyWave::Spawn()
 {
 	if (m_max == m_spawn)
 	{// 全部スポーンした
-		
-		if (CObject3D::Exist(CObject3D::TYPE_ENEMY))
-		{// 敵がいる
-			return;
-		}
-
-		// モードの変更
-		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
-
-		return;
+		return true;
 	}
 
 	m_time++;
@@ -115,7 +122,7 @@ void CEnemyWave::Spawn()
 	{// 敵がいる
 		if ((m_time % SPAWN_INTERVAL) != 0)
 		{// インターバル中
-			return;
+			return false;
 		}
 	}
 	else
@@ -137,6 +144,8 @@ void CEnemyWave::Spawn()
 	}
 
 	m_timing++;
+
+	return false;
 }
 
 //--------------------------------------------------
@@ -149,4 +158,14 @@ void CEnemyWave::Release()
 		delete[] m_pLoad;
 		m_pLoad = nullptr;
 	}
+}
+
+//--------------------------------------------------
+// リセット
+//--------------------------------------------------
+void CEnemyWave::Reset()
+{
+	m_time = 0;
+	m_timing = 0;
+	m_spawn = 0;
 }

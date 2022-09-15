@@ -12,7 +12,18 @@
 #include "enemy_wave.h"
 #include "application.h"
 #include "mode.h"
+#include "utility.h"
 #include <assert.h>
+
+//==================================================
+// 定義
+//==================================================
+const char* CEnemyManager::FILE_NAME[] =
+{// テクスチャのパス
+	"data/TEXT/EnemySpawn000.json",
+	"data/TEXT/EnemySpawn001.json",
+	"data/TEXT/EnemySpawn002.json",
+};
 
 //==================================================
 // 静的メンバ変数
@@ -36,8 +47,14 @@ CEnemyManager* CEnemyManager::GetInstanse()
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEnemyManager::CEnemyManager() :
-	m_pWave(nullptr)
+	m_nowWave(0)
 {
+	static_assert(sizeof(FILE_NAME) / sizeof(FILE_NAME[0]) == MAX_WAVE, "aho");
+
+	for (int i = 0; i < MAX_WAVE; i++)
+	{
+		m_pWave[i] = nullptr;
+	}
 }
 
 //--------------------------------------------------
@@ -45,7 +62,10 @@ CEnemyManager::CEnemyManager() :
 //--------------------------------------------------
 CEnemyManager::~CEnemyManager()
 {
-	assert(m_pWave == nullptr);
+	for (int i = 0; i < MAX_WAVE; i++)
+	{
+		assert(m_pWave[i] == nullptr);
+	}
 }
 
 //--------------------------------------------------
@@ -53,12 +73,12 @@ CEnemyManager::~CEnemyManager()
 //--------------------------------------------------
 void CEnemyManager::Init()
 {
-	m_pWave = new CEnemyWave;
-
-	if (m_pWave != nullptr)
-	{// nullチェック
-		m_pWave->Load();
+	for (int i = 0; i < MAX_WAVE; i++)
+	{
+		m_pWave[i] = CEnemyWave::Create(FILE_NAME[i]);
 	}
+
+	m_nowWave = IntRandom(MAX_WAVE, 0);
 }
 
 //--------------------------------------------------
@@ -66,10 +86,12 @@ void CEnemyManager::Init()
 //--------------------------------------------------
 void CEnemyManager::Uninit()
 {
-	if (m_pWave != nullptr)
-	{// nullチェック
-		m_pWave->Release();
-
+	for (int i = 0; i < MAX_WAVE; i++)
+	{
+		if (m_pWave[i] != nullptr)
+		{// nullチェック
+			m_pWave[i]->Release();
+		}
 	}
 }
 
@@ -78,5 +100,35 @@ void CEnemyManager::Uninit()
 //--------------------------------------------------
 void CEnemyManager::Update()
 {
-	
+	if (m_pWave[m_nowWave] == nullptr)
+	{// nullチェック
+		assert(false);
+	}
+
+	if (!m_pWave[m_nowWave]->Spawn())
+	{// 全てのスポーンをした
+		return;
+	}
+
+	while (true)
+	{
+		int random = IntRandom(MAX_WAVE, 0);
+		
+		assert(random >= 0 && random < MAX_WAVE);
+
+		if (m_nowWave != random)
+		{// 値が違う
+			m_nowWave = random;
+
+			if (m_pWave[m_nowWave] == nullptr)
+			{// nullチェック
+				assert(false);
+			}
+			
+			// リセット
+			m_pWave[m_nowWave]->Reset();
+
+			break;
+		}
+	}
 }

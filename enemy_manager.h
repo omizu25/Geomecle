@@ -22,6 +22,11 @@ class CEnemyWave;
 //==================================================
 class CEnemyManager
 {
+	/* 定義 */
+private:
+	static const int MAX_WAVE = 3;	// ウェーブの最大数
+	static const char* FILE_NAME[];	// ファイルパス
+
 	/* ↓静的メンバ関数↓ */
 public:
 	static CEnemyManager* GetInstanse();	// インスタンスの取得
@@ -44,7 +49,8 @@ public:
 
 	/* ↓メンバ変数↓ */
 private:
-	CEnemyWave* m_pWave;	// ウェーブ情報
+	CEnemyWave* m_pWave[MAX_WAVE];	// ウェーブ情報
+	int m_nowWave;					// 現在のウェーブ
 };
 
 #endif // !_APPLICATION_H_

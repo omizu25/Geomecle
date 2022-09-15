@@ -29,15 +29,20 @@ private:
 		CEnemy::EType type;
 	};
 
+	/* ↓静的メンバ関数↓ */
+public:
+	static CEnemyWave* Create(const char* pPath);	// 生成
+	
 	/* ↓メンバ関数↓ */
 public:
 	CEnemyWave();	// デフォルトコンストラクタ
 	~CEnemyWave();	// デストラクタ
 
 public:
-	void Load();	// 読み込み
-	void Spawn();	// スポーン
+	void Load(const char* pPath);	// 読み込み
+	bool Spawn();	// スポーン
 	void Release();	// 解放
+	void Reset();	// リセット
 
 	/* ↓メンバ変数↓ */
 private:
