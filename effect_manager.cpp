@@ -62,7 +62,9 @@ void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)
 {
 	D3DXCOLOR randomCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float rot = 0.0f;
+	float random = 0.0f;
 
 	for (int i = 0; i < MAX_PARTICLE; i++)
 	{
@@ -71,7 +73,9 @@ void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)
 		// Šp“x‚Ì³‹K‰»
 		NormalizeAngle(&rot);
 
-		float random = FloatRandom(PARTICLE_MOVE, PARTICLE_MOVE * 0.1f);
+		randomPos = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(100.0f, 50.0f);
+
+		random = FloatRandom(PARTICLE_MOVE, PARTICLE_MOVE * 0.1f);
 
 		move.x = sinf(rot) * random;
 		move.y = cosf(rot) * random;
@@ -81,7 +85,7 @@ void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)
 		randomCol.b = col.b + FloatRandom(0.25f, -0.25f);
 
 		// ¶¬
-		CEffect::Create(pos, move, randomCol);
+		CEffect::Create(pos + randomPos, move, randomCol);
 	}
 }
 
@@ -96,6 +100,7 @@ void CEffectManager::Explosion(const D3DXVECTOR3& pos)
 
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float rot = 0.0f;
 
 	for (int i = 0; i < MAX_EXPLOSION; i++)
@@ -104,6 +109,8 @@ void CEffectManager::Explosion(const D3DXVECTOR3& pos)
 
 		// Šp“x‚Ì³‹K‰»
 		NormalizeAngle(&rot);
+
+		randomPos = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(100.0f, 50.0f);
 
 		float random = FloatRandom(EXPLOSION_MOVE, EXPLOSION_MOVE * 0.1f);
 
@@ -115,7 +122,7 @@ void CEffectManager::Explosion(const D3DXVECTOR3& pos)
 		col.b = blue + FloatRandom(0.25f, -0.25f);
 
 		// ¶¬
-		CEffect::Create(pos, move, col);
+		CEffect::Create(pos + randomPos, move, col);
 	}
 }
 
@@ -126,6 +133,7 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 {
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 0.2f, 0.1f, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float rot = 0.0f;
 
 	for (int i = 0; i < MAX_BULLET; i++)
@@ -135,6 +143,8 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 		// Šp“x‚Ì³‹K‰»
 		NormalizeAngle(&rot);
 
+		randomPos = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(100.0f, 50.0f);
+
 		float random = FloatRandom(BULLET_MOVE, BULLET_MOVE * 0.1f);
 
 		move.x = sinf(rot) * random;
@@ -143,6 +153,6 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 		col.r = 0.5f + FloatRandom(0.1f, -0.1f);
 
 		// ¶¬
-		CEffect::Create(pos, move, randomCol);
+		CEffect::Create(pos + randomPos, move, col);
 	}
 }

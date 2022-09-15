@@ -44,6 +44,7 @@ private:
 	IDirect3DVertexBuffer9* m_pVtxBuff;		// 頂点バッファ
 	IDirect3DVertexBuffer9* m_pPosBuff;		// 位置のバッファ
 	IDirect3DVertexBuffer9* m_pColBuff;		// 色のバッファ
+	IDirect3DVertexBuffer9* m_pSizeBuff;	// サイズのバッファ
 	IDirect3DVertexDeclaration9* m_pDecl;	// 要素の宣言
 	IDirect3DIndexBuffer9* m_pIndexBuff;	// インデックスバッファ
 	ID3DXEffect* m_pShader;					// シェーダー

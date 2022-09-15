@@ -41,6 +41,7 @@ CInstancing::CInstancing() :
 	m_pVtxBuff(nullptr),
 	m_pPosBuff(nullptr),
 	m_pColBuff(nullptr),
+	m_pSizeBuff(nullptr),
 	m_pDecl(nullptr),
 	m_pIndexBuff(nullptr),
 	m_pShader(nullptr)
@@ -55,6 +56,7 @@ CInstancing::~CInstancing()
 	assert(m_pVtxBuff == nullptr);
 	assert(m_pPosBuff == nullptr);
 	assert(m_pColBuff == nullptr);
+	assert(m_pSizeBuff == nullptr);
 	assert(m_pDecl == nullptr);
 	assert(m_pIndexBuff == nullptr);
 	assert(m_pShader == nullptr);
@@ -71,10 +73,10 @@ void CInstancing::Init()
 	{// 頂点バッファ
 		Vtx vtx[4] =
 		{// 頂点バッファ
-			{ -CEffect::STD_WIDTH, +CEffect::STD_HEIGHT, 0.0f, 0.0f },
-			{ +CEffect::STD_WIDTH, +CEffect::STD_HEIGHT, 1.0f, 0.0f },
-			{ -CEffect::STD_WIDTH, -CEffect::STD_HEIGHT, 0.0f, 1.0f },
-			{ +CEffect::STD_WIDTH, -CEffect::STD_HEIGHT, 1.0f, 1.0f }
+			{ -1.0f, +1.0f, 0.0f, 0.0f },
+			{ +1.0f, +1.0f, 1.0f, 0.0f },
+			{ -1.0f, -1.0f, 0.0f, 1.0f },
+			{ +1.0f, -1.0f, 1.0f, 1.0f }
 		};
 
 		// 頂点バッファ作成
@@ -99,8 +101,9 @@ void CInstancing::Init()
 		D3DVERTEXELEMENT9 declElems[] = {
 			{ 0, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },	// LocalPos
 			{ 0, 8, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0 },	// UV
-			{ 1, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },	// WorldPos
+			{ 1, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0 },	// WorldPos と rot
 			{ 2, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0 },		// Color
+			{ 3, 0, D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1 },	// size
 			D3DDECL_END()
 		};
 
@@ -123,6 +126,7 @@ void CInstancing::Init()
 	int numAll = CObject::GetMax(CObject::CATEGORY_EFFECT);
 	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR3) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pPosBuff, 0);
 	pDevice->CreateVertexBuffer(sizeof(D3DXCOLOR) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pColBuff, 0);
+	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR2) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pSizeBuff, 0);
 }
 
 //--------------------------------------------------
@@ -146,6 +150,12 @@ void CInstancing::Uninit()
 	{// nullチェック
 		m_pColBuff->Release();
 		m_pColBuff = nullptr;
+	}
+
+	if (m_pSizeBuff != nullptr)
+	{// nullチェック
+		m_pSizeBuff->Release();
+		m_pSizeBuff = nullptr;
 	}
 
 	if (m_pDecl != nullptr)
@@ -190,9 +200,10 @@ void CInstancing::Draw()
 	{// エフェクトの情報取得
 		D3DXVECTOR3* worldPos = new D3DXVECTOR3[numAll];	// ワールド座標位置バッファ
 		D3DXCOLOR* col = new D3DXCOLOR[numAll];
+		D3DXVECTOR2* size = new D3DXVECTOR2[numAll];
 
 		CEffect** pObject = (CEffect**)CObject::GetMyObject(CObject::CATEGORY_EFFECT);
-		D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 objPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		
 		int num = 0;
@@ -203,14 +214,15 @@ void CInstancing::Draw()
 			{// nullチェック
 				continue;
 			}
-			pos = pObject[i]->GetPos();
+			objPos = pObject[i]->GetPos();
 			move = pObject[i]->GetMove();
 			
-			worldPos[num].x = pos.x;
-			worldPos[num].y = pos.y;
+			worldPos[num].x = objPos.x;
+			worldPos[num].y = objPos.y;
 			worldPos[num].z = atan2f(move.x, move.y);
 
 			col[num] = pObject[i]->GetCol();
+			size[num] = pObject[i]->GetSize();
 
 			num++;
 		}
@@ -219,24 +231,26 @@ void CInstancing::Draw()
 
 		// バッファのコピー
 		CopyBuf(m_pPosBuff, worldPos, sizeof(D3DXVECTOR3) * numAll);
-
-		// バッファのコピー
 		CopyBuf(m_pColBuff, col, sizeof(D3DXCOLOR) * numAll);
+		CopyBuf(m_pSizeBuff, size, sizeof(D3DXVECTOR2) * numAll);
 
 		delete[] worldPos;
 		delete[] col;
+		delete[] size;
 	}
 
 	// インスタンス宣言
 	pDevice->SetStreamSourceFreq(0, D3DSTREAMSOURCE_INDEXEDDATA | numAll);
 	pDevice->SetStreamSourceFreq(1, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
 	pDevice->SetStreamSourceFreq(2, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
+	pDevice->SetStreamSourceFreq(3, D3DSTREAMSOURCE_INSTANCEDATA | (unsigned)1);
 
 	// 頂点とインデックスを設定して描画
 	pDevice->SetVertexDeclaration(m_pDecl);
 	pDevice->SetStreamSource(0, m_pVtxBuff, 0, sizeof(Vtx));
 	pDevice->SetStreamSource(1, m_pPosBuff, 0, sizeof(D3DXVECTOR3));
 	pDevice->SetStreamSource(2, m_pColBuff, 0, sizeof(D3DXCOLOR));
+	pDevice->SetStreamSource(3, m_pSizeBuff, 0, sizeof(D3DXVECTOR2));
 	pDevice->SetIndices(m_pIndexBuff);
 
 	m_pShader->SetTechnique("tech");
@@ -261,6 +275,7 @@ void CInstancing::Draw()
 	pDevice->SetStreamSourceFreq(0, 1);
 	pDevice->SetStreamSourceFreq(1, 1);
 	pDevice->SetStreamSourceFreq(2, 1);
+	pDevice->SetStreamSourceFreq(3, 1);
 
 	// レンダーステートを元に戻す
 	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);

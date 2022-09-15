@@ -18,6 +18,8 @@
 #include "time.h"
 #include "score.h"
 #include "mul.h"
+#include "effect_manager.h"
+#include "input.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -98,6 +100,27 @@ void CGame::Update()
 
 	// 弾の発射
 	CBullet::Shot();
+
+#ifdef _DEBUG
+
+	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
+	{// 決定キーが押された
+		CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+
+		if (pPlayer != nullptr)
+		{// nullチェック
+			// 爆発
+			CEffectManager::GetInstanse()->Explosion(pPlayer->GetPos());
+		}
+	}
+
+	if (CInput::GetKey()->TriggerSpecific(DIK_F2))
+	{// キーが押された
+		// モードの変更
+		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+	}
+
+#endif // _DEBUG
 
 	// タイムの減算
 	m_pTime->Update();

@@ -49,12 +49,14 @@ public:
 public:
 	const D3DXVECTOR3& GetPos() const;	// 位置の取得
 	const D3DXCOLOR& GetCol() const;	// 色の取得
-	const D3DXVECTOR3& GetMove() const;	// 移動量
+	const D3DXVECTOR3& GetMove() const;	// 移動量の取得
+	const D3DXVECTOR2& GetSize() const;	// サイズの取得
 
 	/* ↓メンバ変数↓ */
 private:
 	D3DXVECTOR3 m_pos;	// 位置
 	D3DXVECTOR3 m_move;	// 移動量
+	D3DXVECTOR2 m_size;	// サイズ
 	D3DXCOLOR m_col;	// 色
 	int m_life;			// 寿命
 };

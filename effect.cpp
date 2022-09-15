@@ -19,7 +19,7 @@
 //==================================================
 const int CEffect::MAX_LIFE = 100;
 const float CEffect::STD_WIDTH = 12.0f;
-const float CEffect::STD_HEIGHT = 30.0f;
+const float CEffect::STD_HEIGHT = 100.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -65,6 +65,7 @@ int CEffect::GetNumAll()
 CEffect::CEffect() : CObject(CObject::CATEGORY_EFFECT),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_size(D3DXVECTOR2(0.0f, 0.0f)),
 	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
 	m_life(0)
 {
@@ -86,6 +87,7 @@ void CEffect::Init()
 {
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_size = D3DXVECTOR2(STD_WIDTH, STD_HEIGHT);
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_life = MAX_LIFE;
 
@@ -124,9 +126,22 @@ void CEffect::Update()
 	float height = (CWall::STD_HEIGHT * 0.5f) - ((STD_HEIGHT * 0.5f) + size);
 
 	// 範囲内で反射
-	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));	
+	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
 	
-	{
+	float len = STD_HEIGHT * D3DXVec3Length(&m_move);
+
+	if (len >= STD_HEIGHT)
+	{// 指定の値よりも大きい
+		len = STD_HEIGHT;
+	}
+	else if (len <= STD_WIDTH)
+	{// 指定の値よりも小さい
+		len = STD_WIDTH;
+	}
+
+	m_size.y = len;
+
+	{// 色の減算
 		float ratio = ((float)(MAX_LIFE - m_life) / MAX_LIFE);
 		m_col.a = 1.0f - (ratio * ratio);
 	}
@@ -162,4 +177,12 @@ const D3DXCOLOR& CEffect::GetCol() const
 const D3DXVECTOR3& CEffect::GetMove() const
 {
 	return m_move;
+}
+
+//--------------------------------------------------
+// サイズの取得
+//--------------------------------------------------
+const D3DXVECTOR2& CEffect::GetSize() const
+{
+	return m_size;
 }

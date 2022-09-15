@@ -36,6 +36,7 @@ public:
 	static CInput *GetKey() { return m_Input; }
 	bool Press(STAN_DART_INPUT_KEY key);
 	bool Trigger(STAN_DART_INPUT_KEY key);
+	bool TriggerSpecific(int nKey);
 	bool Shot(D3DXVECTOR3* pRot);
 
 private:
