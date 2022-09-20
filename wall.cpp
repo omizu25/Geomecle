@@ -15,8 +15,8 @@
 // インクルード
 //==================================================
 const float CWall::STD_SIZE = 10.0f;
-const float CWall::STD_WIDTH = 1200.0f;
-const float CWall::STD_HEIGHT = 800.0f;
+const float CWall::STD_WIDTH = 1300.0f;
+const float CWall::STD_HEIGHT = 900.0f;
 
 //--------------------------------------------------
 // 全ての生成

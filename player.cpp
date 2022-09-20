@@ -21,8 +21,8 @@
 //==================================================
 // ’è‹`
 //==================================================
-const float CPlayer::STD_SIZE = 30.0f;
-const float CPlayer::STD_MOVE = 5.0f;
+const float CPlayer::STD_SIZE = 35.0f;
+const float CPlayer::STD_MOVE = 6.0f;
 const float CPlayer::STD_ROT = 0.1f;
 
 //--------------------------------------------------
@@ -101,7 +101,7 @@ void CPlayer::Update()
 	Rot();
 
 	// “–‚½‚è”»’è
-//	Collision();
+	Collision();
 	
 	// XV
 	CObject3D::Update();
@@ -218,6 +218,11 @@ void CPlayer::Collision()
 			continue;
 		}
 
+		if (!pObject[i]->GetCollision())
+		{// “–‚½‚è”»’è‚ð‚µ‚È‚¢
+			continue;
+		}
+
 		CObject3D::EType type = pObject[i]->GetType();
 
 		if (type != CObject3D::TYPE_ENEMY && type != CObject3D::TYPE_BODY)
@@ -247,7 +252,7 @@ void CPlayer::Collision()
 			break;
 		}
 
-		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.5f, pos, size * 0.5f))
+		if (CollisionCircle(CObject3D::GetPos(), 0.0f, pos, size * 0.5f))
 		{// “–‚½‚è”»’è
 			// ‰ð•ú
 			CObject::Release();

@@ -21,7 +21,8 @@
 // 定義
 //==================================================
 const int CEnemy::STD_SCORE = 100;
-const float CEnemy::STD_SIZE = 30.0f;
+const int CEnemy::CREATE_TIME = 60;
+const float CEnemy::STD_SIZE = 35.0f;
 
 //--------------------------------------------------
 // 生成
@@ -75,7 +76,8 @@ CEnemy* CEnemy::Create(CEnemy::EType type, const D3DXVECTOR3& pos)
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CEnemy::CEnemy()
+CEnemy::CEnemy() :
+	m_time(0)
 {
 }
 
@@ -115,6 +117,8 @@ void CEnemy::Uninit()
 //--------------------------------------------------
 void CEnemy::Update()
 {
+	m_time++;
+
 	// 更新
 	CObject3D::Update();
 }
@@ -126,4 +130,12 @@ void CEnemy::Draw()
 {
 	// 描画
 	CObject3D::Draw();
+}
+
+//--------------------------------------------------
+// タイムの取得
+//--------------------------------------------------
+int CEnemy::GetTime()
+{
+	return m_time;
 }

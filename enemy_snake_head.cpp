@@ -21,7 +21,7 @@
 //==================================================
 const int CEnemySnakeHead::MAX_BODY = 25;
 const int CEnemySnakeHead::IDX_PARENT = 0;
-const float CEnemySnakeHead::STD_SIZE = 25.0f;
+const float CEnemySnakeHead::STD_SIZE = 35.0f;
 const float CEnemySnakeHead::STD_MOVE = 3.0f;
 const float CEnemySnakeHead::AMPLITUDE_WIDTH = 3.0f;
 const float CEnemySnakeHead::AMPLITUDE_SPEED = 2.0f;
@@ -86,6 +86,77 @@ void CEnemySnakeHead::Uninit()
 //--------------------------------------------------
 void CEnemySnakeHead::Update()
 {
+	{
+		int time = CEnemy::GetTime();
+
+		if (time <= CEnemy::CREATE_TIME)
+		{// 生成時間中
+
+			// 色の取得
+			D3DXCOLOR col = CObject3D::GetCol();
+
+			col.a = SinCurve(time, 0.1f);
+
+			// 色の設定
+			CObject3D::SetCol(col);
+
+			// 当たり判定の設定
+			CObject3D::SetCollision(false);
+
+			for (int i = 0; i < MAX_BODY; i++)
+			{
+				if (m_pBody[i] == nullptr)
+				{// nullチェック
+					continue;
+				}
+
+				// 色の取得
+				D3DXCOLOR colBody = m_pBody[i]->GetCol();
+
+				colBody.a = 0.0f;
+
+				// 色の設定
+				m_pBody[i]->SetCol(colBody);
+
+				// 当たり判定の設定
+				m_pBody[i]->SetCollision(false);
+			}
+
+			// 更新
+			CEnemy::Update();
+			return;
+		}
+
+		// 当たり判定の設定
+		CObject3D::SetCollision(true);
+
+		D3DXCOLOR col = CObject3D::GetCol();
+
+		col.a = 1.0f;
+
+		// 色の設定
+		CObject3D::SetCol(col);
+
+		for (int i = 0; i < MAX_BODY; i++)
+		{
+			if (m_pBody[i] == nullptr)
+			{// nullチェック
+				continue;
+			}
+
+			// 色の取得
+			D3DXCOLOR colBody = m_pBody[i]->GetCol();
+
+			colBody.a = 1.0f;
+
+			// 色の設定
+			m_pBody[i]->SetCol(colBody);
+
+			// 当たり判定の設定
+			m_pBody[i]->SetCollision(true);
+		}
+	}
+
 	m_time++;
 
 	// 移動量の設定
@@ -230,4 +301,12 @@ void CEnemySnakeHead::SetMove()
 
 	m_move.x = (sinf(fRotMove) * STD_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
 	m_move.y = (cosf(fRotMove) * STD_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
+
+	float rot = atan2f(m_move.x, m_move.y);
+
+	// 角度の正規化
+	NormalizeAngle(&rot);
+
+	// 向きの設定
+	CObject3D::SetRot(rot);
 }

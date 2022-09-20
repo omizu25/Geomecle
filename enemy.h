@@ -32,7 +32,8 @@ public:
 		TYPE_MAX
 	};
 
-	static const int STD_SCORE;	// スコアの標準値
+	static const int STD_SCORE;		// スコアの標準値
+	static const int CREATE_TIME;	// 生成時間
 	
 private:
 	static const float STD_SIZE;	// サイズの標準値
@@ -52,8 +53,15 @@ public:
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
 
+public:
+	int GetTime();	// タイムの取得
+
 private:
 	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定
+
+	/* ↓メンバ変数↓ */
+private:
+	int m_time;	// タイム
 };
 
 #endif // !_ENEMT_H_

@@ -56,6 +56,9 @@ void CBG::Init()
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_BG);
 
+	// 色の設定
+	CObject3D::SetCol(D3DXCOLOR(0.5f, 0.25f, 1.0f, 0.8f));
+
 	// キープの設定
 	CObject::SetKeep(true);
 }

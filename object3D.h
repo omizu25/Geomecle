@@ -75,6 +75,8 @@ public:
 	const D3DXCOLOR& GetCol() const;	// 色の取得
 	void SetType(EType type);		// 種類の設定
 	const EType GetType() const;	// 種類の取得
+	void SetCollision(bool collision);	// 当たり判定をするかどうかの設定
+	const bool GetCollision() const;	// 当たり判定をするかどうかの取得
 
 	/* ↓メンバ変数↓ */
 private:
@@ -86,6 +88,7 @@ private:
 	D3DXCOLOR m_col;	// 色
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	D3DXMATRIX m_mtxWorld;				// ワールドマトリックス
+	bool m_collision;	// 当たり判定をするかどうか
 };
 
 #endif // !_OBJECT3D_H_

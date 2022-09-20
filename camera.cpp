@@ -98,9 +98,8 @@ void CCamera::Update()
 	float width = (CWall::STD_WIDTH * 0.5f) - size;
 	float height = (CWall::STD_HEIGHT * 0.5f) - size;
 
-
 	// ”ÍˆÍ“à
-	InRange(&m_pos, D3DXVECTOR3(width * 0.3f, height * 0.2f, 0.0f));
+	InRange(&m_pos, D3DXVECTOR3(width * 0.3f, height * 0.3f, 0.0f));
 }
 
 //--------------------------------------------------

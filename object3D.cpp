@@ -69,7 +69,8 @@ CObject3D::CObject3D(CObject::ECategory cat) : CObject(cat),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
-	m_pVtxBuff(nullptr)
+	m_pVtxBuff(nullptr),
+	m_collision(false)
 {
 	memset(m_mtxWorld, 0, sizeof(m_mtxWorld));
 }
@@ -92,6 +93,7 @@ void CObject3D::Init()
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_texture = CTexture::LABEL_NONE;
+	m_collision = true;
 
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -335,4 +337,20 @@ void CObject3D::SetType(EType type)
 const CObject3D::EType CObject3D::GetType() const
 {
 	return m_type;
+}
+
+//--------------------------------------------------
+// 当たり判定をするかどうかの設定
+//--------------------------------------------------
+void CObject3D::SetCollision(bool collision)
+{
+	m_collision = collision;
+}
+
+//--------------------------------------------------
+// 当たり判定をするかどうかの取得
+//--------------------------------------------------
+const bool CObject3D::GetCollision() const
+{
+	return m_collision;
 }

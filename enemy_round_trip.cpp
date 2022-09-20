@@ -58,6 +58,39 @@ void CEnemyRoundTrip::Uninit()
 //--------------------------------------------------
 void CEnemyRoundTrip::Update()
 {
+	{
+		int time = CEnemy::GetTime();
+
+		if (time <= CEnemy::CREATE_TIME)
+		{// 生成時間中
+
+		 // 色の取得
+			D3DXCOLOR col = CObject3D::GetCol();
+
+			col.a = SinCurve(time, 0.1f);
+
+			// 色の設定
+			CObject3D::SetCol(col);
+
+			// 当たり判定の設定
+			CObject3D::SetCollision(false);
+
+			// 更新
+			CEnemy::Update();
+			return;
+		}
+
+		// 当たり判定の設定
+		CObject3D::SetCollision(true);
+
+		D3DXCOLOR col = CObject3D::GetCol();
+
+		col.a = 1.0f;
+
+		// 色の設定
+		CObject3D::SetCol(col);
+	}
+
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	pos += m_move;

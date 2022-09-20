@@ -16,7 +16,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyRolling::STD_SIZE = 17.5f;
+const float CEnemyRolling::STD_SIZE = 20.0f;
 const float CEnemyRolling::STD_MOVE = 4.0f;
 const float CEnemyRolling::ROT_CHANGE = 0.2f;
 
@@ -93,6 +93,37 @@ void CEnemyRolling::Uninit()
 //--------------------------------------------------
 void CEnemyRolling::Update()
 {
+	{
+		int time = CEnemy::GetTime();
+
+		if (time <= CEnemy::CREATE_TIME)
+		{// 生成時間中
+
+			// 色の取得
+			D3DXCOLOR col = CObject3D::GetCol();
+
+			col.a = SinCurve(time, 0.1f);
+
+			// 色の設定
+			CObject3D::SetCol(col);
+
+			// 当たり判定の設定
+			CObject3D::SetCollision(false);
+		}
+		else
+		{
+			// 当たり判定の設定
+			CObject3D::SetCollision(true);
+
+			D3DXCOLOR col = CObject3D::GetCol();
+
+			col.a = 1.0f;
+
+			// 色の設定
+			CObject3D::SetCol(col);
+		}
+	}
+
 	m_time++;
 
 	D3DXVECTOR3 pos = CObject3D::GetPos();

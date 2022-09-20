@@ -17,7 +17,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyHoming::STD_MOVE = 3.0f;
+const float CEnemyHoming::STD_MOVE = 2.0f;
 const float CEnemyHoming::SIZE_CHANGE = 10.0f;
 
 //--------------------------------------------------
@@ -61,6 +61,39 @@ void CEnemyHoming::Uninit()
 //--------------------------------------------------
 void CEnemyHoming::Update()
 {
+	{
+		int time = CEnemy::GetTime();
+
+		if (time <= CEnemy::CREATE_TIME)
+		{// 生成時間中
+
+		 // 色の取得
+			D3DXCOLOR col = CObject3D::GetCol();
+
+			col.a = SinCurve(time, 0.1f);
+
+			// 色の設定
+			CObject3D::SetCol(col);
+
+			// 当たり判定の設定
+			CObject3D::SetCollision(false);
+
+			// 更新
+			CEnemy::Update();
+			return;
+		}
+
+		// 当たり判定の設定
+		CObject3D::SetCollision(true);
+
+		D3DXCOLOR col = CObject3D::GetCol();
+
+		col.a = 1.0f;
+
+		// 色の設定
+		CObject3D::SetCol(col);
+	}
+
 	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
 
 	if (pPlayer == nullptr)

@@ -25,9 +25,9 @@
 //==================================================
 // ’è‹`
 //==================================================
-const int CBullet::SHOT_INTERVAL = 10;
+const int CBullet::SHOT_INTERVAL = 8;
 const float CBullet::STD_SIZE = 25.0f;
-const float CBullet::STD_MOVE = 10.0f;
+const float CBullet::STD_MOVE = 15.0f;
 const float CBullet::STD_INERTIA = 0.3f;
 
 //==================================================
