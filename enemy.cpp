@@ -15,6 +15,11 @@
 #include "enemy_snake_head.h"
 #include "enemy_division.h"
 #include "enemy_rolling.h"
+#include "effect_manager.h"
+#include "application.h"
+#include "game.h"
+#include "score.h"
+#include "exp.h"
 #include <assert.h>
 
 //==================================================
@@ -108,6 +113,17 @@ void CEnemy::Init()
 //--------------------------------------------------
 void CEnemy::Uninit()
 {
+	// 爆発
+	CEffectManager::GetInstanse()->Explosion(CObject3D::GetPos());
+
+	// 経験値の生成
+	CExp::CreateAll(CObject3D::GetPos());
+
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+	// スコアの加算
+	pGame->GetScore()->Add(CEnemy::STD_SCORE);
+
 	// 終了
 	CObject3D::Uninit();
 }

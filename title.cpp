@@ -73,8 +73,11 @@ void CTitle::Update()
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
-		Change(MODE_GAME);
-		return;
+		if (m_time >= 20)
+		{// フェード時間
+			Change(MODE_GAME);
+			return;
+		}
 	}
 
 	// カメラの更新

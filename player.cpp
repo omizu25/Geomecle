@@ -75,6 +75,11 @@ void CPlayer::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Player);
+
+	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// パーティクル
+	CEffectManager::GetInstanse()->Particle(CObject3D::GetPos(), col);
 }
 
 //--------------------------------------------------
@@ -82,8 +87,10 @@ void CPlayer::Init()
 //--------------------------------------------------
 void CPlayer::Uninit()
 {
-	// 爆発
-	CEffectManager::GetInstanse()->Explosion(CObject3D::GetPos());
+	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	// パーティクル
+	CEffectManager::GetInstanse()->Particle(CObject3D::GetPos(), col);
 
 	// 終了
 	CObject3D::Uninit();
@@ -101,7 +108,7 @@ void CPlayer::Update()
 	Rot();
 
 	// 当たり判定
-//	Collision();
+	Collision();
 	
 	// 更新
 	CObject3D::Update();
