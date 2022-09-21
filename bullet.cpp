@@ -238,11 +238,16 @@ void CBullet::Update()
 
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// 当たり判定
+				// 経験値の生成
+				CExp::CreateAll(targetPos);
+
+				CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+				// スコアの加算
+				pGame->GetScore()->Add(CEnemy::STD_SCORE);
+
 				// 敵の解放
 				pObject[i]->Release();
-
-				// 解放
-				CObject::Release();
 				return;
 			}
 		}
