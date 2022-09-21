@@ -22,6 +22,11 @@ class CNumberManager;
 //==================================================
 class CTime
 {
+	/* ↓定義↓ */
+public:
+	static const float STD_WIDTH;	// 幅の標準値
+	static const float STD_HEIGHT;	// 高さの標準値
+
 	/* ↓静的メンバ関数↓ */
 public:
 	static CTime* Create(const D3DXVECTOR3& pos, int start, int end);	// 生成

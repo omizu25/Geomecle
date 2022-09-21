@@ -17,6 +17,8 @@
 #include "effect_manager.h"
 #include "utility.h"
 #include "wall.h"
+#include "ranking.h"
+#include "score.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -41,10 +43,28 @@ void CResult::Init()
 {
 	m_time++;
 
-	CObject2D* pResult = CObject2D::Create();
-	pResult->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
-	pResult->SetSize(D3DXVECTOR3(1000.0f, 300.0f, 0.0f));
-	pResult->SetTexture(CTexture::LABEL_Result);
+	{// ランキング
+		float width = (float)CApplication::SCREEN_WIDTH * 0.95f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.3f;
+
+		// ランキングの生成
+		CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 15.0f);
+	}
+
+	{// 今回のスコア
+		D3DXVECTOR3 size = D3DXVECTOR3(CRanking::STD_WIDTH, CRanking::STD_HEIGHT, 0.0f);
+		int score = CRanking::Get(-1);
+
+		float center = (Digit(score) * size.x * 0.5f);
+		float width = (float)CApplication::SCREEN_WIDTH * 0.25f + center;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.5f;
+
+		// スコアの生成
+		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
+
+		// スコアの設定
+		pScore->Set(score);
+	}
 }
 
 //--------------------------------------------------

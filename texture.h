@@ -35,6 +35,7 @@ public:
 		LABEL_Title,			// タイトル
 		LABEL_Effect,			// エフェクト
 		LABEL_BG,				// 背景
+		LABEL_Mul,				// 掛ける
 		LABEL_MAX
 	};
 

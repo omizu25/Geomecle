@@ -16,12 +16,19 @@
 // 前方宣言
 //==================================================
 class CNumberManager;
+class CObject2D;
 
 //==================================================
 // 定義
 //==================================================
 class CMul
 {
+	/* ↓定義↓ */
+public:
+	static const float STD_WIDTH;	// 幅の標準値
+	static const float STD_HEIGHT;	// 高さの標準値
+	static const float MUL_SIZE;	// 掛けるのサイズ
+
 	/* ↓静的メンバ関数↓ */
 public:
 	static CMul* Create(const D3DXVECTOR3& pos);	// 生成
@@ -40,6 +47,8 @@ public:
 	/* ↓メンバ変数↓ */
 private:
 	CNumberManager* m_pNumber;	// 数字
+	CObject2D* m_pMul;			// 掛ける
+	D3DXVECTOR3 m_pos;			// 位置
 	int m_mul;					// 倍率
 };
 

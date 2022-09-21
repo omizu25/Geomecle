@@ -16,10 +16,16 @@
 #include "mul.h"
 #include <assert.h>
 
+//==================================================
+// ’è‹`
+//==================================================
+const float CScore::STD_WIDTH = 40.0f;
+const float CScore::STD_HEIGHT = 50.0f;
+
 //--------------------------------------------------
 // ¶¬
 //--------------------------------------------------
-CScore* CScore::Create(const D3DXVECTOR3& pos)
+CScore* CScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	CScore* pScore = nullptr;
 
@@ -28,7 +34,7 @@ CScore* CScore::Create(const D3DXVECTOR3& pos)
 	if (pScore != nullptr)
 	{// nullƒ`ƒFƒbƒN
 		// ‰Šú‰»
-		pScore->Init(pos);
+		pScore->Init(pos, size);
 	}
 
 	return pScore;
@@ -54,11 +60,9 @@ CScore::~CScore()
 //--------------------------------------------------
 // ‰Šú‰»
 //--------------------------------------------------
-void CScore::Init(const D3DXVECTOR3& pos)
+void CScore::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	m_score = 0;
-
-	D3DXVECTOR3 size = D3DXVECTOR3(CNumberManager::STD_WIDTH, CNumberManager::STD_HEIGHT, 0.0f);
 
 	// ”‚Ì¶¬
 	m_pNumber = CNumberManager::Create(pos, size, 0);
@@ -80,12 +84,32 @@ void CScore::Uninit()
 //--------------------------------------------------
 void CScore::Add(int score)
 {
-	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CMode* pMode = CApplication::GetInstanse()->GetMode();
 
-	// ”{—¦‚Ì‰ÁŽZ
-	int mul = pGame->GetMul()->Get();
+	if (CMode::MODE_GAME == pMode->Get())
+	{// ƒQ[ƒ€’†
+		CGame* pGame = (CGame*)pMode;
 
-	m_score += score + (score * mul);
+		// ”{—¦‚Ì‰ÁŽZ
+		int mul = pGame->GetMul()->Get();
+
+		m_score += score + (score * mul);
+
+		// ”‚Ì•ÏX
+		m_pNumber->ChangeNumber(m_score);
+	}
+	else
+	{
+		m_score += score;
+	}
+}
+
+//--------------------------------------------------
+// Ý’è
+//--------------------------------------------------
+void CScore::Set(int score)
+{
+	m_score = score;
 
 	// ”‚Ì•ÏX
 	m_pNumber->ChangeNumber(m_score);

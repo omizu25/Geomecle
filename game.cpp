@@ -20,6 +20,8 @@
 #include "mul.h"
 #include "effect_manager.h"
 #include "input.h"
+#include "ranking.h"
+#include "utility.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -58,17 +60,44 @@ void CGame::Init()
 	// 初期化
 	CEnemyManager::GetInstanse()->Init();
 
-	float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CNumberManager::STD_WIDTH * 2.0f);
-	float height = CNumberManager::STD_HEIGHT * 0.5f;
+	{// タイム
+		float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CTime::STD_WIDTH * 2.0f);
+		float height = CTime::STD_HEIGHT * 0.5f;
 
-	// タイムの生成
-	m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 4500);
+		// タイムの生成
+		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 4500);
+	}
 
-	// スコアの生成
-	m_pScore = CScore::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, height, 0.0f));
+	{// スコア
+		D3DXVECTOR3 size = D3DXVECTOR3(CScore::STD_WIDTH, CScore::STD_HEIGHT, 0.0f);
+		float width = (float)CApplication::SCREEN_WIDTH;
+		float height = CScore::STD_HEIGHT * 0.5f;
 
-	// 倍率の生成
-	m_pMul = CMul::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, CNumberManager::STD_HEIGHT + height, 0.0f));
+		// スコアの生成
+		m_pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
+	}
+	
+	{// 倍率
+		float width = (float)CApplication::SCREEN_WIDTH;
+		float height = (CMul::STD_HEIGHT * 0.5f) + CScore::STD_HEIGHT;
+
+		// 倍率の生成
+		m_pMul = CMul::Create(D3DXVECTOR3(width, height, 0.0f));
+	}
+	
+	{// 今回のスコア
+		D3DXVECTOR3 size = D3DXVECTOR3(CScore::STD_WIDTH, CScore::STD_HEIGHT, 0.0f);
+		int score = CRanking::Get(0);
+
+		float width = CScore::STD_WIDTH * Digit(score);
+		float height = CScore::STD_HEIGHT * 0.5f;
+
+		// スコアの生成
+		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
+
+		// スコアの設定
+		pScore->Set(score);
+	}
 }
 
 //--------------------------------------------------
@@ -76,6 +105,9 @@ void CGame::Init()
 //--------------------------------------------------
 void CGame::Uninit()
 {
+	// ランキングの設定
+	CRanking::Set(m_pScore->Get());
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
 

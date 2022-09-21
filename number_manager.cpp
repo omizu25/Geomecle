@@ -13,12 +13,6 @@
 #include "utility.h"
 #include <assert.h>
 
-//==================================================
-// ’è‹`
-//==================================================
-const float CNumberManager::STD_WIDTH = 40.0f;
-const float CNumberManager::STD_HEIGHT = 70.0f;
-
 //--------------------------------------------------
 // ¶¬
 //--------------------------------------------------
@@ -78,8 +72,7 @@ void CNumberManager::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 		addPos.x = halfWidth + (size.x * i);
 
 		// ¶¬
-		m_number[i] = CNumber::Create(pos - addPos);
-		m_number[i]->SetSize(D3DXVECTOR3(size.x, size.y, 0.0f));
+		m_number[i] = CNumber::Create(pos - addPos, size);
 	}
 }
 
@@ -120,6 +113,9 @@ void CNumberManager::Release()
 void CNumberManager::SetZero(bool zero)
 {
 	m_zero = zero;
+
+	// ƒ[ƒ‚Ì•`‰æ
+	ZeroDraw();
 }
 
 //--------------------------------------------------
@@ -128,6 +124,9 @@ void CNumberManager::SetZero(bool zero)
 void CNumberManager::SetZeroDigit(int digit)
 {
 	m_zeroDigit = digit;
+
+	// ƒ[ƒ‚Ì•`‰æ
+	ZeroDraw();
 }
 
 //--------------------------------------------------

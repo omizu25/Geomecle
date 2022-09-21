@@ -15,6 +15,12 @@
 #include "mode.h"
 #include <assert.h>
 
+//==================================================
+// íËã`
+//==================================================
+const float CTime::STD_WIDTH = 50.0f;
+const float CTime::STD_HEIGHT = 60.0f;
+
 //--------------------------------------------------
 // ê∂ê¨
 //--------------------------------------------------
@@ -63,7 +69,7 @@ void CTime::Init(const D3DXVECTOR3& pos)
 	m_elapsed = 0;
 	m_end = 0;
 
-	D3DXVECTOR3 size = D3DXVECTOR3(CNumberManager::STD_WIDTH, CNumberManager::STD_HEIGHT, 0.0f);
+	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
 
 	// êîÇÃê∂ê¨
 	m_pNumber = CNumberManager::Create(pos, size, 0);

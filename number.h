@@ -24,7 +24,7 @@ private:
 
 	/* «Ã“Iƒƒ“ƒoŠÖ”« */
 public:
-	static CNumber* Create(const D3DXVECTOR3& pos);	// ¶¬
+	static CNumber* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// ¶¬
 
 	/* «ƒƒ“ƒoŠÖ”« */
 public:

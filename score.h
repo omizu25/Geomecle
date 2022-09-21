@@ -22,9 +22,14 @@ class CNumberManager;
 //==================================================
 class CScore
 {
+	/* ↓定義↓ */
+public:
+	static const float STD_WIDTH;	// 幅の標準値
+	static const float STD_HEIGHT;	// 高さの標準値
+
 	/* ↓静的メンバ関数↓ */
 public:
-	static CScore* Create(const D3DXVECTOR3& pos);	// 生成
+	static CScore* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -32,10 +37,11 @@ public:
 	~CScore();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos);	// 初期化
-	void Uninit();						// 終了
-	void Add(int score);				// 加算
-	int Get();							// 取得
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 初期化
+	void Uninit();			// 終了
+	void Add(int score);	// 加算
+	void Set(int score);	// 設定
+	int Get();				// 取得
 
 	/* ↓メンバ変数↓ */
 private:

@@ -24,10 +24,6 @@ class CNumberManager
 {
 	/* ↓定義↓ */
 public:
-	static const float STD_WIDTH;	// 幅の標準値
-	static const float STD_HEIGHT;	// 高さの標準値
-
-private:
 	static const int MAX_DIGIT = 10;	// 桁の最大数
 
 	/* ↓静的メンバ関数↓ */

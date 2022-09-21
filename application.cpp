@@ -20,6 +20,7 @@
 #include "wall.h"
 #include "player.h"
 #include "bg.h"
+#include "ranking.h"
 #include <time.h>
 #include <assert.h>
 
@@ -147,6 +148,9 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 
 	// 全ての壁の生成
 	CWall::AllCreate();
+
+	// ランキングの読み込み
+	CRanking::Load();
 	
 	if (m_pMode == nullptr)
 	{// nullチェック
@@ -168,6 +172,9 @@ void CApplication::Uninit()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
+
+	// ランキングの保存
+	CRanking::Save();
 
 	// 破棄
 	CObject::Delete();

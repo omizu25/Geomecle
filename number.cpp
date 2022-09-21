@@ -20,7 +20,7 @@ const int CNumber::TEX_DIVISION = 10;
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CNumber* CNumber::Create(const D3DXVECTOR3& pos)
+CNumber* CNumber::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	CNumber* pNumber = nullptr;
 
@@ -30,6 +30,7 @@ CNumber* CNumber::Create(const D3DXVECTOR3& pos)
 	{// nullチェック
 		pNumber->Init();
 		pNumber->SetPos(pos);
+		pNumber->SetSize(size);
 	}
 
 	return pNumber;
