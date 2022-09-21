@@ -32,7 +32,7 @@ private:
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CNumberManager* Create(const D3DXVECTOR3& pos, int value);	// 生成
+	static CNumberManager* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int value);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
@@ -40,7 +40,7 @@ public:
 	~CNumberManager();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos);	// 初期化
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 初期化
 	void Uninit();	// 終了
 	void Release();	// 解放
 	void SetZero(bool zero);		// ゼロの設定

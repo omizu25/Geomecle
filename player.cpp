@@ -101,7 +101,7 @@ void CPlayer::Update()
 	Rot();
 
 	// “–‚½‚è”»’è
-	Collision();
+//	Collision();
 	
 	// XV
 	CObject3D::Update();
@@ -252,7 +252,7 @@ void CPlayer::Collision()
 			break;
 		}
 
-		if (CollisionCircle(CObject3D::GetPos(), 0.0f, pos, size * 0.5f))
+		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.25f, pos, size * 0.25f))
 		{// “–‚½‚è”»’è
 			// ‰ğ•ú
 			CObject::Release();

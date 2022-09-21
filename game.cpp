@@ -62,7 +62,7 @@ void CGame::Init()
 	float height = CNumberManager::STD_HEIGHT * 0.5f;
 
 	// タイムの生成
-	m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 3000);
+	m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 4500);
 
 	// スコアの生成
 	m_pScore = CScore::Create(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, height, 0.0f));

@@ -58,8 +58,10 @@ void CScore::Init(const D3DXVECTOR3& pos)
 {
 	m_score = 0;
 
+	D3DXVECTOR3 size = D3DXVECTOR3(CNumberManager::STD_WIDTH, CNumberManager::STD_HEIGHT, 0.0f);
+
 	// êîÇÃê∂ê¨
-	m_pNumber = CNumberManager::Create(pos, 0);
+	m_pNumber = CNumberManager::Create(pos, size, 0);
 }
 
 //--------------------------------------------------

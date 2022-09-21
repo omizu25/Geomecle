@@ -212,7 +212,7 @@ void CRenderer::DrawFPS()
 	wsprintf(&str[length], _T("FPS : %d\n"), GetFPS());
 	length = (int)strlen(str);
 
-	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CObject::GetNumAll());
+	wsprintf(&str[length], _T("オブジェクトの総数 : %d\n"), CObject::GetNumAll() - CEffect::GetNumAll());
 	length = (int)strlen(str);
 
 	wsprintf(&str[length], _T("エフェクトの総数 : %d\n"), CEffect::GetNumAll());

@@ -23,6 +23,8 @@ const char* CEnemyManager::FILE_NAME[] =
 	"data/TEXT/EnemySpawn000.json",
 	"data/TEXT/EnemySpawn001.json",
 	"data/TEXT/EnemySpawn002.json",
+	"data/TEXT/EnemySpawn003.json",
+	"data/TEXT/EnemySpawn004.json",
 };
 
 //==================================================
@@ -78,7 +80,7 @@ void CEnemyManager::Init()
 		m_pWave[i] = CEnemyWave::Create(FILE_NAME[i]);
 	}
 
-	m_nowWave = IntRandom(MAX_WAVE, 0);
+	m_nowWave = 0;
 }
 
 //--------------------------------------------------
@@ -110,25 +112,18 @@ void CEnemyManager::Update()
 		return;
 	}
 
-	while (true)
+	m_nowWave++;
+
+	if (m_nowWave >= MAX_WAVE)
 	{
-		int random = IntRandom(MAX_WAVE, 0);
-		
-		assert(random >= 0 && random < MAX_WAVE);
-
-		if (m_nowWave != random)
-		{// 値が違う
-			m_nowWave = random;
-
-			if (m_pWave[m_nowWave] == nullptr)
-			{// nullチェック
-				assert(false);
-			}
-			
-			// リセット
-			m_pWave[m_nowWave]->Reset();
-
-			break;
-		}
+		m_nowWave = 1;
 	}
+
+	if (m_pWave[m_nowWave] == nullptr)
+	{// nullチェック
+		assert(false);
+	}
+
+	// リセット
+	m_pWave[m_nowWave]->Reset();
 }

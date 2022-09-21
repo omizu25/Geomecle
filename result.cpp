@@ -96,7 +96,7 @@ void CResult::Effect()
 {
 	m_time++;
 
-	if ((m_time % 15) != 0)
+	if ((m_time % 12) != 0)
 	{// ˆê’èŠÔŠu‘Ò‚¿
 		return;
 	}

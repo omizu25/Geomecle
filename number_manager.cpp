@@ -16,13 +16,13 @@
 //==================================================
 // 定義
 //==================================================
-const float CNumberManager::STD_WIDTH = 25.0f;
-const float CNumberManager::STD_HEIGHT = 50.0f;
+const float CNumberManager::STD_WIDTH = 40.0f;
+const float CNumberManager::STD_HEIGHT = 70.0f;
 
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value)
+CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int value)
 {
 	CNumberManager* pNumberManager = nullptr;
 
@@ -31,7 +31,7 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, int value)
 	if (pNumberManager != nullptr)
 	{// nullチェック
 		// 初期化
-		pNumberManager->Init(pos);
+		pNumberManager->Init(pos, size);
 
 		// 数の変更
 		pNumberManager->ChangeNumber(value);
@@ -64,22 +64,22 @@ CNumberManager::~CNumberManager()
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CNumberManager::Init(const D3DXVECTOR3& pos)
+void CNumberManager::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	m_zero = false;
 	m_zeroDigit = MAX_DIGIT;
 
-	float halfWidth = STD_WIDTH * 0.5f;
+	float halfWidth = size.x * 0.5f;
 
 	D3DXVECTOR3 addPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
-		addPos.x = halfWidth + (STD_WIDTH * i);
+		addPos.x = halfWidth + (size.x * i);
 
 		// 生成
 		m_number[i] = CNumber::Create(pos - addPos);
-		m_number[i]->SetSize(D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f));
+		m_number[i]->SetSize(D3DXVECTOR3(size.x, size.y, 0.0f));
 	}
 }
 

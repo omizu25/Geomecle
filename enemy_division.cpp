@@ -19,7 +19,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyDivision::STD_MOVE = 4.0f;
+const float CEnemyDivision::STD_MOVE = 2.5f;
 const float CEnemyDivision::ROT_CHANGE = 0.2f;
 
 //--------------------------------------------------
@@ -114,7 +114,7 @@ void CEnemyDivision::Update()
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// ホーミング
-	Homing(&pos, pos, posDest, STD_MOVE);
+	Homing(&pos, pos, posDest, STD_MOVE + FloatRandom(STD_MOVE, 0.0f));
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

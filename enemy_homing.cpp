@@ -17,7 +17,7 @@
 //==================================================
 // 定義
 //==================================================
-const float CEnemyHoming::STD_MOVE = 2.0f;
+const float CEnemyHoming::STD_MOVE = 2.5f;
 const float CEnemyHoming::SIZE_CHANGE = 10.0f;
 
 //--------------------------------------------------
@@ -107,7 +107,7 @@ void CEnemyHoming::Update()
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// ホーミング
-	Homing(&pos, pos, posDest, STD_MOVE);
+	Homing(&pos, pos, posDest, STD_MOVE + FloatRandom(STD_MOVE, 0.0f));
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

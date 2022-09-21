@@ -21,7 +21,7 @@
 // ’è‹`
 //==================================================
 const int CEnemy::STD_SCORE = 100;
-const int CEnemy::CREATE_TIME = 60;
+const int CEnemy::CREATE_TIME = 30;
 const float CEnemy::STD_SIZE = 35.0f;
 
 //--------------------------------------------------

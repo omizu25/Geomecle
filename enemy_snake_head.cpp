@@ -22,7 +22,7 @@
 const int CEnemySnakeHead::MAX_BODY = 25;
 const int CEnemySnakeHead::IDX_PARENT = 0;
 const float CEnemySnakeHead::STD_SIZE = 35.0f;
-const float CEnemySnakeHead::STD_MOVE = 3.0f;
+const float CEnemySnakeHead::STD_MOVE = 1.5f;
 const float CEnemySnakeHead::AMPLITUDE_WIDTH = 3.0f;
 const float CEnemySnakeHead::AMPLITUDE_SPEED = 2.0f;
 
@@ -180,14 +180,6 @@ void CEnemySnakeHead::Update()
 	// 位置の設定
 	CObject3D::SetPos(pos);
 
-	float rot = atan2f(m_move.x, m_move.y);
-
-	// 角度の正規化
-	NormalizeAngle(&rot);
-
-	// 向きの設定
-	CObject3D::SetRot(rot);
-
 	if (m_pBody[IDX_PARENT] != nullptr)
 	{// nullチェック
 		// 目的の位置の設定
@@ -299,10 +291,14 @@ void CEnemySnakeHead::SetMove()
 
 	float sinCurve = sinf(D3DXToRadian(m_time * AMPLITUDE_SPEED)) * AMPLITUDE_WIDTH;
 
-	m_move.x = (sinf(fRotMove) * STD_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
-	m_move.y = (cosf(fRotMove) * STD_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
+	m_move.x = (sinf(fRotMove) * (STD_MOVE + FloatRandom(STD_MOVE, 0.0f))) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
+	m_move.y = (cosf(fRotMove) * (STD_MOVE + FloatRandom(STD_MOVE, 0.0f))) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
 
-	float rot = atan2f(m_move.x, m_move.y);
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	move.x = (sinf(fRotMove) * STD_MOVE) + (sinCurve * sinf(fRotMove + D3DX_PI * 0.5f));
+	move.y = (cosf(fRotMove) * STD_MOVE) + (sinCurve * cosf(fRotMove + D3DX_PI * 0.5f));
+
+	float rot = atan2f(move.x, move.y);
 
 	// 角度の正規化
 	NormalizeAngle(&rot);
