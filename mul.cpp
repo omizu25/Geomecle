@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "mul.h"
-#include "number_manager.h"
 #include "object2D.h"
 #include "utility.h"
 #include <assert.h>
@@ -66,7 +65,7 @@ void CMul::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 	m_pos = pos;
 
 	// 初期化
-	CNumberManager::Init(pos, size);
+	CScore::Init(pos, size);
 
 	// 掛けるの生成
 	m_pMul = CObject2D::Create();
@@ -89,7 +88,7 @@ void CMul::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 void CMul::Uninit()
 {
 	// 終了
-	CNumberManager::Uninit();
+	CScore::Uninit();
 }
 
 //--------------------------------------------------
@@ -100,7 +99,31 @@ void CMul::Add()
 	// 加算
 	CNumberManager::Add(1);
 
-	float PosX = m_pos.x - (Digit(CNumberManager::Get()) * STD_WIDTH) - (MUL_SIZE * 0.5f);
+	// カンマの描画
+	CScore::DrawComma();
+
+	int digit = Digit(CNumberManager::Get());
+	int comma = (Digit(CNumberManager::Get()) - 1) / 3;
+	float PosX = m_pos.x - (digit * STD_WIDTH) - (MUL_SIZE * 0.5f) - (comma * (STD_WIDTH * 0.5f));
+
+	// 位置の設定
+	m_pMul->SetPos(D3DXVECTOR3(PosX, m_pos.y, 0.0f));
+}
+
+//--------------------------------------------------
+// 設定
+//--------------------------------------------------
+void CMul::Set(int score)
+{
+	// 設定
+	CNumberManager::Set(score);
+
+	// カンマの描画
+	CScore::DrawComma();
+
+	int digit = Digit(CNumberManager::Get());
+	int comma = (Digit(CNumberManager::Get()) - 1) / 3;
+	float PosX = m_pos.x - (digit * STD_WIDTH) - (MUL_SIZE * 0.5f) - (comma * (STD_WIDTH * 0.5f));
 
 	// 位置の設定
 	m_pMul->SetPos(D3DXVECTOR3(PosX, m_pos.y, 0.0f));

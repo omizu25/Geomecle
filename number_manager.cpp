@@ -40,6 +40,8 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3
 CNumberManager::CNumberManager() :
 	m_value(0),
 	m_zeroDigit(0),
+	m_interval(0),
+	m_width(0.0f),
 	m_zero(false)
 {
 	for (int i = 0; i < MAX_DIGIT; i++)
@@ -61,21 +63,23 @@ CNumberManager::~CNumberManager()
 void CNumberManager::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	m_value = 0;
+	m_interval = 0;
+	m_width = 0.0f;
 	m_zero = false;
 	m_zeroDigit = MAX_DIGIT;
 
 	float halfWidth = size.x * 0.5f;
 
-	D3DXVECTOR3 addPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float posX = 0.0f;
 
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
-		addPos.x = halfWidth + (size.x * i);
+		posX = pos.x - (halfWidth + (size.x * i));
 
 		// ¶¬
-		m_number[i] = CNumber::Create(pos - addPos, size);
+		m_number[i] = CNumber::Create(D3DXVECTOR3(posX, pos.y, 0.0f), size);
 	}
-
+	
 	// •ÏX
 	Change();
 
@@ -161,6 +165,37 @@ void CNumberManager::SetZeroDigit(int digit)
 
 	// ƒ[ƒ‚Ì•`‰æ
 	ZeroDraw();
+}
+
+//--------------------------------------------------
+// ŠÔŠu‚ÌÝ’è
+//--------------------------------------------------
+void CNumberManager::SetInterval(int interval, float width)
+{
+	m_interval = interval;
+	m_width = width;
+
+	if (m_interval == 0)
+	{// ŠÔŠu‚Í‚¢‚ç‚È‚¢
+		m_interval = 1;
+		m_width = 0.0f;
+	}
+
+	D3DXVECTOR3 size = m_number[0]->GetSize();
+	float halfWidth = size.x * 0.5f;
+
+	D3DXVECTOR3 pos = m_number[0]->GetPos();
+	pos.x += halfWidth;
+
+	float posX = 0.0f;
+
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		posX = pos.x - ((halfWidth + (size.x * i)) + ((i / m_interval) * m_width));
+
+		// ¶¬
+		m_number[i]->SetPos(D3DXVECTOR3(posX, pos.y, 0.0f));
+	}
 }
 
 //--------------------------------------------------

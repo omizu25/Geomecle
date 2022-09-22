@@ -85,12 +85,12 @@ void CGame::Init()
 		m_pMul = CMul::Create(D3DXVECTOR3(width, height, 0.0f));
 	}
 	
-	{// 今回のスコア
+	{// ベストスコア
 		D3DXVECTOR3 size = D3DXVECTOR3(CScore::STD_WIDTH, CScore::STD_HEIGHT, 0.0f);
 		int score = CRanking::Get(0);
 
-		float width = CScore::STD_WIDTH * Digit(score);
-		float height = CScore::STD_HEIGHT * 0.5f + 10.0f;
+		float width = (size.x * Digit(score)) + (((Digit(score) - 1) / 3) * (size.x * 0.5f));
+		float height = size.y * 0.5f + 10.0f;
 
 		// スコアの生成
 		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
@@ -107,7 +107,7 @@ void CGame::Uninit()
 {
 	// ランキングの設定
 	CRanking::Set(m_pScore->Get());
-
+	
 	// 全ての解放
 	CObject::ReleaseAll(false);
 

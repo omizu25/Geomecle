@@ -11,7 +11,7 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
-#include "number_manager.h"
+#include "score.h"
 
 //==================================================
 // 前方宣言
@@ -21,7 +21,7 @@ class CObject2D;
 //==================================================
 // 定義
 //==================================================
-class CMul : public CNumberManager
+class CMul : public CScore
 {
 	/* ↓定義↓ */
 public:
@@ -41,7 +41,8 @@ public:
 public:
 	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
 	void Uninit() override;	// 終了
-	void Add();	// 加算
+	void Add();				// 加算
+	void Set(int value);	// 設定
 
 	/* ↓メンバ変数↓ */
 private:

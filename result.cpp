@@ -46,7 +46,7 @@ void CResult::Init()
 	m_time++;
 
 	{// ランキング
-		float width = (float)CApplication::SCREEN_WIDTH - CRanking::STD_WIDTH;
+		float width = (float)CApplication::SCREEN_WIDTH - 10.0f;
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// ランキングの生成
@@ -66,8 +66,8 @@ void CResult::Init()
 	{// 今回のスコア
 		D3DXVECTOR3 size = D3DXVECTOR3(CRanking::STD_WIDTH, CRanking::STD_HEIGHT, 0.0f);
 		int score = CRanking::Get(-1);
-
-		float center = (Digit(score) * size.x * 0.5f);
+		int digit = Digit(score);
+		float center = (digit * (size.x * 0.5f)) + (((digit - 1) / 3) * (size.x * 0.25f));
 		float width = (float)CApplication::SCREEN_WIDTH * 0.25f + center;
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
@@ -84,7 +84,7 @@ void CResult::Init()
 
 		CObject2D* pObj = CObject2D::Create();
 		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
-		pObj->SetSize(D3DXVECTOR3(600.0f, 100.0f, 0.0f));
+		pObj->SetSize(D3DXVECTOR3(550.0f, 100.0f, 0.0f));
 		pObj->SetTexture(CTexture::LABEL_NewScore);
 	}
 }
@@ -146,7 +146,7 @@ void CResult::Effect()
 {
 	m_time++;
 
-	if ((m_time % 12) != 0)
+	if ((m_time % 10) != 0)
 	{// 一定間隔待ち
 		return;
 	}

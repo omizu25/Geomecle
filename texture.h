@@ -40,6 +40,7 @@ public:
 		LABEL_Rankig,			// ランキング
 		LABEL_NewScore,			// 新しいスコア
 		LABEL_Tutorial,			// チュートリアル
+		LABEL_Comma,			// カンマ
 		LABEL_MAX
 	};
 

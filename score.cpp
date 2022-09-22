@@ -13,6 +13,8 @@
 #include "mode.h"
 #include "game.h"
 #include "mul.h"
+#include "object2D.h"
+#include "utility.h"
 #include <assert.h>
 
 //==================================================
@@ -44,6 +46,10 @@ CScore* CScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 //--------------------------------------------------
 CScore::CScore()
 {
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		m_pComma[i] = nullptr;
+	}
 }
 
 //--------------------------------------------------
@@ -51,6 +57,10 @@ CScore::CScore()
 //--------------------------------------------------
 CScore::~CScore()
 {
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		assert(m_pComma[i] == nullptr);
+	}
 }
 
 //--------------------------------------------------
@@ -60,6 +70,36 @@ void CScore::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	// 初期化
 	CNumberManager::Init(pos, size);
+
+	float interval = size.x * 0.5f;
+
+	// 間隔の設定
+	CNumberManager::SetInterval(3, interval);
+
+	D3DXVECTOR3 commaSize = size * 0.5f;
+	D3DXVECTOR3 commaPos = D3DXVECTOR3(pos.x, pos.y + (size.y * 0.5f) - (commaSize.y * 0.5f), 0.0f);
+	float width = size.x * 3.0f;
+	float halfInterval = interval * 0.5f;
+
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		// カンマの作成
+		m_pComma[i] = CObject2D::Create();
+
+		// サイズの設定
+		m_pComma[i]->SetSize(commaSize);
+
+		// テクスチャの設定
+		m_pComma[i]->SetTexture(CTexture::LABEL_Comma);
+
+		commaPos.x = pos.x - ((i * width) + (i * interval) + width + halfInterval);
+		
+		// 位置の設定
+		m_pComma[i]->SetPos(commaPos);
+
+		// 描画の設定
+		m_pComma[i]->SetDraw(false);
+	}
 }
 
 //--------------------------------------------------
@@ -69,6 +109,16 @@ void CScore::Uninit()
 {
 	// 終了
 	CNumberManager::Uninit();
+
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		if (m_pComma[i] != nullptr)
+		{// nullチェック
+			// 終了
+			m_pComma[i]->Uninit();
+			m_pComma[i] = nullptr;
+		}
+	}
 }
 
 //--------------------------------------------------
@@ -89,5 +139,55 @@ void CScore::Add(int score)
 	{
 		// 加算
 		CNumberManager::Add(score);
+	}
+
+	// カンマの描画
+	DrawComma();
+}
+
+//--------------------------------------------------
+// 設定
+//--------------------------------------------------
+void CScore::Set(int score)
+{
+	// 設定
+	CNumberManager::Set(score);
+
+	// カンマの描画
+	DrawComma();
+}
+
+//--------------------------------------------------
+// 色の設定
+//--------------------------------------------------
+void CScore::SetCol(const D3DXCOLOR& col)
+{
+	// 色の設定
+	CNumberManager::SetCol(col);
+
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		// 色の設定
+		m_pComma[i]->SetCol(col);
+	}
+}
+
+//--------------------------------------------------
+// カンマの描画
+//--------------------------------------------------
+void CScore::DrawComma()
+{
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		// 描画の設定
+		m_pComma[i]->SetDraw(false);
+	}
+
+	int comma = (Digit(CNumberManager::Get()) - 1) / 3;
+
+	for (int i = 0; i < comma; i++)
+	{
+		// 描画の設定
+		m_pComma[i]->SetDraw(true);
 	}
 }

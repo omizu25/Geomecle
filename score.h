@@ -14,6 +14,11 @@
 #include "number_manager.h"
 
 //==================================================
+// 前方宣言
+//==================================================
+class CObject2D;
+
+//==================================================
 // 定義
 //==================================================
 class CScore : public CNumberManager
@@ -36,9 +41,13 @@ public:
 	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
 	void Uninit() override;	// 終了
 	void Add(int score);	// 加算
+	void Set(int value);	// 設定
+	void SetCol(const D3DXCOLOR& col);	// 色の設定
+	void DrawComma();	// カンマの描画
 
 	/* ↓メンバ変数↓ */
 private:
+	CObject2D* m_pComma[MAX_COMMA];	// カンマ
 };
 
 #endif // !_SCORE_H_

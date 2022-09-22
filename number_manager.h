@@ -25,6 +25,7 @@ class CNumberManager
 	/* «’è‹`« */
 public:
 	static const int MAX_DIGIT = 10;	// Œ…‚ÌÅ‘å”
+	static const int MAX_COMMA = 3;		// ƒJƒ“ƒ}‚ÌÅ‘å”
 
 	/* «Ã“Iƒƒ“ƒoŠÖ”« */
 public:
@@ -46,6 +47,7 @@ public:
 	void SetCol(const D3DXCOLOR& col);	// F‚Ìİ’è
 	void SetZero(bool zero);			// ƒ[ƒ‚Ìİ’è
 	void SetZeroDigit(int digit);		// ƒ[ƒ‚ÌŒ…”‚Ìİ’è
+	void SetInterval(int interval, float width);	// ŠÔŠu‚Ìİ’è
 
 private:
 	void ZeroDraw();	// ƒ[ƒ‚Ì•`‰æ
@@ -56,6 +58,8 @@ private:
 	CNumber* m_number[MAX_DIGIT];	// ”
 	int m_value;		// ’l
 	int m_zeroDigit;	// ƒ[ƒ‚ğ•`‰æ‚·‚éŒ…”
+	int m_interval;		// ŠÔŠu
+	float m_width;		// ŠÔŠu‚Ì•
 	bool m_zero;		// ƒ[ƒ‚ğ•`‰æ‚·‚é‚©‚Ç‚¤‚©
 };
 

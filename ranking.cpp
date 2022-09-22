@@ -9,7 +9,7 @@
 // インクルード
 //==================================================
 #include "ranking.h"
-#include "number_manager.h"
+#include "score.h"
 #include "number.h"
 #include "object2D.h"
 #include "utility.h"
@@ -212,8 +212,6 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 
 	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
 
-	float PosX = 0.0f;
-	float PosY = 0.0f;
 	float height = STD_HEIGHT;
 
 	if (length <= 0.0f)
@@ -221,23 +219,32 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 		height *= -1.0f;
 	}
 
+	float posX = 0.0f;
+	float posY = 0.0f;
 	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
+	float interval = 3 * (size.x * 0.5f);
+	float rankPosX = 0.0f;
 
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		PosX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
-		PosY = pos.y + (i * (length + height));
+		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
+		posY = pos.y + (i * (length + height));
 
 		// スコアの生成
-		m_pRanking[i] = CNumberManager::Create(D3DXVECTOR3(PosX, PosY, 0.0f), size, m_ranking[i]);
+		m_pRanking[i] = CScore::Create(D3DXVECTOR3(posX, posY, 0.0f), size);
+
+		// スコアの設定
+		m_pRanking[i]->Set(m_ranking[i]);
+
+		rankPosX = pos.x - maxWidth - interval;
 
 		// 順位の生成
-		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(pos.x - maxWidth - 125.0f, PosY, 0.0f), size * 1.2f);
+		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(rankPosX - 90.0f, posY, 0.0f), size * 1.2f);
 		pNumber->Change(i + 1);
 
 		// 位の生成
 		CObject2D* pRank = CObject2D::Create();
-		pRank->SetPos(D3DXVECTOR3(pos.x - maxWidth - 75.0f, PosY, 0.0f));
+		pRank->SetPos(D3DXVECTOR3(rankPosX - (STD_HEIGHT * 0.5f) - 10.0f, posY, 0.0f));
 		pRank->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
 		pRank->SetTexture(CTexture::LABEL_Rank);
 	}

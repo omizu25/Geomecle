@@ -15,7 +15,7 @@
 //==================================================
 // 前方宣言
 //==================================================
-class CNumberManager;
+class CScore;
 
 //==================================================
 // 定義
@@ -59,7 +59,7 @@ public:
 
 	/* ↓メンバ変数↓ */
 private:
-	CNumberManager* m_pRanking[MAX_RANKING];	// ランキング
+	CScore* m_pRanking[MAX_RANKING];	// ランキング
 	int m_newRank;	// 新しいスコア
 	int m_time;		// タイム
 };
