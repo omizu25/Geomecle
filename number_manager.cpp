@@ -27,8 +27,8 @@ CNumberManager* CNumberManager::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3
 		// ‰Šú‰»
 		pNumberManager->Init(pos, size);
 
-		// ”‚Ì•ÏX
-		pNumberManager->ChangeNumber(value);
+		// ”‚Ìİ’è
+		pNumberManager->Set(value);
 	}
 
 	return pNumberManager;
@@ -60,6 +60,7 @@ CNumberManager::~CNumberManager()
 //--------------------------------------------------
 void CNumberManager::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
+	m_value = 0;
 	m_zero = false;
 	m_zeroDigit = MAX_DIGIT;
 
@@ -74,6 +75,12 @@ void CNumberManager::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 		// ¶¬
 		m_number[i] = CNumber::Create(pos - addPos, size);
 	}
+
+	// •ÏX
+	Change();
+
+	// ƒ[ƒ‚Ì•`‰æ
+	ZeroDraw();
 }
 
 //--------------------------------------------------
@@ -83,28 +90,55 @@ void CNumberManager::Uninit()
 {
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
-		m_number[i] = nullptr;
+		if (m_number[i] != nullptr)
+		{
+			// I—¹
+			m_number[i]->Uninit();
+			m_number[i] = nullptr;
+		}
 	}
 }
 
 //--------------------------------------------------
-// ‰ğ•ú
+// ‰ÁZ
 //--------------------------------------------------
-void CNumberManager::Release()
+void CNumberManager::Add(int value)
+{
+	m_value += value;
+
+	// •ÏX
+	Change();
+}
+
+//--------------------------------------------------
+// İ’è
+//--------------------------------------------------
+void CNumberManager::Set(int value)
+{
+	m_value = value;
+
+	// •ÏX
+	Change();
+}
+
+//--------------------------------------------------
+// æ“¾
+//--------------------------------------------------
+int CNumberManager::Get()
+{
+	return m_value;
+}
+
+//--------------------------------------------------
+// F‚Ìİ’è
+//--------------------------------------------------
+void CNumberManager::SetCol(const D3DXCOLOR& col)
 {
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
-		if (m_number[i] == nullptr)
-		{// nullƒ`ƒFƒbƒN
-			continue;
-		}
-
-		// ‰ğ•ú
-		m_number[i]->Release();
+		// F‚Ìİ’è
+		m_number[i]->SetCol(col);
 	}
-
-	// I—¹
-	Uninit();
 }
 
 //--------------------------------------------------
@@ -124,38 +158,6 @@ void CNumberManager::SetZero(bool zero)
 void CNumberManager::SetZeroDigit(int digit)
 {
 	m_zeroDigit = digit;
-
-	// ƒ[ƒ‚Ì•`‰æ
-	ZeroDraw();
-}
-
-//--------------------------------------------------
-// ”‚Ì•ÏX
-//--------------------------------------------------
-void CNumberManager::ChangeNumber(int value)
-{
-	m_value = value;
-
-	int num[MAX_DIGIT];
-
-	for (int i = 0; i < MAX_DIGIT; i++)
-	{
-		num[i] = 0;
-	}
-
-	int saveValue = m_value;
-
-	for (int i = 0; i < Digit(m_value); i++)
-	{// ˆêŒ…‚¸‚Â‚É•ª‚¯‚é
-		num[i] = saveValue % 10;
-		saveValue /= 10;
-	}
-
-	for (int i = 0; i < MAX_DIGIT; i++)
-	{
-		// ”‚Ì•ÏX
-		m_number[i]->Change(num[i]);
-	}
 
 	// ƒ[ƒ‚Ì•`‰æ
 	ZeroDraw();
@@ -193,4 +195,34 @@ void CNumberManager::ZeroDraw()
 
 	// 1Œ…–Ú‚Íâ‘Î‚É•`‰æ‚·‚é
 	m_number[0]->SetDraw(true);
+}
+
+//--------------------------------------------------
+// •ÏX
+//--------------------------------------------------
+void CNumberManager::Change()
+{
+	int num[MAX_DIGIT];
+
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		num[i] = 0;
+	}
+
+	int saveValue = m_value;
+
+	for (int i = 0; i < Digit(m_value); i++)
+	{// ˆêŒ…‚¸‚Â‚É•ª‚¯‚é
+		num[i] = saveValue % 10;
+		saveValue /= 10;
+	}
+
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		// ”‚Ì•ÏX
+		m_number[i]->Change(num[i]);
+	}
+
+	// ƒ[ƒ‚Ì•`‰æ
+	ZeroDraw();
 }

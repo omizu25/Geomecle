@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "score.h"
-#include "number_manager.h"
 #include "application.h"
 #include "mode.h"
 #include "game.h"
@@ -43,9 +42,7 @@ CScore* CScore::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CScore::CScore() :
-	m_pNumber(nullptr),
-	m_score(0)
+CScore::CScore()
 {
 }
 
@@ -54,7 +51,6 @@ CScore::CScore() :
 //--------------------------------------------------
 CScore::~CScore()
 {
-	assert(m_pNumber == nullptr);
 }
 
 //--------------------------------------------------
@@ -62,10 +58,8 @@ CScore::~CScore()
 //--------------------------------------------------
 void CScore::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
-	m_score = 0;
-
-	// 数の生成
-	m_pNumber = CNumberManager::Create(pos, size, 0);
+	// 初期化
+	CNumberManager::Init(pos, size);
 }
 
 //--------------------------------------------------
@@ -73,10 +67,8 @@ void CScore::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 //--------------------------------------------------
 void CScore::Uninit()
 {
-	// 解放
-	m_pNumber->Release();
-
-	m_pNumber = nullptr;
+	// 終了
+	CNumberManager::Uninit();
 }
 
 //--------------------------------------------------
@@ -90,35 +82,12 @@ void CScore::Add(int score)
 	{// ゲーム中
 		CGame* pGame = (CGame*)pMode;
 
-		// 倍率の加算
-		int mul = pGame->GetMul()->Get();
-
-		m_score += score + (score * mul);
-
-		// 数の変更
-		m_pNumber->ChangeNumber(m_score);
+		// 加算
+		CNumberManager::Add(score + (score * pGame->GetMul()->Get()));
 	}
 	else
 	{
-		m_score += score;
+		// 加算
+		CNumberManager::Add(score);
 	}
-}
-
-//--------------------------------------------------
-// 設定
-//--------------------------------------------------
-void CScore::Set(int score)
-{
-	m_score = score;
-
-	// 数の変更
-	m_pNumber->ChangeNumber(m_score);
-}
-
-//--------------------------------------------------
-// 取得
-//--------------------------------------------------
-int CScore::Get()
-{
-	return m_score;
 }

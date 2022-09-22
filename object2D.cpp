@@ -218,6 +218,26 @@ const float CObject2D::GetRot() const
 }
 
 //--------------------------------------------------
+// 色の設定
+//--------------------------------------------------
+void CObject2D::SetCol(const D3DXCOLOR& col)
+{
+	VERTEX_2D *pVtx = nullptr;	// 頂点情報へのポインタ
+
+	// 頂点情報をロックし、頂点情報へのポインタを取得
+	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
+
+	// 頂点カラーの設定
+	pVtx[0].col = col;
+	pVtx[1].col = col;
+	pVtx[2].col = col;
+	pVtx[3].col = col;
+
+	// 頂点バッファをアンロックする
+	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
 // 描画するかどうかの設定
 //--------------------------------------------------
 void CObject2D::SetDraw(bool draw)

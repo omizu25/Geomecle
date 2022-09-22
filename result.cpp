@@ -25,6 +25,7 @@
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CResult::CResult() : CMode(CMode::MODE_RESULT),
+	m_pRanking(nullptr),
 	m_time(0)
 {
 }
@@ -34,6 +35,7 @@ CResult::CResult() : CMode(CMode::MODE_RESULT),
 //--------------------------------------------------
 CResult::~CResult()
 {
+	assert(m_pRanking == nullptr);
 }
 
 //--------------------------------------------------
@@ -48,7 +50,7 @@ void CResult::Init()
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.3f;
 
 		// ランキングの生成
-		CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 15.0f);
+		m_pRanking = CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 15.0f);
 	}
 
 	{// 今回のスコア
@@ -74,6 +76,8 @@ void CResult::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll(false);
+
+	m_pRanking = nullptr;
 }
 
 //--------------------------------------------------
@@ -86,6 +90,9 @@ void CResult::Update()
 
 	// エフェクト
 	Effect();
+
+	// ランキングの更新
+	m_pRanking->Update();
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された

@@ -15,7 +15,7 @@
 //==================================================
 // 前方宣言
 //==================================================
-class CScore;
+class CNumberManager;
 
 //==================================================
 // 定義
@@ -55,10 +55,13 @@ public:
 public:
 	void Init(const D3DXVECTOR3& pos, float length);	// 初期化
 	void Uninit();	// 終了
+	void Update();	// 更新
 
 	/* ↓メンバ変数↓ */
 private:
-	CScore* m_pRanking[MAX_RANKING];	// ランキング
+	CNumberManager* m_pRanking[MAX_RANKING];	// ランキング
+	int m_newRank;	// 新しいスコア
+	int m_time;		// タイム
 };
 
 #endif // !_RANKING_H_

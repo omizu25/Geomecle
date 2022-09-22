@@ -11,17 +11,17 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
+#include "number_manager.h"
 
 //==================================================
 // 前方宣言
 //==================================================
-class CNumberManager;
 class CObject2D;
 
 //==================================================
 // 定義
 //==================================================
-class CMul
+class CMul : public CNumberManager
 {
 	/* ↓定義↓ */
 public:
@@ -39,17 +39,14 @@ public:
 	~CMul();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos);	// 初期化
-	void Uninit();	// 終了
-	void Add();		// 加算
-	int Get();		// 取得
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
+	void Uninit() override;	// 終了
+	void Add();	// 加算
 
 	/* ↓メンバ変数↓ */
 private:
-	CNumberManager* m_pNumber;	// 数字
-	CObject2D* m_pMul;			// 掛ける
-	D3DXVECTOR3 m_pos;			// 位置
-	int m_mul;					// 倍率
+	CObject2D* m_pMul;	// 掛ける
+	D3DXVECTOR3 m_pos;	// 位置
 };
 
 #endif // !_MUL_H_

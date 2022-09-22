@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "time.h"
-#include "number_manager.h"
 #include "utility.h"
 #include "application.h"
 #include "mode.h"
@@ -32,10 +31,12 @@ CTime* CTime::Create(const D3DXVECTOR3& pos, int start, int end)
 
 	if (pTime != nullptr)
 	{// nullチェック
+		D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
+
 		// 初期化
-		pTime->Init(pos);
-		pTime->SetStart(start);
-		pTime->SetEnd(end);
+		pTime->Init(pos, size);
+		pTime->m_start = start;
+		pTime->m_end = end;
 	}
 
 	return pTime;
@@ -45,7 +46,6 @@ CTime* CTime::Create(const D3DXVECTOR3& pos, int start, int end)
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CTime::CTime() :
-	m_pNumber(nullptr),
 	m_start(0),
 	m_elapsed(0),
 	m_end(0)
@@ -57,24 +57,21 @@ CTime::CTime() :
 //--------------------------------------------------
 CTime::~CTime()
 {
-	assert(m_pNumber == nullptr);
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CTime::Init(const D3DXVECTOR3& pos)
+void CTime::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
 	m_start = 0;
 	m_elapsed = 0;
 	m_end = 0;
 
-	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
-
-	// 数の生成
-	m_pNumber = CNumberManager::Create(pos, size, 0);
-	m_pNumber->SetZero(true);
-	m_pNumber->SetZeroDigit(4);
+	// 初期化
+	CNumberManager::Init(pos, size);
+	CNumberManager::SetZero(true);
+	CNumberManager::SetZeroDigit(4);
 }
 
 //--------------------------------------------------
@@ -82,10 +79,8 @@ void CTime::Init(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CTime::Uninit()
 {
-	// 解放
-	m_pNumber->Release();
-
-	m_pNumber = nullptr;
+	// 終了
+	CNumberManager::Uninit();
 }
 
 //--------------------------------------------------
@@ -100,27 +95,11 @@ void CTime::Update()
 	int number = m_end - m_elapsed;
 
 	// 数の変更
-	m_pNumber->ChangeNumber(number);
+	CNumberManager::Set(number);
 
 	if (number <= 0)
 	{// 時間切れ
 		// モードの変更
 		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
 	}
-}
-
-//--------------------------------------------------
-// 開始時間の設定
-//--------------------------------------------------
-void CTime::SetStart(int start)
-{
-	m_start = start;
-}
-
-//--------------------------------------------------
-// 終了時間の設定
-//--------------------------------------------------
-void CTime::SetEnd(int end)
-{
-	m_end = end;
 }

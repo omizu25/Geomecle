@@ -9,7 +9,6 @@
 // インクルード
 //==================================================
 #include "ranking.h"
-#include "score.h"
 #include "number_manager.h"
 #include "number.h"
 #include "utility.h"
@@ -182,7 +181,9 @@ void CRanking::Change()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CRanking::CRanking()
+CRanking::CRanking() :
+	m_newRank(0),
+	m_time(0)
 {
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
@@ -206,6 +207,8 @@ CRanking::~CRanking()
 //--------------------------------------------------
 void CRanking::Init(const D3DXVECTOR3& pos, float length)
 {
+	m_time = 0;
+
 	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
 
 	float PosX = 0.0f;
@@ -225,14 +228,25 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 		PosY = pos.y + (i * (length + height));
 
 		// スコアの生成
-		m_pRanking[i] = CScore::Create(D3DXVECTOR3(PosX, PosY, 0.0f), size);
-
-		// スコアの設定
-		m_pRanking[i]->Set(m_ranking[i]);
+		m_pRanking[i] = CNumberManager::Create(D3DXVECTOR3(PosX, PosY, 0.0f), size, m_ranking[i]);
 
 		// 順位の生成
 		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(pos.x - maxWidth - size.x, PosY, 0.0f), size);
 		pNumber->Change(i + 1);
+	}
+
+	m_newRank = -1;
+
+	for (int i = 0; i < MAX_RANKING; i++)
+	{
+		if (m_ranking[i] != m_score)
+		{// 指定の値ではない
+			continue;
+		}
+
+		m_newRank = i;
+
+		break;
 	}
 }
 
@@ -248,4 +262,24 @@ void CRanking::Uninit()
 
 		m_pRanking[i] = nullptr;
 	}
+}
+
+//--------------------------------------------------
+// 更新
+//--------------------------------------------------
+void CRanking::Update()
+{
+	if (m_newRank == -1)
+	{// 指定の値
+		return;
+	}
+
+	m_time++;
+
+	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+
+	col.a = SinCurve(m_time, 0.01f) + 0.1f;
+
+	// 色の設定
+	m_pRanking[m_newRank]->SetCol(col);
 }

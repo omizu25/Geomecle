@@ -11,16 +11,12 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
-
-//==================================================
-// 前方宣言
-//==================================================
-class CNumberManager;
+#include "number_manager.h"
 
 //==================================================
 // 定義
 //==================================================
-class CScore
+class CScore : public CNumberManager
 {
 	/* ↓定義↓ */
 public:
@@ -37,16 +33,12 @@ public:
 	~CScore();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 初期化
-	void Uninit();			// 終了
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
+	void Uninit() override;	// 終了
 	void Add(int score);	// 加算
-	void Set(int score);	// 設定
-	int Get();				// 取得
 
 	/* ↓メンバ変数↓ */
 private:
-	CNumberManager* m_pNumber;	// 数字
-	int m_score;				// スコア
 };
 
 #endif // !_SCORE_H_

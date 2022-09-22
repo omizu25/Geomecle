@@ -73,8 +73,8 @@ public:
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 	void SetCol(const D3DXCOLOR& col);	// 色の設定
 	const D3DXCOLOR& GetCol() const;	// 色の取得
-	void SetType(EType type);		// 種類の設定
-	const EType GetType() const;	// 種類の取得
+	void SetType(EType type);			// 種類の設定
+	const EType GetType() const;		// 種類の取得
 	void SetCollision(bool collision);	// 当たり判定をするかどうかの設定
 	const bool GetCollision() const;	// 当たり判定をするかどうかの取得
 

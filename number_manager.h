@@ -36,15 +36,20 @@ public:
 	~CNumberManager();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 初期化
-	void Uninit();	// 終了
-	void Release();	// 解放
-	void SetZero(bool zero);		// ゼロの設定
-	void SetZeroDigit(int digit);	// ゼロの桁数の設定
-	void ChangeNumber(int value);	// 数の変更
+	virtual void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// 初期化
+	virtual void Uninit();	// 終了
+
+public:
+	void Add(int value);	// 加算
+	void Set(int value);	// 設定
+	int Get();				// 取得
+	void SetCol(const D3DXCOLOR& col);	// 色の設定
+	void SetZero(bool zero);			// ゼロの設定
+	void SetZeroDigit(int digit);		// ゼロの桁数の設定
 
 private:
 	void ZeroDraw();	// ゼロの描画
+	void Change();		// 変更
 
 	/* ↓メンバ変数↓ */
 private:

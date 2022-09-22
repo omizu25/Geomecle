@@ -11,16 +11,12 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
-
-//==================================================
-// 前方宣言
-//==================================================
-class CNumberManager;
+#include "number_manager.h"
 
 //==================================================
 // 定義
 //==================================================
-class CTime
+class CTime : public CNumberManager
 {
 	/* ↓定義↓ */
 public:
@@ -37,18 +33,15 @@ public:
 	~CTime();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos);	// 初期化
-	void Uninit();						// 終了
-	void Update();						// 更新
-	void SetStart(int start);			// 開始時間の設定
-	void SetEnd(int end);				// 終了時間の設定
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
+	void Uninit() override;	// 終了
+	void Update();			// 更新
 
 	/* ↓メンバ変数↓ */
 private:
-	CNumberManager* m_pNumber;	// 数字
-	int m_start;				// 開始
-	int m_elapsed;				// 経過
-	int m_end;					// 終了
+	int m_start;	// 開始
+	int m_elapsed;	// 経過
+	int m_end;		// 終了
 };
 
 #endif // !_TIME_H_

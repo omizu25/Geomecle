@@ -32,8 +32,10 @@ CMul* CMul::Create(const D3DXVECTOR3& pos)
 
 	if (pMul != nullptr)
 	{// nullチェック
+		D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
+
 		// 初期化
-		pMul->Init(pos);
+		pMul->Init(pos, size);
 	}
 
 	return pMul;
@@ -43,10 +45,8 @@ CMul* CMul::Create(const D3DXVECTOR3& pos)
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CMul::CMul() :
-	m_pNumber(nullptr),
 	m_pMul(nullptr),
-	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
-	m_mul(0)
+	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f))
 {
 }
 
@@ -55,22 +55,18 @@ CMul::CMul() :
 //--------------------------------------------------
 CMul::~CMul()
 {
-	assert(m_pNumber == nullptr);
 	assert(m_pMul == nullptr);
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CMul::Init(const D3DXVECTOR3& pos)
+void CMul::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
-	m_mul = 0;
 	m_pos = pos;
 
-	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
-
-	// 数の生成
-	m_pNumber = CNumberManager::Create(m_pos, size, 0);
+	// 初期化
+	CNumberManager::Init(pos, size);
 
 	// 掛けるの生成
 	m_pMul = CObject2D::Create();
@@ -78,7 +74,7 @@ void CMul::Init(const D3DXVECTOR3& pos)
 	// サイズの設定
 	m_pMul->SetSize(D3DXVECTOR3(MUL_SIZE, MUL_SIZE, 0.0f));
 
-	float PosX = m_pos.x - (Digit(m_mul) * STD_WIDTH) - (MUL_SIZE * 0.5f);
+	float PosX = m_pos.x - STD_WIDTH - (MUL_SIZE * 0.5f);
 
 	// 位置の設定
 	m_pMul->SetPos(D3DXVECTOR3(PosX, m_pos.y, 0.0f));
@@ -92,10 +88,8 @@ void CMul::Init(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CMul::Uninit()
 {
-	// 解放
-	m_pNumber->Release();
-
-	m_pNumber = nullptr;
+	// 終了
+	CNumberManager::Uninit();
 }
 
 //--------------------------------------------------
@@ -103,21 +97,11 @@ void CMul::Uninit()
 //--------------------------------------------------
 void CMul::Add()
 {
-	m_mul++;
+	// 加算
+	CNumberManager::Add(1);
 
-	// 数の変更
-	m_pNumber->ChangeNumber(m_mul);
-
-	float PosX = m_pos.x - (Digit(m_mul) * STD_WIDTH) - (MUL_SIZE * 0.5f);
+	float PosX = m_pos.x - (Digit(CNumberManager::Get()) * STD_WIDTH) - (MUL_SIZE * 0.5f);
 
 	// 位置の設定
 	m_pMul->SetPos(D3DXVECTOR3(PosX, m_pos.y, 0.0f));
-}
-
-//--------------------------------------------------
-// 取得
-//--------------------------------------------------
-int CMul::Get()
-{
-	return m_mul;
 }

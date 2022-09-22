@@ -55,6 +55,7 @@ public:
 	const D3DXVECTOR3& GetSize() const;		// サイズの取得
 	void SetRot(float rot);					// 向きの設定
 	const float GetRot() const;				// 向きの取得
+	void SetCol(const D3DXCOLOR& col);		// 色の設定
 	void SetDraw(bool draw);				// 描画するかどうかの設定
 	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
