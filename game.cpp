@@ -61,17 +61,17 @@ void CGame::Init()
 	CEnemyManager::GetInstanse()->Init();
 
 	{// タイム
-		float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CTime::STD_WIDTH * 2.0f);
-		float height = CTime::STD_HEIGHT * 0.5f;
+		float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CTime::STD_WIDTH * 1.0f);
+		float height = CTime::STD_HEIGHT * 0.5f + 15.0f;
 
 		// タイムの生成
-		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 4500);
+		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 45);
 	}
 
 	{// スコア
 		D3DXVECTOR3 size = D3DXVECTOR3(CScore::STD_WIDTH, CScore::STD_HEIGHT, 0.0f);
 		float width = (float)CApplication::SCREEN_WIDTH;
-		float height = CScore::STD_HEIGHT * 0.5f;
+		float height = CScore::STD_HEIGHT * 0.5f + 10.0f;
 
 		// スコアの生成
 		m_pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
@@ -79,7 +79,7 @@ void CGame::Init()
 	
 	{// 倍率
 		float width = (float)CApplication::SCREEN_WIDTH;
-		float height = (CMul::STD_HEIGHT * 0.5f) + CScore::STD_HEIGHT;
+		float height = (CMul::STD_HEIGHT * 0.5f) + CScore::STD_HEIGHT + 10.0f;
 
 		// 倍率の生成
 		m_pMul = CMul::Create(D3DXVECTOR3(width, height, 0.0f));
@@ -90,7 +90,7 @@ void CGame::Init()
 		int score = CRanking::Get(0);
 
 		float width = CScore::STD_WIDTH * Digit(score);
-		float height = CScore::STD_HEIGHT * 0.5f;
+		float height = CScore::STD_HEIGHT * 0.5f + 10.0f;
 
 		// スコアの生成
 		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);

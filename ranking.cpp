@@ -11,6 +11,7 @@
 #include "ranking.h"
 #include "number_manager.h"
 #include "number.h"
+#include "object2D.h"
 #include "utility.h"
 
 #include <assert.h>
@@ -19,8 +20,8 @@
 //==================================================
 // ’è‹`
 //==================================================
-const float CRanking::STD_WIDTH = 40.0f;
-const float CRanking::STD_HEIGHT = 50.0f;
+const float CRanking::STD_WIDTH = 45.0f;
+const float CRanking::STD_HEIGHT = 55.0f;
 const char* CRanking::FILE_NAME = "data/TEXT/Ranking.txt";
 
 //==================================================
@@ -231,8 +232,14 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 		m_pRanking[i] = CNumberManager::Create(D3DXVECTOR3(PosX, PosY, 0.0f), size, m_ranking[i]);
 
 		// ‡ˆÊ‚Ì¶¬
-		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(pos.x - maxWidth - size.x, PosY, 0.0f), size);
+		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(pos.x - maxWidth - 125.0f, PosY, 0.0f), size * 1.2f);
 		pNumber->Change(i + 1);
+
+		// ˆÊ‚Ì¶¬
+		CObject2D* pRank = CObject2D::Create();
+		pRank->SetPos(D3DXVECTOR3(pos.x - maxWidth - 75.0f, PosY, 0.0f));
+		pRank->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
+		pRank->SetTexture(CTexture::LABEL_Rank);
 	}
 
 	m_newRank = -1;

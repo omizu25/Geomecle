@@ -76,10 +76,8 @@ void CPlayer::Init()
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Player);
 
-	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
 	// パーティクル
-	CEffectManager::GetInstanse()->Particle(CObject3D::GetPos(), col);
+	CEffectManager::GetInstanse()->Player(CObject3D::GetPos());
 }
 
 //--------------------------------------------------
@@ -87,10 +85,8 @@ void CPlayer::Init()
 //--------------------------------------------------
 void CPlayer::Uninit()
 {
-	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
 	// パーティクル
-	CEffectManager::GetInstanse()->Particle(CObject3D::GetPos(), col);
+	CEffectManager::GetInstanse()->Player(CObject3D::GetPos());
 
 	// 終了
 	CObject3D::Uninit();

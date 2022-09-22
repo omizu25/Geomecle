@@ -90,6 +90,40 @@ void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)
 }
 
 //--------------------------------------------------
+// プレイヤー
+//--------------------------------------------------
+void CEffectManager::Player(const D3DXVECTOR3& pos)
+{
+	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float rot = 0.0f;
+	float random = 0.0f;
+
+	for (int i = 0; i < 500; i++)
+	{
+		rot = (D3DX_PI * 2.0f) / MAX_PARTICLE * i;
+
+		// 角度の正規化
+		NormalizeAngle(&rot);
+
+		randomPos = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(100.0f, 50.0f);
+
+		random = FloatRandom(50.0f, 5.0f);
+
+		move.x = sinf(rot) * random;
+		move.y = cosf(rot) * random;
+
+		col.r = 1.0f + FloatRandom(0.0f, -0.25f);
+		col.g = 1.0f + FloatRandom(0.0f, -0.25f);
+		col.b = 1.0f + FloatRandom(0.0f, -0.25f);
+
+		// 生成
+		CEffect::Create(pos + randomPos, move, col);
+	}
+}
+
+//--------------------------------------------------
 // 爆発
 //--------------------------------------------------
 void CEffectManager::Explosion(const D3DXVECTOR3& pos)

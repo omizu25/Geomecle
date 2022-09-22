@@ -10,6 +10,7 @@
 //==================================================
 #include "mode.h"
 #include "title.h"
+#include "tutorial.h"
 #include "game.h"
 #include "result.h"
 
@@ -26,6 +27,10 @@ CMode* CMode::Create(EMode mode)
 	{
 	case CMode::MODE_TITLE:
 		pMode = new CTitle;
+		break;
+
+	case CMode::MODE_TUTORIAL:
+		pMode = new CTutorial;
 		break;
 
 	case CMode::MODE_GAME:

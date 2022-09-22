@@ -219,6 +219,6 @@ void CRenderer::DrawFPS()
 	length = (int)strlen(str);
 
 	// テキスト描画
-	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0xff, 0xff));
+	m_pFont->DrawText(NULL, str, -1, &rect, DT_LEFT, D3DCOLOR_ARGB(0xff, 0xff, 0x00, 0x00));
 }
 #endif // _DEBUG

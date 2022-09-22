@@ -36,6 +36,10 @@ public:
 		LABEL_Effect,			// エフェクト
 		LABEL_BG,				// 背景
 		LABEL_Mul,				// 掛ける
+		LABEL_Rank,				// 位
+		LABEL_Rankig,			// ランキング
+		LABEL_NewScore,			// 新しいスコア
+		LABEL_Tutorial,			// チュートリアル
 		LABEL_MAX
 	};
 

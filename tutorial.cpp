@@ -1,6 +1,6 @@
 //**************************************************
 // 
-// title.cpp
+// tutorial.cpp
 // Author  : katsuki mizuki
 // 
 //**************************************************
@@ -8,7 +8,7 @@
 //==================================================
 // インクルード
 //==================================================
-#include "title.h"
+#include "tutorial.h"
 #include "application.h"
 #include "camera.h"
 #include "object.h"
@@ -22,39 +22,35 @@
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CTitle::CTitle() : CMode(CMode::MODE_TITLE),
-	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
-	m_time(0),
-	m_partCnt(0)
+CTutorial::CTutorial() : CMode(CMode::MODE_TUTORIAL),
+	m_time(0)
 {
 }
 
 //--------------------------------------------------
 // デストラクタ
 //--------------------------------------------------
-CTitle::~CTitle()
+CTutorial::~CTutorial()
 {
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CTitle::Init()
+void CTutorial::Init()
 {
 	m_time = 0;
-	m_partCnt = 0;
-	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-	CObject2D* pTitle = CObject2D::Create();
-	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.3f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
-	pTitle->SetSize(D3DXVECTOR3(700.0f, 200.0f, 0.0f));
-	pTitle->SetTexture(CTexture::LABEL_Title);
+	
+	CObject2D* pTutorial = CObject2D::Create();
+	pTutorial->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
+	pTutorial->SetSize(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, (float)CApplication::SCREEN_HEIGHT, 0.0f));
+	pTutorial->SetTexture(CTexture::LABEL_Tutorial);
 }
 
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
-void CTitle::Uninit()
+void CTutorial::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll(false);
@@ -63,19 +59,18 @@ void CTitle::Uninit()
 //--------------------------------------------------
 // 更新
 //--------------------------------------------------
-void CTitle::Update()
+void CTutorial::Update()
 {
 	// 更新
 	CObject::UpdateAll();
 
-	// エフェクト
-	Effect();
+	m_time++;
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
 		if (m_time >= 20)
 		{// フェード時間
-			Change(MODE_TUTORIAL);
+			Change(MODE_GAME);
 			return;
 		}
 	}
@@ -87,41 +82,11 @@ void CTitle::Update()
 //--------------------------------------------------
 // 描画
 //--------------------------------------------------
-void CTitle::Draw()
+void CTutorial::Draw()
 {
 	// カメラの設定
 	CApplication::GetInstanse()->GetCamera()->Set();
 
 	// 描画
 	CObject::DrawAll();
-}
-
-//--------------------------------------------------
-// エフェクト
-//--------------------------------------------------
-void CTitle::Effect()
-{
-	m_time++;
-
-	if ((m_time % 20) != 0)
-	{// 一定間隔待ち
-		return;
-	}
-
-	if (m_partCnt % 10 == 0)
-	{// 一定間隔
-		m_col.r = FloatRandom(1.0f, 0.0f);
-		m_col.g = FloatRandom(1.0f, 0.0f);
-		m_col.b = FloatRandom(1.0f, 0.0f);
-	}
-
-	m_partCnt++;
-
-	float width = CWall::STD_WIDTH * 0.25f;
-	float height = CWall::STD_HEIGHT * 0.25f;
-
-	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
-
-	// パーティクル
-	CEffectManager::GetInstanse()->Particle(pos, m_col);
 }

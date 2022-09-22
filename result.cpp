@@ -46,11 +46,21 @@ void CResult::Init()
 	m_time++;
 
 	{// ランキング
-		float width = (float)CApplication::SCREEN_WIDTH * 0.95f;
-		float height = (float)CApplication::SCREEN_HEIGHT * 0.3f;
+		float width = (float)CApplication::SCREEN_WIDTH - CRanking::STD_WIDTH;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// ランキングの生成
-		m_pRanking = CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 15.0f);
+		m_pRanking = CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 40.0f);
+	}
+
+	{// ランキングの文字列
+		float width = (float)CApplication::SCREEN_WIDTH * 0.75f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.15f;
+
+		CObject2D* pObj = CObject2D::Create();
+		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
+		pObj->SetSize(D3DXVECTOR3(550.0f, 150.0f, 0.0f));
+		pObj->SetTexture(CTexture::LABEL_Rankig);
 	}
 
 	{// 今回のスコア
@@ -59,13 +69,23 @@ void CResult::Init()
 
 		float center = (Digit(score) * size.x * 0.5f);
 		float width = (float)CApplication::SCREEN_WIDTH * 0.25f + center;
-		float height = (float)CApplication::SCREEN_HEIGHT * 0.5f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// スコアの生成
 		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
 
 		// スコアの設定
 		pScore->Set(score);
+	}
+
+	{// ランキングの文字列
+		float width = (float)CApplication::SCREEN_WIDTH * 0.25f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.15f - 12.5f;
+
+		CObject2D* pObj = CObject2D::Create();
+		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
+		pObj->SetSize(D3DXVECTOR3(600.0f, 100.0f, 0.0f));
+		pObj->SetTexture(CTexture::LABEL_NewScore);
 	}
 }
 

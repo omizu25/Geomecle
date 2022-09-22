@@ -71,7 +71,7 @@ void CTime::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 	// ‰Šú‰»
 	CNumberManager::Init(pos, size);
 	CNumberManager::SetZero(true);
-	CNumberManager::SetZeroDigit(4);
+	CNumberManager::SetZeroDigit(2);
 }
 
 //--------------------------------------------------
@@ -90,7 +90,7 @@ void CTime::Update()
 {
 	int time = timeGetTime();
 
-	m_elapsed = (time - m_start) / 10;
+	m_elapsed = (time - m_start) / 1000;
 
 	int number = m_end - m_elapsed;
 
