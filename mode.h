@@ -29,6 +29,8 @@ public:
 		MODE_MAX,
 	};
 
+	static const int FADE_TIME;	// フェードの時間
+
 	/* ↓静的メンバ関数↓ */
 public:
 	static CMode* Create(EMode mode);	// 生成

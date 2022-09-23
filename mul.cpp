@@ -80,6 +80,9 @@ void CMul::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 
 	// テクスチャの設定
 	m_pMul->SetTexture(CTexture::LABEL_Mul);
+
+	// フェードの設定
+	m_pMul->SetFade(0.0f);
 }
 
 //--------------------------------------------------

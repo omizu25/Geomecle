@@ -20,8 +20,8 @@
 //==================================================
 // 定義
 //==================================================
-const float CScore::STD_WIDTH = 40.0f;
-const float CScore::STD_HEIGHT = 50.0f;
+const float CScore::STD_WIDTH = 30.0f;
+const float CScore::STD_HEIGHT = 40.0f;
 
 //--------------------------------------------------
 // 生成
@@ -99,6 +99,9 @@ void CScore::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 
 		// 描画の設定
 		m_pComma[i]->SetDraw(false);
+
+		// フェードの設定
+		m_pComma[i]->SetFade(0.0f);
 	}
 }
 

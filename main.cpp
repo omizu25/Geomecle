@@ -27,7 +27,7 @@ namespace
 LPCTSTR CLASS_NAME = _T("AppClass");
 
 // ウインドウのキャプション名
-LPCTSTR WINDOW_NAME = _T("ポリゴンの描画");
+LPCTSTR WINDOW_NAME = _T("Geomecle");
 }
 
 //==================================================

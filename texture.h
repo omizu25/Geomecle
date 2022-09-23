@@ -41,6 +41,7 @@ public:
 		LABEL_NewScore,			// 新しいスコア
 		LABEL_Tutorial,			// チュートリアル
 		LABEL_Comma,			// カンマ
+		LABEL_Period,			// ピリオド
 		LABEL_MAX
 	};
 

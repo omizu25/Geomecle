@@ -44,7 +44,11 @@ CObject2D::CObject2D() : CObject(CObject::CATEGORY_2D),
 	m_pVtxBuff(nullptr),
 	m_pos(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_size(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
+	m_alpha(0.0f),
 	m_rot(0.0f),
+	m_fade(false),
+	m_inOut(false),
 	m_draw(false)
 {
 }
@@ -63,10 +67,14 @@ CObject2D::~CObject2D()
 void CObject2D::Init()
 {
 	m_rot = 0.0f;
+	m_alpha = 0.0f;
 	m_size = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	m_pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_texture = CTexture::LABEL_NONE;
 	m_draw = true;
+	m_fade = false;
+	m_inOut = false;
 	
 	// デバイスへのポインタの取得
 	LPDIRECT3DDEVICE9 pDevice = CApplication::GetInstanse()->GetDevice();
@@ -130,6 +138,40 @@ void CObject2D::Uninit()
 //--------------------------------------------------
 void CObject2D::Update()
 {
+	if (!m_fade)
+	{// フェードしない
+		return;
+	}
+
+	if (m_inOut)
+	{// フェードイン
+		m_col.a += 0.05f;
+
+		if (m_col.a >= m_alpha)
+		{// 目的の色
+			m_col.a = m_alpha;
+			m_fade = false;
+		}
+
+		if (m_col.a >= 1.0f)
+		{
+			m_col.a = 1.0f;
+			m_fade = false;
+		}
+	}
+	else
+	{// フェードアウト
+		m_col.a -= 0.05f;
+
+		if (m_col.a <= 0.0f)
+		{
+			m_col.a = 0.0f;
+			m_fade = false;
+		}
+	}
+
+	// 色の設定
+	SetCol(m_col);
 }
 
 //--------------------------------------------------
@@ -222,16 +264,18 @@ const float CObject2D::GetRot() const
 //--------------------------------------------------
 void CObject2D::SetCol(const D3DXCOLOR& col)
 {
+	m_col = col;
+	
 	VERTEX_2D *pVtx = nullptr;	// 頂点情報へのポインタ
 
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
 	// 頂点カラーの設定
-	pVtx[0].col = col;
-	pVtx[1].col = col;
-	pVtx[2].col = col;
-	pVtx[3].col = col;
+	pVtx[0].col = m_col;
+	pVtx[1].col = m_col;
+	pVtx[2].col = m_col;
+	pVtx[3].col = m_col;
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -310,4 +354,32 @@ void CObject2D::SetVtxPos()
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
+}
+
+//--------------------------------------------------
+// フェードの設定
+//--------------------------------------------------
+void CObject2D::SetFade(float alpha)
+{
+	m_alpha = m_col.a;
+	m_col.a = alpha;
+
+	if (m_col.a <= 0.0f)
+	{// フェードイン
+		if (m_col.a >= m_alpha)
+		{// 目的の色
+			return;
+		}
+
+		m_inOut = true;
+	}
+	else
+	{// フェードアウト
+		m_inOut = false;
+	}
+
+	m_fade = true;
+
+	// 色の設定
+	SetCol(m_col);
 }

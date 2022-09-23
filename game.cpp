@@ -61,11 +61,11 @@ void CGame::Init()
 	CEnemyManager::GetInstanse()->Init();
 
 	{// タイム
-		float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CTime::STD_WIDTH * 1.0f);
+		float width = (float)CApplication::SCREEN_WIDTH * 0.5f + (CTime::STD_WIDTH * 2.25f);
 		float height = CTime::STD_HEIGHT * 0.5f + 15.0f;
 
 		// タイムの生成
-		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 45);
+		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), 4500);
 	}
 
 	{// スコア
@@ -107,7 +107,8 @@ void CGame::Uninit()
 {
 	// ランキングの設定
 	CRanking::Set(m_pScore->Get());
-	
+	CRanking::Set(1000000000);
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
 

@@ -60,6 +60,9 @@ void CNumber::Init()
 
 	// テクスチャの設定
 	CObject2D::SetTexture(CTexture::LABEL_Number);
+
+	// フェード設定
+	CObject2D::SetFade(0.0f);
 }
 
 //--------------------------------------------------

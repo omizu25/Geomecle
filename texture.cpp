@@ -37,6 +37,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/NewScore.png",		// 新しいスコア
 	"data/TEXTURE/Tutorial.png",		// チュートリアル
 	"data/TEXTURE/Comma.png",			// カンマ
+	"data/TEXTURE/Period.png",			// ピリオド
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

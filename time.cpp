@@ -12,6 +12,7 @@
 #include "utility.h"
 #include "application.h"
 #include "mode.h"
+#include "object2D.h"
 #include <assert.h>
 
 //==================================================
@@ -71,7 +72,30 @@ void CTime::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 	// 初期化
 	CNumberManager::Init(pos, size);
 	CNumberManager::SetZero(true);
-	CNumberManager::SetZeroDigit(2);
+	CNumberManager::SetZeroDigit(4);
+
+	float interval = size.x * 0.5f;
+
+	// 間隔の設定
+	CNumberManager::SetInterval(2, interval);
+
+	// ピリオドの生成
+	CObject2D* m_pPeriod = CObject2D::Create();
+
+	D3DXVECTOR3 periodPos = D3DXVECTOR3(pos.x, pos.y + (size.y * 0.5f) - (size.y * 0.25f), 0.0f);
+	periodPos.x = pos.x - ((size.x * 2.0f) + (interval * 0.5f));
+
+	// 位置の設定
+	m_pPeriod->SetPos(periodPos);
+
+	// サイズの設定
+	m_pPeriod->SetSize(size * 0.5f);
+
+	// テクスチャの設定
+	m_pPeriod->SetTexture(CTexture::LABEL_Period);
+
+	// フェードの設定
+	m_pPeriod->SetFade(0.0f);
 }
 
 //--------------------------------------------------
@@ -90,7 +114,7 @@ void CTime::Update()
 {
 	int time = timeGetTime();
 
-	m_elapsed = (time - m_start) / 1000;
+	m_elapsed = (time - m_start) / 10;
 
 	int number = m_end - m_elapsed;
 

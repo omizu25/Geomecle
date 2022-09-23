@@ -20,9 +20,12 @@ class CEffectManager
 	/* 定義 */
 private:
 	static const int MAX_PARTICLE;		// パーティクルの最大数
+	static const int MAX_PLAYER;		// プレイヤーの最大数
 	static const int MAX_EXPLOSION;		// 爆発の最大数
+	static const int HALF_EXPLOSION;	// 爆発の最大数の半分
 	static const int MAX_BULLET;		// 弾の最大数
 	static const float PARTICLE_MOVE;	// パーティクルの移動量
+	static const float PLAYER_MOVE;		// プレイヤーの移動量
 	static const float EXPLOSION_MOVE;	// 爆発の移動量
 	static const float BULLET_MOVE;		// 弾の移動量
 

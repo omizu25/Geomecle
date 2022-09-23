@@ -49,16 +49,17 @@ public:
 	void Draw() override;	// 描画
 
 public:
-	void SetPos(const D3DXVECTOR3& pos);	// 位置の設定
-	const D3DXVECTOR3& GetPos() const;		// 位置の取得
-	void SetSize(const D3DXVECTOR3& size);	// サイズの設定
-	const D3DXVECTOR3& GetSize() const;		// サイズの取得
-	void SetRot(float rot);					// 向きの設定
-	const float GetRot() const;				// 向きの取得
-	void SetCol(const D3DXCOLOR& col);		// 色の設定
-	void SetDraw(bool draw);				// 描画するかどうかの設定
-	void SetTexture(CTexture::ELabel texture);					// テクスチャの設定
+	void SetPos(const D3DXVECTOR3& pos);		// 位置の設定
+	const D3DXVECTOR3& GetPos() const;			// 位置の取得
+	void SetSize(const D3DXVECTOR3& size);		// サイズの設定
+	const D3DXVECTOR3& GetSize() const;			// サイズの取得
+	void SetRot(float rot);						// 向きの設定
+	const float GetRot() const;					// 向きの取得
+	void SetCol(const D3DXCOLOR& col);			// 色の設定
+	void SetDraw(bool draw);					// 描画するかどうかの設定
+	void SetTexture(CTexture::ELabel texture);	// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
+	void SetFade(float alpha);	// フェードの設定
 
 private:
 	void SetVtxPos();	// 頂点情報の設定
@@ -69,7 +70,11 @@ private:
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	// 頂点バッファのポインタ
 	D3DXVECTOR3 m_size;	// サイズ
 	D3DXVECTOR3 m_pos;	// 位置
+	D3DXCOLOR m_col;	// 色
+	float m_alpha;		// アルファ
 	float m_rot;		// 向き
+	bool m_fade;		// フェード
+	bool m_inOut;		// フェードがイン・アウト
 	bool m_draw;		// 描画するかどうか
 };
 

@@ -49,6 +49,7 @@ void CTitle::Init()
 	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.3f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
 	pTitle->SetSize(D3DXVECTOR3(700.0f, 200.0f, 0.0f));
 	pTitle->SetTexture(CTexture::LABEL_Title);
+	pTitle->SetFade(0.0f);
 }
 
 //--------------------------------------------------
@@ -73,7 +74,7 @@ void CTitle::Update()
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
-		if (m_time >= 20)
+		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間
 			Change(MODE_TUTORIAL);
 			return;
@@ -103,12 +104,12 @@ void CTitle::Effect()
 {
 	m_time++;
 
-	if ((m_time % 20) != 0)
+	if ((m_time % 13) != 0)
 	{// 一定間隔待ち
 		return;
 	}
 
-	if (m_partCnt % 10 == 0)
+	if (m_partCnt % 15 == 0)
 	{// 一定間隔
 		m_col.r = FloatRandom(1.0f, 0.0f);
 		m_col.g = FloatRandom(1.0f, 0.0f);
@@ -117,8 +118,8 @@ void CTitle::Effect()
 
 	m_partCnt++;
 
-	float width = CWall::STD_WIDTH * 0.25f;
-	float height = CWall::STD_HEIGHT * 0.25f;
+	float width = CWall::STD_WIDTH * 0.4f;
+	float height = CWall::STD_HEIGHT * 0.4f;
 
 	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
 

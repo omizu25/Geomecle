@@ -45,6 +45,7 @@ void CTutorial::Init()
 	pTutorial->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
 	pTutorial->SetSize(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, (float)CApplication::SCREEN_HEIGHT, 0.0f));
 	pTutorial->SetTexture(CTexture::LABEL_Tutorial);
+	pTutorial->SetFade(0.0f);
 }
 
 //--------------------------------------------------
@@ -68,7 +69,7 @@ void CTutorial::Update()
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
-		if (m_time >= 20)
+		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間
 			Change(MODE_GAME);
 			return;

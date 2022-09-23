@@ -125,7 +125,7 @@ void CEffect::Update()
 	float width = (CWall::STD_WIDTH * 0.5f) - ((STD_WIDTH * 0.5f) + size);
 	float height = (CWall::STD_HEIGHT * 0.5f) - ((STD_WIDTH * 0.5f) + size);
 
-	// ”ÍˆÍ“à‚Å”½
+	// ”ÍˆÍ“à‚Å”½ŽË
 	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
 	
 	float len = STD_HEIGHT * D3DXVec3Length(&m_move);

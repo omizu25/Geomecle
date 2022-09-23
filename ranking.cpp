@@ -20,8 +20,8 @@
 //==================================================
 // 定義
 //==================================================
-const float CRanking::STD_WIDTH = 45.0f;
-const float CRanking::STD_HEIGHT = 55.0f;
+const float CRanking::STD_WIDTH = 40.0f;
+const float CRanking::STD_HEIGHT = 50.0f;
 const char* CRanking::FILE_NAME = "data/TEXT/Ranking.txt";
 
 //==================================================
@@ -236,17 +236,18 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 		// スコアの設定
 		m_pRanking[i]->Set(m_ranking[i]);
 
-		rankPosX = pos.x - maxWidth - interval;
-
-		// 順位の生成
-		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(rankPosX - 90.0f, posY, 0.0f), size * 1.2f);
-		pNumber->Change(i + 1);
+		rankPosX = pos.x - maxWidth - interval - (STD_HEIGHT * 0.5f);
 
 		// 位の生成
 		CObject2D* pRank = CObject2D::Create();
-		pRank->SetPos(D3DXVECTOR3(rankPosX - (STD_HEIGHT * 0.5f) - 10.0f, posY, 0.0f));
+		pRank->SetPos(D3DXVECTOR3(rankPosX - 20.0f, posY, 0.0f));
 		pRank->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
 		pRank->SetTexture(CTexture::LABEL_Rank);
+		pRank->SetFade(0.0f);
+
+		// 順位の生成
+		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(rankPosX - 65.0f, posY, 0.0f), size * 1.2f);
+		pNumber->Change(i + 1);
 	}
 
 	m_newRank = -1;
@@ -292,7 +293,7 @@ void CRanking::Update()
 
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	col.a = SinCurve(m_time, 0.01f) + 0.1f;
+	col.a = 1.0f - CosCurve(m_time, 0.01f) + 0.1f;
 
 	// 色の設定
 	m_pRanking[m_newRank]->SetCol(col);
