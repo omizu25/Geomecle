@@ -57,6 +57,7 @@ public:
 	const float GetRot() const;					// 向きの取得
 	void SetCol(const D3DXCOLOR& col);			// 色の設定
 	void SetDraw(bool draw);					// 描画するかどうかの設定
+	bool GetDraw();								// 描画するかどうかの取得
 	void SetTexture(CTexture::ELabel texture);	// テクスチャの設定
 	void SetVtxTex(const D3DXVECTOR2& u, const D3DXVECTOR2 v);	// テクスチャ座標の設定
 	void SetFade(float alpha);	// フェードの設定

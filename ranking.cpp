@@ -293,7 +293,7 @@ void CRanking::Update()
 
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	col.a = 1.0f - CosCurve(m_time, 0.01f) + 0.1f;
+	col.a = 1.0f - (CosCurve(m_time, 0.01f) * 0.9f);
 
 	// F‚ÌÝ’è
 	m_pRanking[m_newRank]->SetCol(col);

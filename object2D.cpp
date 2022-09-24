@@ -145,15 +145,15 @@ void CObject2D::Update()
 
 	if (m_inOut)
 	{// フェードイン
-		m_col.a += 0.05f;
+		m_alpha += 0.05f;
 
-		if (m_col.a >= m_alpha)
+		if (m_alpha >= m_col.a)
 		{// 目的の色
 			m_col.a = m_alpha;
 			m_fade = false;
 		}
 
-		if (m_col.a >= 1.0f)
+		if (m_alpha >= 1.0f)
 		{
 			m_col.a = 1.0f;
 			m_fade = false;
@@ -161,9 +161,9 @@ void CObject2D::Update()
 	}
 	else
 	{// フェードアウト
-		m_col.a -= 0.05f;
+		m_alpha -= 0.05f;
 
-		if (m_col.a <= 0.0f)
+		if (m_alpha <= 0.0f)
 		{
 			m_col.a = 0.0f;
 			m_fade = false;
@@ -271,11 +271,23 @@ void CObject2D::SetCol(const D3DXCOLOR& col)
 	// 頂点情報をロックし、頂点情報へのポインタを取得
 	m_pVtxBuff->Lock(0, 0, (void**)&pVtx, 0);
 
-	// 頂点カラーの設定
-	pVtx[0].col = m_col;
-	pVtx[1].col = m_col;
-	pVtx[2].col = m_col;
-	pVtx[3].col = m_col;
+	if (!m_fade)
+	{// フェードしない
+		// 頂点カラーの設定
+		pVtx[0].col = m_col;
+		pVtx[1].col = m_col;
+		pVtx[2].col = m_col;
+		pVtx[3].col = m_col;
+	}
+	else
+	{// フェードする
+		D3DXCOLOR fadeCol = D3DXCOLOR(m_col.r, m_col.g, m_col.b, m_alpha);
+		// 頂点カラーの設定
+		pVtx[0].col = fadeCol;
+		pVtx[1].col = fadeCol;
+		pVtx[2].col = fadeCol;
+		pVtx[3].col = fadeCol;
+	}
 
 	// 頂点バッファをアンロックする
 	m_pVtxBuff->Unlock();
@@ -287,6 +299,14 @@ void CObject2D::SetCol(const D3DXCOLOR& col)
 void CObject2D::SetDraw(bool draw)
 {
 	m_draw = draw;
+}
+
+//--------------------------------------------------
+// 描画するかどうかの取得
+//--------------------------------------------------
+bool CObject2D::GetDraw()
+{
+	return m_draw;
 }
 
 //--------------------------------------------------
@@ -361,12 +381,11 @@ void CObject2D::SetVtxPos()
 //--------------------------------------------------
 void CObject2D::SetFade(float alpha)
 {
-	m_alpha = m_col.a;
-	m_col.a = alpha;
+	m_alpha = alpha;
 
-	if (m_col.a <= 0.0f)
+	if (m_alpha <= 0.0f)
 	{// フェードイン
-		if (m_col.a >= m_alpha)
+		if (m_alpha >= m_col.a)
 		{// 目的の色
 			return;
 		}

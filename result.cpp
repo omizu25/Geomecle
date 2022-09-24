@@ -54,20 +54,20 @@ void CResult::Init()
 		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
 		pObj->SetSize(D3DXVECTOR3(600.0f, 650.0f, 0.0f));
 		pObj->SetTexture(CTexture::LABEL_NONE);
-		pObj->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.25f));
+		pObj->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.4f));
 		pObj->SetFade(0.0f);
 	}
 
 	{// ƒXƒRƒA‚Ì”wŒi
 		float width = (float)CApplication::SCREEN_WIDTH * 0.25f;
-		float height = (float)CApplication::SCREEN_HEIGHT * 0.25f- 10.0f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.25f - 10.0f;
 
 		// ƒXƒRƒA‚Ì”wŒi‚Ì¶¬
 		CObject2D* pObj = CObject2D::Create();
 		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
 		pObj->SetSize(D3DXVECTOR3(620.0f, 300.0f, 0.0f));
 		pObj->SetTexture(CTexture::LABEL_NONE);
-		pObj->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.25f));
+		pObj->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.4f));
 		pObj->SetFade(0.0f);
 	}
 

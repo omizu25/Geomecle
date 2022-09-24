@@ -41,6 +41,7 @@
     <ClInclude Include="input_keyboard.h" />
     <ClInclude Include="instancing.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="mul.h" />
     <ClInclude Include="number.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="input_keyboard.cpp" />
     <ClCompile Include="instancing.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="mul.cpp" />
     <ClCompile Include="number.cpp" />

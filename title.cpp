@@ -17,12 +17,14 @@
 #include "effect_manager.h"
 #include "wall.h"
 #include "utility.h"
+#include "menu.h"
 #include <assert.h>
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CTitle::CTitle() : CMode(CMode::MODE_TITLE),
+	m_pMenu(nullptr),
 	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
 	m_time(0),
 	m_partCnt(0)
@@ -47,9 +49,14 @@ void CTitle::Init()
 
 	CObject2D* pTitle = CObject2D::Create();
 	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.3f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
-	pTitle->SetSize(D3DXVECTOR3(700.0f, 200.0f, 0.0f));
+	pTitle->SetSize(D3DXVECTOR3(700.0f, 250.0f, 0.0f));
 	pTitle->SetTexture(CTexture::LABEL_Title);
 	pTitle->SetFade(0.0f);
+
+	D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.75f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+	D3DXVECTOR3 size = D3DXVECTOR3(300.0f, 100.0f, 0.0f);
+	m_pMenu = CMenu::Create(pos, size, 3, 40.0f, true);
+	m_pMenu->SetTexture(0 ,CTexture::LABEL_Title);
 }
 
 //--------------------------------------------------
@@ -68,6 +75,8 @@ void CTitle::Update()
 {
 	// 更新
 	CObject::UpdateAll();
+
+	m_pMenu->Select();
 
 	// エフェクト
 	Effect();
