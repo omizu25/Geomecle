@@ -59,6 +59,18 @@ CEffectManager::~CEffectManager()
 }
 
 //--------------------------------------------------
+// 終了
+//--------------------------------------------------
+void CEffectManager::Release()
+{
+	if (m_pEffectManager != nullptr)
+	{// nullチェック
+		delete m_pEffectManager;
+		m_pEffectManager = nullptr;
+	}
+}
+
+//--------------------------------------------------
 // パーティクル
 //--------------------------------------------------
 void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)

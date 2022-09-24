@@ -16,12 +16,24 @@
 // 前方宣言
 //==================================================
 class CRanking;
+class CScore;
+class CMenu;
 
 //==================================================
 // 定義
 //==================================================
 class CResult : public CMode
 {
+	/* 定義 */
+private:
+	enum ESelect
+	{
+		SELECT_NONE = -1,	// 使用しない
+		SELECT_RETRY = 0,	// リトライ
+		SELECT_END,			// 終了
+		SELECT_MAX
+	};
+
 	/* ↓メンバ関数↓ */
 public:
 	CResult();				// デフォルトコンストラクタ
@@ -39,7 +51,9 @@ private:
 	/* メンバ変数 */
 private:
 	CRanking* m_pRanking;	// ランキング
-	int m_time;	// 時間
+	CScore* m_pScore;		// 今回のスコア
+	CMenu* m_pMenu;			// メニュー
+	int m_time;				// 時間
 };
 
 #endif // !_RESULT_H_

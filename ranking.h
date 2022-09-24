@@ -55,6 +55,7 @@ public:
 public:
 	void Init(const D3DXVECTOR3& pos, float length);	// 初期化
 	void Uninit();	// 終了
+	void Release();	// 解放
 	void Update();	// 更新
 
 	/* ↓メンバ変数↓ */

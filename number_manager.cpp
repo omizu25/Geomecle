@@ -104,6 +104,22 @@ void CNumberManager::Uninit()
 }
 
 //--------------------------------------------------
+// ‰ð•ú
+//--------------------------------------------------
+void CNumberManager::Release()
+{
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		if (m_number[i] != nullptr)
+		{
+			// ‰ð•ú
+			m_number[i]->Release();
+			m_number[i] = nullptr;
+		}
+	}
+}
+
+//--------------------------------------------------
 // ‰ÁŽZ
 //--------------------------------------------------
 void CNumberManager::Add(int value)

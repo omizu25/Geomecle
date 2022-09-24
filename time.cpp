@@ -47,6 +47,7 @@ CTime* CTime::Create(const D3DXVECTOR3& pos, int start, int end)
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CTime::CTime() :
+	m_pPeriod(nullptr),
 	m_start(0),
 	m_elapsed(0),
 	m_end(0)
@@ -80,7 +81,7 @@ void CTime::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 	CNumberManager::SetInterval(2, interval);
 
 	// ピリオドの生成
-	CObject2D* m_pPeriod = CObject2D::Create();
+	m_pPeriod = CObject2D::Create();
 
 	D3DXVECTOR3 periodPos = D3DXVECTOR3(pos.x, pos.y + (size.y * 0.5f) - (size.y * 0.25f), 0.0f);
 	periodPos.x = pos.x - ((size.x * 2.0f) + (interval * 0.5f));
@@ -105,6 +106,29 @@ void CTime::Uninit()
 {
 	// 終了
 	CNumberManager::Uninit();
+
+	if (m_pPeriod != nullptr)
+	{// nullチェック
+		// 終了
+		m_pPeriod->Uninit();
+		m_pPeriod = nullptr;
+	}
+}
+
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CTime::Release()
+{
+	// 解放
+	CNumberManager::Release();
+
+	if (m_pPeriod != nullptr)
+	{// nullチェック
+		// 解放
+		m_pPeriod->Release();
+		m_pPeriod = nullptr;
+	}
 }
 
 //--------------------------------------------------
@@ -114,9 +138,9 @@ void CTime::Update()
 {
 	int time = timeGetTime();
 
-	m_elapsed = (time - m_start) / 10;
+	m_elapsed = (time - m_start);
 
-	int number = m_end - m_elapsed;
+	int number = m_end - (m_elapsed / 10);
 
 	// 数の変更
 	CNumberManager::Set(number);
@@ -126,4 +150,14 @@ void CTime::Update()
 		// モードの変更
 		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
 	}
+}
+
+//--------------------------------------------------
+// 停止
+//--------------------------------------------------
+void CTime::Restart()
+{
+	int time = timeGetTime();
+
+	m_start += (time - (m_elapsed + m_start));
 }

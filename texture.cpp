@@ -18,26 +18,36 @@
 //==================================================
 const char* CTexture::FILE_NAME[] =
 {// テクスチャのパス
-	"data/TEXTURE/icon_122380_256.png",	// プレイヤー
-	"data/TEXTURE/icon_122540_256.png",	// 弾
+	"data/TEXTURE/Player.png",			// プレイヤー
+	"data/TEXTURE/Bullet.png",			// 弾
+	"data/TEXTURE/effect.jpg",			// エフェクト
+	"data/TEXTURE/bg.png",				// 背景
+	"data/TEXTURE/Cursor.png",			// カーソル
+	"data/TEXTURE/Tutorial.png",		// チュートリアル
+
+	/* ↓敵↓ */
 	"data/TEXTURE/Homing.png",			// ホーミング
 	"data/TEXTURE/HomingAI.png",		// AIホーミング
 	"data/TEXTURE/HomingDivision.png",	// 分裂ホーミング
 	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
 	"data/TEXTURE/Windmill.png",		// 風車
 	"data/TEXTURE/snake_body.png",		// 蛇の体
-	"data/TEXTURE/Number.png",			// 数
-	"data/TEXTURE/result.png",			// リザルト
-	"data/TEXTURE/title.png",			// タイトル
-	"data/TEXTURE/effect.jpg",			// エフェクト
-	"data/TEXTURE/bg.png",				// 背景
-	"data/TEXTURE/mul.png",				// 掛ける
-	"data/TEXTURE/rank.png",			// 位
-	"data/TEXTURE/ranking.png",			// ランキング
-	"data/TEXTURE/NewScore.png",		// 新しいスコア
-	"data/TEXTURE/Tutorial.png",		// チュートリアル
-	"data/TEXTURE/Comma.png",			// カンマ
-	"data/TEXTURE/Period.png",			// ピリオド
+
+	/* ↓テキスト↓ */
+	"data/TEXTURE/TEXT/Number.png",		// 数
+	"data/TEXTURE/TEXT/result.png",		// リザルト
+	"data/TEXTURE/TEXT/title.png",		// タイトル
+	"data/TEXTURE/TEXT/mul.png",		// 掛ける
+	"data/TEXTURE/TEXT/rank.png",		// 位
+	"data/TEXTURE/TEXT/ranking.png",	// ランキング
+	"data/TEXTURE/TEXT/NewScore.png",	// 新しいスコア
+	"data/TEXTURE/TEXT/Comma.png",		// カンマ
+	"data/TEXTURE/TEXT/Period.png",		// ピリオド
+	"data/TEXTURE/TEXT/Pause.png",		// ポーズ
+	"data/TEXTURE/TEXT/Resume.png",		// 再開
+	"data/TEXTURE/TEXT/Restart.png",	// リスタート
+	"data/TEXTURE/TEXT/End.png",		// 終了
+	"data/TEXTURE/TEXT/Retry.png",		// リトライ
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

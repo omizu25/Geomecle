@@ -93,7 +93,29 @@ void CEnemyManager::Uninit()
 		if (m_pWave[i] != nullptr)
 		{// nullチェック
 			m_pWave[i]->Release();
+			m_pWave[i] = nullptr;
 		}
+	}
+}
+
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CEnemyManager::Release()
+{
+	for (int i = 0; i < MAX_WAVE; i++)
+	{
+		if (m_pWave[i] != nullptr)
+		{// nullチェック
+			m_pWave[i]->Release();
+			m_pWave[i] = nullptr;
+		}
+	}
+
+	if (m_pEnemyManager != nullptr)
+	{// nullチェック
+		delete m_pEnemyManager;
+		m_pEnemyManager = nullptr;
 	}
 }
 

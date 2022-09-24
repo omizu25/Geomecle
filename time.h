@@ -14,6 +14,11 @@
 #include "number_manager.h"
 
 //==================================================
+// 前方宣言
+//==================================================
+class CObject2D;
+
+//==================================================
 // 定義
 //==================================================
 class CTime : public CNumberManager
@@ -34,11 +39,16 @@ public:
 
 public:
 	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// 初期化
-	void Uninit() override;	// 終了
-	void Update();			// 更新
+	void Uninit() override;		// 終了
+	void Release() override;	// 解放
+
+public:
+	void Update();	// 更新
+	void Restart();	// 再開
 
 	/* ↓メンバ変数↓ */
 private:
+	CObject2D* m_pPeriod;	// ピリオド
 	int m_start;	// 開始
 	int m_elapsed;	// 経過
 	int m_end;		// 終了

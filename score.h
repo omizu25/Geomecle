@@ -39,7 +39,10 @@ public:
 
 public:
 	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size) override;	// ‰Šú‰»
-	void Uninit() override;	// I—¹
+	void Uninit() override;		// I—¹
+	void Release() override;	// ‰ğ•ú
+
+public:
 	void Add(int score);	// ‰ÁZ
 	void Set(int value);	// İ’è
 	void SetCol(const D3DXCOLOR& col);	// F‚Ìİ’è

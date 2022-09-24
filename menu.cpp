@@ -17,11 +17,12 @@
 //==================================================
 // 定義
 //==================================================
+const float CMenu::CURSOR_INTERVAL = 30.0f;
 
 //--------------------------------------------------
 // 生成
 //--------------------------------------------------
-CMenu* CMenu::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort)
+CMenu* CMenu::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort, bool cursor)
 {
 	CMenu* pMenu = nullptr;
 
@@ -30,7 +31,7 @@ CMenu* CMenu::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse
 	if (pMenu != nullptr)
 	{// nullチェック
 		// 初期化
-		pMenu->Init(pos, size, numUse, interval, sort);
+		pMenu->Init(pos, size, numUse, interval, sort, cursor);
 	}
 
 	return pMenu;
@@ -41,6 +42,7 @@ CMenu* CMenu::Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse
 //--------------------------------------------------
 CMenu::CMenu() :
 	m_pFrame(nullptr),
+	m_pCursor(nullptr),
 	m_selectIdx(0),
 	m_numUse(0),
 	m_time(0),
@@ -63,12 +65,13 @@ CMenu::~CMenu()
 	}
 
 	assert(m_pFrame == nullptr);
+	assert(m_pCursor == nullptr);
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CMenu::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort)
+void CMenu::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort, bool cursor)
 {
 	assert(numUse > 0 && numUse <= MAX_OPTION);
 
@@ -80,11 +83,11 @@ void CMenu::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, fl
 	// 枠の作成
 	m_pFrame = CObject2D::Create();
 
-	// 位置の設定
-	m_pFrame->SetPos(pos);
-	
 	// 描画の設定
 	m_pFrame->SetDraw(false);
+
+	// 位置の設定
+	m_pFrame->SetPos(pos);
 
 	// フェードの設定
 	m_pFrame->SetFade(0.0f);
@@ -100,6 +103,32 @@ void CMenu::Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, fl
 		optionPos.x -= ((m_numUse - 1) * ((size.x * 0.5f) + (interval * 0.5f)));
 	}
 
+	if (cursor)
+	{// カーソルを使用する
+		// カーソルの作成
+		m_pCursor = CObject2D::Create();
+
+		float cursorSize = size.y * 0.8f;
+		D3DXVECTOR3 cursorPos = optionPos;
+		cursorPos.x -= ((cursorSize * 0.5f) + (size.x * 0.5f) + CURSOR_INTERVAL);
+
+		// 位置の設定
+		m_pCursor->SetPos(cursorPos);
+
+		// サイズの設定
+		m_pCursor->SetSize(D3DXVECTOR3(cursorSize, cursorSize, 0.0f));
+
+		// テクスチャの設定
+		m_pCursor->SetTexture(CTexture::LABEL_Cursor);
+
+		// フェードの設定
+		m_pCursor->SetFade(0.0f);
+	}
+	else
+	{
+		m_pCursor = nullptr;
+	}
+	
 	for (int i = 0; i < MAX_OPTION; i++)
 	{
 		if (i >= m_numUse)
@@ -152,6 +181,43 @@ void CMenu::Uninit()
 		m_pFrame->Uninit();
 		m_pFrame = nullptr;
 	}
+
+	if (m_pCursor != nullptr)
+	{// nullチェック
+		// 終了
+		m_pCursor->Uninit();
+		m_pCursor = nullptr;
+	}
+}
+
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CMenu::Release()
+{
+	for (int i = 0; i < MAX_OPTION; i++)
+	{
+		if (m_pOption[i] != nullptr)
+		{// nullチェック
+			// 解放
+			m_pOption[i]->Release();
+			m_pOption[i] = nullptr;
+		}
+	}
+
+	if (m_pFrame != nullptr)
+	{// nullチェック
+		// 解放
+		m_pFrame->Release();
+		m_pFrame = nullptr;
+	}
+
+	if (m_pCursor != nullptr)
+	{// nullチェック
+		// 解放
+		m_pCursor->Release();
+		m_pCursor = nullptr;
+	}
 }
 
 //--------------------------------------------------
@@ -168,8 +234,17 @@ void CMenu::Update()
 		}
 	}
 
-	// 更新
-	m_pFrame->Update();
+	if (m_pFrame != nullptr)
+	{// nullチェック
+		 // 更新
+		m_pFrame->Update();
+	}
+
+	if (m_pCursor != nullptr)
+	{// nullチェック
+		// 更新
+		m_pCursor->Update();
+	}
 }
 
 //--------------------------------------------------
@@ -269,4 +344,15 @@ void CMenu::Add(int add)
 	m_selectIdx = ((m_selectIdx + add) + m_numUse) % m_numUse;
 
 	m_time = 0;
+
+	if (m_pCursor != nullptr)
+	{// nullチェック
+		D3DXVECTOR3 pos = m_pOption[m_selectIdx]->GetPos();
+		D3DXVECTOR3 optionSize = m_pOption[m_selectIdx]->GetSize();
+		D3DXVECTOR3 cursorSize = m_pCursor->GetSize();
+		pos.x -= ((optionSize.x * 0.5f) + (cursorSize.x * 0.5f) + CURSOR_INTERVAL);
+
+		// 位置の設定
+		m_pCursor->SetPos(pos);
+	}
 }

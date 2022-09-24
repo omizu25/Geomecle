@@ -125,6 +125,25 @@ void CScore::Uninit()
 }
 
 //--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CScore::Release()
+{
+	// 解放
+	CNumberManager::Release();
+
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		if (m_pComma[i] != nullptr)
+		{// nullチェック
+			// 解放
+			m_pComma[i]->Release();
+			m_pComma[i] = nullptr;
+		}
+	}
+}
+
+//--------------------------------------------------
 // 加算
 //--------------------------------------------------
 void CScore::Add(int score)

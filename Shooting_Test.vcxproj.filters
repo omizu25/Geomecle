@@ -19,9 +19,6 @@
     <Filter Include="System">
       <UniqueIdentifier>{e58ca4c8-cefa-4b92-b923-dca6919df188}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Input">
-      <UniqueIdentifier>{8d02f8b4-8832-4693-b292-6532d8dc6128}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Mode">
       <UniqueIdentifier>{877756ab-715e-4bf1-82f4-50ca4277bd43}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,12 @@
     </Filter>
     <Filter Include="Json">
       <UniqueIdentifier>{8cc487ef-113f-4ef0-b9c3-87f1cebd1231}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{8d02f8b4-8832-4693-b292-6532d8dc6128}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{3ac0ac68-0127-4581-bbe8-aa58fa791223}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,10 +76,10 @@
       <Filter>System\Mode</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
-      <Filter>System\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="input_keyboard.h">
-      <Filter>System\Input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>Object\3D\Enemy</Filter>
@@ -85,9 +88,6 @@
       <Filter>Object\3D\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="enemy_homing.h">
-      <Filter>Object\3D\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy_manager.h">
       <Filter>Object\3D\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="enemy_rolling.h">
@@ -129,47 +129,53 @@
     <ClInclude Include="number.h">
       <Filter>Object\2D</Filter>
     </ClInclude>
-    <ClInclude Include="object2D.h">
-      <Filter>Object\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="object3D.h">
-      <Filter>Object\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="number_manager.h">
-      <Filter>Object\2D</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>Object\instancing</Filter>
     </ClInclude>
     <ClInclude Include="instancing.h">
       <Filter>Object\instancing</Filter>
     </ClInclude>
-    <ClInclude Include="effect_manager.h">
-      <Filter>Object\instancing</Filter>
-    </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>Object\2D</Filter>
-    </ClInclude>
     <ClInclude Include="exp.h">
       <Filter>Object\3D</Filter>
     </ClInclude>
-    <ClInclude Include="score.h">
-      <Filter>Object\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="mul.h">
-      <Filter>Object\2D</Filter>
-    </ClInclude>
     <ClInclude Include="enemy_wave.h">
       <Filter>Object\3D\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="ranking.h">
-      <Filter>Object\2D</Filter>
     </ClInclude>
     <ClInclude Include="tutorial.h">
       <Filter>System\Mode</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
-      <Filter>Object\2D</Filter>
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="pause.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="number_manager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="score.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="time.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="mul.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_manager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="effect_manager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="object3D.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="object2D.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +183,6 @@
       <Filter>Object\3D\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="enemy_homing.cpp">
-      <Filter>Object\3D\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy_manager.cpp">
       <Filter>Object\3D\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="enemy_round_trip.cpp">
@@ -195,10 +198,10 @@
       <Filter>Object\3D\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
-      <Filter>System\Input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="input_keyboard.cpp">
-      <Filter>System\Input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>System</Filter>
@@ -257,47 +260,53 @@
     <ClCompile Include="number.cpp">
       <Filter>Object\2D</Filter>
     </ClCompile>
-    <ClCompile Include="object2D.cpp">
-      <Filter>Object\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="object3D.cpp">
-      <Filter>Object\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="number_manager.cpp">
-      <Filter>Object\2D</Filter>
-    </ClCompile>
     <ClCompile Include="effect.cpp">
       <Filter>Object\instancing</Filter>
     </ClCompile>
     <ClCompile Include="instancing.cpp">
       <Filter>Object\instancing</Filter>
     </ClCompile>
-    <ClCompile Include="effect_manager.cpp">
-      <Filter>Object\instancing</Filter>
-    </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>Object\2D</Filter>
-    </ClCompile>
     <ClCompile Include="exp.cpp">
       <Filter>Object\3D</Filter>
     </ClCompile>
-    <ClCompile Include="score.cpp">
-      <Filter>Object\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="mul.cpp">
-      <Filter>Object\2D</Filter>
-    </ClCompile>
     <ClCompile Include="enemy_wave.cpp">
       <Filter>Object\3D\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="ranking.cpp">
-      <Filter>Object\2D</Filter>
     </ClCompile>
     <ClCompile Include="tutorial.cpp">
       <Filter>System\Mode</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
-      <Filter>Object\2D</Filter>
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="pause.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="number_manager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="score.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="time.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="mul.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_manager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="effect_manager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="object3D.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="object2D.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

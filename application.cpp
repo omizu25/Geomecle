@@ -21,6 +21,7 @@
 #include "player.h"
 #include "bg.h"
 #include "ranking.h"
+#include "effect_manager.h"
 #include <time.h>
 #include <assert.h>
 
@@ -178,6 +179,11 @@ void CApplication::Uninit()
 
 	// 破棄
 	CObject::Delete();
+
+	{
+		CEffectManager* pEffect = CEffectManager::GetInstanse();
+		pEffect->Release();
+	}
 
 	if (m_pPlayer != nullptr)
 	{// nullチェック

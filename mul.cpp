@@ -92,6 +92,29 @@ void CMul::Uninit()
 {
 	// 終了
 	CScore::Uninit();
+
+	if (m_pMul != nullptr)
+	{// nullチェック
+		// 終了
+		m_pMul->Uninit();
+		m_pMul = nullptr;
+	}
+}
+
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CMul::Release()
+{
+	// 解放
+	CScore::Release();
+
+	if (m_pMul != nullptr)
+	{// nullチェック
+		// 解放
+		m_pMul->Release();
+		m_pMul = nullptr;
+	}
 }
 
 //--------------------------------------------------

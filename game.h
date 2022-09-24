@@ -15,6 +15,8 @@
 //==================================================
 // 前方宣言
 //==================================================
+class CObject2D;
+class CPause;
 class CTime;
 class CScore;
 class CMul;
@@ -24,6 +26,11 @@ class CMul;
 //==================================================
 class CGame : public CMode
 {
+	/* 定義 */
+private:
+	static const int MAX_TIME;		// 時間の最大値
+	static const int PAUSE_TIME;	// ポーズが出来る様になるまでの時間
+
 	/* ↓メンバ関数↓ */
 public:
 	CGame();			// デフォルトコンストラクタ
@@ -38,11 +45,15 @@ public:
 public:
 	CScore* GetScore();	// スコアの取得
 	CMul* GetMul();		// 倍率の取得
+	CTime* GetTime();	// タイムの取得
 
 private:
-	CTime* m_pTime;		// タイム
-	CScore* m_pScore;	// スコア
-	CMul* m_pMul;		// 倍率
+	CObject2D* m_pPauseBG;	// ポーズの背景
+	CPause* m_pPause;		// ポーズ
+	CTime* m_pTime;			// タイム
+	CMul* m_pMul;			// 倍率
+	CScore* m_pScore;		// スコア
+	CScore* m_pBestScore;	// ベストスコア
 };
 
 #endif // !_GAME_H_

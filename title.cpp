@@ -53,10 +53,11 @@ void CTitle::Init()
 	pTitle->SetTexture(CTexture::LABEL_Title);
 	pTitle->SetFade(0.0f);
 
-	D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.75f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+	D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.85f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
 	D3DXVECTOR3 size = D3DXVECTOR3(300.0f, 100.0f, 0.0f);
-	m_pMenu = CMenu::Create(pos, size, 3, 40.0f, true);
+	m_pMenu = CMenu::Create(pos, size, 3, 100.0f, true, true);
 	m_pMenu->SetTexture(0 ,CTexture::LABEL_Title);
+	m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
 }
 
 //--------------------------------------------------
@@ -64,6 +65,13 @@ void CTitle::Init()
 //--------------------------------------------------
 void CTitle::Uninit()
 {
+	if (m_pMenu != nullptr)
+	{// nullチェック
+		m_pMenu->Uninit();
+		delete m_pMenu;
+		m_pMenu = nullptr;
+	}
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
 }

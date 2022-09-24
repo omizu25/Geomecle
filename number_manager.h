@@ -39,6 +39,7 @@ public:
 public:
 	virtual void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// ‰Šú‰»
 	virtual void Uninit();	// I—¹
+	virtual void Release();	// ‰ğ•ú
 
 public:
 	void Add(int value);	// ‰ÁZ

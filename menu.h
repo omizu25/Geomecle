@@ -26,6 +26,7 @@ class CMenu
 	/* ↓定義↓ */
 private:
 	static const int MAX_OPTION = 3;	// 選択肢の最大数
+	static const float CURSOR_INTERVAL;	// カーソルの間隔
 
 	/* ↓静的メンバ関数↓ */
 public:
@@ -36,8 +37,9 @@ public:
 	// numUse / 選択肢の使用数
 	// interval / 間隔
 	// sort / 並べ方 [ true : 縦 false : 横 ]
+	// cursor / カーソルを使うかどうか
 	//--------------------------------------------------
-	static CMenu* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort);
+	static CMenu* Create(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort, bool cursor);
 
 	/* ↓メンバ関数↓ */
 public:
@@ -45,8 +47,9 @@ public:
 	~CMenu();	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort);	// 初期化
+	void Init(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, int numUse, float interval, bool sort, bool cursor);	// 初期化
 	void Uninit();	// 終了
+	void Release();	// 解放
 	void Update();	// 更新
 	int Select();	// 選択
 	void SetFrame(const D3DXVECTOR3& size, const D3DXCOLOR& col);	// 枠の設定
@@ -59,6 +62,7 @@ private:
 private:
 	CObject2D* m_pOption[MAX_OPTION];	// 選択肢
 	CObject2D* m_pFrame;	// 枠
+	CObject2D* m_pCursor;	// カーソル
 	int m_selectIdx;		// 選択されている番号
 	int m_numUse;			// 使用数
 	int m_time;				// タイム

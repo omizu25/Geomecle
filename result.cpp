@@ -19,6 +19,7 @@
 #include "wall.h"
 #include "ranking.h"
 #include "score.h"
+#include "menu.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -26,6 +27,8 @@
 //--------------------------------------------------
 CResult::CResult() : CMode(CMode::MODE_RESULT),
 	m_pRanking(nullptr),
+	m_pScore(nullptr),
+	m_pMenu(nullptr),
 	m_time(0)
 {
 }
@@ -36,6 +39,8 @@ CResult::CResult() : CMode(CMode::MODE_RESULT),
 CResult::~CResult()
 {
 	assert(m_pRanking == nullptr);
+	assert(m_pScore == nullptr);
+	assert(m_pMenu == nullptr);
 }
 
 //--------------------------------------------------
@@ -100,10 +105,10 @@ void CResult::Init()
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// スコアの生成
-		CScore* pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
+		m_pScore = CScore::Create(D3DXVECTOR3(width, height, 0.0f), size);
 
 		// スコアの設定
-		pScore->Set(score);
+		m_pScore->Set(score);
 	}
 
 	{// 今回のスコアの文字列
@@ -117,6 +122,18 @@ void CResult::Init()
 		pObj->SetTexture(CTexture::LABEL_NewScore);
 		pObj->SetFade(0.0f);
 	}
+
+	{// メニュー
+		D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.35f, (float)CApplication::SCREEN_HEIGHT * 0.75f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(350.0f, 100.0f, 0.0f);
+
+		// メニューの生成
+		m_pMenu = CMenu::Create(pos, size, ESelect::SELECT_MAX, 40.0f, true, true);
+
+		// テクスチャの設定
+		m_pMenu->SetTexture(ESelect::SELECT_RETRY, CTexture::LABEL_Retry);
+		m_pMenu->SetTexture(ESelect::SELECT_END, CTexture::LABEL_End);
+	}
 }
 
 //--------------------------------------------------
@@ -124,10 +141,29 @@ void CResult::Init()
 //--------------------------------------------------
 void CResult::Uninit()
 {
+	if (m_pRanking != nullptr)
+	{// nullチェック
+		m_pRanking->Uninit();
+		delete m_pRanking;
+		m_pRanking = nullptr;
+	}
+
+	if (m_pScore != nullptr)
+	{// nullチェック
+		m_pScore->Uninit();
+		delete m_pScore;
+		m_pScore = nullptr;
+	}
+
+	if (m_pMenu != nullptr)
+	{// nullチェック
+		m_pMenu->Uninit();
+		delete m_pMenu;
+		m_pMenu = nullptr;
+	}
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
-
-	m_pRanking = nullptr;
 }
 
 //--------------------------------------------------
@@ -144,11 +180,33 @@ void CResult::Update()
 	// ランキングの更新
 	m_pRanking->Update();
 
+	// 選択
+	ESelect select = (ESelect)m_pMenu->Select();
+
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
 		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間
-			Change(MODE_TITLE);
+			switch (select)
+			{
+			case ESelect::SELECT_NONE:
+				break;
+
+			case ESelect::SELECT_RETRY:
+				// モードの変更
+				CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_GAME);
+				break;
+
+			case ESelect::SELECT_END:
+				// モードの変更
+				CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_TITLE);
+				break;
+
+			case ESelect::SELECT_MAX:
+			default:
+				assert(false);
+				break;
+			}
 			return;
 		}
 	}

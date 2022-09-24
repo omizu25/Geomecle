@@ -272,10 +272,30 @@ void CRanking::Uninit()
 {
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		// 解放
-		m_pRanking[i]->Uninit();
+		if (m_pRanking[i] != nullptr)
+		{// nullチェック
+			// 終了
+			m_pRanking[i]->Uninit();
+			delete m_pRanking[i];
+			m_pRanking[i] = nullptr;
+		}
+	}
+}
 
-		m_pRanking[i] = nullptr;
+//--------------------------------------------------
+// 解放
+//--------------------------------------------------
+void CRanking::Release()
+{
+	for (int i = 0; i < MAX_RANKING; i++)
+	{
+		if (m_pRanking[i] != nullptr)
+		{// nullチェック
+			// 解放
+			m_pRanking[i]->Release();
+			delete m_pRanking[i];
+			m_pRanking[i] = nullptr;
+		}
 	}
 }
 
