@@ -20,6 +20,7 @@
 #include "ranking.h"
 #include "score.h"
 #include "menu.h"
+#include "sound.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -134,6 +135,9 @@ void CResult::Init()
 		m_pMenu->SetTexture(ESelect::SELECT_RETRY, CTexture::LABEL_Retry);
 		m_pMenu->SetTexture(ESelect::SELECT_END, CTexture::LABEL_End);
 	}
+
+	// BGM
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_BGM_Result);
 }
 
 //--------------------------------------------------
@@ -164,6 +168,9 @@ void CResult::Uninit()
 
 	// ‘S‚Ä‚Ì‰ð•ú
 	CObject::ReleaseAll(false);
+
+	// ’âŽ~
+	CApplication::GetInstanse()->GetSound()->Stop(CSound::LABEL_BGM_Result);
 }
 
 //--------------------------------------------------

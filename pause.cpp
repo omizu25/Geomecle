@@ -16,6 +16,7 @@
 #include "game.h"
 #include "time.h"
 #include "input.h"
+#include "sound.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -148,6 +149,9 @@ bool CPause::Update()
 		// ƒ^ƒCƒ€‚ÌÄŠJ
 		CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
 		pGame->GetTime()->Restart();
+
+		// SE
+		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Enter);
 		return false;
 	}
 

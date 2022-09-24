@@ -13,6 +13,7 @@
 #include "application.h"
 #include "mode.h"
 #include "object2D.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
@@ -145,10 +146,16 @@ void CTime::Update()
 	// 数の変更
 	CNumberManager::Set(number);
 
-	if (number <= 0)
+	if (number < 0)
 	{// 時間切れ
+		// 数の変更
+		CNumberManager::Set(0);
+
 		// モードの変更
 		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+
+		// SE
+		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_GameClear);
 	}
 }
 

@@ -11,6 +11,8 @@
 #include "effect_manager.h"
 #include "utility.h"
 #include "effect.h"
+#include "application.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
@@ -196,6 +198,9 @@ void CEffectManager::Explosion(const D3DXVECTOR3& pos)
 		// ¶¬
 		CEffect::Create(pos + randomPos, move, col);
 	}
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Explosion);
 }
 
 //--------------------------------------------------

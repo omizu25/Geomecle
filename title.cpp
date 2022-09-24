@@ -18,6 +18,7 @@
 #include "wall.h"
 #include "utility.h"
 #include "menu.h"
+#include "sound.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -49,7 +50,7 @@ void CTitle::Init()
 
 	CObject2D* pTitle = CObject2D::Create();
 	pTitle->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.3f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
-	pTitle->SetSize(D3DXVECTOR3(700.0f, 250.0f, 0.0f));
+	pTitle->SetSize(D3DXVECTOR3(750.0f, 250.0f, 0.0f));
 	pTitle->SetTexture(CTexture::LABEL_Title);
 	pTitle->SetFade(0.0f);
 
@@ -58,6 +59,9 @@ void CTitle::Init()
 	m_pMenu = CMenu::Create(pos, size, 3, 100.0f, true, true);
 	m_pMenu->SetTexture(0 ,CTexture::LABEL_Title);
 	m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
+
+	// BGM
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_BGM_Title);
 }
 
 //--------------------------------------------------

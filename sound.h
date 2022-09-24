@@ -23,8 +23,16 @@ public:
 	enum ELabel
 	{
 		LABEL_NONE = -1,
-		LABEL_BGM_TITLE = 0,	// タイトル
-		LABEL_SE_ENTER,			// 決定音
+		LABEL_BGM_Title = 0,	// タイトル
+		LABEL_BGM_Game,			// ゲーム
+		LABEL_BGM_Result,		// リザルト
+		LABEL_SE_Enter,			// 決定
+		LABEL_SE_Select,		// 選択
+		LABEL_SE_Bullet,		// 弾
+		LABEL_SE_Explosion,		// エフェクト
+		LABEL_SE_Start,			// ゲーム開始
+		LABEL_SE_GameOver,		// ゲームオーバー
+		LABEL_SE_GameClear,		// ゲームクリア
 		LABEL_MAX,
 	};
 

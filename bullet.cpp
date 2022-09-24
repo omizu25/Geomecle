@@ -20,6 +20,7 @@
 #include "score.h"
 #include "mode.h"
 #include "game.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
@@ -154,6 +155,9 @@ void CBullet::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Bullet);
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Bullet);
 }
 
 //--------------------------------------------------

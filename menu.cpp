@@ -12,6 +12,8 @@
 #include "object2D.h"
 #include "utility.h"
 #include "input.h"
+#include "application.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
@@ -287,6 +289,9 @@ int CMenu::Select()
 
 	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
+		// SE
+		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Enter);
+
 		return m_selectIdx;
 	}
 
@@ -344,6 +349,9 @@ void CMenu::Add(int add)
 	m_selectIdx = ((m_selectIdx + add) + m_numUse) % m_numUse;
 
 	m_time = 0;
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Select);
 
 	if (m_pCursor != nullptr)
 	{// nullチェック

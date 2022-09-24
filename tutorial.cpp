@@ -17,6 +17,7 @@
 #include "effect_manager.h"
 #include "wall.h"
 #include "utility.h"
+#include "sound.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -55,6 +56,9 @@ void CTutorial::Uninit()
 {
 	// 全ての解放
 	CObject::ReleaseAll(false);
+
+	// 停止
+	CApplication::GetInstanse()->GetSound()->Stop(CSound::LABEL_BGM_Title);
 }
 
 //--------------------------------------------------
@@ -72,6 +76,9 @@ void CTutorial::Update()
 		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間
 			Change(MODE_GAME);
+
+			// SE
+			CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Enter);
 			return;
 		}
 	}

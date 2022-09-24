@@ -24,6 +24,7 @@
 #include "utility.h"
 #include "pause.h"
 #include "object2D.h"
+#include "sound.h"
 #include <assert.h>
 
 //==================================================
@@ -134,13 +135,19 @@ void CGame::Init()
 		// スコアの設定
 		m_pBestScore->Set(score);
 	}
+
+	// BGM
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_BGM_Game);
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Start);
 }
 
 //--------------------------------------------------
 // 終了
 //--------------------------------------------------
 void CGame::Uninit()
-{
+{	
 	// ランキングの設定
 	CRanking::Set(m_pScore->Get());
 
@@ -192,6 +199,9 @@ void CGame::Uninit()
 
 	// 解放
 	CEnemyManager::GetInstanse()->Release();
+
+	// 停止
+	CApplication::GetInstanse()->GetSound()->Stop(CSound::LABEL_BGM_Game);
 }
 
 //--------------------------------------------------
@@ -235,6 +245,9 @@ void CGame::Update()
 
 			// フェードの設定
 			m_pPauseBG->SetFade(0.0f);
+
+			// SE
+			CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Enter);
 			return;
 		}
 	}
@@ -244,27 +257,6 @@ void CGame::Update()
 
 	// 弾の発射
 	CBullet::Shot();
-
-#ifdef _DEBUG
-
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
-
-		if (pPlayer != nullptr)
-		{// nullチェック
-			// 爆発
-			CEffectManager::GetInstanse()->Explosion(pPlayer->GetPos());
-		}
-	}
-
-	if (CInput::GetKey()->TriggerSpecific(DIK_F2))
-	{// キーが押された
-		// モードの変更
-		CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
-	}
-
-#endif // _DEBUG
 
 	// タイムの減算
 	m_pTime->Update();
