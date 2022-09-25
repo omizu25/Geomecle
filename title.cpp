@@ -18,6 +18,7 @@
 #include "utility.h"
 #include "menu.h"
 #include "sound.h"
+#include "game.h"
 #include <assert.h>
 
 //--------------------------------------------------
@@ -53,11 +54,21 @@ void CTitle::Init()
 	pTitle->SetTexture(CTexture::LABEL_Title);
 	pTitle->SetFade(0.0f);
 
-	D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.85f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
-	D3DXVECTOR3 size = D3DXVECTOR3(300.0f, 100.0f, 0.0f);
-	m_pMenu = CMenu::Create(pos, size, 3, 100.0f, true, true);
-	m_pMenu->SetTexture(0 ,CTexture::LABEL_Title);
-	m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
+	{// メニュー
+		D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.85f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(350.0f, 100.0f, 0.0f);
+
+		// メニューの生成
+		m_pMenu = CMenu::Create(pos, size, CGame::GAME_MAX, 100.0f, true, true);
+
+		// 枠の設定
+		m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
+
+		// テクスチャの設定
+		m_pMenu->SetTexture(CGame::GAME_NORMAL, CTexture::LABEL_Normal);
+		m_pMenu->SetTexture(CGame::GAME_SAFETY_AREA, CTexture::LABEL_SafetyArea);
+		m_pMenu->SetTexture(CGame::GAME_DANGER_AREA, CTexture::LABEL_DangerArea);
+	}
 
 	// BGM
 	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_BGM_Title);
@@ -140,11 +151,6 @@ void CTitle::Effect()
 
 	m_partCnt++;
 
-	float width = CWall::STD_WIDTH * 0.4f;
-	float height = CWall::STD_HEIGHT * 0.4f;
-
-	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
-
 	// パーティクル
-	CEffectManager::GetInstanse()->Particle(pos, m_col);
+	CEffectManager::GetInstanse()->Particle(m_col);
 }

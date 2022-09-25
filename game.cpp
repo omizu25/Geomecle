@@ -42,7 +42,8 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pTime(nullptr),
 	m_pMul(nullptr),
 	m_pScore(nullptr),
-	m_pBestScore(nullptr)
+	m_pBestScore(nullptr),
+	m_time(0)
 {
 }
 
@@ -64,6 +65,7 @@ CGame::~CGame()
 //--------------------------------------------------
 void CGame::Init()
 {
+	m_time = 0;
 	m_pPause = nullptr;
 
 	// プレイヤーの生成
@@ -255,6 +257,9 @@ void CGame::Update()
 	// 更新
 	CEnemyManager::GetInstanse()->Update();
 
+	// エフェクト
+	Effect();
+
 	// 弾の発射
 	CBullet::Shot();
 
@@ -302,4 +307,20 @@ CMul* CGame::GetMul()
 CTime* CGame::GetTime()
 {
 	return m_pTime;
+}
+
+//--------------------------------------------------
+// エフェクト
+//--------------------------------------------------
+void CGame::Effect()
+{
+	m_time++;
+
+	if ((m_time % 30) != 0)
+	{// 一定間隔待ち
+		return;
+	}
+
+	// 背景
+	CEffectManager::GetInstanse()->BG();
 }

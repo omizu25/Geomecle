@@ -13,6 +13,7 @@
 #include "effect.h"
 #include "application.h"
 #include "sound.h"
+#include "wall.h"
 #include <assert.h>
 
 //==================================================
@@ -75,8 +76,13 @@ void CEffectManager::Release()
 //--------------------------------------------------
 // ÉpÅ[ÉeÉBÉNÉã
 //--------------------------------------------------
-void CEffectManager::Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col)
+void CEffectManager::Particle(const D3DXCOLOR& col)
 {
+	float width = CWall::STD_WIDTH * 0.4f;
+	float height = CWall::STD_HEIGHT * 0.4f;
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
+
 	D3DXCOLOR randomCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -229,5 +235,56 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 
 		// ê∂ê¨
 		CEffect::Create(pos, move, col);
+	}
+}
+
+//--------------------------------------------------
+// îwåi
+//--------------------------------------------------
+void CEffectManager::BG()
+{
+	float width = CWall::STD_WIDTH * 0.7f;
+	float height = CWall::STD_HEIGHT * 0.7f;
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
+
+	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	col.r = FloatRandom(1.0f, 0.0f);
+	col.g = FloatRandom(1.0f, 0.0f);
+	col.b = FloatRandom(1.0f, 0.0f);
+
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 randomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXCOLOR randomCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.2f);
+	float rot = 0.0f;
+	float random = 0.0f;
+	CEffect* pEffect = nullptr;
+
+	for (int i = 0; i < MAX_PARTICLE; i++)
+	{
+		rot = (D3DX_PI * 2.0f) / MAX_PARTICLE * i;
+
+		// äpìxÇÃê≥ãKâª
+		NormalizeAngle(&rot);
+
+		randomPos = D3DXVECTOR3(sinf(rot), cosf(rot), 0.0f) * FloatRandom(100.0f, 50.0f);
+
+		random = FloatRandom(PARTICLE_MOVE, PARTICLE_MOVE * 0.1f);
+
+		move.x = sinf(rot) * random;
+		move.y = cosf(rot) * random;
+
+		randomCol.r = col.r + FloatRandom(0.25f, -0.25f);
+		randomCol.g = col.g + FloatRandom(0.25f, -0.25f);
+		randomCol.b = col.b + FloatRandom(0.25f, -0.25f);
+
+		// ê∂ê¨
+		pEffect = CEffect::Create(pos + randomPos, move, randomCol);
+
+		// êFÇÃå∏éZÇÇµÇ»Ç¢
+		pEffect->SetColSubtract(false);
+
+		// ìñÇΩÇËîªíËÇÇµÇ»Ç¢
+		pEffect->SetCollision(false);
 	}
 }

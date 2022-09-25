@@ -27,6 +27,16 @@ class CMul;
 class CGame : public CMode
 {
 	/* 定義 */
+public:
+	enum EGame
+	{
+		GAME_NONE = -1,
+		GAME_NORMAL = 0,	// 通常
+		GAME_SAFETY_AREA,	// 安全エリア
+		GAME_DANGER_AREA,	// 危険エリア
+		GAME_MAX
+	};
+
 private:
 	static const int MAX_TIME;		// 時間の最大値
 	static const int PAUSE_TIME;	// ポーズが出来る様になるまでの時間
@@ -48,12 +58,16 @@ public:
 	CTime* GetTime();	// タイムの取得
 
 private:
+	void Effect();	// エフェクト
+
+private:
 	CObject2D* m_pPauseBG;	// ポーズの背景
 	CPause* m_pPause;		// ポーズ
 	CTime* m_pTime;			// タイム
 	CMul* m_pMul;			// 倍率
 	CScore* m_pScore;		// スコア
 	CScore* m_pBestScore;	// ベストスコア
+	int m_time;	//タイム
 };
 
 #endif // !_GAME_H_

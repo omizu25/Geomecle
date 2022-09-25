@@ -48,7 +48,7 @@ CResult::~CResult()
 //--------------------------------------------------
 void CResult::Init()
 {
-	m_time++;
+	m_time = 0;
 
 	{// ランキングの背景
 		float width = (float)CApplication::SCREEN_WIDTH * 0.75f;
@@ -242,11 +242,6 @@ void CResult::Effect()
 		return;
 	}
 
-	float width = CWall::STD_WIDTH * 0.4f;
-	float height = CWall::STD_HEIGHT * 0.4f;
-
-	D3DXVECTOR3 pos = D3DXVECTOR3(FloatRandom(width, -width), FloatRandom(height, -height), 0.0f);
-
 	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	col.r = FloatRandom(1.0f, 0.0f);
@@ -254,5 +249,5 @@ void CResult::Effect()
 	col.b = FloatRandom(1.0f, 0.0f);
 
 	// パーティクル
-	CEffectManager::GetInstanse()->Particle(pos, col);
+	CEffectManager::GetInstanse()->Particle(col);
 }

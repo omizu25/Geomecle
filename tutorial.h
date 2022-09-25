@@ -28,6 +28,9 @@ public:
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
 
+private:
+	void Effect();	// エフェクト
+
 	/* メンバ変数 */
 private:
 	int m_time;	// 時間

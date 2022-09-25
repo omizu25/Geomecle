@@ -25,7 +25,7 @@ class CMenu
 {
 	/* ↓定義↓ */
 private:
-	static const int MAX_OPTION = 3;	// 選択肢の最大数
+	static const int MAX_OPTION = 5;	// 選択肢の最大数
 	static const float CURSOR_INTERVAL;	// カーソルの間隔
 
 	/* ↓静的メンバ関数↓ */

@@ -28,6 +28,7 @@ public:
 		LABEL_BG,				// 背景
 		LABEL_Cursor,			// カーソル
 		LABEL_Tutorial,			// チュートリアル
+		LABEL_Circle,			// 円
 
 		/* ↓敵↓ */
 		LABEL_Homing,			// ホーミング
@@ -52,6 +53,9 @@ public:
 		LABEL_Restart,			// リスタート
 		LABEL_End,				// 終了
 		LABEL_Retry,			// リトライ
+		LABEL_Normal,			// 通常
+		LABEL_SafetyArea,		// 安全エリア
+		LABEL_DangerArea,		// 危険エリア
 		LABEL_MAX
 	};
 

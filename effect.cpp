@@ -67,7 +67,9 @@ CEffect::CEffect() : CObject(CObject::CATEGORY_EFFECT),
 	m_move(D3DXVECTOR3(0.0f, 0.0f, 0.0f)),
 	m_size(D3DXVECTOR2(0.0f, 0.0f)),
 	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
-	m_life(0)
+	m_life(0),
+	m_collision(false),
+	m_colSubtract(false)
 {
 	m_numAll++;
 }
@@ -90,6 +92,8 @@ void CEffect::Init()
 	m_size = D3DXVECTOR2(STD_WIDTH, STD_HEIGHT);
 	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	m_life = MAX_LIFE;
+	m_colSubtract = true;
+	m_collision = true;
 
 	// キープの設定
 	CObject::SetKeep(true);
@@ -121,12 +125,15 @@ void CEffect::Update()
 	m_move.x += (0.0f - m_move.x) * 0.05f;
 	m_move.y += (0.0f - m_move.y) * 0.05f;
 
-	float size = CWall::STD_SIZE * 0.5f;
-	float width = (CWall::STD_WIDTH * 0.5f) - ((STD_WIDTH * 0.5f) + size);
-	float height = (CWall::STD_HEIGHT * 0.5f) - ((STD_WIDTH * 0.5f) + size);
+	if (m_collision)
+	{// 当たり判定
+		float size = CWall::STD_SIZE * 0.5f;
+		float width = (CWall::STD_WIDTH * 0.5f) - ((STD_WIDTH * 0.5f) + size);
+		float height = (CWall::STD_HEIGHT * 0.5f) - ((STD_WIDTH * 0.5f) + size);
 
-	// 範囲内で反射
-	InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
+		// 範囲内で反射
+		InRangeReflect(&m_pos, &m_move, D3DXVECTOR3(width, height, 0.0f));
+	}
 	
 	float len = STD_HEIGHT * D3DXVec3Length(&m_move);
 
@@ -141,6 +148,7 @@ void CEffect::Update()
 
 	m_size.y = len;
 
+	if (m_colSubtract)
 	{// 色の減算
 		float ratio = ((float)(MAX_LIFE - m_life) / MAX_LIFE);
 		m_col.a = 1.0f - (ratio * ratio);
@@ -185,4 +193,20 @@ const D3DXVECTOR3& CEffect::GetMove() const
 const D3DXVECTOR2& CEffect::GetSize() const
 {
 	return m_size;
+}
+
+//--------------------------------------------------
+// 当たり判定の設定
+//--------------------------------------------------
+void CEffect::SetCollision(bool collision)
+{
+	m_collision = collision;
+}
+
+//--------------------------------------------------
+// 色の減算をするかどうかの設定
+//--------------------------------------------------
+void CEffect::SetColSubtract(bool subtract)
+{
+	m_colSubtract = subtract;
 }

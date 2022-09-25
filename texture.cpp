@@ -18,12 +18,13 @@
 //==================================================
 const char* CTexture::FILE_NAME[] =
 {// テクスチャのパス
-	"data/TEXTURE/Player.png",			// プレイヤー
-	"data/TEXTURE/Bullet.png",			// 弾
-	"data/TEXTURE/effect.jpg",			// エフェクト
-	"data/TEXTURE/bg.png",				// 背景
-	"data/TEXTURE/Cursor.png",			// カーソル
-	"data/TEXTURE/Tutorial.png",		// チュートリアル
+	"data/TEXTURE/Player.png",		// プレイヤー
+	"data/TEXTURE/Bullet.png",		// 弾
+	"data/TEXTURE/effect.jpg",		// エフェクト
+	"data/TEXTURE/bg.png",			// 背景
+	"data/TEXTURE/Cursor.png",		// カーソル
+	"data/TEXTURE/Tutorial.png",	// チュートリアル
+	"data/TEXTURE/Circle.png",		// 円
 
 	/* ↓敵↓ */
 	"data/TEXTURE/Homing.png",			// ホーミング
@@ -48,6 +49,9 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/TEXT/Restart.png",	// リスタート
 	"data/TEXTURE/TEXT/End.png",		// 終了
 	"data/TEXTURE/TEXT/Retry.png",		// リトライ
+	"data/TEXTURE/TEXT/Normal.png",		// 通常
+	"data/TEXTURE/TEXT/SafetyArea.png",	// 安全エリア
+	"data/TEXTURE/TEXT/DangerArea.png",	// 危険エリア
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

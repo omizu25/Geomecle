@@ -46,10 +46,11 @@ public:
 
 public:
 	void Release();	// 解放
-	void Particle(const D3DXVECTOR3& pos, const D3DXCOLOR& col);	// パーティクル
+	void Particle(const D3DXCOLOR& col);	// パーティクル
 	void Player(const D3DXVECTOR3& pos);	// プレイヤー
 	void Explosion(const D3DXVECTOR3& pos);	// 爆発
 	void Bullet(const D3DXVECTOR3& pos);	// 弾
+	void BG();	// 背景
 
 	/* ↓メンバ変数↓ */
 private:

@@ -69,10 +69,10 @@ void CTutorial::Update()
 	// 更新
 	CObject::UpdateAll();
 
-	m_time++;
+	// エフェクト
+	Effect();
 
-	CInput* pInput = CInput::GetKey();
-	if (pInput->Trigger(CInput::KEY_DECISION))
+	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
 		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間
@@ -98,4 +98,20 @@ void CTutorial::Draw()
 
 	// 描画
 	CObject::DrawAll();
+}
+
+//--------------------------------------------------
+// エフェクト
+//--------------------------------------------------
+void CTutorial::Effect()
+{
+	m_time++;
+
+	if ((m_time % 30) != 0)
+	{// 一定間隔待ち
+		return;
+	}
+
+	// 背景
+	CEffectManager::GetInstanse()->BG();
 }
