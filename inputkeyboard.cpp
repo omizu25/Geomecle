@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------------
 //インクルードファイル
 //-----------------------------------------------------------------------------
-#include "input_keyboard.h"
+#include "inputkeyboard.h"
 
 //*************************************************************************************
 //コンストラクタ
@@ -107,34 +107,35 @@ void CInputKeyboard::Update(void)
 	}
 }
 
-//キーボードプレス処理
-bool CInputKeyboard::GetKeyboardPress(int nKey)
+//プレス処理
+bool CInputKeyboard::GetPress(int nKey)
 {
 	return (m_aKeyState[nKey] & 0x80) ? true : false;
 }
-//キーボードトリガー処理
-bool CInputKeyboard::GetKeyboardTrigger(int nKey)
+//トリガー処理
+bool CInputKeyboard::GetTrigger(int nKey)
 {
 	return (m_aKeyStateTrigger[nKey] & 0x80) ? true : false;
 }
-//キーボード全キープレス処理
-bool CInputKeyboard::GetKeyboardAllPress(void)
+
+//全キープレス処理
+bool CInputKeyboard::GetAllPress(void)
 {
 	for (int nCntKey = 0; nCntKey < NUM_KEY_MAX; nCntKey++)
 	{
-		if (GetKeyboardPress(nCntKey))
+		if (GetPress(nCntKey))
 		{
 			return true;
 		}
 	}
 	return false;
 }
-//キーボード全キートリガー処理
-bool CInputKeyboard::GetKeyboardAllTrigger(void)
+//全キートリガー処理
+bool CInputKeyboard::GetAllTrigger(void)
 {
 	for (int nCntKey = 0; nCntKey < NUM_KEY_MAX; nCntKey++)
 	{
-		if (GetKeyboardTrigger(nCntKey))
+		if (GetTrigger(nCntKey))
 		{
 			return true;
 		}

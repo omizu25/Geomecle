@@ -14,6 +14,7 @@
 #include "input.h"
 #include "application.h"
 #include "sound.h"
+#include "mode.h"
 #include <assert.h>
 
 //==================================================
@@ -254,8 +255,14 @@ void CMenu::Update()
 //--------------------------------------------------
 int CMenu::Select()
 {
-	CInput* pInput = CInput::GetKey();
 	m_time++;
+
+	if (m_time <= CMode::FADE_TIME)
+	{// フェード中
+		return -1;
+	}
+
+	CInput* pInput = CInput::GetKey();
 
 	if (m_sort)
 	{// 縦
@@ -287,7 +294,7 @@ int CMenu::Select()
 	// 色の設定
 	m_pOption[m_selectIdx]->SetCol(col);
 
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
+	if (pInput->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
 		// SE
 		CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Enter);

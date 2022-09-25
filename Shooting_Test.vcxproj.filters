@@ -75,12 +75,6 @@
     <ClInclude Include="result.h">
       <Filter>System\Mode</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
-      <Filter>Input</Filter>
-    </ClInclude>
-    <ClInclude Include="input_keyboard.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="enemy.h">
       <Filter>Object\3D\Enemy</Filter>
     </ClInclude>
@@ -177,6 +171,15 @@
     <ClInclude Include="object2D.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inputjoypad.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="inputkeyboard.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -196,12 +199,6 @@
     </ClCompile>
     <ClCompile Include="enemy_windmill.cpp">
       <Filter>Object\3D\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="input.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="input_keyboard.cpp">
-      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="sound.cpp">
       <Filter>System</Filter>
@@ -307,6 +304,15 @@
     </ClCompile>
     <ClCompile Include="object2D.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="inputjoypad.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="inputkeyboard.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

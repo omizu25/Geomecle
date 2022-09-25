@@ -12,7 +12,6 @@
 #include "application.h"
 #include "camera.h"
 #include "object.h"
-#include "input.h"
 #include "object2D.h"
 #include "effect_manager.h"
 #include "wall.h"
@@ -88,18 +87,20 @@ void CTitle::Update()
 	// 更新
 	CObject::UpdateAll();
 
-	m_pMenu->Select();
-
 	// エフェクト
 	Effect();
 
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		if (m_time >= CMode::FADE_TIME)
-		{// フェード時間
+	// 選択
+	int select = m_pMenu->Select();
+
+	if (m_time >= CMode::FADE_TIME)
+	{// フェード時間
+		if (select != -1)
+		{
 			Change(MODE_TUTORIAL);
-			return;
 		}
+		
+		return;
 	}
 
 	// カメラの更新

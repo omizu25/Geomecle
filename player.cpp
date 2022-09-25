@@ -129,22 +129,22 @@ void CPlayer::Move()
 
 	CInput* pInput = CInput::GetKey();
 
-	if (pInput->Press(CInput::KEY_LEFT))
+	if (pInput->Press(CInput::KEY_PLAYER_LEFT))
 	{// 左キーが押された
 		vec.x -= 1.0f;
 	}
 	
-	if (pInput->Press(CInput::KEY_RIGHT))
+	if (pInput->Press(CInput::KEY_PLAYER_RIGHT))
 	{// 右キーが押された
 		vec.x += 1.0f;
 	}
 	
-	if (pInput->Press(CInput::KEY_UP))
+	if (pInput->Press(CInput::KEY_PLAYER_UP))
 	{// 上キーが押された
 		vec.y += 1.0f;
 	}
 	
-	if (pInput->Press(CInput::KEY_DOWN))
+	if (pInput->Press(CInput::KEY_PLAYER_DOWN))
 	{// 下キーが押された
 		vec.y -= 1.0f;
 	}

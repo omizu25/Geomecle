@@ -234,7 +234,7 @@ void CGame::Update()
 
 	/* ポーズしていない */
 
-	if (CInput::GetKey()->TriggerSpecific(DIK_P))
+	if (CInput::GetKey()->Trigger(CInput::KEY_PAUSE))
 	{// Pキーが押された
 		if (m_pTime->Get() <= MAX_TIME - PAUSE_TIME)
 		{// ポーズ可能

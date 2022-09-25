@@ -71,7 +71,8 @@ void CTutorial::Update()
 
 	m_time++;
 
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
+	CInput* pInput = CInput::GetKey();
+	if (pInput->Trigger(CInput::KEY_DECISION))
 	{// 決定キーが押された
 		if (m_time >= CMode::FADE_TIME)
 		{// フェード時間

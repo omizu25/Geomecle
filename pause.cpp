@@ -144,7 +144,7 @@ bool CPause::Update()
 	// 選択
 	ESelect select = (ESelect)m_pMenu->Select();
 
-	if (CInput::GetKey()->TriggerSpecific(DIK_P))
+	if (CInput::GetKey()->Trigger(CInput::KEY_PAUSE))
 	{// Pキーが押された
 		// タイムの再開
 		CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();

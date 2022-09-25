@@ -38,7 +38,8 @@
     <ClInclude Include="exp.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
-    <ClInclude Include="input_keyboard.h" />
+    <ClInclude Include="inputjoypad.h" />
+    <ClInclude Include="inputkeyboard.h" />
     <ClInclude Include="instancing.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="menu.h" />
@@ -83,7 +84,8 @@
     <ClCompile Include="exp.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="input_keyboard.cpp" />
+    <ClCompile Include="inputjoypad.cpp" />
+    <ClCompile Include="inputkeyboard.cpp" />
     <ClCompile Include="instancing.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />

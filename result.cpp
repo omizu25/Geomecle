@@ -12,7 +12,6 @@
 #include "application.h"
 #include "camera.h"
 #include "object.h"
-#include "input.h"
 #include "object2D.h"
 #include "effect_manager.h"
 #include "utility.h"
@@ -190,32 +189,29 @@ void CResult::Update()
 	// 選択
 	ESelect select = (ESelect)m_pMenu->Select();
 
-	if (CInput::GetKey()->Trigger(CInput::KEY_DECISION))
-	{// 決定キーが押された
-		if (m_time >= CMode::FADE_TIME)
-		{// フェード時間
-			switch (select)
-			{
-			case ESelect::SELECT_NONE:
-				break;
+	if (m_time >= CMode::FADE_TIME)
+	{// フェード時間
+		switch (select)
+		{
+		case ESelect::SELECT_NONE:
+			break;
 
-			case ESelect::SELECT_RETRY:
-				// モードの変更
-				CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_GAME);
-				break;
+		case ESelect::SELECT_RETRY:
+			// モードの変更
+			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_GAME);
+			break;
 
-			case ESelect::SELECT_END:
-				// モードの変更
-				CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_TITLE);
-				break;
+		case ESelect::SELECT_END:
+			// モードの変更
+			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_TITLE);
+			break;
 
-			case ESelect::SELECT_MAX:
-			default:
-				assert(false);
-				break;
-			}
-			return;
+		case ESelect::SELECT_MAX:
+		default:
+			assert(false);
+			break;
 		}
+		return;
 	}
 
 	// カメラの更新

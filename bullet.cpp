@@ -29,7 +29,7 @@
 const int CBullet::SHOT_INTERVAL = 8;
 const float CBullet::STD_SIZE = 25.0f;
 const float CBullet::STD_MOVE = 15.0f;
-const float CBullet::STD_INERTIA = 0.5f;
+const float CBullet::STD_INERTIA = 0.4f;
 
 //==================================================
 // 静的メンバ変数
@@ -61,9 +61,31 @@ CBullet* CBullet::Create(float rot)
 //--------------------------------------------------
 void CBullet::Shot()
 {
-	D3DXVECTOR3 rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	if (!CInput::GetKey()->Shot(&rot))
+	CInput* pInput = CInput::GetKey();
+
+	if (pInput->Press(CInput::KEY_BULLET_LEFT))
+	{// 左キーが押された
+		vec.x -= 1.0f;
+	}
+
+	if (pInput->Press(CInput::KEY_BULLET_RIGHT))
+	{// 右キーが押された
+		vec.x += 1.0f;
+	}
+
+	if (pInput->Press(CInput::KEY_BULLET_UP))
+	{// 上キーが押された
+		vec.y += 1.0f;
+	}
+
+	if (pInput->Press(CInput::KEY_BULLET_DOWN))
+	{// 下キーが押された
+		vec.y -= 1.0f;
+	}
+
+	if ((vec.x == 0.0f) && (vec.y == 0.0f))
 	{// 弾の発射していない
 		m_dest = 0.0f;
 		m_now = 0.0f;
@@ -80,7 +102,7 @@ void CBullet::Shot()
 	if (m_time == 0)
 	{// １発目
 		// 目的の向き
-		m_dest = atan2f(rot.x, rot.y);
+		m_dest = atan2f(vec.x, vec.y);
 
 		// 角度の正規化
 		NormalizeAngle(&m_dest);
@@ -97,7 +119,7 @@ void CBullet::Shot()
 	m_time++;
 
 	// 目的の向き
-	m_dest = atan2f(rot.x, rot.y);
+	m_dest = atan2f(vec.x, vec.y);
 
 	// 角度の正規化
 	NormalizeAngle(&m_dest);
@@ -115,6 +137,9 @@ void CBullet::Shot()
 
 	// 弾発射
 	CBullet::Create(m_now);
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Bullet);
 }
 
 //--------------------------------------------------
@@ -155,9 +180,6 @@ void CBullet::Init()
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Bullet);
-
-	// SE
-	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Bullet);
 }
 
 //--------------------------------------------------
