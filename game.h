@@ -11,6 +11,7 @@
 // インクルード
 //==================================================
 #include "mode.h"
+#include "circle_manager.h"
 
 //==================================================
 // 前方宣言
@@ -40,6 +41,15 @@ public:
 private:
 	static const int MAX_TIME;		// 時間の最大値
 	static const int PAUSE_TIME;	// ポーズが出来る様になるまでの時間
+	
+	/* ↓静的メンバ関数↓ */
+public:
+	static void SetMode(EGame mode);	// ゲームモードの設定
+	static EGame GetMode();				// ゲームモードの取得
+
+	/* ↓静的メンバ変数↓ */
+private:
+	static EGame m_mode;	// ゲームモード
 
 	/* ↓メンバ関数↓ */
 public:
@@ -60,7 +70,9 @@ public:
 private:
 	void Effect();	// エフェクト
 
+	/* ↓メンバ変数↓ */
 private:
+	CCircleManager* m_pCircle[CCircleManager::MAX_CIRCLE];	// 円
 	CObject2D* m_pPauseBG;	// ポーズの背景
 	CPause* m_pPause;		// ポーズ
 	CTime* m_pTime;			// タイム

@@ -102,16 +102,17 @@ void CTitle::Update()
 	Effect();
 
 	// 選択
-	int select = m_pMenu->Select();
+	CGame::EGame select = (CGame::EGame)m_pMenu->Select();
 
-	if (m_time >= CMode::FADE_TIME)
-	{// フェード時間
-		if (select != -1)
-		{
+	if (select != CGame::GAME_NONE)
+	{// 選択した
+		if (m_time >= CMode::FADE_TIME)
+		{// フェード時間
+			assert(select > CGame::GAME_NONE && select < CGame::GAME_MAX);
+			CGame::SetMode(select);
 			Change(MODE_TUTORIAL);
+			return;
 		}
-		
-		return;
 	}
 
 	// カメラの更新

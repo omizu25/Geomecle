@@ -25,6 +25,7 @@ public:
 
 private:
 	static const int MAX_LIFE;		// 寿命の最大値
+	static const float MIN_WIDTH;	// 幅の最小値
 
 	/* ↓静的メンバ関数↓ */
 public:

@@ -23,6 +23,10 @@
     <ClInclude Include="bg.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="circle.h" />
+    <ClInclude Include="circle_danger.h" />
+    <ClInclude Include="circle_manager.h" />
+    <ClInclude Include="circle_safety.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effect_manager.h" />
     <ClInclude Include="enemy.h" />
@@ -69,6 +73,10 @@
     <ClCompile Include="bg.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="circle.cpp" />
+    <ClCompile Include="circle_danger.cpp" />
+    <ClCompile Include="circle_manager.cpp" />
+    <ClCompile Include="circle_safety.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effect_manager.cpp" />
     <ClCompile Include="enemy.cpp" />

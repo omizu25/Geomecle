@@ -2,6 +2,7 @@
 // 
 // utility.cpp
 // Author  : katsuki mizuki
+// Author YudaKaito
 // 
 //**************************************************
 
@@ -173,6 +174,37 @@ bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& 
 
 	if (radius >= length)
 	{// ‚Q‚Â‚Ì•¨‘Ì‚Ì”¼Œa“¯Žm‚Ì˜a‚æ‚èŒ»Ý‚Ì‚Q“_‚Ì‹——£‚ª¬‚³‚¢‚©‚Ç‚¤‚©
+		// “–‚½‚Á‚½
+		return true;
+	}
+
+	// “–‚½‚Á‚Ä‚È‚¢
+	return false;
+}
+
+//--------------------------------------------------
+// ƒGƒŠƒA‚Ì“–‚½‚è”»’è
+//--------------------------------------------------
+bool CollisionArea(const D3DXVECTOR3& pos1, float radius1, D3DXVECTOR3* pPos2, float radius2)
+{
+	// ‚Q‚Â‚Ì•¨‘Ì‚Ì”¼Œa“¯Žm‚Ì˜a
+	float radius = radius1 + radius2;
+
+	// X‚Ì·•ª
+	float diffX = pos1.x - pPos2->x;
+
+	// Y‚Ì·•ª
+	float diffY = pos1.y - pPos2->y;
+
+	// Œ»Ý‚Ì‚Q“_‚Ì‹——£
+	float length = sqrtf((diffX * diffX) + (diffY * diffY));
+
+	if (radius >= length)
+	{// ‚Q‚Â‚Ì•¨‘Ì‚Ì”¼Œa“¯Žm‚Ì˜a‚æ‚èŒ»Ý‚Ì‚Q“_‚Ì‹——£‚ª¬‚³‚¢‚©‚Ç‚¤‚©
+		float rot = atan2f(diffX, diffY);
+		pPos2->x = pos1.x - (sinf(rot) * radius);
+		pPos2->y = pos1.y - (cosf(rot) * radius);
+
 		// “–‚½‚Á‚½
 		return true;
 	}

@@ -46,6 +46,9 @@
     <Filter Include="Manager">
       <UniqueIdentifier>{3ac0ac68-0127-4581-bbe8-aa58fa791223}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\3D\Circle">
+      <UniqueIdentifier>{79299a80-d008-45be-8d02-91f7ec11df30}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="application.h">
@@ -132,9 +135,6 @@
     <ClInclude Include="exp.h">
       <Filter>Object\3D</Filter>
     </ClInclude>
-    <ClInclude Include="enemy_wave.h">
-      <Filter>Object\3D\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="tutorial.h">
       <Filter>System\Mode</Filter>
     </ClInclude>
@@ -179,6 +179,21 @@
     </ClInclude>
     <ClInclude Include="inputkeyboard.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="circle.h">
+      <Filter>Object\3D\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_safety.h">
+      <Filter>Object\3D\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_danger.h">
+      <Filter>Object\3D\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_wave.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="circle_manager.h">
+      <Filter>Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +281,6 @@
     <ClCompile Include="exp.cpp">
       <Filter>Object\3D</Filter>
     </ClCompile>
-    <ClCompile Include="enemy_wave.cpp">
-      <Filter>Object\3D\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="tutorial.cpp">
       <Filter>System\Mode</Filter>
     </ClCompile>
@@ -313,6 +325,21 @@
     </ClCompile>
     <ClCompile Include="inputkeyboard.cpp">
       <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="circle.cpp">
+      <Filter>Object\3D\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="circle_safety.cpp">
+      <Filter>Object\3D\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="circle_danger.cpp">
+      <Filter>Object\3D\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_wave.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="circle_manager.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

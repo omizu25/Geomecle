@@ -168,8 +168,13 @@ void CResult::Uninit()
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
+	CApplication* pApp = CApplication::GetInstanse();
+
+	// テクスチャの破棄
+	pApp->GetTexture()->ReleaseAll();
+
 	// 停止
-	CApplication::GetInstanse()->GetSound()->Stop(CSound::LABEL_BGM_Result);
+	pApp->GetSound()->Stop(CSound::LABEL_BGM_Result);
 }
 
 //--------------------------------------------------
@@ -199,11 +204,13 @@ void CResult::Update()
 		case ESelect::SELECT_RETRY:
 			// モードの変更
 			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_GAME);
+			return;
 			break;
 
 		case ESelect::SELECT_END:
 			// モードの変更
 			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_TITLE);
+			return;
 			break;
 
 		case ESelect::SELECT_MAX:
@@ -211,7 +218,6 @@ void CResult::Update()
 			assert(false);
 			break;
 		}
-		return;
 	}
 
 	// カメラの更新

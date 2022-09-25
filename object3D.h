@@ -29,6 +29,7 @@ public:
 		TYPE_ENEMY,			// “G
 		TYPE_BODY,			// ‘Ì
 		TYPE_EXP,			// ŒoŒ±’l
+		TYPE_CIRCLE,		// ‰~
 		TYPE_MAX
 	};
 

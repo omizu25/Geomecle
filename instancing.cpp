@@ -123,10 +123,10 @@ void CInstancing::Init()
 		}
 	}
 
-	int numAll = CObject::GetMax(CObject::CATEGORY_EFFECT);
-	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR3) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pPosBuff, 0);
-	pDevice->CreateVertexBuffer(sizeof(D3DXCOLOR) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pColBuff, 0);
-	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR2) * numAll, 0, 0, D3DPOOL_MANAGED, &m_pSizeBuff, 0);
+	int objMax = CObject::GetMax(CObject::CATEGORY_EFFECT);
+	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR3) * objMax, 0, 0, D3DPOOL_MANAGED, &m_pPosBuff, 0);
+	pDevice->CreateVertexBuffer(sizeof(D3DXCOLOR) * objMax, 0, 0, D3DPOOL_MANAGED, &m_pColBuff, 0);
+	pDevice->CreateVertexBuffer(sizeof(D3DXVECTOR2) * objMax, 0, 0, D3DPOOL_MANAGED, &m_pSizeBuff, 0);
 }
 
 //--------------------------------------------------
@@ -207,8 +207,9 @@ void CInstancing::Draw()
 		D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		
 		int num = 0;
+		int objMax = CObject::GetMax(CObject::CATEGORY_EFFECT);
 
-		for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_EFFECT); i++)
+		for (int i = 0; i < objMax; i++)
 		{
 			if (pObject[i] == nullptr)
 			{// nullチェック

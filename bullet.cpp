@@ -21,6 +21,7 @@
 #include "mode.h"
 #include "game.h"
 #include "sound.h"
+#include "circle.h"
 #include <assert.h>
 
 //==================================================
@@ -61,6 +62,38 @@ CBullet* CBullet::Create(float rot)
 //--------------------------------------------------
 void CBullet::Shot()
 {
+	switch (CGame::GetMode())
+	{
+	case CGame::GAME_NORMAL:
+		break;
+
+	case CGame::GAME_SAFETY_AREA:
+		if (!CCircle::GetCollision())
+		{// 当たってない
+			m_dest = 0.0f;
+			m_now = 0.0f;
+			m_time = 0;
+			return;
+		}
+		break;
+
+	case CGame::GAME_DANGER_AREA:
+		if (CCircle::GetCollision())
+		{// 当たっている
+			m_dest = 0.0f;
+			m_now = 0.0f;
+			m_time = 0;
+			return;
+		}
+		break;
+
+	case CGame::GAME_NONE:
+	case CGame::GAME_MAX:
+	default:
+		assert(false);
+		break;
+	}
+
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	CInput* pInput = CInput::GetKey();
@@ -225,8 +258,9 @@ void CBullet::Update()
 	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float targetSize = 0.0f;
 	float size = STD_SIZE * 0.5f;
+	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
 
-	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
+	for (int i = 0; i < objMax; i++)
 	{
 		if (pObject[i] == nullptr)
 		{// nullチェック
@@ -240,28 +274,21 @@ void CBullet::Update()
 			continue;
 		}
 
+		targetPos = pObject[i]->GetPos();
+		targetSize = pObject[i]->GetSize().x * 0.5f;
+
 		switch (type)
 		{
 		case CObject3D::TYPE_BODY:
-		{
-			targetPos = pObject[i]->GetPos();
-			targetSize = pObject[i]->GetSize().x * 0.5f;
-
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// 当たり判定
 				// 解放
 				CObject::Release();
 				return;
 			}
-		}
 			break;
 
 		case CObject3D::TYPE_ENEMY:
-		{
-			CEnemy* pEnemy = (CEnemy*)pObject[i];
-			targetPos = pEnemy->GetPos();
-			targetSize = pEnemy->GetSize().x * 0.5f;
-
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// 当たり判定
 				// 経験値の生成
@@ -276,7 +303,6 @@ void CBullet::Update()
 				pObject[i]->Release();
 				return;
 			}
-		}
 			break;
 
 		default:

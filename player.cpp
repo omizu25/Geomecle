@@ -105,7 +105,7 @@ void CPlayer::Update()
 	Rot();
 
 	// 当たり判定
-	Collision();
+//	Collision();
 	
 	// 更新
 	CObject3D::Update();
@@ -210,12 +210,15 @@ void CPlayer::Rot()
 //--------------------------------------------------
 void CPlayer::Collision()
 {
-	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-	float size = 0.0f;
+	D3DXVECTOR3 pos = CObject3D::GetPos();
+	float size = CObject3D::GetSize().x * 0.25f;
 
 	CObject3D** pObject = (CObject3D**)GetMyObject(CObject::CATEGORY_3D);
+	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
+	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float targetSize = 0.0f;
 
-	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
+	for (int i = 0; i < objMax; i++)
 	{
 		if (pObject[i] == nullptr)
 		{// nullチェック
@@ -234,29 +237,10 @@ void CPlayer::Collision()
 			continue;
 		}
 
-		switch (type)
-		{
-		case CObject3D::TYPE_BODY:
-		{
-			pos = pObject[i]->GetPos();
-			size = pObject[i]->GetSize().x;
-		}
-		break;
+		targetPos = pObject[i]->GetPos();
+		targetSize = pObject[i]->GetSize().x * 0.5f;
 
-		case CObject3D::TYPE_ENEMY:
-		{
-			CEnemy* pEnemy = (CEnemy*)pObject[i];
-			pos = pEnemy->GetPos();
-			size = pEnemy->GetSize().x;
-		}
-		break;
-
-		default:
-			assert(false);
-			break;
-		}
-
-		if (CollisionCircle(CObject3D::GetPos(), CObject3D::GetSize().x * 0.25f, pos, size * 0.25f))
+		if (CollisionCircle(pos, size, targetPos, targetSize))
 		{// 当たり判定
 			// 解放
 			CObject::Release();

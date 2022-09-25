@@ -42,8 +42,9 @@ CObject3D* CObject3D::Create()
 bool CObject3D::Exist(EType type)
 {
 	CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
+	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
 
-	for (int i = 0; i < CObject::GetMax(CObject::CATEGORY_3D); i++)
+	for (int i = 0; i < objMax; i++)
 	{
 		if (pObject[i] == nullptr)
 		{// nullチェック

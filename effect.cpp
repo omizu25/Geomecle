@@ -20,6 +20,7 @@
 const int CEffect::MAX_LIFE = 100;
 const float CEffect::STD_WIDTH = 12.0f;
 const float CEffect::STD_HEIGHT = 100.0f;
+const float CEffect::MIN_WIDTH = 5.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -141,9 +142,9 @@ void CEffect::Update()
 	{// 指定の値よりも大きい
 		len = STD_HEIGHT;
 	}
-	else if (len <= STD_WIDTH)
+	else if (len <= MIN_WIDTH)
 	{// 指定の値よりも小さい
-		len = STD_WIDTH;
+		len = MIN_WIDTH;
 	}
 
 	m_size.y = len;

@@ -25,13 +25,36 @@
 #include "pause.h"
 #include "object2D.h"
 #include "sound.h"
+#include "wall.h"
+#include "circle.h"
 #include <assert.h>
 
 //==================================================
-// インクルード
+// 定義
 //==================================================
 const int CGame::MAX_TIME = 4500;
 const int CGame::PAUSE_TIME = 100;
+
+//==================================================
+// 静的メンバ変数
+//==================================================
+CGame::EGame CGame::m_mode = GAME_NONE;
+
+//--------------------------------------------------
+// ゲームモードの設定
+//--------------------------------------------------
+void CGame::SetMode(EGame mode)
+{
+	m_mode = mode;
+}
+
+//--------------------------------------------------
+// ゲームモードの取得
+//--------------------------------------------------
+CGame::EGame CGame::GetMode()
+{
+	return m_mode;
+}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
@@ -45,6 +68,10 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pBestScore(nullptr),
 	m_time(0)
 {
+	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+	{
+		m_pCircle[i] = nullptr;
+	}
 }
 
 //--------------------------------------------------
@@ -52,6 +79,11 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 //--------------------------------------------------
 CGame::~CGame()
 {
+	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+	{
+		assert(m_pCircle[i] == nullptr);
+	}
+
 	assert(m_pPauseBG == nullptr);
 	assert(m_pPause == nullptr);
 	assert(m_pTime == nullptr);
@@ -67,7 +99,6 @@ void CGame::Init()
 {
 	m_time = 0;
 	m_pPause = nullptr;
-
 	// プレイヤーの生成
 	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
 
@@ -97,6 +128,35 @@ void CGame::Init()
 
 		// 描画の設定
 		m_pPauseBG->SetDraw(false);
+	}
+
+	if (m_mode != GAME_NORMAL)
+	{// 円が必要なモード
+		float width = CWall::STD_WIDTH * 0.25f;
+		float height = CWall::STD_HEIGHT * 0.25f;
+
+		D3DXVECTOR3 pos[CCircleManager::MAX_CIRCLE]
+		{
+			D3DXVECTOR3(-width, +height, 0.0f),	// 左上
+			D3DXVECTOR3(+width, +height, 0.0f),	// 右上
+			D3DXVECTOR3(-width, -height, 0.0f),	// 左下
+			D3DXVECTOR3(+width, -height, 0.0f),	// 右下
+		};
+
+		D3DXVECTOR2 size = D3DXVECTOR2(width * 0.25f, height * 0.25f);
+
+		for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+		{
+			// 生成
+			m_pCircle[i] = CCircleManager::Create(pos[i], size);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+		{
+			m_pCircle[i] = nullptr;
+		}
 	}
 
 	{// タイム
@@ -152,6 +212,16 @@ void CGame::Uninit()
 {	
 	// ランキングの設定
 	CRanking::Set(m_pScore->Get());
+
+	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+	{
+		if (m_pCircle[i] != nullptr)
+		{// nullチェック
+			m_pCircle[i]->Uninit();
+			delete m_pCircle[i];
+			m_pCircle[i] = nullptr;
+		}
+	}
 
 	if (m_pPause != nullptr)
 	{// nullチェック
@@ -254,11 +324,26 @@ void CGame::Update()
 		}
 	}
 
-	// 更新
+	// 敵の出現の更新
 	CEnemyManager::GetInstanse()->Update();
 
 	// エフェクト
 	Effect();
+
+	// 円の更新
+	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+	{
+		if (m_pCircle[i] != nullptr)
+		{// nullチェック
+			m_pCircle[i]->Update();
+		}
+	}
+
+	if (m_mode != GAME_NORMAL)
+	{// 円が必要なモード
+		// 当たり判定
+		CCircle::Collision();
+	}
 
 	// 弾の発射
 	CBullet::Shot();

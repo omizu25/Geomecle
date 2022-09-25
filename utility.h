@@ -2,6 +2,7 @@
 //
 // utility.h
 // Author  : katsuki mizuki
+// Author YudaKaito
 //
 //**************************************************
 #ifndef _UTILITY_H_	// このマクロ定義がされてなかったら
@@ -113,6 +114,16 @@ bool InRangeReflect(D3DXVECTOR3* pPos, D3DXVECTOR3* pMove, const D3DXVECTOR3& ra
 // 返値  : bool / 範囲外に出たかどうか
 //--------------------------------------------------
 bool CollisionCircle(const D3DXVECTOR3& pos1, float radius1, const D3DXVECTOR3& pos2, float radius2);
+
+//--------------------------------------------------
+// エリアの当たり判定
+// 引数1  : D3DXVECTOR3& pos1 / １つ目の位置
+// 引数2  : float radius1 / １つ目の半径
+// 引数3  : D3DXVECTOR3* pPos2 / ２つ目の位置
+// 引数4  : float radius2 / ２つ目の半径
+// 返値  : bool / 範囲外に出たかどうか
+//--------------------------------------------------
+bool CollisionArea(const D3DXVECTOR3& pos1, float radius1, D3DXVECTOR3* pPos2, float radius2);
 
 //--------------------------------------------------
 // バッファのコピー
