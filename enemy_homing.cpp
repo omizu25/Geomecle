@@ -109,7 +109,7 @@ void CEnemyHoming::Update()
 	D3DXVECTOR3 pos = CObject3D::GetPos();
 
 	// ホーミング
-	Homing(&pos, pos, posDest, STD_MOVE + FloatRandom(STD_MOVE, 0.0f));
+	Homing(&pos, pos, posDest, STD_MOVE);
 
 	// 位置の設定
 	CObject3D::SetPos(pos);

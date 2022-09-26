@@ -31,7 +31,7 @@ const char* CTexture::FILE_NAME[] =
 
 	/* ↓敵↓ */
 	"data/TEXTURE/Homing.png",			// ホーミング
-	"data/TEXTURE/HomingAI.png",		// AIホーミング
+	"data/TEXTURE/HomingEscape.png",	// 逃げるホーミング
 	"data/TEXTURE/HomingDivision.png",	// 分裂ホーミング
 	"data/TEXTURE/PaperAirplane.png",	// 紙飛行機
 	"data/TEXTURE/Windmill.png",		// 風車

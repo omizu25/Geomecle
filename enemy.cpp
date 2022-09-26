@@ -15,6 +15,7 @@
 #include "enemy_snake_head.h"
 #include "enemy_division.h"
 #include "enemy_rolling.h"
+#include "enemy_escape.h"
 #include "effect_manager.h"
 #include "application.h"
 #include "game.h"
@@ -57,6 +58,10 @@ CEnemy* CEnemy::Create(CEnemy::EType type, const D3DXVECTOR3& pos)
 
 	case CEnemy::TYPE_DIVISION:
 		pEnemy = new CEnemyDivision;
+		break;
+
+	case CEnemy::TYPE_ESCAPE:
+		pEnemy = new CEnemyEscape;
 		break;
 
 	case CEnemy::TYPE_ROLLING:
@@ -121,7 +126,8 @@ void CEnemy::Collision()
 		typeObject = pEnemy->GetType();
 		
 		if (typeObject != CEnemy::TYPE_HOMING
-			&& typeObject != CEnemy::TYPE_DIVISION)
+			&& typeObject != CEnemy::TYPE_DIVISION
+			&& typeObject != CEnemy::TYPE_ESCAPE)
 		{// 指定のエネミーではない
 			continue;
 		}

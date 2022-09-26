@@ -204,6 +204,9 @@
     <ClInclude Include="bom.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="enemy_escape.h">
+      <Filter>Object\3D\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -358,6 +361,9 @@
     </ClCompile>
     <ClCompile Include="bom.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_escape.cpp">
+      <Filter>Object\3D\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

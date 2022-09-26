@@ -28,6 +28,7 @@ public:
 		TYPE_WINDMILL,		// •—ŽÔ
 		TYPE_SNAKE,			// ŽÖ
 		TYPE_DIVISION,		// •ª—ô
+		TYPE_ESCAPE,		// ’e‚©‚ç“¦‚°‚é
 		TYPE_ROLLING,		// ‰ñ“]
 		TYPE_MAX
 	};

@@ -35,7 +35,7 @@ public:
 
 		/* ↓敵↓ */
 		LABEL_Homing,			// ホーミング
-		LABEL_HomingAI,			// AIホーミング
+		LABEL_HomingEscape,		// 逃げるホーミング
 		LABEL_HomingDivision,	// 分裂ホーミング
 		LABEL_PaperAirplane,	// 紙飛行機
 		LABEL_Windmill,			// 風車
