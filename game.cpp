@@ -20,7 +20,7 @@
 #include "mul.h"
 #include "effect_manager.h"
 #include "input.h"
-#include "ranking.h"
+#include "rankingUI.h"
 #include "utility.h"
 #include "pause.h"
 #include "object2D.h"
@@ -187,7 +187,7 @@ void CGame::Init()
 	
 	{// ベストスコア
 		D3DXVECTOR3 size = D3DXVECTOR3(CScore::STD_WIDTH, CScore::STD_HEIGHT, 0.0f);
-		int score = CRanking::Get(0);
+		int score = CRankingUI::Get(0);
 
 		float width = (size.x * Digit(score)) + (((Digit(score) - 1) / 3) * (size.x * 0.5f));
 		float height = size.y * 0.5f + 10.0f;
@@ -212,7 +212,7 @@ void CGame::Init()
 void CGame::Uninit()
 {	
 	// ランキングの設定
-	CRanking::Set(m_pScore->Get());
+	CRankingUI::Set(m_pScore->Get());
 
 	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
 	{

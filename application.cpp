@@ -19,7 +19,6 @@
 #include "wall.h"
 #include "player.h"
 #include "bg.h"
-#include "ranking.h"
 #include "effect_manager.h"
 #include <time.h>
 #include <assert.h>

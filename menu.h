@@ -54,6 +54,7 @@ public:
 	int Select();	// 選択
 	void SetFrame(const D3DXVECTOR3& size, const D3DXCOLOR& col);	// 枠の設定
 	void SetTexture(int idx, CTexture::ELabel label);	// テクスチャの設定
+	int GetSelectIdx();	// 選択されている番号の取得
 
 private:
 	void Add(int add);

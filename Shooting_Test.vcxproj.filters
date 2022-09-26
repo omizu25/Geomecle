@@ -147,9 +147,6 @@
     <ClInclude Include="number_manager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="ranking.h">
-      <Filter>Manager</Filter>
-    </ClInclude>
     <ClInclude Include="score.h">
       <Filter>Manager</Filter>
     </ClInclude>
@@ -194,6 +191,12 @@
     </ClInclude>
     <ClInclude Include="circle_manager.h">
       <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="rankingUI.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ranking.h">
+      <Filter>System\Mode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +296,6 @@
     <ClCompile Include="number_manager.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
-    <ClCompile Include="ranking.cpp">
-      <Filter>Manager</Filter>
-    </ClCompile>
     <ClCompile Include="score.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
@@ -340,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="circle_manager.cpp">
       <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="rankingUI.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="ranking.cpp">
+      <Filter>System\Mode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -15,7 +15,7 @@
 //==================================================
 // 前方宣言
 //==================================================
-class CRanking;
+class CRankingUI;
 class CScore;
 class CMenu;
 
@@ -50,7 +50,7 @@ private:
 
 	/* メンバ変数 */
 private:
-	CRanking* m_pRanking;	// ランキング
+	CRankingUI* m_pRanking;	// ランキング
 	CScore* m_pScore;		// 今回のスコア
 	CMenu* m_pMenu;			// メニュー
 	int m_time;				// 時間

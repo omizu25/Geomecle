@@ -66,6 +66,11 @@ void CTutorial::Uninit()
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
+	CApplication* pApp = CApplication::GetInstanse();
+
+	// テクスチャの破棄
+	pApp->GetTexture()->ReleaseAll();
+
 	// 停止
 	CApplication::GetInstanse()->GetSound()->Stop(CSound::LABEL_BGM_Title);
 }

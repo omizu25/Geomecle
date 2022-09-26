@@ -9,195 +9,27 @@
 // インクルード
 //==================================================
 #include "ranking.h"
-#include "score.h"
-#include "number.h"
-#include "object2D.h"
+#include "application.h"
+#include "camera.h"
+#include "effect_manager.h"
 #include "utility.h"
-
+#include "wall.h"
+#include "rankingUI.h"
+#include "menu.h"
+#include "object2D.h"
+#include "sound.h"
 #include <assert.h>
-#include <stdio.h>
-
-//==================================================
-// 定義
-//==================================================
-const float CRanking::STD_WIDTH = 40.0f;
-const float CRanking::STD_HEIGHT = 50.0f;
-const char* CRanking::FILE_NAME[] =
-{// ランキングのテキストのパス
-	"data/TEXT/Ranking_Normal.txt",		// 通常
-	"data/TEXT/Ranking_SafetyArea.txt",	// 安全エリア
-	"data/TEXT/Ranking_DangerArea.txt",	// 危険エリア
-};
-
-//==================================================
-// 静的メンバ変数
-//==================================================
-int CRanking::m_score = 0;
-int CRanking::m_ranking[MAX_RANKING] = {};
-
-//--------------------------------------------------
-// 生成
-//--------------------------------------------------
-CRanking* CRanking::Create(const D3DXVECTOR3& pos, float length)
-{
-	CRanking* pRanking = nullptr;
-
-	pRanking = new CRanking;
-
-	if (pRanking != nullptr)
-	{// nullチェック
-		// 初期化
-		pRanking->Init(pos, length);
-	}
-
-	return pRanking;
-}
-
-//--------------------------------------------------
-// 設定
-//--------------------------------------------------
-void CRanking::Set(int score)
-{
-	m_score = score;
-
-	// 読み込み
-	Load();
-
-	// 変更
-	Change();
-
-	// 保存
-	Save();
-}
-
-//--------------------------------------------------
-// 取得
-//--------------------------------------------------
-int CRanking::Get(int rank)
-{
-	if (rank == -1)
-	{// 指定の値
-		return m_score;
-	}
-
-	assert(rank >= 0 && rank < MAX_RANKING);
-
-	// 読み込み
-	Load();
-
-	return m_ranking[rank];
-}
-
-//--------------------------------------------------
-// 読み込み
-//--------------------------------------------------
-void CRanking::Load()
-{
-	FILE *pFile = nullptr;
-
-	// ファイルを開く
-	pFile = fopen(FILE_NAME[CGame::GetMode()], "r");
-
-	if (pFile != nullptr)
-	{// ファイルが開いた場合
-
-		for (int i = 0; i < MAX_RANKING; i++)
-		{
-			fscanf(pFile, "%d", &m_ranking[i]);
-		}
-
-		// ファイルを閉じる
-		fclose(pFile);
-	}
-	else
-	{// ファイルが開かない場合
-		assert(false);
-	}
-}
-
-//--------------------------------------------------
-// 保存
-//--------------------------------------------------
-void CRanking::Save()
-{
-	FILE *pFile = nullptr;
-
-	// ファイルを開く
-	pFile = fopen(FILE_NAME[CGame::GetMode()], "w");
-
-	if (pFile != nullptr)
-	{// ファイルが開いた場合
-
-		for (int i = 0; i < MAX_RANKING; i++)
-		{
-			fprintf(pFile, "%d\n\n", m_ranking[i]);
-		}
-
-		// ファイルを閉じる
-		fclose(pFile);
-	}
-	else
-	{// ファイルが開かない場合
-		assert(false);
-	}
-}
-
-//--------------------------------------------------
-// 変更
-//--------------------------------------------------
-void CRanking::Change()
-{
-	int ranking[MAX_RANKING + 1] = {};
-
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		ranking[i] = m_ranking[i];
-	}
-
-	ranking[MAX_RANKING] = m_score;
-
-	int save = 0;
-
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		save = ranking[i];
-
-		for (int j = i + 1; j < MAX_RANKING + 1; j++)
-		{
-			if (save < ranking[j])
-			{// 相手が大きかったら交代
-				save = ranking[j];
-			}
-		}
-
-		for (int j = i + 1; j < MAX_RANKING + 1; j++)
-		{
-			if (save == ranking[j])
-			{// 最大値を探して交代
-				ranking[j] = ranking[i];
-				ranking[i] = save;
-				break;
-			}
-		}
-	}
-
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		m_ranking[i] = ranking[i];
-	}
-}
 
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CRanking::CRanking() :
-	m_newRank(0),
-	m_time(0)
+CRanking::CRanking() : CMode(CMode::MODE_RANKING),
+	m_pRanking(nullptr),
+	m_pMenu(nullptr),
+	m_col(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f)),
+	m_time(0),
+	m_partCnt(0)
 {
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		m_pRanking[i] = nullptr;
-	}
 }
 
 //--------------------------------------------------
@@ -205,71 +37,70 @@ CRanking::CRanking() :
 //--------------------------------------------------
 CRanking::~CRanking()
 {
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		assert(m_pRanking[i] == nullptr);
-	}
+	assert(m_pRanking == nullptr);
+	assert(m_pMenu == nullptr);
 }
 
 //--------------------------------------------------
 // 初期化
 //--------------------------------------------------
-void CRanking::Init(const D3DXVECTOR3& pos, float length)
+void CRanking::Init()
 {
 	m_time = 0;
+	m_partCnt = 0;
+	m_col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
+	// ランキングの設定
+	CRankingUI::Set(-1);
 
-	float height = STD_HEIGHT;
+	{// ランキングの背景
+		float width = (float)CApplication::SCREEN_WIDTH * 0.75f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.5f - 15.0f;
 
-	if (length <= 0.0f)
-	{// 値がマイナス
-		height *= -1.0f;
+		// ランキングの背景の生成
+		CObject2D* pObj = CObject2D::Create();
+		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
+		pObj->SetSize(D3DXVECTOR3(600.0f, 650.0f, 0.0f));
+		pObj->SetTexture(CTexture::LABEL_NONE);
+		pObj->SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.4f));
+		pObj->SetFade(0.0f);
 	}
 
-	float posX = 0.0f;
-	float posY = 0.0f;
-	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
-	float interval = 3 * (size.x * 0.5f);
-	float rankPosX = 0.0f;
+	{// ランキング
+		float width = (float)CApplication::SCREEN_WIDTH - 35.0f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
-		posY = pos.y + (i * (length + height));
-
-		// スコアの生成
-		m_pRanking[i] = CScore::Create(D3DXVECTOR3(posX, posY, 0.0f), size);
-
-		// スコアの設定
-		m_pRanking[i]->Set(m_ranking[i]);
-
-		rankPosX = pos.x - maxWidth - interval - (STD_HEIGHT * 0.5f);
-
-		// 位の生成
-		CObject2D* pRank = CObject2D::Create();
-		pRank->SetPos(D3DXVECTOR3(rankPosX - 20.0f, posY, 0.0f));
-		pRank->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
-		pRank->SetTexture(CTexture::LABEL_Rank);
-		pRank->SetFade(0.0f);
-
-		// 順位の生成
-		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(rankPosX - 65.0f, posY, 0.0f), size * 1.2f);
-		pNumber->Change(i + 1);
+		// ランキングの生成
+		m_pRanking = CRankingUI::Create(D3DXVECTOR3(width, height, 0.0f), 40.0f);
 	}
 
-	m_newRank = -1;
+	{// ランキングの文字列
+		float width = (float)CApplication::SCREEN_WIDTH * 0.75f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.15f;
 
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		if (m_ranking[i] != m_score)
-		{// 指定の値ではない
-			continue;
-		}
+		// 文字列の生成
+		CObject2D* pObj = CObject2D::Create();
+		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
+		pObj->SetSize(D3DXVECTOR3(450.0f, 150.0f, 0.0f));
+		pObj->SetTexture(CTexture::LABEL_Rankig_Result);
+		pObj->SetFade(0.0f);
+	}
 
-		m_newRank = i;
+	{// メニュー
+		D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.25f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
+		D3DXVECTOR3 size = D3DXVECTOR3(350.0f, 100.0f, 0.0f);
 
-		break;
+		// メニューの生成
+		m_pMenu = CMenu::Create(pos, size, ESelect::SELECT_MAX, 50.0f, true, true);
+
+		// 枠の設定
+		m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
+
+		// テクスチャの設定
+		m_pMenu->SetTexture(ESelect::SELECT_NORMAL, CTexture::LABEL_Normal);
+		m_pMenu->SetTexture(ESelect::SELECT_SAFETY_AREA, CTexture::LABEL_SafetyArea);
+		m_pMenu->SetTexture(ESelect::SELECT_DANGER_AREA, CTexture::LABEL_DangerArea);
+		m_pMenu->SetTexture(ESelect::SELECT_END, CTexture::LABEL_End_Ranking);
 	}
 }
 
@@ -278,33 +109,27 @@ void CRanking::Init(const D3DXVECTOR3& pos, float length)
 //--------------------------------------------------
 void CRanking::Uninit()
 {
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		if (m_pRanking[i] != nullptr)
-		{// nullチェック
-			// 終了
-			m_pRanking[i]->Uninit();
-			delete m_pRanking[i];
-			m_pRanking[i] = nullptr;
-		}
+	if (m_pRanking != nullptr)
+	{// nullチェック
+		m_pRanking->Uninit();
+		delete m_pRanking;
+		m_pRanking = nullptr;
 	}
-}
 
-//--------------------------------------------------
-// 解放
-//--------------------------------------------------
-void CRanking::Release()
-{
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		if (m_pRanking[i] != nullptr)
-		{// nullチェック
-			// 解放
-			m_pRanking[i]->Release();
-			delete m_pRanking[i];
-			m_pRanking[i] = nullptr;
-		}
+	if (m_pMenu != nullptr)
+	{// nullチェック
+		m_pMenu->Uninit();
+		delete m_pMenu;
+		m_pMenu = nullptr;
 	}
+
+	// 全ての解放
+	CObject::ReleaseAll(false);
+
+	CApplication* pApp = CApplication::GetInstanse();
+
+	// テクスチャの破棄
+	pApp->GetTexture()->ReleaseAll();
 }
 
 //--------------------------------------------------
@@ -312,51 +137,89 @@ void CRanking::Release()
 //--------------------------------------------------
 void CRanking::Update()
 {
-	if (m_newRank == -1)
-	{// 指定の値
-		return;
+	// 更新
+	CObject::UpdateAll();
+
+	// エフェクト
+	Effect();
+
+	// ランキングの更新
+	m_pRanking->Update();
+
+	// 選択
+	ESelect select = (ESelect)m_pMenu->Select();
+
+	if (m_time >= CMode::FADE_TIME)
+	{// フェード時間
+		switch (select)
+		{
+		case ESelect::SELECT_NONE:
+		case ESelect::SELECT_NORMAL:
+		case ESelect::SELECT_SAFETY_AREA:
+		case ESelect::SELECT_DANGER_AREA:
+			break;
+
+		case ESelect::SELECT_END:
+			Change(MODE_TITLE);
+			return;
+			break;
+
+		case ESelect::SELECT_MAX:
+		default:
+			assert(false);
+			break;
+		}
 	}
 
-	m_time++;
+	CGame::EGame mode = (CGame::EGame)m_pMenu->GetSelectIdx();
 
-	D3DXCOLOR col = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	if (mode > CGame::GAME_NONE && mode < CGame::GAME_MAX)
+	{// 範囲内
+		CGame::SetMode(mode);
+		float width = (float)CApplication::SCREEN_WIDTH - 35.0f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
-	col.a = 1.0f - (CosCurve(m_time, 0.01f) * 0.9f);
+		// リセット
+		m_pRanking->Reset(D3DXVECTOR3(width, height, 0.0f), 40.0f);
+	}
 
-	// 色の設定
-	m_pRanking[m_newRank]->SetCol(col);
+	// カメラの更新
+	CApplication::GetInstanse()->GetCamera()->Update();
 }
 
 //--------------------------------------------------
-// リセット
+// 描画
 //--------------------------------------------------
-void CRanking::Reset(const D3DXVECTOR3& pos, float length)
+void CRanking::Draw()
 {
-	// 読み込み
-	Load();
+	// カメラの設定
+	CApplication::GetInstanse()->GetCamera()->Set();
 
-	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
+	// 描画
+	CObject::DrawAll();
+}
 
-	float height = STD_HEIGHT;
+//--------------------------------------------------
+// エフェクト
+//--------------------------------------------------
+void CRanking::Effect()
+{
+	m_time++;
 
-	if (length <= 0.0f)
-	{// 値がマイナス
-		height *= -1.0f;
+	if ((m_time % 13) != 0)
+	{// 一定間隔待ち
+		return;
 	}
 
-	float posX = 0.0f;
-	float posY = 0.0f;
-	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
-
-	for (int i = 0; i < MAX_RANKING; i++)
-	{
-		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
-		posY = pos.y + (i * (length + height));
-
-		// スコアのリセット
-		m_pRanking[i]->Reset(D3DXVECTOR3(posX, posY, 0.0f), size);
-
-		// スコアの設定
-		m_pRanking[i]->Set(m_ranking[i]);
+	if (m_partCnt % 15 == 0)
+	{// 一定間隔
+		m_col.r = FloatRandom(1.0f, 0.0f);
+		m_col.g = FloatRandom(1.0f, 0.0f);
+		m_col.b = FloatRandom(1.0f, 0.0f);
 	}
+
+	m_partCnt++;
+
+	// パーティクル
+	CEffectManager::GetInstanse()->Particle(m_col);
 }

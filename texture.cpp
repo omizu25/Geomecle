@@ -37,23 +37,25 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/snake_body.png",		// 蛇の体
 
 	/* ↓テキスト↓ */
-	"data/TEXTURE/TEXT/Number.png",		// 数
-	"data/TEXTURE/TEXT/result.png",		// リザルト
-	"data/TEXTURE/TEXT/title.png",		// タイトル
-	"data/TEXTURE/TEXT/mul.png",		// 掛ける
-	"data/TEXTURE/TEXT/rank.png",		// 位
-	"data/TEXTURE/TEXT/ranking.png",	// ランキング
-	"data/TEXTURE/TEXT/NewScore.png",	// 新しいスコア
-	"data/TEXTURE/TEXT/Comma.png",		// カンマ
-	"data/TEXTURE/TEXT/Period.png",		// ピリオド
-	"data/TEXTURE/TEXT/Pause.png",		// ポーズ
-	"data/TEXTURE/TEXT/Resume.png",		// 再開
-	"data/TEXTURE/TEXT/Restart.png",	// リスタート
-	"data/TEXTURE/TEXT/End.png",		// 終了
-	"data/TEXTURE/TEXT/Retry.png",		// リトライ
-	"data/TEXTURE/TEXT/Normal.png",		// 通常
-	"data/TEXTURE/TEXT/SafetyArea.png",	// 安全エリア
-	"data/TEXTURE/TEXT/DangerArea.png",	// 危険エリア
+	"data/TEXTURE/TEXT/Number.png",			// 数
+	"data/TEXTURE/TEXT/result.png",			// リザルト
+	"data/TEXTURE/TEXT/title.png",			// タイトル
+	"data/TEXTURE/TEXT/mul.png",			// 掛ける
+	"data/TEXTURE/TEXT/rank.png",			// 位
+	"data/TEXTURE/TEXT/Ranking_Title.png",	// タイトル用のランキング
+	"data/TEXTURE/TEXT/Ranking_Result.png",	// リザルト用のランキング
+	"data/TEXTURE/TEXT/NewScore.png",		// 新しいスコア
+	"data/TEXTURE/TEXT/Comma.png",			// カンマ
+	"data/TEXTURE/TEXT/Period.png",			// ピリオド
+	"data/TEXTURE/TEXT/Pause.png",			// ポーズ
+	"data/TEXTURE/TEXT/Resume.png",			// 再開
+	"data/TEXTURE/TEXT/Restart.png",		// リスタート
+	"data/TEXTURE/TEXT/End.png",			// 終了
+	"data/TEXTURE/TEXT/End_Ranking.png",	// ランキング用の終了
+	"data/TEXTURE/TEXT/Retry.png",			// リトライ
+	"data/TEXTURE/TEXT/Normal.png",			// 通常
+	"data/TEXTURE/TEXT/SafetyArea.png",		// 安全エリア
+	"data/TEXTURE/TEXT/DangerArea.png",		// 危険エリア
 };
 
 static_assert(sizeof(CTexture::FILE_NAME) / sizeof(CTexture::FILE_NAME[0]) == CTexture::LABEL_MAX, "aho");

@@ -10,61 +10,52 @@
 //==================================================
 // インクルード
 //==================================================
-#include <d3dx9.h>
-#include "game.h"
+#include "mode.h"
 
 //==================================================
 // 前方宣言
 //==================================================
-class CScore;
+class CRankingUI;
+class CMenu;
 
 //==================================================
 // 定義
 //==================================================
-class CRanking
+class CRanking : public CMode
 {
-	/* ↓静的メンバ関数↓ */
-public:
-	static const float STD_WIDTH;	// 幅の標準値
-	static const float STD_HEIGHT;	// 高さの標準値
-
+	/* 定義 */
 private:
-	static const int MAX_RANKING = 5;	// ランキングの最大数
-	static const char* FILE_NAME[];		// ファイルパス
-
-	/* ↓静的メンバ関数↓ */
-public:
-	static CRanking* Create(const D3DXVECTOR3& pos, float length);	// 生成
-	static void Set(int score);	// 設定
-	static int Get(int rank);	// 取得
-
-private:
-	static void Load();		// 読み込み
-	static void Save();		// 保存
-	static void Change();	// 変更
-
-	/* ↓静的メンバ変数↓ */
-private:
-	static int m_score;	// 今回のスコア
-	static int m_ranking[MAX_RANKING];	// ランキング
+	enum ESelect
+	{
+		SELECT_NONE = -1,
+		SELECT_NORMAL = 0,	// 通常
+		SELECT_SAFETY_AREA,	// 安全エリア
+		SELECT_DANGER_AREA,	// 危険エリア
+		SELECT_END,			// 終了
+		SELECT_MAX
+	};
 
 	/* ↓メンバ関数↓ */
 public:
-	CRanking();		// デフォルトコンストラクタ
-	~CRanking();	// デストラクタ
+	CRanking();				// デフォルトコンストラクタ
+	~CRanking() override;	// デストラクタ
 
 public:
-	void Init(const D3DXVECTOR3& pos, float length);	// 初期化
-	void Uninit();	// 終了
-	void Release();	// 解放
-	void Update();	// 更新
-	void Reset(const D3DXVECTOR3& pos, float length);	// リセット
+	void Init() override;	// 初期化
+	void Uninit() override;	// 終了
+	void Update() override;	// 更新
+	void Draw() override;	// 描画
 
-	/* ↓メンバ変数↓ */
 private:
-	CScore* m_pRanking[MAX_RANKING];	// ランキング
-	int m_newRank;	// 新しいスコア
-	int m_time;		// タイム
+	void Effect();	// エフェクト
+
+	/* メンバ変数 */
+private:
+	CRankingUI* m_pRanking;	// ランキング
+	CMenu* m_pMenu;			// メニュー
+	D3DXCOLOR m_col;		// 色
+	int m_time;				// 時間
+	int m_partCnt;			// パーティクルカウンター
 };
 
 #endif // !_RANKING_H_

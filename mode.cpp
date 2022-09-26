@@ -13,6 +13,7 @@
 #include "tutorial.h"
 #include "game.h"
 #include "result.h"
+#include "ranking.h"
 
 #include <assert.h>
 
@@ -44,6 +45,10 @@ CMode* CMode::Create(EMode mode)
 
 	case CMode::MODE_RESULT:
 		pMode = new CResult;
+		break;
+
+	case CMode::MODE_RANKING:
+		pMode = new CRanking;
 		break;
 
 	case CMode::MODE_NONE:

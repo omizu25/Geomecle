@@ -236,4 +236,7 @@ void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 		// •`‰æ‚Ìİ’è
 		m_pComma[i]->SetDraw(false);
 	}
+
+	// ˆÊ’u‚Ìİ’è
+	CNumberManager::SetPos(pos);
 }

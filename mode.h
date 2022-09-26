@@ -26,6 +26,7 @@ public:
 		MODE_TUTORIAL,	// チュートリアル
 		MODE_GAME,		// ゲーム
 		MODE_RESULT,	// リザルト
+		MODE_RANKING,	// ランキング
 		MODE_MAX,
 	};
 

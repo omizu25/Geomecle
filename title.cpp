@@ -59,15 +59,16 @@ void CTitle::Init()
 		D3DXVECTOR3 size = D3DXVECTOR3(350.0f, 100.0f, 0.0f);
 
 		// メニューの生成
-		m_pMenu = CMenu::Create(pos, size, CGame::GAME_MAX, 100.0f, true, true);
+		m_pMenu = CMenu::Create(pos, size, ESelect::SELECT_MAX, 50.0f, true, true);
 
 		// 枠の設定
 		m_pMenu->SetFrame(D3DXVECTOR3(600.0f, (float)CApplication::SCREEN_HEIGHT, 0.0f), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.5f));
 
 		// テクスチャの設定
-		m_pMenu->SetTexture(CGame::GAME_NORMAL, CTexture::LABEL_Normal);
-		m_pMenu->SetTexture(CGame::GAME_SAFETY_AREA, CTexture::LABEL_SafetyArea);
-		m_pMenu->SetTexture(CGame::GAME_DANGER_AREA, CTexture::LABEL_DangerArea);
+		m_pMenu->SetTexture(ESelect::SELECT_NORMAL, CTexture::LABEL_Normal);
+		m_pMenu->SetTexture(ESelect::SELECT_SAFETY_AREA, CTexture::LABEL_SafetyArea);
+		m_pMenu->SetTexture(ESelect::SELECT_DANGER_AREA, CTexture::LABEL_DangerArea);
+		m_pMenu->SetTexture(ESelect::SELECT_RANKING, CTexture::LABEL_Rankig_Title);
 	}
 
 	// BGM
@@ -88,6 +89,11 @@ void CTitle::Uninit()
 
 	// 全ての解放
 	CObject::ReleaseAll(false);
+
+	CApplication* pApp = CApplication::GetInstanse();
+
+	// テクスチャの破棄
+	pApp->GetTexture()->ReleaseAll();
 }
 
 //--------------------------------------------------
@@ -102,16 +108,43 @@ void CTitle::Update()
 	Effect();
 
 	// 選択
-	CGame::EGame select = (CGame::EGame)m_pMenu->Select();
+	CTitle::ESelect select = (ESelect)m_pMenu->Select();
 
-	if (select != CGame::GAME_NONE)
-	{// 選択した
-		if (m_time >= CMode::FADE_TIME)
-		{// フェード時間
-			assert(select > CGame::GAME_NONE && select < CGame::GAME_MAX);
-			CGame::SetMode(select);
+	if (m_time >= CMode::FADE_TIME)
+	{// フェード時間
+		switch (select)
+		{
+		case ESelect::SELECT_NONE:
+			break;
+
+		case ESelect::SELECT_NORMAL:
+			CGame::SetMode(CGame::GAME_NORMAL);
 			Change(MODE_TUTORIAL);
 			return;
+			break;
+
+		case ESelect::SELECT_SAFETY_AREA:
+			CGame::SetMode(CGame::GAME_SAFETY_AREA);
+			Change(MODE_TUTORIAL);
+			return;
+			break;
+
+		case ESelect::SELECT_DANGER_AREA:
+			CGame::SetMode(CGame::GAME_DANGER_AREA);
+			Change(MODE_TUTORIAL);
+			return;
+			break;
+
+		case ESelect::SELECT_RANKING:
+			CGame::SetMode(CGame::GAME_NORMAL);
+			Change(MODE_RANKING);
+			return;
+			break;
+
+		case ESelect::SELECT_MAX:
+		default:
+			assert(false);
+			break;
 		}
 	}
 

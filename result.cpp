@@ -16,7 +16,7 @@
 #include "effect_manager.h"
 #include "utility.h"
 #include "wall.h"
-#include "ranking.h"
+#include "rankingUI.h"
 #include "score.h"
 #include "menu.h"
 #include "sound.h"
@@ -81,7 +81,7 @@ void CResult::Init()
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// ランキングの生成
-		m_pRanking = CRanking::Create(D3DXVECTOR3(width, height, 0.0f), 40.0f);
+		m_pRanking = CRankingUI::Create(D3DXVECTOR3(width, height, 0.0f), 40.0f);
 	}
 
 	{// ランキングの文字列
@@ -92,13 +92,13 @@ void CResult::Init()
 		CObject2D* pObj = CObject2D::Create();
 		pObj->SetPos(D3DXVECTOR3(width, height, 0.0f));
 		pObj->SetSize(D3DXVECTOR3(450.0f, 150.0f, 0.0f));
-		pObj->SetTexture(CTexture::LABEL_Rankig);
+		pObj->SetTexture(CTexture::LABEL_Rankig_Result);
 		pObj->SetFade(0.0f);
 	}
 
 	{// 今回のスコア
-		D3DXVECTOR3 size = D3DXVECTOR3(CRanking::STD_WIDTH * 1.3f, CRanking::STD_HEIGHT * 1.3f, 0.0f);
-		int score = CRanking::Get(-1);
+		D3DXVECTOR3 size = D3DXVECTOR3(CRankingUI::STD_WIDTH * 1.3f, CRankingUI::STD_HEIGHT * 1.3f, 0.0f);
+		int score = CRankingUI::Get(-1);
 		int digit = Digit(score);
 		float center = (digit * (size.x * 0.5f)) + (((digit - 1) / 3) * (size.x * 0.25f));
 		float width = (float)CApplication::SCREEN_WIDTH * 0.25f + center;
@@ -202,14 +202,12 @@ void CResult::Update()
 			break;
 
 		case ESelect::SELECT_RETRY:
-			// モードの変更
-			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_GAME);
+			Change(CMode::MODE_GAME);
 			return;
 			break;
 
 		case ESelect::SELECT_END:
-			// モードの変更
-			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_TITLE);
+			Change(CMode::MODE_TITLE);
 			return;
 			break;
 

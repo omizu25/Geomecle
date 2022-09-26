@@ -41,23 +41,25 @@ public:
 		LABEL_Snake_Body,		// 蛇の体
 		
 		/* ↓テキスト↓ */
-		LABEL_Number,		// 数
-		LABEL_Result,		// リザルト
-		LABEL_Title,		// タイトル
-		LABEL_Mul,			// 掛ける
-		LABEL_Rank,			// 位
-		LABEL_Rankig,		// ランキング
-		LABEL_NewScore,		// 新しいスコア
-		LABEL_Comma,		// カンマ
-		LABEL_Period,		// ピリオド
-		LABEL_Pause,		// ポーズ
-		LABEL_Resume,		// 再開
-		LABEL_Restart,		// リスタート
-		LABEL_End,			// 終了
-		LABEL_Retry,		// リトライ
-		LABEL_Normal,		// 通常
-		LABEL_SafetyArea,	// 安全エリア
-		LABEL_DangerArea,	// 危険エリア
+		LABEL_Number,			// 数
+		LABEL_Result,			// リザルト
+		LABEL_Title,			// タイトル
+		LABEL_Mul,				// 掛ける
+		LABEL_Rank,				// 位
+		LABEL_Rankig_Title,		// タイトル用のランキング
+		LABEL_Rankig_Result,	// リザルト用のランキング
+		LABEL_NewScore,			// 新しいスコア
+		LABEL_Comma,			// カンマ
+		LABEL_Period,			// ピリオド
+		LABEL_Pause,			// ポーズ
+		LABEL_Resume,			// 再開
+		LABEL_Restart,			// リスタート
+		LABEL_End,				// 終了
+		LABEL_End_Ranking,		// ランキング用の終了
+		LABEL_Retry,			// リトライ
+		LABEL_Normal,			// 通常
+		LABEL_SafetyArea,		// 安全エリア
+		LABEL_DangerArea,		// 危険エリア
 		LABEL_MAX
 	};
 
