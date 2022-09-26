@@ -10,9 +10,6 @@
 //==================================================
 #include "enemy_manager.h"
 #include "enemy_wave.h"
-#include "application.h"
-#include "game.h"
-#include "player.h"
 #include "utility.h"
 #include <assert.h>
 

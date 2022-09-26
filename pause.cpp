@@ -12,7 +12,6 @@
 #include "menu.h"
 #include "object2D.h"
 #include "application.h"
-#include "mode.h"
 #include "game.h"
 #include "time.h"
 #include "input.h"

@@ -17,7 +17,6 @@
 #include "texture.h"
 #include "camera.h"
 #include "wall.h"
-#include "player.h"
 #include "bg.h"
 #include "effect_manager.h"
 #include <time.h>

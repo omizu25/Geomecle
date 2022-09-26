@@ -10,7 +10,6 @@
 //==================================================
 #include "score.h"
 #include "application.h"
-#include "mode.h"
 #include "game.h"
 #include "mul.h"
 #include "object2D.h"

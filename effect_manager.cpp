@@ -271,6 +271,9 @@ void CEffectManager::Bom(const D3DXVECTOR3& pos)
 		// “–‚½‚è”»’è‚ð‚µ‚È‚¢
 		pEffect->SetCollision(false);
 	}
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Bom);
 }
 
 //--------------------------------------------------

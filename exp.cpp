@@ -13,7 +13,6 @@
 #include "utility.h"
 #include "application.h"
 #include "player.h"
-#include "mode.h"
 #include "game.h"
 #include "mul.h"
 #include <assert.h>
