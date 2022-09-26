@@ -147,9 +147,6 @@ HRESULT CApplication::Init(HINSTANCE hInstance, HWND hWnd)
 	// 全ての壁の生成
 	CWall::AllCreate();
 
-	// ランキングの読み込み
-	CRanking::Load();
-	
 	if (m_pMode == nullptr)
 	{// nullチェック
 		m_pMode = CMode::Create(CMode::MODE_TITLE);
@@ -170,9 +167,6 @@ void CApplication::Uninit()
 		delete m_pMode;
 		m_pMode = nullptr;
 	}
-
-	// ランキングの保存
-	CRanking::Save();
 
 	// 破棄
 	CObject::Delete();

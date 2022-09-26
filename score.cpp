@@ -213,3 +213,27 @@ void CScore::DrawComma()
 		m_pComma[i]->SetDraw(true);
 	}
 }
+
+//--------------------------------------------------
+// リセット
+//--------------------------------------------------
+void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
+{
+	D3DXVECTOR3 commaPos = D3DXVECTOR3(pos.x, 0.0f, 0.0f);
+	float interval = size.x * 0.5f;
+	float width = size.x * 3.0f;
+	float halfInterval = interval * 0.5f;
+
+	for (int i = 0; i < MAX_COMMA; i++)
+	{
+		commaPos.x = pos.x - ((i * width) + (i * interval) + width + halfInterval);
+
+		commaPos.y = m_pComma[i]->GetPos().y;
+
+		// 位置の設定
+		m_pComma[i]->SetPos(commaPos);
+
+		// 描画の設定
+		m_pComma[i]->SetDraw(false);
+	}
+}

@@ -45,9 +45,10 @@ public:
 	void Add(int value);	// ‰ÁZ
 	void Set(int value);	// İ’è
 	int Get();				// æ“¾
-	void SetCol(const D3DXCOLOR& col);	// F‚Ìİ’è
-	void SetZero(bool zero);			// ƒ[ƒ‚Ìİ’è
-	void SetZeroDigit(int digit);		// ƒ[ƒ‚ÌŒ…”‚Ìİ’è
+	void SetPos(const D3DXVECTOR3& pos);			// ˆÊ’u‚Ìİ’è
+	void SetCol(const D3DXCOLOR& col);				// F‚Ìİ’è
+	void SetZero(bool zero);						// ƒ[ƒ‚Ìİ’è
+	void SetZeroDigit(int digit);					// ƒ[ƒ‚ÌŒ…”‚Ìİ’è
 	void SetInterval(int interval, float width);	// ŠÔŠu‚Ìİ’è
 
 private:

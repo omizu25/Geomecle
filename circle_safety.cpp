@@ -15,6 +15,7 @@
 //==================================================
 // 定義
 //==================================================
+const int CCircleSafety::COUNTDOWN_TIME = 120;
 const int CCircleSafety::MAX_LIFE = 1200;
 const D3DXCOLOR CCircleSafety::STD_COLOR = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
 const D3DXCOLOR CCircleSafety::START_COLOR = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
@@ -53,6 +54,9 @@ void CCircleSafety::Init()
 
 	// ライフの設定
 	CCircle::SetLife(MAX_LIFE);
+
+	// カウントダウンの時間の設定
+	CCircle::SetTime(COUNTDOWN_TIME);
 }
 
 //--------------------------------------------------

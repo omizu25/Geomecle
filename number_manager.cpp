@@ -150,6 +150,24 @@ int CNumberManager::Get()
 }
 
 //--------------------------------------------------
+// à íuÇÃê›íË
+//--------------------------------------------------
+void CNumberManager::SetPos(const D3DXVECTOR3& pos)
+{
+	float halfWidth = m_number[0]->GetSize().x * 0.5f;
+
+	float posX = 0.0f;
+
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		posX = pos.x - (halfWidth + (m_number[i]->GetSize().x * i));
+
+		// à íuÇÃê›íË
+		m_number[i]->SetPos(D3DXVECTOR3(posX, pos.y, 0.0f));
+	}
+}
+
+//--------------------------------------------------
 // êFÇÃê›íË
 //--------------------------------------------------
 void CNumberManager::SetCol(const D3DXCOLOR& col)

@@ -19,6 +19,9 @@
 class CCircleSafety : public CCircle
 {
 	/* 定義 */
+public:
+	static const int COUNTDOWN_TIME;	// カウントダウンの時間
+
 private:
 	static const int MAX_LIFE;			// 寿命の最大値
 	static const D3DXCOLOR STD_COLOR;	// 標準の色

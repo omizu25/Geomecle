@@ -22,7 +22,12 @@
 //==================================================
 const float CRanking::STD_WIDTH = 40.0f;
 const float CRanking::STD_HEIGHT = 50.0f;
-const char* CRanking::FILE_NAME = "data/TEXT/Ranking.txt";
+const char* CRanking::FILE_NAME[] =
+{// ランキングのテキストのパス
+	"data/TEXT/Ranking_Normal.txt",		// 通常
+	"data/TEXT/Ranking_SafetyArea.txt",	// 安全エリア
+	"data/TEXT/Ranking_DangerArea.txt",	// 危険エリア
+};
 
 //==================================================
 // 静的メンバ変数
@@ -46,60 +51,6 @@ CRanking* CRanking::Create(const D3DXVECTOR3& pos, float length)
 	}
 
 	return pRanking;
-}
-
-//--------------------------------------------------
-// 読み込み
-//--------------------------------------------------
-void CRanking::Load()
-{
-	FILE *pFile = nullptr;
-
-	// ファイルを開く
-	pFile = fopen(FILE_NAME, "r");
-
-	if (pFile != nullptr)
-	{// ファイルが開いた場合
-
-		for (int i = 0; i < MAX_RANKING; i++)
-		{
-			fscanf(pFile, "%d", &m_ranking[i]);
-		}
-		
-		// ファイルを閉じる
-		fclose(pFile);
-	}
-	else
-	{// ファイルが開かない場合
-		assert(false);
-	}
-}
-
-//--------------------------------------------------
-// 保存
-//--------------------------------------------------
-void CRanking::Save()
-{
-	FILE *pFile = nullptr;
-
-	// ファイルを開く
-	pFile = fopen(FILE_NAME, "w");
-
-	if (pFile != nullptr)
-	{// ファイルが開いた場合
-
-		for (int i = 0; i < MAX_RANKING; i++)
-		{
-			fprintf(pFile, "%d\n\n", m_ranking[i]);
-		}
-
-		// ファイルを閉じる
-		fclose(pFile);
-	}
-	else
-	{// ファイルが開かない場合
-		assert(false);
-	}
 }
 
 //--------------------------------------------------
@@ -131,7 +82,64 @@ int CRanking::Get(int rank)
 
 	assert(rank >= 0 && rank < MAX_RANKING);
 
+	// 読み込み
+	Load();
+
 	return m_ranking[rank];
+}
+
+//--------------------------------------------------
+// 読み込み
+//--------------------------------------------------
+void CRanking::Load()
+{
+	FILE *pFile = nullptr;
+
+	// ファイルを開く
+	pFile = fopen(FILE_NAME[CGame::GetMode()], "r");
+
+	if (pFile != nullptr)
+	{// ファイルが開いた場合
+
+		for (int i = 0; i < MAX_RANKING; i++)
+		{
+			fscanf(pFile, "%d", &m_ranking[i]);
+		}
+
+		// ファイルを閉じる
+		fclose(pFile);
+	}
+	else
+	{// ファイルが開かない場合
+		assert(false);
+	}
+}
+
+//--------------------------------------------------
+// 保存
+//--------------------------------------------------
+void CRanking::Save()
+{
+	FILE *pFile = nullptr;
+
+	// ファイルを開く
+	pFile = fopen(FILE_NAME[CGame::GetMode()], "w");
+
+	if (pFile != nullptr)
+	{// ファイルが開いた場合
+
+		for (int i = 0; i < MAX_RANKING; i++)
+		{
+			fprintf(pFile, "%d\n\n", m_ranking[i]);
+		}
+
+		// ファイルを閉じる
+		fclose(pFile);
+	}
+	else
+	{// ファイルが開かない場合
+		assert(false);
+	}
 }
 
 //--------------------------------------------------
@@ -317,4 +325,38 @@ void CRanking::Update()
 
 	// 色の設定
 	m_pRanking[m_newRank]->SetCol(col);
+}
+
+//--------------------------------------------------
+// リセット
+//--------------------------------------------------
+void CRanking::Reset(const D3DXVECTOR3& pos, float length)
+{
+	// 読み込み
+	Load();
+
+	D3DXVECTOR3 size = D3DXVECTOR3(STD_WIDTH, STD_HEIGHT, 0.0f);
+
+	float height = STD_HEIGHT;
+
+	if (length <= 0.0f)
+	{// 値がマイナス
+		height *= -1.0f;
+	}
+
+	float posX = 0.0f;
+	float posY = 0.0f;
+	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
+
+	for (int i = 0; i < MAX_RANKING; i++)
+	{
+		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
+		posY = pos.y + (i * (length + height));
+
+		// スコアのリセット
+		m_pRanking[i]->Reset(D3DXVECTOR3(posX, posY, 0.0f), size);
+
+		// スコアの設定
+		m_pRanking[i]->Set(m_ranking[i]);
+	}
 }

@@ -19,6 +19,9 @@
 class CCircleDanger : public CCircle
 {
 	/* 定義 */
+public:
+	static const int COUNTDOWN_TIME;	// カウントダウンの時間
+
 private:
 	static const int MAX_LIFE;			// 寿命の最大値
 	static const int MIN_LIFE;			// 寿命の最小値

@@ -87,7 +87,7 @@ void CCamera::Update()
 		Homing(&m_pos, m_pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 5.0f);
 		return;
 	}
-
+	
 	D3DXVECTOR3 pos = pPlayer->GetPos();
 
 	D3DXVECTOR3 vecDiff = pos - m_pos;
@@ -103,6 +103,8 @@ void CCamera::Update()
 
 	// 範囲内
 	InRange(&m_pos, D3DXVECTOR3(width * 0.3f, height * 0.3f, 0.0f));
+
+	m_pos.z = 0.0f;	// これをしないとバグる
 }
 
 //--------------------------------------------------
@@ -116,7 +118,7 @@ void CCamera::Set()
 	// ビューマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxView);
 
-	D3DXVECTOR3 pos = m_pos + D3DXVECTOR3(0.0f, 0.0f, MAX_DISTANCE);
+	D3DXVECTOR3 pos = D3DXVECTOR3(m_pos.x, m_pos.y, MAX_DISTANCE);
 
 	// ビューマトリックスの作成
 	D3DXMatrixLookAtLH(

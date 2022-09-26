@@ -11,6 +11,7 @@
 // インクルード
 //==================================================
 #include <d3dx9.h>
+#include "game.h"
 
 //==================================================
 // 前方宣言
@@ -29,17 +30,17 @@ public:
 
 private:
 	static const int MAX_RANKING = 5;	// ランキングの最大数
-	static const char* FILE_NAME;		// ファイルパス
+	static const char* FILE_NAME[];		// ファイルパス
 
 	/* ↓静的メンバ関数↓ */
 public:
 	static CRanking* Create(const D3DXVECTOR3& pos, float length);	// 生成
-	static void Load();			// 読み込み
-	static void Save();			// 保存
 	static void Set(int score);	// 設定
 	static int Get(int rank);	// 取得
 
 private:
+	static void Load();		// 読み込み
+	static void Save();		// 保存
 	static void Change();	// 変更
 
 	/* ↓静的メンバ変数↓ */
@@ -57,6 +58,7 @@ public:
 	void Uninit();	// 終了
 	void Release();	// 解放
 	void Update();	// 更新
+	void Reset(const D3DXVECTOR3& pos, float length);	// リセット
 
 	/* ↓メンバ変数↓ */
 private:

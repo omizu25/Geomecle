@@ -15,8 +15,9 @@
 //==================================================
 // 定義
 //==================================================
+const int CCircleDanger::COUNTDOWN_TIME = 60;
 const int CCircleDanger::MAX_LIFE = 900;
-const int CCircleDanger::MIN_LIFE = 300;
+const int CCircleDanger::MIN_LIFE = 120;
 const D3DXCOLOR CCircleDanger::STD_COLOR = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 
 //--------------------------------------------------
@@ -49,6 +50,9 @@ void CCircleDanger::Init()
 
 	// ライフの設定
 	CCircle::SetLife(IntRandom(MAX_LIFE, MIN_LIFE));
+
+	// カウントダウンの時間の設定
+	CCircle::SetTime(COUNTDOWN_TIME);
 }
 
 //--------------------------------------------------

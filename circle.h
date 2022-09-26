@@ -28,7 +28,6 @@ public:
 		CIRCLE_MAX
 	};
 
-	static const int COUNTDOWN_TIME;	// カウントダウンの時間
 	static const float DISAPPEAR_SPEED;	// 消滅の速度
 
 private:
@@ -62,16 +61,18 @@ public:
 	
 public:
 	bool GetCountDown();	// カウントダウンをしているかどうか
+	void SetTime(int time);	// カウントダウンのタイムの設定
 	void SetLife(int life);	// 寿命の設定
 	int GetLife();			// 寿命の取得
 	ECircle GetAppear();	// 出現か消滅の取得
 
 	/* ↓メンバ変数↓ */
 private:
-	int m_time;			// タイム
-	int m_life;			// 寿命
-	ECircle m_appear;	// 出現か消滅
-	bool m_countDown;	// カウントダウン
+	int m_time;				// タイム
+	int m_countDownTime;	// カウントダウンのタイム
+	int m_life;				// 寿命
+	ECircle m_appear;		// 出現か消滅
+	bool m_countDown;		// カウントダウンをするかどうか
 };
 
 #endif // !_CIRCLE_H_

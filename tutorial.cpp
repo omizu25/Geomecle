@@ -17,6 +17,7 @@
 #include "effect_manager.h"
 #include "wall.h"
 #include "utility.h"
+#include "game.h"
 #include "sound.h"
 #include <assert.h>
 
@@ -45,7 +46,15 @@ void CTutorial::Init()
 	CObject2D* pTutorial = CObject2D::Create();
 	pTutorial->SetPos(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f));
 	pTutorial->SetSize(D3DXVECTOR3((float)CApplication::SCREEN_WIDTH, (float)CApplication::SCREEN_HEIGHT, 0.0f));
-	pTutorial->SetTexture(CTexture::LABEL_Tutorial);
+
+	CTexture::ELabel label[CGame::GAME_MAX] =
+	{
+		CTexture::LABEL_TutorialNormal,
+		CTexture::LABEL_TutorialSafetyArea,
+		CTexture::LABEL_TutorialDangerArea,
+	};
+
+	pTutorial->SetTexture(label[CGame::GetMode()]);
 	pTutorial->SetFade(0.0f);
 }
 

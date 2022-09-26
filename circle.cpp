@@ -20,7 +20,6 @@
 //==================================================
 // 定義
 //==================================================
-const int CCircle::COUNTDOWN_TIME = 60;
 const float CCircle::STD_SIZE = 200.0f;
 const float CCircle::APPEAR_SPEED = 5.0f;
 const float CCircle::DISAPPEAR_SPEED = 1.5f;
@@ -161,6 +160,7 @@ bool CCircle::GetCollision()
 //--------------------------------------------------
 CCircle::CCircle() :
 	m_time(0),
+	m_countDownTime(0),
 	m_life(0),
 	m_appear(CIRCLE_NONE),
 	m_countDown(false)
@@ -180,6 +180,7 @@ CCircle::~CCircle()
 void CCircle::Init()
 {
 	m_time = 0;
+	m_countDownTime = 0;
 	m_life = 0;
 	m_appear = CIRCLE_APPEAR;
 	m_countDown = false;
@@ -259,7 +260,7 @@ bool CCircle::Appear()
 		{// カウントダウンをする
 			m_time++;
 
-			if (m_time >= COUNTDOWN_TIME)
+			if (m_time >= m_countDownTime)
 			{// カウントダウン終わり
 				m_time = 0;
 				m_countDown = false;
@@ -307,6 +308,14 @@ void CCircle::SetAppear(ECircle appear)
 bool CCircle::GetCountDown()
 {
 	return m_countDown;
+}
+
+//--------------------------------------------------
+// カウントダウンのタイム設定
+//--------------------------------------------------
+void CCircle::SetTime(int time)
+{
+	m_countDownTime = time;
 }
 
 //--------------------------------------------------

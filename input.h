@@ -35,13 +35,14 @@ public:
 		KEY_BULLET_DOWN,
 		KEY_BULLET_LEFT,
 		KEY_BULLET_RIGHT,
+		KEY_BOM,
 		KEY_DECISION,
 		KEY_PAUSE,
 	};
 
 	CInput();
 	~CInput();
-	HRESULT Init(HINSTANCE hInstance, HWND hWnd);		//入力処理全部の初期化
+	HRESULT Init(HINSTANCE hInstance, HWND hWnd);	//入力処理全部の初期化
 	void Uninit();									//入力処理全部の終了処理
 	void Update();									//入力処理全部の更新処理
 	static CInput *Create();

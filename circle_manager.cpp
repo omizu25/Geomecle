@@ -16,7 +16,7 @@
 //==================================================
 // ’è‹`
 //==================================================
-const int CCircleManager::MAX_INTERVAL = 120;
+const int CCircleManager::MAX_INTERVAL = 180;
 const int CCircleManager::MIN_INTERVAL = 60;
 
 //--------------------------------------------------

@@ -207,6 +207,14 @@ bool CInput::Press(STAN_DART_INPUT_KEY key)
 			return true;
 		}
 		break;
+	case CInput::KEY_BOM:
+		if (m_pKeyboard->GetPress(DIK_SPACE)
+			|| m_pJoypad->GetPress(CInputJoyPad::JOYKEY_LEFT_SHOULDER, 0)
+			|| m_pJoypad->GetPress(CInputJoyPad::JOYKEY_RIGHT_SHOULDER, 0))
+		{
+			return true;
+		}
+		break;
 	case CInput::KEY_DECISION:
 		if (m_pKeyboard->GetPress(DIK_RETURN)
 			|| m_pJoypad->GetPress(CInputJoyPad::JOYKEY_A , 0)
@@ -336,6 +344,14 @@ bool CInput::Trigger(STAN_DART_INPUT_KEY key)
 		if (m_pKeyboard->GetTrigger(DIK_RIGHT)
 			|| m_pJoypad->GetTrigger(CInputJoyPad::JOYKEY_B, 0)
 			|| m_pJoypad->GetStickTrigger(CInputJoyPad::JOYKEY_RIGHT, true, 0))
+		{
+			return true;
+		}
+		break;
+	case CInput::KEY_BOM:
+		if (m_pKeyboard->GetTrigger(DIK_SPACE)
+			|| m_pJoypad->GetTrigger(CInputJoyPad::JOYKEY_LEFT_SHOULDER, 0)
+			|| m_pJoypad->GetTrigger(CInputJoyPad::JOYKEY_RIGHT_SHOULDER, 0))
 		{
 			return true;
 		}

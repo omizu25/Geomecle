@@ -18,13 +18,15 @@
 //==================================================
 const char* CTexture::FILE_NAME[] =
 {// テクスチャのパス
-	"data/TEXTURE/Player.png",		// プレイヤー
-	"data/TEXTURE/Bullet.png",		// 弾
-	"data/TEXTURE/effect.jpg",		// エフェクト
-	"data/TEXTURE/bg.png",			// 背景
-	"data/TEXTURE/Cursor.png",		// カーソル
-	"data/TEXTURE/Tutorial.png",	// チュートリアル
-	"data/TEXTURE/Circle.png",		// 円
+	"data/TEXTURE/Player.png",				// プレイヤー
+	"data/TEXTURE/Bullet.png",				// 弾
+	"data/TEXTURE/effect.jpg",				// エフェクト
+	"data/TEXTURE/bg.png",					// 背景
+	"data/TEXTURE/Cursor.png",				// カーソル
+	"data/TEXTURE/TutorialNormal.png",		// 通常のチュートリアル
+	"data/TEXTURE/TutorialSafetyArea.png",	// 安全エリアのチュートリアル
+	"data/TEXTURE/TutorialDangerArea.png",	// 危険エリアのチュートリアル
+	"data/TEXTURE/Circle.png",				// 円
 
 	/* ↓敵↓ */
 	"data/TEXTURE/Homing.png",			// ホーミング
