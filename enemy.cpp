@@ -20,6 +20,7 @@
 #include "game.h"
 #include "exp.h"
 #include "score.h"
+#include "utility.h"
 #include <assert.h>
 
 //==================================================
@@ -73,16 +74,105 @@ CEnemy* CEnemy::Create(CEnemy::EType type, const D3DXVECTOR3& pos)
 	{// nullチェック
 		pEnemy->Init();
 		pEnemy->Set(pos);
+		pEnemy->m_type = type;
 	}
 
 	return pEnemy;
 }
 
 //--------------------------------------------------
+// 当たり判定
+//--------------------------------------------------
+void CEnemy::Collision()
+{
+	CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
+	CObject3D** pTarget = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
+	CEnemy* pEnemy = nullptr;
+	CObject3D::EType type = CObject3D::TYPE_NONE;
+	CEnemy::EType typeObject = CEnemy::TYPE_NONE;
+	CEnemy::EType typeTarget = CEnemy::TYPE_NONE;
+	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
+
+	D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float width = STD_SIZE * 0.35f;
+
+	for (int i = 0; i < objMax; i++)
+	{
+		if (pObject[i] == nullptr)
+		{// nullチェック
+			continue;
+		}
+
+		if (!pObject[i]->GetCollision())
+		{// 当たり判定をしない
+			continue;
+		}
+
+		type = pObject[i]->GetType();
+
+		if (type != CObject3D::TYPE_ENEMY)
+		{// エネミーではない
+			continue;
+		}
+
+		pEnemy = (CEnemy*)pObject[i];
+
+		typeObject = pEnemy->GetType();
+		
+		if (typeObject != CEnemy::TYPE_HOMING
+			&& typeObject != CEnemy::TYPE_DIVISION)
+		{// 指定のエネミーではない
+			continue;
+		}
+
+		pos = pObject[i]->GetPos();
+
+		for (int j = i + 1; j < objMax; j++)
+		{
+			if (pTarget[j] == nullptr)
+			{// nullチェック
+				continue;
+			}
+
+			if (!pTarget[j]->GetCollision())
+			{// 当たり判定をしない
+				continue;
+			}
+
+			type = pTarget[j]->GetType();
+
+			if (type != CObject3D::TYPE_ENEMY)
+			{// エネミーではない
+				continue;
+			}
+
+			pEnemy = (CEnemy*)pTarget[j];
+
+			typeTarget = pEnemy->GetType();
+
+			if (typeObject != typeTarget)
+			{// 同じエネミーではない
+				continue;
+			}
+
+			targetPos = pTarget[j]->GetPos();
+
+			if (CollisionArea(pos, width, &targetPos, width))
+			{// 当たった
+				// 位置の設定
+				pTarget[j]->SetPos(targetPos);
+			}
+		}
+	}
+}
+
+//--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
 CEnemy::CEnemy() :
-	m_time(0)
+	m_time(0),
+	m_type(TYPE_NONE)
 {
 }
 
@@ -98,6 +188,9 @@ CEnemy::~CEnemy()
 //--------------------------------------------------
 void CEnemy::Init()
 {
+	m_time = 0;
+	m_type = TYPE_NONE;
+
 	// 初期化
 	CObject3D::Init();
 
@@ -160,4 +253,12 @@ void CEnemy::Kill()
 int CEnemy::GetTime()
 {
 	return m_time;
+}
+
+//--------------------------------------------------
+// 種類の取得
+//--------------------------------------------------
+CEnemy::EType CEnemy::GetType()
+{
+	return m_type;
 }

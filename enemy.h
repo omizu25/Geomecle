@@ -41,6 +41,7 @@ private:
 	/* ↓静的メンバ関数↓ */
 public:
 	static CEnemy* Create(CEnemy::EType type, const D3DXVECTOR3& pos);	// 生成
+	static void Collision(); // 当たり判定
 
 	/* ↓メンバ関数↓ */
 public:
@@ -58,11 +59,13 @@ public:
 	int GetTime();	// タイムの取得
 
 private:
+	EType GetType();	// 種類の取得
 	virtual void Set(const D3DXVECTOR3& pos) = 0;	// 設定
 
 	/* ↓メンバ変数↓ */
 private:
-	int m_time;	// タイム
+	int m_time;		// タイム
+	EType m_type;	// 種類
 };
 
 #endif // !_ENEMT_H_

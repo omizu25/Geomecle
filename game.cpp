@@ -29,6 +29,8 @@
 #include "circle.h"
 #include "life.h"
 #include "bom.h"
+#include "enemy.h"
+
 #include <assert.h>
 
 //==================================================
@@ -400,6 +402,9 @@ void CGame::Update()
 
 	// 更新
 	CObject::UpdateAll();
+
+	// 敵の当たり判定
+	CEnemy::Collision();
 
 	// カメラの更新
 	CApplication::GetInstanse()->GetCamera()->Update();
