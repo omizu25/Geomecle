@@ -219,8 +219,12 @@ void CScore::DrawComma()
 //--------------------------------------------------
 void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 {
-	D3DXVECTOR3 commaPos = D3DXVECTOR3(pos.x, 0.0f, 0.0f);
 	float interval = size.x * 0.5f;
+
+	// ˆÊ’u‚Ìİ’è
+	CNumberManager::SetPos(pos);
+
+	D3DXVECTOR3 commaPos = D3DXVECTOR3(pos.x, 0.0f, 0.0f);
 	float width = size.x * 3.0f;
 	float halfInterval = interval * 0.5f;
 
@@ -236,7 +240,4 @@ void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 		// •`‰æ‚Ìİ’è
 		m_pComma[i]->SetDraw(false);
 	}
-
-	// ˆÊ’u‚Ìİ’è
-	CNumberManager::SetPos(pos);
 }

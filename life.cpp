@@ -140,7 +140,7 @@ void CLife::Sub()
 		m_pObj[i]->SetDraw(false);
 	}
 
-	for (int i = 0; i < MAX_LIFE; i++)
+	for (int i = 0; i < m_life; i++)
 	{
 		m_pObj[i]->SetDraw(true);
 	}

@@ -229,13 +229,18 @@ void CRankingUI::Init(const D3DXVECTOR3& pos, float length)
 
 	float posX = 0.0f;
 	float posY = 0.0f;
-	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
 	float interval = 3 * (size.x * 0.5f);
+	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
+	float width = 0.0f;
+	float intervalWidth = 0.0f;
 	float rankPosX = 0.0f;
 
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
+		width = (Digit(m_ranking[i]) * size.x);
+		intervalWidth = ((Digit(m_ranking[i]) - 1) / 3) * (size.x * 0.5f);
+
+		posX = pos.x - (maxWidth + interval) + (width + intervalWidth);
 		posY = pos.y + (i * (length + height));
 
 		// スコアの生成
@@ -346,11 +351,17 @@ void CRankingUI::Reset(const D3DXVECTOR3& pos, float length)
 
 	float posX = 0.0f;
 	float posY = 0.0f;
+	float interval = 3 * (size.x * 0.5f);
 	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
+	float width = 0.0f;
+	float intervalWidth = 0.0f;
 
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		posX = pos.x - (maxWidth - (Digit(m_ranking[i]) * size.x));
+		width = (Digit(m_ranking[i]) * size.x);
+		intervalWidth = ((Digit(m_ranking[i]) - 1) / 3) * (size.x * 0.5f);
+
+		posX = pos.x - (maxWidth + interval) + (width + intervalWidth);
 		posY = pos.y + (i * (length + height));
 
 		// スコアのリセット

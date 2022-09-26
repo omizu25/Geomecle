@@ -158,15 +158,16 @@ int CNumberManager::Get()
 //--------------------------------------------------
 void CNumberManager::SetPos(const D3DXVECTOR3& pos)
 {
-	float halfWidth = m_number[0]->GetSize().x * 0.5f;
+	D3DXVECTOR3 size = m_number[0]->GetSize();
+	float halfWidth = size.x * 0.5f;
 
 	float posX = 0.0f;
 
 	for (int i = 0; i < MAX_DIGIT; i++)
 	{
-		posX = pos.x - (halfWidth + (m_number[i]->GetSize().x * i));
+		posX = pos.x - ((halfWidth + (size.x * i)) + ((i / m_interval) * m_width));
 
-		// ˆÊ’u‚ÌÝ’è
+		// ¶¬
 		m_number[i]->SetPos(D3DXVECTOR3(posX, pos.y, 0.0f));
 	}
 }
