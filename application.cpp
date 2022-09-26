@@ -56,8 +56,7 @@ CApplication::CApplication() :
 	m_pSound(nullptr),
 	m_pMode(nullptr),
 	m_pTexture(nullptr),
-	m_pCamera(nullptr),
-	m_pPlayer(nullptr)
+	m_pCamera(nullptr)
 {
 }
 
@@ -67,7 +66,6 @@ CApplication::CApplication() :
 CApplication::~CApplication()
 {
 	assert(m_pMode == nullptr);
-	assert(m_pPlayer == nullptr);
 	assert(m_pCamera == nullptr);
 	assert(m_pTexture == nullptr);
 	assert(m_pSound == nullptr);
@@ -184,11 +182,6 @@ void CApplication::Uninit()
 		pEffect->Release();
 	}
 
-	if (m_pPlayer != nullptr)
-	{// nullチェック
-		m_pPlayer = nullptr;
-	}
-
 	if (m_pCamera != nullptr)
 	{// nullチェック
 		m_pCamera->Uninit();
@@ -300,20 +293,4 @@ CTexture* CApplication::GetTexture()
 CCamera* CApplication::GetCamera()
 {
 	return m_pCamera;
-}
-
-//--------------------------------------------------
-// プレイヤーの情報の取得
-//--------------------------------------------------
-CPlayer* CApplication::GetPlayer()
-{
-	return m_pPlayer;
-}
-
-//--------------------------------------------------
-// プレイヤーのインスタンスの取得
-//--------------------------------------------------
-CPlayer** CApplication::GetPlayerInstanse()
-{
-	return &m_pPlayer;
 }

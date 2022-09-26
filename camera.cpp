@@ -69,14 +69,17 @@ void CCamera::Uninit()
 //--------------------------------------------------
 void CCamera::Update()
 {
-	if (CMode::MODE_GAME != CApplication::GetInstanse()->GetMode()->Get())
+	CMode* pMode = CApplication::GetInstanse()->GetMode();
+
+	if (CMode::MODE_GAME != pMode->Get())
 	{// 指定のモードではない
 		// ホーミング
 		Homing(&m_pos, m_pos, D3DXVECTOR3(0.0f, 0.0f, 0.0f), 5.0f);
 		return;
 	}
 
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)pMode;
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック

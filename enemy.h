@@ -52,6 +52,7 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+	virtual void Kill();	// キルされた
 
 public:
 	int GetTime();	// タイムの取得

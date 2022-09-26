@@ -39,8 +39,6 @@ public:
 	void Draw() override;	// 描画
 	void SetPosDest(const D3DXVECTOR3& posDest);	// 目的の位置の設定
 	const D3DXVECTOR3& GetPosOld() const;			// 前回の位置の取得
-	void SetRotOld(float rotOld);	// 前回の向きの設定
-	float GetRotOld();				// 前回の向きの取得
 
 	/* メンバ変数 */
 private:

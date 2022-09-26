@@ -192,7 +192,8 @@ void CExp::SetMove(float rot)
 //--------------------------------------------------
 void CExp::Collision()
 {
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック
@@ -207,8 +208,6 @@ void CExp::Collision()
 
 	if (CollisionCircle(pos, size, playerPos, playerSize))
 	{// 当たり判定
-		CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
-
 		// 倍率の加算
 		pGame->GetMul()->Add();
 
@@ -223,7 +222,8 @@ void CExp::Collision()
 //==================================================
 void CExp::Absorption()
 {
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック

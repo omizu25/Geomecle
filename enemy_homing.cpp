@@ -10,6 +10,7 @@
 //==================================================
 #include "enemy_homing.h"
 #include "application.h"
+#include "game.h"
 #include "player.h"
 #include "utility.h"
 #include <assert.h>
@@ -94,7 +95,8 @@ void CEnemyHoming::Update()
 		CObject3D::SetCol(col);
 	}
 
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック
@@ -131,6 +133,15 @@ void CEnemyHoming::Draw()
 {
 	// 描画
 	CEnemy::Draw();
+}
+
+//--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemyHoming::Kill()
+{
+	// キルされた
+	CEnemy::Kill();
 }
 
 //--------------------------------------------------

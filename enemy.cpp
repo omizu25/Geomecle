@@ -16,6 +16,10 @@
 #include "enemy_division.h"
 #include "enemy_rolling.h"
 #include "effect_manager.h"
+#include "application.h"
+#include "game.h"
+#include "exp.h"
+#include "score.h"
 #include <assert.h>
 
 //==================================================
@@ -134,6 +138,20 @@ void CEnemy::Draw()
 {
 	// 描画
 	CObject3D::Draw();
+}
+
+//--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemy::Kill()
+{
+	// 経験値の生成
+	CExp::CreateAll(CObject3D::GetPos());
+
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+
+	// スコアの加算
+	pGame->GetScore()->Add(STD_SCORE);
 }
 
 //--------------------------------------------------

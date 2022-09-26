@@ -68,7 +68,8 @@ CCircle* CCircle::Create(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CCircle::Collision()
 {
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック

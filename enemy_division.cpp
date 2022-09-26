@@ -11,7 +11,7 @@
 #include "enemy_division.h"
 #include "enemy_rolling.h"
 #include "application.h"
-#include "mode.h"
+#include "game.h"
 #include "player.h"
 #include "utility.h"
 #include <assert.h>
@@ -53,12 +53,6 @@ void CEnemyDivision::Init()
 //--------------------------------------------------
 void CEnemyDivision::Uninit()
 {
-	if (CMode::MODE_GAME == CApplication::GetInstanse()->GetMode()->Get())
-	{
-		// 生成
-		CEnemyRolling::Create(CObject3D::GetPos());
-	}
-
 	// 終了
 	CEnemy::Uninit();
 }
@@ -101,7 +95,8 @@ void CEnemyDivision::Update()
 		CObject3D::SetCol(col);
 	}
 
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
 
 	if (pPlayer == nullptr)
 	{// nullチェック
@@ -141,6 +136,18 @@ void CEnemyDivision::Draw()
 {
 	// 描画
 	CEnemy::Draw();
+}
+
+//--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemyDivision::Kill()
+{
+	// 生成
+	CEnemyRolling::Create(CObject3D::GetPos());
+
+	// キルされた
+	CEnemy::Kill();
 }
 
 //--------------------------------------------------

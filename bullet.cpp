@@ -203,16 +203,24 @@ void CBullet::Init()
 	// 種類の設定
 	CObject3D::SetType(CObject3D::TYPE_BULLET);
 
-	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
-
-	// 位置の設定
-	CObject3D::SetPos(pos);
-
 	// サイズの設定
 	CObject3D::SetSize(D3DXVECTOR3(STD_SIZE, STD_SIZE, 0.0f));
 
 	// テクスチャの設定
 	CObject3D::SetTexture(CTexture::LABEL_Bullet);
+
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
+	D3DXVECTOR3 pos = pPlayer->GetPos();
+
+	// 位置の設定
+	CObject3D::SetPos(pos);
 }
 
 //--------------------------------------------------
@@ -256,6 +264,7 @@ void CBullet::Update()
 	CObject3D** pObject = (CObject3D**)CObject::GetMyObject(CObject::CATEGORY_3D);
 	CObject3D::EType type = CObject3D::TYPE_NONE;
 	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	CEnemy* pEnemy = nullptr;
 	float targetSize = 0.0f;
 	float size = STD_SIZE * 0.5f;
 	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
@@ -291,13 +300,10 @@ void CBullet::Update()
 		case CObject3D::TYPE_ENEMY:
 			if (CollisionCircle(pos, size, targetPos, targetSize))
 			{// 当たり判定
-				// 経験値の生成
-				CExp::CreateAll(targetPos);
+				pEnemy = (CEnemy*)pObject[i];
 
-				CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
-
-				// スコアの加算
-				pGame->GetScore()->Add(CEnemy::STD_SCORE);
+				// キル
+				pEnemy->Kill();
 
 				// 敵の解放
 				pObject[i]->Release();

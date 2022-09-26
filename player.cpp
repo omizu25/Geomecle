@@ -245,9 +245,6 @@ void CPlayer::Collision()
 			// ‰ð•ú
 			CObject::Release();
 
-			CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
-			*pPlayer = nullptr;
-
 			// ƒ‚[ƒh‚Ì•ÏX
 			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
 

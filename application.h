@@ -21,7 +21,6 @@ class CSound;
 class CMode;
 class CTexture;
 class CCamera;
-class CPlayer;
 
 //==================================================
 // 定義
@@ -61,8 +60,6 @@ public:
 	CMode* GetMode();				// モードの情報の取得
 	CTexture* GetTexture();			// テクスチャの情報の取得
 	CCamera* GetCamera();			// カメラの情報の取得
-	CPlayer* GetPlayer();			// プレイヤーの情報の取得
-	CPlayer** GetPlayerInstanse();	// プレイヤーのインスタンスの取得
 
 	/* ↓メンバ変数↓ */
 private:
@@ -72,7 +69,6 @@ private:
 	CMode* m_pMode;			// モードの情報
 	CTexture* m_pTexture;	// テクスチャの情報
 	CCamera* m_pCamera;		// カメラの情報
-	CPlayer* m_pPlayer;		// プレイヤーの情報
 };
 
 #endif // !_APPLICATION_H_

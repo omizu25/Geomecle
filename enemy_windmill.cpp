@@ -11,6 +11,7 @@
 #include "enemy_windmill.h"
 #include "application.h"
 #include "utility.h"
+#include "game.h"
 #include "player.h"
 #include "wall.h"
 #include <assert.h>
@@ -130,6 +131,15 @@ void CEnemyWindmill::Draw()
 }
 
 //--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemyWindmill::Kill()
+{
+	// キルされた
+	CEnemy::Kill();
+}
+
+//--------------------------------------------------
 // 設定
 //--------------------------------------------------
 void CEnemyWindmill::Set(const D3DXVECTOR3& pos)
@@ -152,7 +162,15 @@ void CEnemyWindmill::Set(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CEnemyWindmill::SetMove()
 {
-	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
+	D3DXVECTOR3 pos = pPlayer->GetPos();
 
 	D3DXVECTOR3 posDiff = pos - CObject3D::GetPos();
 

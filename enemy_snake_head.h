@@ -42,6 +42,9 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+	void Kill() override;	// キルされた
+
+public:
 	const D3DXVECTOR3& GetPosOld() const;	// 前回の位置の取得
 
 private:

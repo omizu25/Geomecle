@@ -12,6 +12,7 @@
 #include "enemy_snake_body.h"
 #include "application.h"
 #include "utility.h"
+#include "game.h"
 #include "player.h"
 #include "wall.h"
 #include <assert.h>
@@ -260,12 +261,22 @@ void CEnemySnakeHead::Set(const D3DXVECTOR3& pos)
 }
 
 //--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemySnakeHead::Kill()
+{
+	// キルされた
+	CEnemy::Kill();
+}
+
+//--------------------------------------------------
 // 移動量の設定
 //--------------------------------------------------
 void CEnemySnakeHead::SetMove()
 {
-	CPlayer* pPlayer = CApplication::GetInstanse()->GetPlayer();
-
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
+	
 	if (pPlayer == nullptr)
 	{// nullチェック
 		return;

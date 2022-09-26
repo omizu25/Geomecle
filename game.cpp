@@ -61,6 +61,7 @@ CGame::EGame CGame::GetMode()
 //--------------------------------------------------
 CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pPauseBG(nullptr),
+	m_pPlayer(nullptr),
 	m_pPause(nullptr),
 	m_pTime(nullptr),
 	m_pMul(nullptr),
@@ -85,6 +86,7 @@ CGame::~CGame()
 	}
 
 	assert(m_pPauseBG == nullptr);
+	assert(m_pPlayer == nullptr);
 	assert(m_pPause == nullptr);
 	assert(m_pTime == nullptr);
 	assert(m_pMul == nullptr);
@@ -99,16 +101,6 @@ void CGame::Init()
 {
 	m_time = 0;
 	m_pPause = nullptr;
-	// プレイヤーの生成
-	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
-
-	if (*pPlayer == nullptr)
-	{// nullチェック
-		*pPlayer = CPlayer::Create();
-	}
-
-	// 初期化
-	CEnemyManager::GetInstanse()->Init();
 
 	{// ポーズの背景
 		D3DXVECTOR3 pos = D3DXVECTOR3((float)CApplication::SCREEN_WIDTH * 0.5f, (float)CApplication::SCREEN_HEIGHT * 0.5f, 0.0f);
@@ -129,6 +121,15 @@ void CGame::Init()
 		// 描画の設定
 		m_pPauseBG->SetDraw(false);
 	}
+
+	if (m_pPlayer == nullptr)
+	{// nullチェック
+		// 生成
+		m_pPlayer = CPlayer::Create();
+	}
+
+	// 初期化
+	CEnemyManager::GetInstanse()->Init();
 
 	if (m_mode != GAME_NORMAL)
 	{// 円が必要なモード
@@ -261,13 +262,15 @@ void CGame::Uninit()
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
+	if (m_pPlayer != nullptr)
+	{// nullチェック
+		m_pPlayer = nullptr;
+	}
+
 	if (m_pPauseBG != nullptr)
 	{// nullチェック
 		m_pPauseBG = nullptr;
 	}
-	
-	CPlayer** pPlayer = CApplication::GetInstanse()->GetPlayerInstanse();
-	*pPlayer = nullptr;
 
 	// 解放
 	CEnemyManager::GetInstanse()->Release();
@@ -368,6 +371,14 @@ void CGame::Draw()
 
 	// 描画
 	CObject::DrawAll();
+}
+
+//--------------------------------------------------
+// プレイヤーの取得
+//--------------------------------------------------
+CPlayer* CGame::GetPlayer()
+{
+	return m_pPlayer;
 }
 
 //--------------------------------------------------

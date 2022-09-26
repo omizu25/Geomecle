@@ -33,6 +33,9 @@ public:
 	void Uninit() override;	// 終了
 	void Update() override;	// 更新
 	void Draw() override;	// 描画
+	void Kill() override;	// キルされた
+
+private:
 	void Set(const D3DXVECTOR3& pos) override;	// 設定
 	void SetMove();	// 移動量の設定
 

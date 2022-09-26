@@ -11,6 +11,7 @@
 #include "enemy_round_trip.h"
 #include "application.h"
 #include "player.h"
+#include "game.h"
 #include "wall.h"
 #include "utility.h"
 #include <assert.h>
@@ -131,6 +132,15 @@ void CEnemyRoundTrip::Draw()
 }
 
 //--------------------------------------------------
+// キルされた
+//--------------------------------------------------
+void CEnemyRoundTrip::Kill()
+{
+	// キルされた
+	CEnemy::Kill();
+}
+
+//--------------------------------------------------
 // 設定
 //--------------------------------------------------
 void CEnemyRoundTrip::Set(const D3DXVECTOR3& pos)
@@ -153,7 +163,15 @@ void CEnemyRoundTrip::Set(const D3DXVECTOR3& pos)
 //--------------------------------------------------
 void CEnemyRoundTrip::SetMove()
 {
-	D3DXVECTOR3 pos = CApplication::GetInstanse()->GetPlayer()->GetPos();
+	CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+	CPlayer* pPlayer = pGame->GetPlayer();
+
+	if (pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
+	D3DXVECTOR3 pos = pPlayer->GetPos();
 
 	D3DXVECTOR3 posDiff = pos - CObject3D::GetPos();
 

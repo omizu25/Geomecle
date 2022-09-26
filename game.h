@@ -21,6 +21,7 @@ class CPause;
 class CTime;
 class CScore;
 class CMul;
+class CPlayer;
 
 //==================================================
 // 定義
@@ -63,9 +64,10 @@ public:
 	void Draw() override;	// 描画
 
 public:
-	CScore* GetScore();	// スコアの取得
-	CMul* GetMul();		// 倍率の取得
-	CTime* GetTime();	// タイムの取得
+	CPlayer* GetPlayer();	// プレイヤーの取得
+	CScore* GetScore();		// スコアの取得
+	CMul* GetMul();			// 倍率の取得
+	CTime* GetTime();		// タイムの取得
 
 private:
 	void Effect();	// エフェクト
@@ -74,6 +76,7 @@ private:
 private:
 	CCircleManager* m_pCircle[CCircleManager::MAX_CIRCLE];	// 円
 	CObject2D* m_pPauseBG;	// ポーズの背景
+	CPlayer* m_pPlayer;		// プレイヤー
 	CPause* m_pPause;		// ポーズ
 	CTime* m_pTime;			// タイム
 	CMul* m_pMul;			// 倍率
