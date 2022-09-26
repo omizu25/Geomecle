@@ -434,11 +434,8 @@ void CGame::Reset()
 	// EXPの全ての解放
 	CObject3D::ReleaseAll(CObject3D::TYPE_EXP);
 
-	if (m_mode != GAME_NORMAL)
-	{// 円が必要なモード
-		// 円の全ての解放
-		CObject3D::ReleaseAll(CObject3D::TYPE_CIRCLE);
-	}
+	// ボムのリセット
+	m_pBom->Reset();
 }
 
 //--------------------------------------------------

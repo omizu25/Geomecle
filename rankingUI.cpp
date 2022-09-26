@@ -197,6 +197,8 @@ CRankingUI::CRankingUI() :
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
 		m_pRanking[i] = nullptr;
+		m_pRank[i] = nullptr;
+		m_pNumber[i] = nullptr;
 	}
 }
 
@@ -208,6 +210,8 @@ CRankingUI::~CRankingUI()
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
 		assert(m_pRanking[i] == nullptr);
+		assert(m_pNumber[i] == nullptr);
+		assert(m_pRank[i] == nullptr);
 	}
 }
 
@@ -227,24 +231,17 @@ void CRankingUI::Init(const D3DXVECTOR3& pos, float length)
 		height *= -1.0f;
 	}
 
-	float posX = 0.0f;
 	float posY = 0.0f;
 	float interval = 3 * (size.x * 0.5f);
 	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
-	float width = 0.0f;
-	float intervalWidth = 0.0f;
 	float rankPosX = 0.0f;
 
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		width = (Digit(m_ranking[i]) * size.x);
-		intervalWidth = ((Digit(m_ranking[i]) - 1) / 3) * (size.x * 0.5f);
-
-		posX = pos.x - (maxWidth + interval) + (width + intervalWidth);
 		posY = pos.y + (i * (length + height));
 
 		// スコアの生成
-		m_pRanking[i] = CScore::Create(D3DXVECTOR3(posX, posY, 0.0f), size);
+		m_pRanking[i] = CScore::Create(D3DXVECTOR3(pos.x, posY, 0.0f), size);
 
 		// スコアの設定
 		m_pRanking[i]->Set(m_ranking[i]);
@@ -252,15 +249,15 @@ void CRankingUI::Init(const D3DXVECTOR3& pos, float length)
 		rankPosX = pos.x - maxWidth - interval - (STD_HEIGHT * 0.5f);
 
 		// 位の生成
-		CObject2D* pRank = CObject2D::Create();
-		pRank->SetPos(D3DXVECTOR3(rankPosX - 20.0f, posY, 0.0f));
-		pRank->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
-		pRank->SetTexture(CTexture::LABEL_Rank);
-		pRank->SetFade(0.0f);
+		m_pRank[i] = CObject2D::Create();
+		m_pRank[i]->SetPos(D3DXVECTOR3(rankPosX - 20.0f, posY, 0.0f));
+		m_pRank[i]->SetSize(D3DXVECTOR3(STD_HEIGHT, STD_HEIGHT, 0.0f));
+		m_pRank[i]->SetTexture(CTexture::LABEL_Rank);
+		m_pRank[i]->SetFade(0.0f);
 
 		// 順位の生成
-		CNumber* pNumber = CNumber::Create(D3DXVECTOR3(rankPosX - 65.0f, posY, 0.0f), size * 1.2f);
-		pNumber->Change(i + 1);
+		m_pNumber[i] = CNumber::Create(D3DXVECTOR3(rankPosX - 65.0f, posY, 0.0f), size * 1.2f);
+		m_pNumber[i]->Change(i + 1);
 	}
 
 	m_newRank = -1;
@@ -292,6 +289,20 @@ void CRankingUI::Uninit()
 			delete m_pRanking[i];
 			m_pRanking[i] = nullptr;
 		}
+
+		if (m_pRank[i] != nullptr)
+		{// nullチェック
+			// 終了
+			m_pRank[i]->Uninit();
+			m_pRank[i] = nullptr;
+		}
+
+		if (m_pNumber[i] != nullptr)
+		{// nullチェック
+			// 終了
+			m_pNumber[i]->Uninit();
+			m_pNumber[i] = nullptr;
+		}
 	}
 }
 
@@ -308,6 +319,20 @@ void CRankingUI::Release()
 			m_pRanking[i]->Release();
 			delete m_pRanking[i];
 			m_pRanking[i] = nullptr;
+		}
+
+		if (m_pRank[i] != nullptr)
+		{// nullチェック
+			// 解放
+			m_pRank[i]->Release();
+			m_pRank[i] = nullptr;
+		}
+
+		if (m_pNumber[i] != nullptr)
+		{// nullチェック
+			// 解放
+			m_pNumber[i]->Release();
+			m_pNumber[i] = nullptr;
 		}
 	}
 }
@@ -335,7 +360,7 @@ void CRankingUI::Update()
 //--------------------------------------------------
 // リセット
 //--------------------------------------------------
-void CRankingUI::Reset(const D3DXVECTOR3& pos, float length)
+void CRankingUI::Reset(const D3DXVECTOR3& pos, float length, bool draw)
 {
 	// 読み込み
 	Load();
@@ -349,25 +374,45 @@ void CRankingUI::Reset(const D3DXVECTOR3& pos, float length)
 		height *= -1.0f;
 	}
 
-	float posX = 0.0f;
 	float posY = 0.0f;
-	float interval = 3 * (size.x * 0.5f);
-	float maxWidth = CNumberManager::MAX_DIGIT * size.x;
-	float width = 0.0f;
-	float intervalWidth = 0.0f;
 
 	for (int i = 0; i < MAX_RANKING; i++)
 	{
-		width = (Digit(m_ranking[i]) * size.x);
-		intervalWidth = ((Digit(m_ranking[i]) - 1) / 3) * (size.x * 0.5f);
-
-		posX = pos.x - (maxWidth + interval) + (width + intervalWidth);
 		posY = pos.y + (i * (length + height));
-
-		// スコアのリセット
-		m_pRanking[i]->Reset(D3DXVECTOR3(posX, posY, 0.0f), size);
 
 		// スコアの設定
 		m_pRanking[i]->Set(m_ranking[i]);
+
+		// スコアのリセット
+		m_pRanking[i]->Reset(D3DXVECTOR3(pos.x, posY, 0.0f), size, draw);
+	}
+
+	if (!draw)
+	{// 何も表示しない
+		for (int i = 0; i < MAX_RANKING; i++)
+		{
+			// スコアの描画の設定
+			m_pRanking[i]->SetDraw(false);
+
+			// 描画の設定
+			m_pRank[i]->SetDraw(false);
+
+			// 描画の設定
+			m_pNumber[i]->SetDraw(false);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < MAX_RANKING; i++)
+		{
+			// スコアの描画の設定
+			m_pRanking[i]->SetZero(false);
+
+			// 描画の設定
+			m_pRank[i]->SetDraw(true);
+
+			// 描画の設定
+			m_pNumber[i]->SetDraw(true);
+		}
 	}
 }

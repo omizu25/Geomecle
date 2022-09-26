@@ -217,7 +217,7 @@ void CScore::DrawComma()
 //--------------------------------------------------
 // リセット
 //--------------------------------------------------
-void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
+void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, bool draw)
 {
 	float interval = size.x * 0.5f;
 
@@ -236,8 +236,21 @@ void CScore::Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size)
 
 		// 位置の設定
 		m_pComma[i]->SetPos(commaPos);
+	}
 
-		// 描画の設定
-		m_pComma[i]->SetDraw(false);
+	if (!draw)
+	{// 何も表示しない
+		for (int i = 0; i < MAX_COMMA; i++)
+		{
+			// 描画の設定
+			m_pComma[i]->SetDraw(false);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < MAX_COMMA; i++)
+		{
+			DrawComma();
+		}
 	}
 }

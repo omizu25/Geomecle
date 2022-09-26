@@ -47,6 +47,7 @@ public:
 	int Get();				// æ“¾
 	void SetPos(const D3DXVECTOR3& pos);			// ˆÊ’u‚Ìİ’è
 	void SetCol(const D3DXCOLOR& col);				// F‚Ìİ’è
+	void SetDraw(bool draw);						// •`‰æ‚Ìİ’è
 	void SetZero(bool zero);						// ƒ[ƒ‚Ìİ’è
 	void SetZeroDigit(int digit);					// ƒ[ƒ‚ÌŒ…”‚Ìİ’è
 	void SetInterval(int interval, float width);	// ŠÔŠu‚Ìİ’è

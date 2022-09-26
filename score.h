@@ -47,7 +47,7 @@ public:
 	void Set(int value);	// 設定
 	void SetCol(const D3DXCOLOR& col);	// 色の設定
 	void DrawComma();	// カンマの描画
-	void Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size);	// リセット
+	void Reset(const D3DXVECTOR3& pos, const D3DXVECTOR3& size, bool draw);	// リセット
 
 	/* ↓メンバ変数↓ */
 private:

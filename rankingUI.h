@@ -17,6 +17,7 @@
 // 前方宣言
 //==================================================
 class CScore;
+class CNumber;
 
 //==================================================
 // 定義
@@ -58,11 +59,13 @@ public:
 	void Uninit();	// 終了
 	void Release();	// 解放
 	void Update();	// 更新
-	void Reset(const D3DXVECTOR3& pos, float length);	// リセット
+	void Reset(const D3DXVECTOR3& pos, float length, bool draw);	// リセット
 
 	/* ↓メンバ変数↓ */
 private:
 	CScore* m_pRanking[MAX_RANKING];	// ランキング
+	CNumber* m_pNumber[MAX_RANKING];	// 順位
+	CObject2D* m_pRank[MAX_RANKING];	// 位
 	int m_newRank;	// 新しいスコア
 	int m_time;		// タイム
 };

@@ -185,6 +185,18 @@ void CNumberManager::SetCol(const D3DXCOLOR& col)
 }
 
 //--------------------------------------------------
+// •`‰æ‚Ìİ’è
+//--------------------------------------------------
+void CNumberManager::SetDraw(bool draw)
+{
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		// •`‰æ‚Ìİ’è
+		m_number[i]->SetDraw(draw);
+	}
+}
+
+//--------------------------------------------------
 // ƒ[ƒ‚Ìİ’è
 //--------------------------------------------------
 void CNumberManager::SetZero(bool zero)

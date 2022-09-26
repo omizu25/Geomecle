@@ -180,7 +180,15 @@ void CRanking::Update()
 		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
 
 		// リセット
-		m_pRanking->Reset(D3DXVECTOR3(width, height, 0.0f), 40.0f);
+		m_pRanking->Reset(D3DXVECTOR3(width, height, 0.0f), 40.0f, true);
+	}
+	else
+	{
+		float width = (float)CApplication::SCREEN_WIDTH - 35.0f;
+		float height = (float)CApplication::SCREEN_HEIGHT * 0.35f;
+
+		// リセット
+		m_pRanking->Reset(D3DXVECTOR3(width, height, 0.0f), 40.0f, false);
 	}
 
 	// カメラの更新

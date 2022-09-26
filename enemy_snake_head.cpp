@@ -114,7 +114,7 @@ void CEnemySnakeHead::Update()
 				// F‚ÌŽæ“¾
 				D3DXCOLOR colBody = m_pBody[i]->GetCol();
 
-				colBody.a = 0.0f;
+				colBody.a = SinCurve(time, 0.1f) * 0.5f;
 
 				// F‚ÌÝ’è
 				m_pBody[i]->SetCol(colBody);

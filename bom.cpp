@@ -10,8 +10,12 @@
 //==================================================
 #include "bom.h"
 #include "object2D.h"
-#include "input.h"
 #include "object3D.h"
+#include "input.h"
+#include "effect_manager.h"
+#include "application.h"
+#include "game.h"
+#include "player.h"
 #include <assert.h>
 
 //==================================================
@@ -133,7 +137,20 @@ void CBom::Update()
 	if (CInput::GetKey()->Trigger(CInput::KEY_BOM))
 	{// ボム用キーが押された
 		if (m_bom > 0)
-		{// ボムが
+		{// ボムがまだある
+			D3DXVECTOR3 pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+
+			CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+			CPlayer* pPlayer = pGame->GetPlayer();
+
+			if (pPlayer != nullptr)
+			{// nullチェック
+				pos = pPlayer->GetPos();
+			}
+
+			 // パーティクル
+			CEffectManager::GetInstanse()->Bom(pos);
+
 			// 敵の全ての解放
 			CObject3D::ReleaseAll(CObject3D::TYPE_ENEMY);
 
@@ -152,6 +169,24 @@ void CBom::Update()
 int CBom::Get()
 {
 	return m_bom;
+}
+
+//--------------------------------------------------
+// 取得
+//--------------------------------------------------
+void CBom::Reset()
+{
+	m_bom = MAX_BOM;
+
+	for (int i = 0; i < MAX_BOM; i++)
+	{
+		m_pObj[i]->SetDraw(false);
+	}
+
+	for (int i = 0; i < m_bom; i++)
+	{
+		m_pObj[i]->SetDraw(true);
+	}
 }
 
 //--------------------------------------------------

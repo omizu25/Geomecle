@@ -24,10 +24,12 @@ const int CEffectManager::MAX_PLAYER = 500;
 const int CEffectManager::MAX_EXPLOSION = 50;
 const int CEffectManager::HALF_EXPLOSION = MAX_EXPLOSION / 2;
 const int CEffectManager::MAX_BULLET = 50;
+const int CEffectManager::MAX_BOM = 500;
 const float CEffectManager::PARTICLE_MOVE = 20.0f;
 const float CEffectManager::PLAYER_MOVE = 50.0f;
 const float CEffectManager::EXPLOSION_MOVE = 10.0f;
 const float CEffectManager::BULLET_MOVE = 5.0f;
+const float CEffectManager::BOM_MOVE = 70.0f;
 
 //==================================================
 // 静的メンバ変数
@@ -235,6 +237,39 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 
 		// 生成
 		CEffect::Create(pos, move, col);
+	}
+}
+
+//--------------------------------------------------
+// ボム
+//--------------------------------------------------
+void CEffectManager::Bom(const D3DXVECTOR3& pos)
+{
+	D3DXCOLOR col = D3DXCOLOR(0.0f, 0.5f, 1.0f, 1.0f);
+	D3DXCOLOR randomCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float rot = 0.0f;
+	CEffect* pEffect = nullptr;
+
+	for (int i = 0; i < MAX_BOM; i++)
+	{
+		rot = (D3DX_PI * 2.0f) / MAX_BOM * i;
+
+		// 角度の正規化
+		NormalizeAngle(&rot);
+
+		move.x = sinf(rot) * BOM_MOVE;
+		move.y = cosf(rot) * BOM_MOVE;
+
+		randomCol.r = col.r + FloatRandom(0.25f, -0.25f);
+		randomCol.g = col.g + FloatRandom(0.25f, -0.25f);
+		randomCol.b = col.b + FloatRandom(0.25f, -0.25f);
+
+		// 生成
+		pEffect = CEffect::Create(pos, move, randomCol);
+
+		// 当たり判定をしない
+		pEffect->SetCollision(false);
 	}
 }
 

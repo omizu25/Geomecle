@@ -42,6 +42,7 @@ public:
 	void Release();	// 解放
 	void Update();	// 更新
 	int Get();		// 取得
+	void Reset();	// リセット
 
 private:
 	void Sub();	// 減算
