@@ -28,7 +28,7 @@
 #include "wall.h"
 #include "circle.h"
 #include "life.h"
-#include "enemy.h"
+#include "bom.h"
 #include <assert.h>
 
 //==================================================
@@ -68,6 +68,7 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pTime(nullptr),
 	m_pMul(nullptr),
 	m_pLife(nullptr),
+	m_pBom(nullptr),
 	m_pScore(nullptr),
 	m_pBestScore(nullptr),
 	m_time(0)
@@ -94,6 +95,7 @@ CGame::~CGame()
 	assert(m_pTime == nullptr);
 	assert(m_pMul == nullptr);
 	assert(m_pLife == nullptr);
+	assert(m_pBom == nullptr);
 	assert(m_pScore == nullptr);
 	assert(m_pBestScore == nullptr);
 }
@@ -178,6 +180,14 @@ void CGame::Init()
 
 		// ライフの生成
 		m_pLife = CLife::Create(D3DXVECTOR3(width, height, 0.0f));
+	}
+
+	{// ボム
+		float width = (float)CApplication::SCREEN_WIDTH * 0.5f;
+		float height = CTime::STD_HEIGHT + 30.0f;
+
+		// ボムの生成
+		m_pBom = CBom::Create(D3DXVECTOR3(width, height, 0.0f));
 	}
 
 	{// スコア
@@ -278,6 +288,13 @@ void CGame::Uninit()
 		m_pLife = nullptr;
 	}
 
+	if (m_pBom != nullptr)
+	{// nullチェック
+		m_pBom->Uninit();
+		delete m_pBom;
+		m_pBom = nullptr;
+	}
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
@@ -374,6 +391,9 @@ void CGame::Update()
 
 	// 弾の発射
 	CBullet::Shot();
+
+	// ボムの更新
+	m_pBom->Update();
 
 	// タイムの減算
 	m_pTime->Update();

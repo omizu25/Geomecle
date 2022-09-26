@@ -1,11 +1,11 @@
 //**************************************************
 // 
-// life.h
+// bom.h
 // Author  : katsuki mizuki
 // 
 //**************************************************
-#ifndef _LIFE_H_	//このマクロ定義がされてなかったら
-#define _LIFE_H_	//２重インクルード防止のマクロ定義
+#ifndef _BOM_H_	//このマクロ定義がされてなかったら
+#define _BOM_H_	//２重インクルード防止のマクロ定義
 
 //==================================================
 // インクルード
@@ -20,33 +20,36 @@ class CObject2D;
 //==================================================
 // 定義
 //==================================================
-class CLife
+class CBom
 {
 	/* ↓定義↓ */
 private:
-	static const int MAX_LIFE = 3;	// ライフの最大数
+	static const int MAX_BOM = 3;	// ボムの最大数
 	static const float STD_SIZE;	// サイズの標準値
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CLife* Create(const D3DXVECTOR3& pos);	// 生成
+	static CBom* Create(const D3DXVECTOR3& pos);	// 生成
 
 	/* ↓メンバ関数↓ */
 public:
-	CLife();	// デフォルトコンストラクタ
-	~CLife();	// デストラクタ
+	CBom();	// デフォルトコンストラクタ
+	~CBom();	// デストラクタ
 
 public:
 	void Init(const D3DXVECTOR3& pos);	// 初期化
 	void Uninit();	// 終了
 	void Release();	// 解放
-	void Sub();		// 減算
+	void Update();	// 更新
 	int Get();		// 取得
+
+private:
+	void Sub();	// 減算
 
 	/* ↓メンバ変数↓ */
 private:
-	CObject2D* m_pObj[MAX_LIFE];	// ライフ
-	int m_life;						// 残機
+	CObject2D* m_pObj[MAX_BOM];	// ボム
+	int m_bom;					// ボムの数
 };
 
-#endif // !_LIFE_H_
+#endif // !_BOM_H_

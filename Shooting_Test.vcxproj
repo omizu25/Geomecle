@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="application.h" />
     <ClInclude Include="bg.h" />
+    <ClInclude Include="bom.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="circle.h" />
@@ -73,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="application.cpp" />
     <ClCompile Include="bg.cpp" />
+    <ClCompile Include="bom.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="circle.cpp" />

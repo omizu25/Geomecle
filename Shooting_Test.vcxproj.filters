@@ -201,6 +201,9 @@
     <ClInclude Include="life.h">
       <Filter>Manager</Filter>
     </ClInclude>
+    <ClInclude Include="bom.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -351,6 +354,9 @@
       <Filter>System\Mode</Filter>
     </ClCompile>
     <ClCompile Include="life.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="bom.cpp">
       <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>

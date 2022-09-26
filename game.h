@@ -23,6 +23,7 @@ class CScore;
 class CMul;
 class CLife;
 class CPlayer;
+class CBom;
 
 //==================================================
 // 定義
@@ -86,6 +87,7 @@ private:
 	CTime* m_pTime;			// タイム
 	CMul* m_pMul;			// 倍率
 	CLife* m_pLife;			// ライフ
+	CBom* m_pBom;			// ボム
 	CScore* m_pScore;		// スコア
 	CScore* m_pBestScore;	// ベストスコア
 	int m_time;	//タイム
