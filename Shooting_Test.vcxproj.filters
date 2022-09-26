@@ -198,6 +198,9 @@
     <ClInclude Include="ranking.h">
       <Filter>System\Mode</Filter>
     </ClInclude>
+    <ClInclude Include="life.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enemy.cpp">
@@ -346,6 +349,9 @@
     </ClCompile>
     <ClCompile Include="ranking.cpp">
       <Filter>System\Mode</Filter>
+    </ClCompile>
+    <ClCompile Include="life.cpp">
+      <Filter>Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

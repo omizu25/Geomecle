@@ -48,8 +48,9 @@ private:
 
 	/* ↓静的メンバ関数↓ */
 public:
-	static CObject3D* Create();		// 生成
-	static bool Exist(EType type);	// 存在するかどうか
+	static CObject3D* Create();			// 生成
+	static bool Exist(EType type);		// 存在するかどうか
+	static void ReleaseAll(EType type);	// 指定のタイプの全ての解放
 
 	/* ↓メンバ関数↓ */
 public:

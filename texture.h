@@ -31,6 +31,7 @@ public:
 		LABEL_TutorialSafetyArea,	// 安全エリアのチュートリアル
 		LABEL_TutorialDangerArea,	// 危険エリアのチュートリアル
 		LABEL_Circle,				// 円
+		LABEL_Bom,					// ボム
 
 		/* ↓敵↓ */
 		LABEL_Homing,			// ホーミング

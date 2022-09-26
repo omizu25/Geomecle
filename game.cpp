@@ -27,6 +27,8 @@
 #include "sound.h"
 #include "wall.h"
 #include "circle.h"
+#include "life.h"
+#include "enemy.h"
 #include <assert.h>
 
 //==================================================
@@ -65,6 +67,7 @@ CGame::CGame() : CMode(CMode::MODE_GAME),
 	m_pPause(nullptr),
 	m_pTime(nullptr),
 	m_pMul(nullptr),
+	m_pLife(nullptr),
 	m_pScore(nullptr),
 	m_pBestScore(nullptr),
 	m_time(0)
@@ -90,6 +93,7 @@ CGame::~CGame()
 	assert(m_pPause == nullptr);
 	assert(m_pTime == nullptr);
 	assert(m_pMul == nullptr);
+	assert(m_pLife == nullptr);
 	assert(m_pScore == nullptr);
 	assert(m_pBestScore == nullptr);
 }
@@ -166,6 +170,14 @@ void CGame::Init()
 
 		// タイムの生成
 		m_pTime = CTime::Create(D3DXVECTOR3(width, height, 0.0f), timeGetTime(), MAX_TIME);
+	}
+
+	{// ライフ
+		float width = (float)CApplication::SCREEN_WIDTH * 0.5f;
+		float height = CTime::STD_HEIGHT + 30.0f;
+
+		// ライフの生成
+		m_pLife = CLife::Create(D3DXVECTOR3(width, height, 0.0f));
 	}
 
 	{// スコア
@@ -259,6 +271,13 @@ void CGame::Uninit()
 		m_pMul = nullptr;
 	}
 
+	if (m_pLife != nullptr)
+	{// nullチェック
+		m_pLife->Uninit();
+		delete m_pLife;
+		m_pLife = nullptr;
+	}
+
 	// 全ての解放
 	CObject::ReleaseAll(false);
 
@@ -284,6 +303,11 @@ void CGame::Uninit()
 //--------------------------------------------------
 void CGame::Update()
 {
+	if (m_pPlayer == nullptr)
+	{// nullチェック
+		return;
+	}
+
 	if (m_pPause != nullptr)
 	{// nullチェック
 		// 更新
@@ -333,17 +357,17 @@ void CGame::Update()
 	// エフェクト
 	Effect();
 
-	// 円の更新
-	for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
-	{
-		if (m_pCircle[i] != nullptr)
-		{// nullチェック
-			m_pCircle[i]->Update();
-		}
-	}
-
 	if (m_mode != GAME_NORMAL)
 	{// 円が必要なモード
+		// 円の更新
+		for (int i = 0; i < CCircleManager::MAX_CIRCLE; i++)
+		{
+			if (m_pCircle[i] != nullptr)
+			{// nullチェック
+				m_pCircle[i]->Update();
+			}
+		}
+
 		// 当たり判定
 		CCircle::Collision();
 	}
@@ -371,6 +395,30 @@ void CGame::Draw()
 
 	// 描画
 	CObject::DrawAll();
+}
+
+//--------------------------------------------------
+// リセット
+//--------------------------------------------------
+void CGame::Reset()
+{
+	// プレイヤーの生成
+	m_pPlayer = CPlayer::Create();
+
+	// 敵の全ての解放
+	CObject3D::ReleaseAll(CObject3D::TYPE_ENEMY);
+
+	// 弾の全ての解放
+	CObject3D::ReleaseAll(CObject3D::TYPE_BULLET);
+
+	// EXPの全ての解放
+	CObject3D::ReleaseAll(CObject3D::TYPE_EXP);
+
+	if (m_mode != GAME_NORMAL)
+	{// 円が必要なモード
+		// 円の全ての解放
+		CObject3D::ReleaseAll(CObject3D::TYPE_CIRCLE);
+	}
 }
 
 //--------------------------------------------------
@@ -403,6 +451,14 @@ CMul* CGame::GetMul()
 CTime* CGame::GetTime()
 {
 	return m_pTime;
+}
+
+//--------------------------------------------------
+// ライフの取得
+//--------------------------------------------------
+CLife* CGame::GetLife()
+{
+	return m_pLife;
 }
 
 //--------------------------------------------------

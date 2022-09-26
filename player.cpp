@@ -14,14 +14,17 @@
 #include "input.h"
 #include "wall.h"
 #include "enemy.h"
-#include "mode.h"
+#include "game.h"
 #include "effect_manager.h"
 #include "sound.h"
+#include "life.h"
 #include <assert.h>
 
 //==================================================
 // 定義
 //==================================================
+const int CPlayer::INVINCIBLE_TIME = 180;
+const int CPlayer::RIGOR_TIME = 30;
 const float CPlayer::STD_SIZE = 35.0f;
 const float CPlayer::STD_MOVE = 6.0f;
 const float CPlayer::STD_ROT = 0.1f;
@@ -46,7 +49,9 @@ CPlayer* CPlayer::Create()
 //--------------------------------------------------
 // デフォルトコンストラクタ
 //--------------------------------------------------
-CPlayer::CPlayer()
+CPlayer::CPlayer() :
+	m_time(0),
+	m_rotDest(0.0f)
 {
 }
 
@@ -62,6 +67,9 @@ CPlayer::~CPlayer()
 //--------------------------------------------------
 void CPlayer::Init()
 {
+	m_time = 0;
+	m_rotDest = 0;
+
 	// 初期化
 	CObject3D::Init();
 
@@ -98,6 +106,9 @@ void CPlayer::Uninit()
 //--------------------------------------------------
 void CPlayer::Update()
 {
+	// 無敵時間
+	InvincibleTime();
+
 	// 移動
 	Move();
 
@@ -125,6 +136,11 @@ void CPlayer::Draw()
 //--------------------------------------------------
 void CPlayer::Move()
 {
+	if (m_time <= RIGOR_TIME)
+	{// 硬直時間
+		return;
+	}
+
 	D3DXVECTOR3 vec = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	CInput* pInput = CInput::GetKey();
@@ -204,6 +220,28 @@ void CPlayer::Rot()
 	CObject3D::SetRot(rot);
 }
 
+//--------------------------------------------------
+// 無敵時間
+//--------------------------------------------------
+void CPlayer::InvincibleTime()
+{
+	if (m_time >= INVINCIBLE_TIME)
+	{// 無敵時間は過ぎた
+		// 色の設定
+		CObject3D::SetCol(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		return;
+	}
+
+	m_time++;
+
+	// 色の取得
+	D3DXCOLOR col = CObject3D::GetCol();
+
+	col.a = 1.0f - (CosCurve(m_time, 0.1f) * 0.9f);
+
+	// 色の設定
+	CObject3D::SetCol(col);
+}
 
 //--------------------------------------------------
 // 当たり判定
@@ -217,6 +255,7 @@ void CPlayer::Collision()
 	int objMax = CObject::GetMax(CObject::CATEGORY_3D);
 	D3DXVECTOR3 targetPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float targetSize = 0.0f;
+	CEnemy* pEnemy = nullptr;
 
 	for (int i = 0; i < objMax; i++)
 	{
@@ -242,14 +281,44 @@ void CPlayer::Collision()
 
 		if (CollisionCircle(pos, size, targetPos, targetSize))
 		{// 当たり判定
+			if (m_time < INVINCIBLE_TIME)
+			{// 無敵時間
+				if (type == CObject3D::TYPE_ENEMY)
+				{// 敵
+					pEnemy = (CEnemy*)pObject[i];
+
+					// キル
+					pEnemy->Kill();
+
+					// 敵の解放
+					pObject[i]->Release();
+				}
+				return;
+			}
+
 			// 解放
 			CObject::Release();
 
-			// モードの変更
-			CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+			CGame* pGame = (CGame*)CApplication::GetInstanse()->GetMode();
+			CLife* pLife = pGame->GetLife();
 
-			// SE
-			CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_GameOver);
+			// ライフの減少
+			pLife->Sub();
+
+			if (pLife->Get() > 0)
+			{// 残機ある
+				// リセット
+				pGame->Reset();
+			}
+			else
+			{// 残機なし
+				// モードの変更
+				CApplication::GetInstanse()->GetMode()->Change(CMode::MODE_RESULT);
+
+				// SE
+				CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_GameOver);
+			}
+			
 			return;
 		}
 	}

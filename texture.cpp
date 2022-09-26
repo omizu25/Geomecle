@@ -27,6 +27,7 @@ const char* CTexture::FILE_NAME[] =
 	"data/TEXTURE/TutorialSafetyArea.png",	// 安全エリアのチュートリアル
 	"data/TEXTURE/TutorialDangerArea.png",	// 危険エリアのチュートリアル
 	"data/TEXTURE/Circle.png",				// 円
+	"data/TEXTURE/Bom.png",					// ボム
 
 	/* ↓敵↓ */
 	"data/TEXTURE/Homing.png",			// ホーミング

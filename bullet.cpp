@@ -307,7 +307,6 @@ void CBullet::Update()
 
 				// “G‚Ì‰ğ•ú
 				pObject[i]->Release();
-				return;
 			}
 			break;
 

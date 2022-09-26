@@ -55,6 +55,10 @@ CNumberManager::CNumberManager() :
 //--------------------------------------------------
 CNumberManager::~CNumberManager()
 {
+	for (int i = 0; i < MAX_DIGIT; i++)
+	{
+		assert(m_number[i] == nullptr);
+	}
 }
 
 //--------------------------------------------------

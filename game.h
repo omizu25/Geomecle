@@ -21,6 +21,7 @@ class CPause;
 class CTime;
 class CScore;
 class CMul;
+class CLife;
 class CPlayer;
 
 //==================================================
@@ -64,10 +65,14 @@ public:
 	void Draw() override;	// 描画
 
 public:
+	void Reset();	// リセット
+
+public:
 	CPlayer* GetPlayer();	// プレイヤーの取得
 	CScore* GetScore();		// スコアの取得
 	CMul* GetMul();			// 倍率の取得
 	CTime* GetTime();		// タイムの取得
+	CLife* GetLife();		// ライフの取得
 
 private:
 	void Effect();	// エフェクト
@@ -80,6 +85,7 @@ private:
 	CPause* m_pPause;		// ポーズ
 	CTime* m_pTime;			// タイム
 	CMul* m_pMul;			// 倍率
+	CLife* m_pLife;			// ライフ
 	CScore* m_pScore;		// スコア
 	CScore* m_pBestScore;	// ベストスコア
 	int m_time;	//タイム
