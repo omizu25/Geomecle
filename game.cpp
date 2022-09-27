@@ -441,6 +441,9 @@ void CGame::Reset()
 
 	// ボムのリセット
 	m_pBom->Reset();
+
+	// SE
+	CApplication::GetInstanse()->GetSound()->Play(CSound::LABEL_SE_Start);
 }
 
 //--------------------------------------------------

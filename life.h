@@ -24,9 +24,9 @@ class CLife
 {
 	/* ↓定義↓ */
 private:
-	static const int MAX_LIFE = 3;	// ライフの最大数
+	static const int MAX_LIFE = 5;	// ライフの最大数
 	static const float STD_SIZE;	// サイズの標準値
-
+	 
 	/* ↓静的メンバ関数↓ */
 public:
 	static CLife* Create(const D3DXVECTOR3& pos);	// 生成
