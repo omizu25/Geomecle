@@ -23,6 +23,8 @@ const char* CEnemyManager::FILE_NAME[] =
 	"data/TEXT/EnemySpawn002.json",
 	"data/TEXT/EnemySpawn003.json",
 	"data/TEXT/EnemySpawn004.json",
+	"data/TEXT/EnemySpawn005.json",
+	"data/TEXT/EnemySpawn006.json",
 };
 
 //==================================================
@@ -136,7 +138,7 @@ void CEnemyManager::Update()
 
 	if (m_nowWave >= MAX_WAVE)
 	{
-		m_nowWave = 1;
+ 		m_nowWave = 2;
 	}
 
 	if (m_pWave[m_nowWave] == nullptr)

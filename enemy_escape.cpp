@@ -19,7 +19,7 @@
 //==================================================
 // ’è‹`
 //==================================================
-const float CEnemyEscape::HOMING_SPEED = 4.0f;
+const float CEnemyEscape::HOMING_SPEED = 4.5f;
 const float CEnemyEscape::ESCAPE_SPEED = 10.0f;
 const float CEnemyEscape::ROT_CHANGE = 0.1f;
 const float CEnemyEscape::STD_INERTIA = 0.07f;

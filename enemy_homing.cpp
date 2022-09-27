@@ -18,7 +18,7 @@
 //==================================================
 // ’è‹`
 //==================================================
-const float CEnemyHoming::STD_MOVE = 2.5f;
+const float CEnemyHoming::STD_MOVE = 3.0f;
 const float CEnemyHoming::SIZE_CHANGE = 10.0f;
 
 //--------------------------------------------------

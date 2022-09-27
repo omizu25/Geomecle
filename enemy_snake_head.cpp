@@ -23,7 +23,7 @@
 const int CEnemySnakeHead::MAX_BODY = 25;
 const int CEnemySnakeHead::IDX_PARENT = 0;
 const float CEnemySnakeHead::STD_SIZE = 35.0f;
-const float CEnemySnakeHead::STD_MOVE = 1.5f;
+const float CEnemySnakeHead::STD_MOVE = 2.0f;
 const float CEnemySnakeHead::AMPLITUDE_WIDTH = 3.0f;
 const float CEnemySnakeHead::AMPLITUDE_SPEED = 2.0f;
 

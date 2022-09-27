@@ -24,7 +24,7 @@ class CEnemyManager
 {
 	/* 定義 */
 private:
-	static const int MAX_WAVE = 5;	// ウェーブの最大数
+	static const int MAX_WAVE = 7;	// ウェーブの最大数
 	static const char* FILE_NAME[];	// ファイルパス
 
 	/* ↓静的メンバ関数↓ */

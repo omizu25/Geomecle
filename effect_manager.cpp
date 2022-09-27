@@ -246,7 +246,6 @@ void CEffectManager::Bullet(const D3DXVECTOR3& pos)
 void CEffectManager::Bom(const D3DXVECTOR3& pos)
 {
 	D3DXCOLOR col = D3DXCOLOR(0.0f, 0.5f, 1.0f, 1.0f);
-	D3DXCOLOR randomCol = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	D3DXVECTOR3 move = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	float rot = 0.0f;
 	CEffect* pEffect = nullptr;
@@ -258,18 +257,27 @@ void CEffectManager::Bom(const D3DXVECTOR3& pos)
 		// Šp“x‚Ì³‹K‰»
 		NormalizeAngle(&rot);
 
-		move.x = sinf(rot) * BOM_MOVE;
-		move.y = cosf(rot) * BOM_MOVE;
+		{// ŠO‘¤
+			move.x = sinf(rot) * BOM_MOVE;
+			move.y = cosf(rot) * BOM_MOVE;
 
-		randomCol.r = col.r + FloatRandom(0.25f, -0.25f);
-		randomCol.g = col.g + FloatRandom(0.25f, -0.25f);
-		randomCol.b = col.b + FloatRandom(0.25f, -0.25f);
+			// ¶¬
+			pEffect = CEffect::Create(pos, move, col);
 
-		// ¶¬
-		pEffect = CEffect::Create(pos, move, randomCol);
+			// “–‚½‚è”»’è‚ð‚µ‚È‚¢
+			pEffect->SetCollision(false);
+		}
 
-		// “–‚½‚è”»’è‚ð‚µ‚È‚¢
-		pEffect->SetCollision(false);
+		{// “à‘¤
+			move.x = sinf(rot) * (BOM_MOVE * 0.75f);
+			move.y = cosf(rot) * (BOM_MOVE * 0.75f);
+
+			// ¶¬
+			pEffect = CEffect::Create(pos, move, col);
+
+			// “–‚½‚è”»’è‚ð‚µ‚È‚¢
+			pEffect->SetCollision(false);
+		}
 	}
 
 	// SE
