@@ -63,8 +63,10 @@ CSound::~CSound()
 //=============================================================================
 HRESULT CSound::Init(HWND hWnd)
 {
-	// COMライブラリの初期化
-	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	if (FAILED(CoInitializeEx(NULL, COINIT_MULTITHREADED)))
+	{// COMライブラリの初期化
+		return E_FAIL;
+	}
 
 	if (FAILED(XAudio2Create(&m_pXAudio2, 0)))
 	{// XAudio2オブジェクトの作成
